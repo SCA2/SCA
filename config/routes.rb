@@ -1,12 +1,12 @@
 SCA::Application.routes.draw do
   
-  get "Home", to: 'static_pages#Home', as: 'home'
-  get "Products", to: 'static_pages#Products', as: 'products'
-  get "FAQ", to: 'static_pages#FAQ', as: 'faq'
-  get "Forums", to: "static_pages#Forums", as: 'forums'
-  get "Reviews", to: "static_pages#Reviews", as: 'reviews'
-  get "Support", to: "static_pages#Support", as: 'support'
-  get "Order", to: "static_pages#Order", as: 'cart'
+  get "home", to: 'static_pages#home', as: 'home'
+  get "/products", to: 'static_pages#products', as: 'products'
+  get "faq", to: 'static_pages#faq', as: 'faq'
+  get "forums", to: "static_pages#forums", as: 'forums'
+  get "reviews", to: "static_pages#reviews", as: 'reviews'
+  get "support", to: "static_pages#support", as: 'support'
+  get "order", to: "static_pages#order", as: 'cart'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

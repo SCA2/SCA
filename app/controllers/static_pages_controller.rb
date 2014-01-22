@@ -1,22 +1,22 @@
 class StaticPagesController < ApplicationController
-  def Home
+  def home
   end
 
-  def Products
+  def products
   end
 
-  def FAQ
+  def faq
   end
 
-  def Forums
+  def forums
   end
 
-  def Reviews
+  def reviews
   end
 
-  def Support
+  def support
   end
 
-  def Order
+  def order
   end
 end
