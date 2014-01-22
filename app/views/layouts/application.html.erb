@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SCA</title>
+  <title>Seventh Circle Audio | <%= yield(:title) %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  
+	<meta http-equiv="expires" content="0" />
+	<meta name="description" content="Professional Quality DIY Mic Preamps">
+	<meta name="keywords" content="api, 312, 512, 2520, DAV, BG1, BG-1, RNP, neve, 1272, 1073, jensen, twin servo, 990, seventh circle audio, SCA,  A12, C84, J99, N72, T15, DIY, microphone, preamp, electronic, kits"/>
+	
+	<meta property="og:title" content="SeventhCircleAudio" />
+	<meta property="og:type" content="company" />
+	<meta property="og:url" content="http://www.seventhcircleaudio.com/" />
+	<meta property="og:image" content="http://www.seventhcircleaudio.com/images/CH01_Big720-02.jpg" />
+	<meta property="og:site_name" content="Seventh Circle Audio" />
+	<meta property="fb:admins" content="1682392815" />
+
 </head>
 <body>
 
 <%= yield %>
+
+<div class="footer">
+<i>All trademarks used in these pages are the property of their respective owners.</i><br><br>
+&copy; 2012 Seventh Circle Audio, LLC<br>Unauthorized Use Prohibited<br><br>
+</div>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5745785-1");
+pageTracker._trackPageview();
+</script>
 
 </body>
 </html>

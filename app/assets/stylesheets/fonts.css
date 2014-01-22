@@ -1,0 +1,87 @@
+/* CSS file */
+
+.aH1{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 14px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH2{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 15px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH3{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 16px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH1B{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 14px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH2B{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 15px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH3B{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 16px;
+    COLOR: #382E22 ;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH4B{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 20px;
+    COLOR: #653F3C;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.aH5B{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 20px;
+    COLOR: #CC0000;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.text
+{
+    FONT-SIZE: 12px;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, sans-serif
+}
+
+.small
+{
+    FONT-SIZE: 10px;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, sans-serif
+}
+
+.aH6B
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 1.1em;
+    COLOR: #653F3C;
+    FONT-FAMILY: arial, sans-serif
+}
+
+.prices1, .prices2, .prices3
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 1.1em;
+    COLOR: #CC0000;
+    FONT-FAMILY: arial, sans-serif
+}
