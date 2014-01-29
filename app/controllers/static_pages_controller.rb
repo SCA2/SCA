@@ -5,9 +5,6 @@ class StaticPagesController < ApplicationController
   def products
   end
 
-  def faq
-  end
-
   def forums
   end
 
@@ -17,6 +14,21 @@ class StaticPagesController < ApplicationController
   def support
   end
 
-  def order
+  def contact
+  end
+
+  def repairs
+  end
+
+  def resources
+  end
+
+  def tips
+  end
+
+  def troubleshooting
+  end
+
+  def cart
   end
 end

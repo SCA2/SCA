@@ -1,4 +1,57 @@
-@import "bootstrap";
+/* CSS file */
+
+@import "foundation/components/side-nav";
+@import url(fonts.css.scss);
+
+$sca-brown-1: #16120E;
+$sca-brown-2: #382E22;
+$sca-brown-3: #DEB887;
+$sca-brown-35: #E7CAA5;
+$sca-brown-4: #FDF5E6;
+$sca-red-1: #660000;
+$sca-red-2: #990000;
+$sca-red-3: #CC0000;
+
+div.logo {
+  background: $sca-brown-4;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 43em;  
+}
+
+img.title_1 {
+  top: 0em;
+  left: 18em;
+  width: 30em;
+}
+
+img.logo_1 {
+  top: 0.6em;
+  left: 49em;
+  width: 12em;
+}
+
+main[role=main] {
+  background-color: $sca-brown-4;
+}
+
+body {
+  background-color: $sca-brown-4;
+}
+
+span.Q {
+  float: left;
+  width: 2em;
+  text-align: right;
+  line-height: 1.25em;
+}
+
+span.A {
+  text-align: left;
+  line-height: 1.25em;
+}
 
 ul.ul_1 {
   list-style: square; 
@@ -15,78 +68,37 @@ img.photo_1 {
   width: 60em;
 }
 
-div.box_5 {
-  margin: 1em 6em 1em 6em;
-  padding: 0;
-}
-
-/* CSS file */
-
-@import url(fonts.css);
-
 .fb-iframe-align {
     margin: 0 0 0 10px !important;
     text-align:center;
 }
 
-body {
-  background-color: #382E22;
-  font-family: verdana, sans-serif;
-  font-weight: normal;
-  font-size: 1em;
-  text-align: left;
-  padding: 0;
-  margin:0;
-  height: 100%;
-}
-
 div.box_1 {
-  height: 100%;
-  width: 60em;
-  background: #FDF5E6;
-  text-align: left;
-  padding: 2em 0em 0em 0em;
-  margin-top: 2em;
-  margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 div.box_2 {
-  position: relative;
-  height: 75%;
-  width: 76em;
-  display: table;
-  font-family: verdana, sans-serif;
-  font-weight: normal;
-  font-size: 75%;
-  text-align: left;
-  border: 1px solid #E7CAA5;
-  margin-top: 0em;
-  margin-bottom: 0em;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  margin-left: 1em;
+  margin-right: 1em;
+  border: 1px solid $sca-brown-35;
   padding: 0;
 }
 
 div.box_3 {
-  display: table-column;
-  float: left;
-  width: 17em;
+  line-height: 1.5em;
   border: 1px solid #382E22;
   background: #EFDCC4;
-  margin: 2em 2em 2em 2em;
   padding: 0;
   text-align: center;
 }
 
 div.box_4 {
-  display: table-column;
-  float: left;
-  width: 48em;
-  text-align: left;
-  margin: 2em 2em 2em 2em;
-  padding: 1em 1em 1em 1em;
+}
+
+div.box_5 {
+  margin: 1em 6em 1em 6em;
+  padding: 0;
 }
 
 div.footer {
@@ -101,7 +113,7 @@ div.footer {
 div.popup {
   height: 90%;
 /*  width: 90%;*/
-  background: #FDF5E6;
+  background: $sca-brown-4;
   text-align: center;
   padding: 5% 5% 5% 5%;
   margin: 5% 5% 5% 5%;
@@ -109,7 +121,7 @@ div.popup {
 
 div.popup2 {
   height: 90%;
-  background: #FDF5E6;
+  background: $sca-brown-4;
   font-family: verdana, sans-serif;
   font-weight: normal;
   font-size: 75%;
@@ -141,10 +153,6 @@ img.adobe {
   margin: 2em 0em 2em 0em;
   padding: 0;
   border: 0;
-}
-
-p {
-  margin: 1em 2em 0 2em;
 }
 
 p.prodtext {
@@ -261,8 +269,30 @@ a.prodname
     FONT-FAMILY: arial, sans-serif
 }
 
+.custom-side-nav {
+  @include side-nav(
+    $link-color: $sca-brown-1,
+    $font-size: 1em
+  );
+  font-family: verdana, sans-serif;
+  font-weight: normal;
+  text-align: left;
+  line-height: 1.05em;
+  background: $sca-brown-3;
+  border: solid $sca-brown-2;
+  border-width: 1px;
+  margin: 1em 1em 1em 1em;
+  padding: 1em 1em 1em 1em;
 
-.bg_1 {BACKGROUND-COLOR: #FDF5E6;}
+  a {
+    text-decoration: none;
+    &:hover {
+      color: #F7EDE1;
+    }
+  }
+}
+
+.bg_1 {BACKGROUND-COLOR: $sca-brown-4;}
 .bg_2 {BACKGROUND-COLOR: #F7EDE1;}
 .bg_3 {BACKGROUND-COLOR: #EFDCC4;}
 .bg_4 {BACKGROUND-COLOR: #E7CAA5;}

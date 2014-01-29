@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+require 'csv'
+
+Faq.delete_all
+CSV.foreach('NewFAQ.csv', 'r') do |faq|
+  group, question, answer = faq[0], faq[1], faq[2]
+  Faq.create(:group => group, :question => question, :answer => answer)
+end

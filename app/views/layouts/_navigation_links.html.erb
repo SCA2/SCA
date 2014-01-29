@@ -1,0 +1,19 @@
+<!-- add navigation links to this file -->
+
+<li><%= link_to "Home",			home_path %></li>
+<li><%= link_to "Products",	products_path %></li>
+<li><%= link_to "FAQ",			faqs_path %></li>
+<li><%= link_to "Forums",		forums_path %></li>
+<li><%= link_to "Reviews",	reviews_path %></li>
+<li><%= link_to 'Support', 
+			support_path, :'data-dropdown' => 'drop1' %>
+	<ul id="drop1" class="f-dropdown" data-dropdown-content>
+    <li><%= link_to "Assembly Tips",		tips_path %></li>
+    <li><%= link_to "Troubleshooting",	troubleshooting_path %></li>
+    <li><%= link_to "Repairs",					repairs_path %></li>
+    <li><%= link_to "Resources",				resources_path %></li>
+    <li><%= link_to "Contact",					contact_path %></li>
+  </ul>
+</li>
+<li><%= link_to "Order",		cart_path %></li>
+

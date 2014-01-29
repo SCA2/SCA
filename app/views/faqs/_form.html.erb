@@ -1,0 +1,42 @@
+<%= form_for(@faq) do |f| %>
+  <% if @faq.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@faq.errors.count, "error") %> prohibited this faq from being saved:</h2>
+
+      <ul>
+      <% @faq.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+  	<div class="small-3 columns">
+	    <%= f.label :group, class: "right inline" %><br>
+	  </div>
+	  <div class="small-9 columns">
+	    <%= f.text_field :group %>
+	  </div>
+  </div>
+  <div class="row">
+  	<div class="small-3 columns">
+	    <%= f.label :question, class: "right inline" %><br>
+	  </div>
+	  <div class="small-9 columns">
+	    <%= f.text_field :question %>
+	  </div>
+  </div>
+  <div class="row">
+  	<div class="small-3 columns">
+	    <%= f.label :answer, class: "right inline" %><br>
+	  </div>
+	  <div class="small-9 columns">
+	    <%= f.text_field :answer %>
+	  </div>
+  </div>
+  <div class="row">
+  	<div class="small-9 small-offset-3 columns">
+    <%= f.submit %>
+  </div>
+<% end %>
