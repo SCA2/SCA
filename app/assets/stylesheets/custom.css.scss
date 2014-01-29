@@ -86,11 +86,35 @@ div.box_2 {
 }
 
 div.box_3 {
-  line-height: 1.5em;
-  border: 1px solid #382E22;
+  border: 1px solid $sca-brown-2;
   background: #EFDCC4;
-  padding: 0;
   text-align: center;
+  a img {
+      margin: 1em 0em 2em 0em;
+  }
+}
+
+.custom-side-nav {
+  @include side-nav(
+    $link-color: $sca-brown-1,
+    $font-size: 1em
+  );
+  font-family: verdana, sans-serif;
+  font-weight: normal;
+  text-align: left;
+  line-height: 1.05em;
+  background: $sca-brown-3;
+  border: solid $sca-brown-2;
+  border-width: 1px;
+  margin: 1em 1em 1em 1em;
+  padding: 1em 1em 1em 1em;
+
+  a {
+    text-decoration: none;
+    &:hover {
+      color: #F7EDE1;
+    }
+  }
 }
 
 div.box_4 {
@@ -147,13 +171,13 @@ img.opampphoto {
   border: 0;
 }
 
-img.adobe {
-  text-align: center;
-  width: 10em;
-  margin: 2em 0em 2em 0em;
-  padding: 0;
-  border: 0;
-}
+//img.adobe {
+//  text-align: center;
+//  width: 10em;
+//  margin: 2em 0em 2em 0em;
+//  padding: 0;
+//  border: 0;
+//}
 
 p.prodtext {
   margin: 0em 0em 2em 0em;
@@ -267,29 +291,6 @@ a.prodname
     FONT-SIZE: 12px;
     COLOR: #000000;
     FONT-FAMILY: arial, sans-serif
-}
-
-.custom-side-nav {
-  @include side-nav(
-    $link-color: $sca-brown-1,
-    $font-size: 1em
-  );
-  font-family: verdana, sans-serif;
-  font-weight: normal;
-  text-align: left;
-  line-height: 1.05em;
-  background: $sca-brown-3;
-  border: solid $sca-brown-2;
-  border-width: 1px;
-  margin: 1em 1em 1em 1em;
-  padding: 1em 1em 1em 1em;
-
-  a {
-    text-decoration: none;
-    &:hover {
-      color: #F7EDE1;
-    }
-  }
 }
 
 .bg_1 {BACKGROUND-COLOR: $sca-brown-4;}
