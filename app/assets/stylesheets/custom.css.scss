@@ -110,9 +110,16 @@ div.box_3 {
   padding: 1em 1em 1em 1em;
 
   a {
-    text-decoration: none;
+    &:visited:hover {
+      color: #F7EDE1;
+      text-decoration: none;
+    }
     &:hover {
       color: #F7EDE1;
+      text-decoration: none;
+    }
+    &:visited {
+      text-decoration: none;
     }
   }
 }
