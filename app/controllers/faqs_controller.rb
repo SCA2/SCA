@@ -4,7 +4,8 @@ class FaqsController < ApplicationController
   # GET /faqs
   # GET /faqs.json
   def index
-    @faqs = Faq.all
+    @general_faqs = Faq.where(group: 'General')
+    @order_faqs = Faq.where(group: 'Ordering')
   end
 
   # GET /faqs/1

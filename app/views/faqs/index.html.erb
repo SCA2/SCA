@@ -1,31 +1,50 @@
-<h1>Listing faqs</h1>
+<% provide(:title, 'FAQ') %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Group</th>
-      <th>Question</th>
-      <th>Answer</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @faqs.each do |faq| %>
-      <tr>
-        <td><%= faq.group %></td>
-        <td><%= faq.question %></td>
-        <td><%= faq.answer %></td>
-        <td><%= link_to 'Show', faq %></td>
-        <td><%= link_to 'Edit', edit_faq_path(faq) %></td>
-        <td><%= link_to 'Destroy', faq, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Faq', new_faq_path, class: "button radius" %>
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+	
+		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
+			<dl class="accordion" data-accordion>
+		    <% @order_faqs.each do |faq| %>
+				  <dd>
+				  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
+				    <div id="<%= "FAQ" << faq.id.to_s %>" class="content">
+						  <div class="clearfix">
+						  		<%= sanitize(faq.answer) %>
+						  </div>
+						  <div>
+					        <%= link_to 'Show', faq %>
+					        <%= link_to 'Edit', edit_faq_path(faq) %>
+					        <%= link_to 'Destroy', faq, method: :delete, data: { confirm: 'Are you sure?' } %>
+					    </div>
+				    </div>
+				  </dd>
+		    <% end %>
+			</dl>
+			<div>&nbsp;</div>
+			<dl class="accordion" data-accordion>
+		    <% @general_faqs.each do |faq| %>
+				  <dd>
+				  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
+				    <div id="<%= "FAQ" << faq.id.to_s %>" class="content">
+						  <div class="clearfix">
+						  		<%= sanitize(faq.answer) %>
+						  </div>
+						  <div>
+					        <%= link_to 'Show', faq %>
+					        <%= link_to 'Edit', edit_faq_path(faq) %>
+					        <%= link_to 'Destroy', faq, method: :delete, data: { confirm: 'Are you sure?' } %>
+					    </div>
+				    </div>
+				  </dd>
+		    <% end %>
+			</dl>
+			<div>&nbsp;</div>
+			<%= link_to 'New Faq', new_faq_path, class: "button" %>
+			
+		</div>
+	</div>	
+</div> <!-- box_2 -->

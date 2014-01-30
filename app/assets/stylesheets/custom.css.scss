@@ -1,6 +1,7 @@
 /* CSS file */
 
 @import "foundation/components/side-nav";
+//@import "foundation/components/accordion";
 @import url(fonts.css.scss);
 
 $sca-brown-1: #16120E;
@@ -124,6 +125,51 @@ div.box_3 {
   }
 }
 
+$accordion-border: lighten($sca-brown-3, 15%);
+
+.accordion {
+  margin-bottom: 0;
+  border-left: solid $accordion-border;
+  border-right: solid $accordion-border;
+  border-bottom: solid $accordion-border;
+  border-width: 1px;
+}
+.accordion:before, .accordion:after {
+  content: " ";
+  display: table; }
+.accordion:after {
+  clear: both; }
+.accordion dd {
+  display: block;
+  margin-bottom: 0 !important;
+}
+.accordion dd.active a {
+  background: darken($sca-brown-35, 6%); 
+}
+.accordion dd > a {
+  background: $sca-brown-35;
+  color: $sca-brown-1;
+  border-top: solid $accordion-border;
+  border-width: 1px;
+  padding: 0.30rem;
+  display: block;
+//  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+//  font-size: 1rem; 
+}
+.accordion dd > a:hover {
+  background: darken($sca-brown-35, 6%);
+}
+.accordion .content {
+  display: none;
+  padding: 0.85rem; }
+.accordion .content.active {
+  display: block;
+  background: lighten($sca-brown-4, 3%); 
+  border-top: solid $accordion-border;
+  border-width: 1px;
+}
+
+
 div.box_4 {
 }
 
@@ -177,14 +223,6 @@ img.opampphoto {
   padding: 0;
   border: 0;
 }
-
-//img.adobe {
-//  text-align: center;
-//  width: 10em;
-//  margin: 2em 0em 2em 0em;
-//  padding: 0;
-//  border: 0;
-//}
 
 p.prodtext {
   margin: 0em 0em 2em 0em;
