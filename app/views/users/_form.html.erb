@@ -2,7 +2,7 @@
 	<%= form_for(@user) do |f| %>
 		<% if @user.errors.any? %>
 			<div id="error_explanation">
-				<h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved: </h2>
+				<h6><%= pluralize(@user.errors.count, "error") %> kept this user from being saved: </h6>
 				<ul><% @user.errors.full_messages.each do |msg| %>
 					<li><%= msg %></li>
 				<% end %>
@@ -15,6 +15,10 @@
 			<div class="field">
 				<%= f.label :name, 'Name:' %>
 				<%= f.text_field :name, size: 40 %>
+			</div>
+			<div class="field">
+				<%= f.label :email, 'Email:' %>
+				<%= f.text_field :email, size: 40 %>
 			</div>
 			<div class="field">
 				<%= f.label :password, 'Password:' %>

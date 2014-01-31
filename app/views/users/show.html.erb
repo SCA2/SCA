@@ -1,0 +1,25 @@
+<% provide(:title, 'Show User') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+	
+		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
+			<%= form_for(@user) do |f| %>
+				<fieldset>
+					<legend>User Details</legend>
+					<div class="field">
+						<%= f.label :name, 'Name:' %>
+						<%= f.text_field :name, size: 20 %>
+					</div>
+					<div class="field">
+						<%= f.label :email, 'Email:' %>
+						<%= f.text_field :email, size: 20 %>
+					</div>
+				</fieldset>
+			<% end %>
+		</div>
+	</div>	
+</div> <!-- box_2 -->

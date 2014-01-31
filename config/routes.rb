@@ -2,6 +2,7 @@ SCA::Application.routes.draw do
   
   
   resources :faqs
+  resources :users
 
   get "home", to: 'static_pages#home', as: 'home'
   get "products", to: 'static_pages#products', as: 'products'

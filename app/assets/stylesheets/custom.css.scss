@@ -13,6 +13,25 @@ $sca-red-1: #660000;
 $sca-red-2: #990000;
 $sca-red-3: #CC0000;
 
+$grayMediumLight: #eaeaea;
+
+.bg_1 {BACKGROUND-COLOR: $sca-brown-4;}
+.bg_2 {BACKGROUND-COLOR: #F7EDE1;}
+.bg_3 {BACKGROUND-COLOR: #EFDCC4;}
+.bg_4 {BACKGROUND-COLOR: #E7CAA5;}
+.bg_5 {BACKGROUND-COLOR: #DEB887;}
+.bg_6 {BACKGROUND-COLOR: #BD9C73;}
+.bg_7 {BACKGROUND-COLOR: #A78A65;}
+.bg_8 {BACKGROUND-COLOR: #6F5C44;}
+.bg_9 {BACKGROUND-COLOR: #990000;}
+.bg_10 {BACKGROUND-COLOR: #16120E;}
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 div.logo {
   background: $sca-brown-4;
   margin-top: 1em;
@@ -345,13 +364,29 @@ a.prodname
     FONT-FAMILY: arial, sans-serif
 }
 
-.bg_1 {BACKGROUND-COLOR: $sca-brown-4;}
-.bg_2 {BACKGROUND-COLOR: #F7EDE1;}
-.bg_3 {BACKGROUND-COLOR: #EFDCC4;}
-.bg_4 {BACKGROUND-COLOR: #E7CAA5;}
-.bg_5 {BACKGROUND-COLOR: #DEB887;}
-.bg_6 {BACKGROUND-COLOR: #BD9C73;}
-.bg_7 {BACKGROUND-COLOR: #A78A65;}
-.bg_8 {BACKGROUND-COLOR: #6F5C44;}
-.bg_9 {BACKGROUND-COLOR: #990000;}
-.bg_10 {BACKGROUND-COLOR: #16120E;}
+/* forms */
+
+#error_explanation {
+  color: #f00;
+  ul {
+    font-size: .75em;
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .control-group;
+  @extend .error;
+}
+
+/* miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
