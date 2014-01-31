@@ -1,2 +1,13 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<% provide(:title, 'New User') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+	
+		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
+			<%= render 'form' %>		
+		</div>
+	</div>	
+</div> <!-- box_2 -->
