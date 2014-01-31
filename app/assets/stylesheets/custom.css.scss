@@ -178,6 +178,13 @@ div.box_5 {
   padding: 0;
 }
 
+div.section_header {
+  font-weight: bold;
+  margin: 0 0 1em 0;
+  border-bottom: solid $sca-red-3;
+  border-width: 2px;
+}
+
 div.footer {
   clear: both;
   font-size: .6em;

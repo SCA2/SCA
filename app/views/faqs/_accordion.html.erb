@@ -1,0 +1,19 @@
+<div class="section_header"><%= title %></div>
+<dl class="accordion" data-accordion>
+  <% faqs.each do |faq| %>
+	  <dd>
+	  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
+	    <div id="<%= "FAQ" << faq.id.to_s %>" class="content">
+			  <div class="clearfix">
+			  		<%= faq.answer.html_safe %>
+			  </div>
+			  <div>
+		        <%= link_to 'Show', faq %>
+		        <%= link_to 'Edit', edit_faq_path(faq) %>
+		        <%= link_to 'Destroy', faq, method: :delete, data: { confirm: 'Are you sure?' } %>
+		    </div>
+	    </div>
+	  </dd>
+  <% end %>
+</dl>
+<div>&nbsp;</div>

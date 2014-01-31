@@ -11,12 +11,15 @@
     </div>
   <% end %>
 
-  <div class="row">
+  <div class="row clearfix">
   	<div class="small-3 columns">
 	    <%= f.label :group, class: "right inline" %><br>
 	  </div>
-	  <div class="small-9 columns">
-	    <%= f.text_field :group %>
+	  <div class="small-2 column left">
+  		<%= f.select(:group, options_for_select([ ['General'], 
+																			  					['Ordering'], 
+																			  					['Assembly'], 
+																			  					['Support'] ])) %>
 	  </div>
   </div>
   <div class="row">
@@ -32,7 +35,7 @@
 	    <%= f.label :answer, class: "right inline" %><br>
 	  </div>
 	  <div class="small-9 columns">
-	    <%= f.text_field :answer %>
+	    <%= f.text_area :answer %>
 	  </div>
   </div>
   <div class="row">
