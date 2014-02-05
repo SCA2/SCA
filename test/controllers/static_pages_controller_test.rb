@@ -2,37 +2,32 @@ require 'test_helper'
 
 class StaticPagesControllerTest < ActionController::TestCase
   test "should get Home" do
-    get :Home
+    get :home
     assert_response :success
   end
 
   test "should get Products" do
-    get :Products
-    assert_response :success
-  end
-
-  test "should get FAQ" do
-    get :FAQ
+    get :products
     assert_response :success
   end
 
   test "should get Forums" do
-    get :Forums
+    get :forums
     assert_response :success
   end
 
   test "should get Reviews" do
-    get :Reviews
+    get :reviews
     assert_response :success
   end
 
   test "should get Support" do
-    get :Support
+    get :support
     assert_response :success
   end
 
   test "should get Order" do
-    get :Order
+    get :cart
     assert_response :success
   end
 

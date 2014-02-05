@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  group: MyString
-  question: MyText
-  answer: MyText
+  group: "Ordering"
+  question: "Do the kits include all the parts?"
+  answer: "Our kits are complete down to the last screw, but you'll need to supply tools and solder."
 
 two:
-  group: MyString
-  question: MyText
-  answer: MyText
+  group: "Support"
+  question: "What kind of support can I expect?"
+  answer: "We offer free support via our message board and e-mail."

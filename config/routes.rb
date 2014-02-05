@@ -3,6 +3,7 @@ SCA::Application.routes.draw do
   
   resources :faqs
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
 
   get "home", to: 'static_pages#home', as: 'home'
   get "products", to: 'static_pages#products', as: 'products'
@@ -15,7 +16,9 @@ SCA::Application.routes.draw do
   get "resources", to: "static_pages#resources", as: 'resources'
   get "contact", to: "static_pages#contact", as: 'contact'
   get "order", to: "static_pages#cart", as: 'cart'
-  get "users/new", to: "users#new", as: 'login'
+  match '/signup',  to: 'users#new',            via: 'get'
+  match '/signin',  to: 'sessions#new',         via: 'get'
+  match '/signout', to: 'sessions#destroy',     via: 'delete'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
