@@ -16,9 +16,9 @@ SCA::Application.routes.draw do
   get "resources", to: "static_pages#resources", as: 'resources'
   get "contact", to: "static_pages#contact", as: 'contact'
   get "order", to: "static_pages#cart", as: 'cart'
-  match '/signup',  to: 'users#new',            via: 'get'
-  match '/signin',  to: 'sessions#new',         via: 'get'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
+  get "signup", to: 'users#new', as: 'signup'
+  get "signin", to: 'sessions#new', as: 'signin'
+  get "signout", to: 'sessions#destroy', as: 'signout'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

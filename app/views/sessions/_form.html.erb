@@ -1,34 +1,20 @@
 <div class="depot_form">
-	<%= form_for(@user) do |f| %>
-		<% if @user.errors.any? %>
-			<div id="error_explanation">
-				<h6><%= pluralize(@user.errors.count, "error") %> kept this user from being saved: </h6>
-				<ul><% @user.errors.full_messages.each do |msg| %>
-					<li><%= msg %></li>
-				<% end %>
-				</ul>
-			</div>
-		<% end %>
-		
+	<%= form_tag sessions_path do %>
 		<fieldset>
-			<legend>Enter User Details</legend>
+			<legend>Login Details</legend>
 			<div class="field">
-				<%= f.label :name, 'Name:' %>
-				<%= f.text_field :name, size: 40 %>
+				<%= label :email, 'Email:' %>
+				<%= text_field :email, size: 40 %>
 			</div>
 			<div class="field">
-				<%= f.label :email, 'Email:' %>
-				<%= f.text_field :email, size: 40 %>
+				<%= label :password, 'Password:' %>
+				<%= password_field :password, size: 40 %>
 			</div>
 			<div class="field">
-				<%= f.label :password, 'Password:' %>
-				<%= f.password_field :password, size: 40 %>
+				<%= label :password_confirmation, 'Confirm:' %>
+				<%= password_field :password_confirmation, size: 40 %>
 			</div>
-			<div class="field">
-				<%= f.label :password_confirmation, 'Confirm:' %>
-				<%= f.password_field :password_confirmation, size: 40 %>
-			</div>
-			<div class="actions"><%= f.submit %></div>
+			<div class="actions"><%= submit_tag %></div>
 		</fieldset>
 	<% end %>
 </div>

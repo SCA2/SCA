@@ -1,7 +1,8 @@
 /* CSS file */
 
 @import "foundation/components/side-nav";
-//@import "foundation/components/accordion";
+@import "foundation/components/panels";
+@import "foundation/components/alert-boxes";
 @import url(fonts.css.scss);
 
 $sca-brown-1: #16120E;
@@ -367,7 +368,7 @@ a.prodname
 /* forms */
 
 #error_explanation {
-  color: #f00;
+  color: $sca-red-3;
   ul {
     font-size: .75em;
     list-style: none;
@@ -376,17 +377,22 @@ a.prodname
 }
 
 .field_with_errors {
-  @extend .control-group;
-  @extend .error;
+//  border: solid;
+//  border-width: 1px;
+//  border-color: $sca-red-3;
+  font-weight: bold !important;
+  color: $sca-red-3 !important;
 }
 
 /* miscellaneous */
 
 .debug_dump {
-  clear: both;
-  float: left;
+  @include panel(
+    $bg: $sca-brown-35,
+    $padding: 20px,
+    $adjust: true
+  );
   width: 100%;
   margin-top: 45px;
-  @include box_sizing;
 }
 

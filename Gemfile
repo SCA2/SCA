@@ -9,6 +9,7 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'jbuilder'
 gem 'foundation-rails'
+gem 'bcrypt-ruby'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -28,8 +29,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
 end
-
-gem 'bcrypt-ruby'
 
 # Use unicorn as the app server
 # gem 'unicorn'
