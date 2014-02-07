@@ -1,7 +1,7 @@
 <div class="depot_form">
 	<%= form_tag sessions_path do %>
 		<fieldset>
-			<legend>Login Details</legend>
+			<legend>Sign in</legend>
 			<div class="field">
 				<%= label :email, 'Email:' %>
 				<%= text_field :email, size: 40 %>
@@ -14,7 +14,7 @@
 				<%= label :password_confirmation, 'Confirm:' %>
 				<%= password_field :password_confirmation, size: 40 %>
 			</div>
-			<div class="actions"><%= submit_tag %></div>
+			<div class="actions"><%= submit_tag 'Sign in'%></div>
 		</fieldset>
 	<% end %>
 </div>
