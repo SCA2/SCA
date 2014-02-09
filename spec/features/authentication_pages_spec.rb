@@ -22,9 +22,7 @@ describe "Authentication" do
     describe "with invalid information" do
       before { click_button "Sign in" }
 
-      it { should have_title('Sign in') }
-      it { should have_selector('div.alert-box') }
-      it { should have_content('Invalid email or password') }
+      it { should have_error_message('Invalid email or password') }
       
       describe "after visiting another page" do
         before { click_link "Home" }
@@ -35,12 +33,7 @@ describe "Authentication" do
   
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
-      before do
-        fill_in "Email:",    with: user.email.upcase
-        fill_in "Password:", with: user.password
-        fill_in "Confirm:",  with: user.password
-        click_button "Sign in"
-      end
+      before { valid_signin(user) }
 
       it { should have_title(user.name) }
       it { should have_link('Profile',     href: user_path(user)) }
