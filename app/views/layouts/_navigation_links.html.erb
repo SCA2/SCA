@@ -20,7 +20,7 @@ include SessionsHelper
 	<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">Account <b class="caret"></b></a>
 		<ul id="drop2" class="f-dropdown" data-dropdown-content>
 	    <li><%= link_to "Profile", current_user %></li>
-	    <li><%= link_to "Settings",	'#' %></li>
+	    <li><%= link_to "Settings",	edit_user_path(current_user) %></li>
 	    <li class="divider"></li>
 	    <li><%= link_to "Sign out",	signout_path, method: "delete" %></li>
 	  </ul>
