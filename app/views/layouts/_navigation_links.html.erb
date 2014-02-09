@@ -1,12 +1,12 @@
 <!-- add navigation links to this file -->
+include SessionsHelper
 
 <li><%= link_to "Home",			home_path %></li>
 <li><%= link_to "Products",	products_path %></li>
 <li><%= link_to "FAQ",			faqs_path %></li>
 <li><%= link_to "Forums",		forums_path %></li>
 <li><%= link_to "Reviews",	reviews_path %></li>
-<li><%= link_to 'Support', 
-			support_path, :'data-dropdown' => 'drop1' %>
+<li><a href="/support" data-dropdown="drop1" data-options="is_hover:true">Support <b class="caret"></b></a>
 	<ul id="drop1" class="f-dropdown" data-dropdown-content>
     <li><%= link_to "Assembly Tips",		tips_path %></li>
     <li><%= link_to "Troubleshooting",	troubleshooting_path %></li>
@@ -15,5 +15,17 @@
     <li><%= link_to "Contact",					contact_path %></li>
   </ul>
 </li>
-<li><%= link_to "Order",		cart_path %></li>
+<li><%= link_to "Order", cart_path %></li>
+<% if signed_in? %>
+	<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">Account <b class="caret"></b></a>
+		<ul id="drop2" class="f-dropdown" data-dropdown-content>
+	    <li><%= link_to "Profile", current_user %></li>
+	    <li><%= link_to "Settings",	'#' %></li>
+	    <li class="divider"></li>
+	    <li><%= link_to "Sign out",	signout_path, method: "delete" %></li>
+	  </ul>
+	</li>
+<% else %>
+    <li><%= link_to "Sign in", signin_path %></li>
+<% end %>
 

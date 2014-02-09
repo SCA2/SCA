@@ -27,12 +27,6 @@ $grayMediumLight: #eaeaea;
 .bg_9 {BACKGROUND-COLOR: #990000;}
 .bg_10 {BACKGROUND-COLOR: #16120E;}
 
-@mixin box_sizing {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 div.logo {
   background: $sca-brown-4;
   margin-top: 1em;
@@ -372,7 +366,7 @@ a.prodname
   ul {
     font-size: .75em;
     list-style: none;
-    margin: 0 0 18px 0;
+    margin: 1em 0 1em 0;
   }
 }
 
@@ -396,3 +390,12 @@ a.prodname
   margin-top: 45px;
 }
 
+.alert-box {
+  @include alert(
+    // Adjust the background of the alert
+    $bg: $sca-red-3,
+    // Give a border to the alert box
+    $radius: false !important
+  );
+  margin-top: 1em;
+}
