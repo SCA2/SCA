@@ -19,6 +19,7 @@ include SessionsHelper
 <% if signed_in? %>
 	<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">Account <b class="caret"></b></a>
 		<ul id="drop2" class="f-dropdown" data-dropdown-content>
+	    <li><%= link_to "Users", users_path %></li>
 	    <li><%= link_to "Profile", current_user %></li>
 	    <li><%= link_to "Settings",	edit_user_path(current_user) %></li>
 	    <li class="divider"></li>

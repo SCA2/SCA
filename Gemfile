@@ -10,6 +10,8 @@ gem 'jquery-turbolinks'
 gem 'jbuilder'
 gem 'foundation-rails'
 gem 'bcrypt-ruby'
+gem 'will_paginate'
+gem 'will_paginate-foundation'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
