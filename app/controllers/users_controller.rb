@@ -9,7 +9,11 @@ class UsersController < ApplicationController
   end
   
   def new
-    @user = User.new
+    if signed_in?
+      redirect_to root_path, :notice => 'Already signed up!'
+    else
+      @user = User.new
+    end
   end
 
   # GET /users/:id
@@ -19,12 +23,16 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
-    if @user.save
-      sign_in @user
-      redirect_to @user, :notice => "Signed up!"
+    if signed_in?
+      redirect_to root_path, :notice => 'Already signed up!'
     else
-      render 'new'
+      @user = User.new(user_params)
+      if @user.save
+        sign_in @user
+        redirect_to @user, :notice => "Signed up!"
+      else
+        render 'new'
+      end
     end
   end
   
@@ -42,9 +50,14 @@ class UsersController < ApplicationController
   
   # DELETE /users/:id
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "User deleted."
-    redirect_to users_url
+    target = User.find(params[:id])
+    if (current_user == target) && (current_user.admin?)
+      redirect_to users_url, :notice => "Can't delete yourself!"
+    else
+      User.find(params[:id]).destroy
+      flash[:success] = "User deleted."
+      redirect_to users_url
+    end
   end
   
   private

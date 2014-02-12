@@ -46,6 +46,14 @@ describe "User pages" do
           end.to change(User, :count).by(-1)
         end
         it { should_not have_link('delete', href: user_path(admin)) }
+        it "should not be able to delete itself" do
+          expect do
+            page.driver.submit :delete, user_path(admin), {}
+          end.not_to change(User, :count).by(-1)
+#          expect do
+#            page.driver.submit :delete, user_path(admin), {}
+#          end.to have_content("Can't delete yourself!")
+        end
       end
     end
   end
@@ -148,6 +156,18 @@ describe "User pages" do
       it { should have_link('Sign out', href: signout_path) }
       specify { expect(user.reload.name).to  eq new_name }
       specify { expect(user.reload.email).to eq new_email }
+    end
+    
+    describe "forbidden attributes", type: :request do
+      let(:params) do
+        { user: { admin: true, password: user.password,
+                  password_confirmation: user.password } }
+      end
+      before do
+        sign_in user, no_capybara: true
+        patch user_path(user), params
+      end
+      specify { expect(user.reload).not_to be_admin }
     end
   end
 end
