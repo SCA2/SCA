@@ -17,9 +17,15 @@
 	  </div>
 	  <div class="small-2 column left">
   		<%= f.select(:group, options_for_select([ ['General'], 
-																			  					['Ordering'], 
-																			  					['Assembly'], 
-																			  					['Support'] ])) %>
+																			  				['Ordering'], 
+																			  				['Assembly'], 
+																			  				['Support'] ])) %>
+	  </div>
+  	<div class="small-3 columns">
+	    <%= f.label :priority, class: "right inline" %><br>
+	  </div>
+	  <div class="small-2 column left">
+  		<%= f.number_field(:priority, in: 1...100) %>
 	  </div>
   </div>
   <div class="row">

@@ -11,9 +11,11 @@
 			<%= render partial: "accordion", locals: {title: "General", faqs: @general_faqs} %>
 			<%= render partial: "accordion", locals: {title: "Assembly", faqs: @assembly_faqs} %>
 			<%= render partial: "accordion", locals: {title: "Support", faqs: @support_faqs} %>
-
-			<%= link_to 'New Faq', new_faq_path, class: "button" %>
-			
+		 	<% if signed_in? && current_user.admin? %>
+				<%= link_to 'New Faq', new_faq_path, label: 'New Faq', class: "button" %>
+				<%= link_to 'Upload Faqs', new_faq_path, label: 'Upload Faqs', class: "button" %>
+				<%= link_to 'Download Faqs', new_faq_path, label: 'Download Faqs', class: "button" %>
+			<% end %>
 		</div>
 	</div>	
 </div> <!-- box_2 -->

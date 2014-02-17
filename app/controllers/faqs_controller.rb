@@ -1,4 +1,6 @@
 class FaqsController < ApplicationController
+  
+  before_action :signed_in_admin, except: :index
   before_action :set_faq, only: [:show, :edit, :update, :destroy]
 
   # GET /faqs
@@ -55,6 +57,13 @@ class FaqsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def faq_params
-      params.require(:faq).permit(:group, :question, :answer)
+      params.require(:faq).permit(:group, :question, :answer, :priority)
     end
+    
+    def signed_in_admin
+      unless signed_in? && current_user.admin?
+        redirect_to faqs_url, :notice => "Sorry, admins only!"
+      end
+    end
+
 end
