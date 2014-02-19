@@ -7,14 +7,16 @@
 		</div>
 	
 		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
-			<%= render partial: "accordion", locals: {title: "Ordering", faqs: @ordering_faqs} %>
-			<%= render partial: "accordion", locals: {title: "General", faqs: @general_faqs} %>
-			<%= render partial: "accordion", locals: {title: "Assembly", faqs: @assembly_faqs} %>
-			<%= render partial: "accordion", locals: {title: "Support", faqs: @support_faqs} %>
+			<% @category.each do |cat| %>
+				<%= render partial: "accordion", locals: {title: cat.category, faqs: @faqs.where(category: cat.category)} %>
+			<% end %>
 		 	<% if signed_in? && current_user.admin? %>
 				<%= link_to 'New Faq', new_faq_path, label: 'New Faq', class: "button" %>
-				<%= link_to 'Upload Faqs', new_faq_path, label: 'Upload Faqs', class: "button" %>
-				<%= link_to 'Download Faqs', new_faq_path, label: 'Download Faqs', class: "button" %>
+				<%= link_to 'Download CSV', faqs_path(format: 'csv'), label: 'Download CSV', class: "button" %>
+				<%= form_tag import_faqs_path, multipart: true do %>
+				  <%= file_field_tag :file %>
+  				<%= submit_tag "Upload CSV", class: "button" %>
+				<% end %>
 			<% end %>
 		</div>
 	</div>	

@@ -5,10 +5,12 @@ class FaqsController < ApplicationController
 
   # GET /faqs
   def index
-    @ordering_faqs = Faq.where(group: 'Ordering')
-    @general_faqs = Faq.where(group: 'General')
-    @assembly_faqs = Faq.where(group: 'Assembly')
-    @support_faqs = Faq.where(group: 'Support')
+    @category = Faq.select(:category).distinct.order(:category_weight)
+    @faqs = Faq.order(:question_weight)
+    respond_to do |format|
+      format.html
+      format.csv { render text: @faqs.to_csv }
+    end
   end
 
   # GET /faqs/1
@@ -49,6 +51,11 @@ class FaqsController < ApplicationController
     redirect_to faqs_url
   end
 
+  def import
+    Faq.import(params[:file])
+    redirect_to faqs_url, notice: "FAQs imported."
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_faq
@@ -57,7 +64,7 @@ class FaqsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def faq_params
-      params.require(:faq).permit(:group, :question, :answer, :priority)
+      params.require(:faq).permit(:category, :category_weight, :question, :question_weight, :answer)
     end
     
     def signed_in_admin
@@ -65,5 +72,5 @@ class FaqsController < ApplicationController
         redirect_to faqs_url, :notice => "Sorry, admins only!"
       end
     end
-
+    
 end

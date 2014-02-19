@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140212064341) do
+ActiveRecord::Schema.define(version: 20140219025143) do
 
   create_table "faqs", force: true do |t|
-    t.string   "group"
+    t.string   "category"
     t.text     "question"
     t.text     "answer"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority"
+    t.integer  "question_weight"
+    t.integer  "category_weight"
   end
 
   create_table "products", force: true do |t|

@@ -1,51 +1,31 @@
-<%= form_for(@faq) do |f| %>
-  <% if @faq.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@faq.errors.count, "error") %> prohibited this faq from being saved:</h2>
+<fieldset>
+	<legend><%= legend %></legend>
+	<div class="field" style="display:inline-block; width: 32%">
+		<%= f.label :category, 'Category:' %>
+		<%= f.select :category, 
+			options_for_select(	[['General'], ['Ordering'],	['Assembly'], ['Support']]) %>
+	</div>
+	<div class="field" style="display: inline-block; width: 33%">
+		<%= f.label :category_weight, 'Category Weight:' %>
+ 		<%= f.number_field :category_weight, in: 1...100 %>
+	</div>
+	<div class="field" style="display: inline-block; width: 32%">
+		<%= f.label :question_weight, 'Question Weight:' %>
+ 		<%= f.number_field :question_weight, in: 1...100 %>
+	</div>
+	<div class="field" style="width: 100%">
+		<%= f.label :question, 'Question:' %>
+    <%= f.text_area :question %>
+	</div>
+	<div class="field" style="width: 100%">
+		<%= f.label :answer, 'Answer:' %>
+    <%= f.text_area :answer %>
+	</div>
+	<div class="actions">
+		<%= if(defined?(submit)) then f.submit submit, {:style => "float: left; width: 33%"} end %>
+		<%= button_to 'Edit', edit_faq_path(@faq), {:style => "float: left; width: 33%"} %>
+		<%= button_to 'Back', faqs_path, {:style => "width: 33%"} %>
+	</div>
+</fieldset>
 
-      <ul>
-      <% @faq.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="row clearfix">
-  	<div class="small-3 columns">
-	    <%= f.label :group, class: "right inline" %><br>
-	  </div>
-	  <div class="small-2 column left">
-  		<%= f.select(:group, options_for_select([ ['General'], 
-																			  				['Ordering'], 
-																			  				['Assembly'], 
-																			  				['Support'] ])) %>
-	  </div>
-  	<div class="small-3 columns">
-	    <%= f.label :priority, class: "right inline" %><br>
-	  </div>
-	  <div class="small-2 column left">
-  		<%= f.number_field(:priority, in: 1...100) %>
-	  </div>
-  </div>
-  <div class="row">
-  	<div class="small-3 columns">
-	    <%= f.label :question, class: "right inline" %><br>
-	  </div>
-	  <div class="small-9 columns">
-	    <%= f.text_field :question %>
-	  </div>
-  </div>
-  <div class="row">
-  	<div class="small-3 columns">
-	    <%= f.label :answer, class: "right inline" %><br>
-	  </div>
-	  <div class="small-9 columns">
-	    <%= f.text_area :answer %>
-	  </div>
-  </div>
-  <div class="row">
-  	<div class="small-9 small-offset-3 columns">
-    <%= f.submit %>
-  </div>
-<% end %>

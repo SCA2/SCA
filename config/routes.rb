@@ -1,7 +1,9 @@
 SCA::Application.routes.draw do
   
   
-  resources :faqs
+  resources :faqs do
+    collection { post :import }
+  end
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 

@@ -1,6 +1,16 @@
-<h1>Editing faq</h1>
+<% provide(:title, @faq) %>
 
-<%= render 'form' %>
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
+			<%= form_for(@faq) do |f| %>
+				<%= render 'errors' %>
+				<%= render :partial => 'form', 	:locals => { :f => f, :legend => 'Update FAQ', :submit => 'Save changes' } %>
+			<% end %>
+		</div>
+	</div>	
+</div> <!-- box_2 -->
 
-<%= link_to 'Show', @faq %> |
-<%= link_to 'Back', faqs_path %>
