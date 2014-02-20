@@ -3,13 +3,15 @@ require 'faker'
 
 FactoryGirl.define do
   factory :faq, class: 'Faq' do
-    group {['Ordering', 'General', 'Support', 'Assembly'].at(rand(0..3))}
+    category {['Ordering', 'General', 'Support', 'Assembly'].at(rand(0..3))}
+    category_weight {rand(1..100)}
     question {Faker::Lorem.sentence.to_s}
+    question_weight {rand(1..100)}
     answer {Faker::Lorem.sentences.to_s}
-    priority {rand(1..100)}
   end
   
   factory :invalid_faq, class: 'Faq' do
-    group 'Poo'
+    category 'Poo'
+    category_weight nil
   end
 end

@@ -106,7 +106,7 @@ describe FaqsController do
       end
       context "with invalid attributes" do
         it "does not change @faq's attributes" do
-          patch :update, id: @faq, faq: attributes_for(:faq, priority: 0, answer: 'Because')
+          patch :update, id: @faq, faq: attributes_for(:faq, question_weight: 0, answer: 'Because')
           @faq.reload
           expect(@faq.question).to eq('Why?')
           expect(@faq.answer).not_to eq('Because')

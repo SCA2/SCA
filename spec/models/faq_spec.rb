@@ -8,12 +8,12 @@ describe Faq do
     expect(faq).to be_valid
   end
   
-  it "is invalid without a group" do
+  it "is invalid without a category" do
     faq = build(:faq, category: nil)
     expect(faq).not_to be_valid
   end
   
-  it "is invalid without a valid group" do
+  it "is invalid without a valid category" do
     faq = build(:faq, category: 'abc')
     expect(faq).not_to be_valid
   end
@@ -24,14 +24,14 @@ describe Faq do
   end
   
   it "is invalid with a duplicate question in a group" do
-    faq1 = create(:faq, category: 'general', question: 'abc')
-    faq2 = build(:faq, category: 'general', question: 'abc')
+    faq1 = create(:faq, category: 'General', question: 'abc')
+    faq2 = build(:faq, category: 'General', question: 'abc')
     expect(faq2).not_to be_valid
   end
   
   it "is valid with a duplicate question in a different group" do
-    faq1 = create(:faq, category: 'general', question: 'abc')
-    faq2 = build(:faq, category: 'order', question: 'abc')
+    faq1 = create(:faq, category: 'General', question: 'abc')
+    faq2 = build(:faq, category: 'Ordering', question: 'abc')
     expect(faq2).to be_valid
   end
   
@@ -40,7 +40,7 @@ describe Faq do
     expect(faq).not_to be_valid
   end
   
-  it "is invalid without a priority" do
+  it "is invalid without a question weight" do
     faq = build(:faq, question_weight: nil)
     expect(faq).not_to be_valid
   end
@@ -60,19 +60,39 @@ describe Faq do
     expect(faq).not_to be_valid
   end
   
-  it "returns an array sorted by group and priority" do
-    create(:faq, category: 'general', question_weight: 1, question: 'abc')
-    create(:faq, category: 'general', question_weight: 2)
-    create(:faq, category: 'order', question_weight: 1, question: 'def')
-    create(:faq, category: 'order', question_weight: 2)
-    expect(Faq.order(:question_weight, :group).first.question).to eq 'abc'
+  it "is invalid without a category weight" do
+    faq = build(:faq, question_weight: nil)
+    expect(faq).not_to be_valid
+  end
+  
+  it "must be numeric" do
+    faq = build(:faq, category_weight: 'abc')
+    expect(faq).not_to be_valid
+  end
+  
+  it "must be be greater than 0" do
+    faq = build(:faq, category_weight: 0)
+    expect(faq).not_to be_valid
+  end
+
+  it "must be be less than 101" do
+    faq = build(:faq, category_weight: 101)
+    expect(faq).not_to be_valid
+  end
+  
+  it "returns an array sorted by category_weight and priority_weight" do
+    create(:faq, category: 'General', category_weight: 1, question: 'abc', question_weight: 1)
+    create(:faq, category: 'General', category_weight: 1, question: 'def', question_weight: 2)
+    create(:faq, category: 'Ordering', category_weight: 2, question: 'ghi', question_weight: 3)
+    create(:faq, category: 'Ordering', category_weight: 2, question: 'jkl', question_weight: 4)
+    expect(Faq.order(:question_weight, :category_weight).first.question).to eq 'abc'
   end
 
   it "returns an array sorted by group and priority" do
-    create(:faq, category: 'general', question_weight: 1, question: 'abc')
-    create(:faq, category: 'general', question_weight: 2)
-    create(:faq, category: 'order', question_weight: 1, question: 'def')
-    create(:faq, category: 'order', question_weight: 2)
-    expect(Faq.order(:question_weight, :group).first.question).not_to eq 'def'
+    create(:faq, category: 'General', category_weight: 1, question: 'abc', question_weight: 1)
+    create(:faq, category: 'General', category_weight: 1, question: 'def', question_weight: 2)
+    create(:faq, category: 'Ordering', category_weight: 2, question: 'ghi', question_weight: 3)
+    create(:faq, category: 'Ordering', category_weight: 2, question: 'jkl', question_weight: 4)
+    expect(Faq.order(:question_weight, :category_weight).first.question).not_to eq 'def'
   end
 end
