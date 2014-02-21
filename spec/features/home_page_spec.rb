@@ -18,17 +18,18 @@ feature 'home page' do
   end
   
   context 'as an admin' do
-    scenario 'add image to slider' do
+    scenario 'add image to slider', js: false do
       admin = create(:admin)
       sign_in admin
       visit home_path
       expect(page).to_not have_content 'new_photo_url'
-      click_button "Add Image"
-      fill_in 'URL:', with: 'new_photo_url'
+      find(:link_or_button, 'Add Image').click
+      fill_in 'Name:', with: 'New image name'
       fill_in 'Caption:', with: 'Awesome! New! Product!'
+      fill_in 'URL:', with: 'new_image_url'
       click_button "Add Image"
-      expect(current_path).to eq home_path
-      expect(page).to have_content "Success!"
+      expect(current_path).to eq slider_image_path(1)
+      expect(page).to have_content "Slider image was successfully created."
     end
   end
 end

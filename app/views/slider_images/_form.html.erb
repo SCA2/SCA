@@ -1,0 +1,24 @@
+<fieldset>
+	<legend><%= legend %></legend>
+	<div class="field">
+		<%= f.label :name, 'Name:' %>
+		<%= f.text_field :name %>
+	</div>
+	<div class="field">
+		<%= f.label :caption, 'Caption:' %>
+ 		<%= f.text_area :caption %>
+	</div>
+	<div class="field">
+		<%= f.label :url, 'URL:' %>
+ 		<%= f.text_field :url %>
+	</div>
+	<div class="actions">
+		<%= if(defined?(submit)) then f.submit submit, {:style => "float: left; width: 33%"} end %>
+		<% if @slider_image.id != nil then %>
+		<% button_to 'Edit', edit_slider_image_path(@slider_image), {:style => "float: left; width: 33%"} %>
+		<% end %>
+		<%= button_to 'Back', slider_images_path, {:style => "width: 33%"} %>
+	</div>
+</fieldset>
+
+

@@ -5,9 +5,10 @@ SCA::Application.routes.draw do
     collection { post :import }
   end
   resources :users
+  resources :slider_images
   resources :sessions, only: [:new, :create, :destroy]
 
-  get "home", to: 'home#index', as: 'home'
+  get "home", to: 'slider_images#index', as: 'home'
   get "products", to: 'static_pages#products', as: 'products'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "reviews", to: "static_pages#reviews", as: 'reviews'
@@ -26,7 +27,7 @@ SCA::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'static_pages#home'
+  root 'slider_images#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
