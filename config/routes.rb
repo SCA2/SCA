@@ -7,7 +7,7 @@ SCA::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
-  get "home", to: 'static_pages#home', as: 'home'
+  get "home", to: 'home#index', as: 'home'
   get "products", to: 'static_pages#products', as: 'products'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "reviews", to: "static_pages#reviews", as: 'reviews'
