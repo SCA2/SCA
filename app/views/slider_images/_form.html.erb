@@ -13,11 +13,10 @@
  		<%= f.text_field :url %>
 	</div>
 	<div class="actions">
-		<%= if(defined?(submit)) then f.submit submit, {:style => "float: left; width: 33%"} end %>
-		<% if @slider_image.id != nil then %>
-		<% button_to 'Edit', edit_slider_image_path(@slider_image), {:style => "float: left; width: 33%"} %>
-		<% end %>
-		<%= button_to 'Back', slider_images_path, {:style => "width: 33%"} %>
+		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if edit then link_to edit, edit_slider_image_path(@slider_image), :class => :button, :style => "float: left; width: 33%"  end %>
+		<%= if quit then link_to quit, slider_images_path, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if delete then link_to delete, @slider_image, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
 	</div>
 </fieldset>
 

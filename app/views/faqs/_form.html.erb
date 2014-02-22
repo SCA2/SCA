@@ -22,9 +22,10 @@
     <%= f.text_area :answer %>
 	</div>
 	<div class="actions">
-		<%= if(defined?(submit)) then f.submit submit, {:style => "float: left; width: 33%"} end %>
-		<%= button_to 'Edit', edit_faq_path(@faq), {:style => "float: left; width: 33%"} %>
-		<%= button_to 'Back', faqs_path, {:style => "width: 33%"} %>
+		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if edit then link_to edit, edit_faq_path(@faq), :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if quit then link_to quit, faqs_path, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if delete then link_to delete, @faq, :class => :button, :method => :delete, :style => "float: left; width: 33%", :data => {confirm: 'Are you sure?'} end %>
 	</div>
 </fieldset>
 

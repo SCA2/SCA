@@ -8,7 +8,13 @@
 		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
 			<%= form_for(@faq) do |f| %>
 				<%= render 'errors' %>
-				<%= render :partial => 'form', 	:locals => { :f => f, :legend => 'FAQ' } %>
+				<%= render :partial => 'form', 	:locals => { 
+																				:f => f, 
+																				:legend => 'FAQ ' << @faq.id.to_s,
+																				:submit => nil,
+																				:edit => 'Edit',
+																				:quit => 'Quit',
+																				:delete => 'Delete' } %>
 			<% end %>
 		</div>
 	</div>	

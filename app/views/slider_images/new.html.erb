@@ -1,4 +1,4 @@
-<% provide(:title, 'New FAQ') %>
+<% provide(:title, 'New Slider Image') %>
 
 <div class="box_2">
 	<div class="row">
@@ -8,7 +8,13 @@
 		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
 			<%= form_for(@slider_image) do |f| %>
 				<%= render 'errors' %>
-				<%= render :partial => 'form', 	:locals => { :f => f, :legend => 'New Slider Image', :submit => 'Add Image' } %>
+				<%= render :partial => 'form', 	:locals => { 
+																				:f => f, 
+																				:legend => 'New Slider Image', 
+																				:submit => 'Create',
+																				:edit => nil,
+																				:quit => 'Quit',
+																				:delete => nil } %>
 			<% end %>
 		</div>
 	</div>	
