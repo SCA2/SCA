@@ -14,9 +14,8 @@
     <li><%= link_to "Contact",					contact_path %></li>
   </ul>
 </li>
-<li><%= link_to "Order", cart_path %></li>
 <% if signed_in? %>
-	<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">Account <b class="caret"></b></a>
+	<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">My Account <b class="caret"></b></a>
 		<ul id="drop2" class="f-dropdown" data-dropdown-content>
 	    <li><%= link_to "Users", users_path %></li>
 	    <li><%= link_to "Profile", current_user %></li>
@@ -26,6 +25,9 @@
 	  </ul>
 	</li>
 <% else %>
-    <li><%= link_to "Sign in", signin_path %></li>
+    <li><%= link_to "Sign In", signin_path %></li>
 <% end %>
+<li><%= link_to image_tag('shopping-cart-icon.png'), cart_path %></li>"0 Items", 
+<li><%= link_to "0 Items", cart_path %></li> 
+<li><%= link_to "Checkout", cart_path %></li>
 

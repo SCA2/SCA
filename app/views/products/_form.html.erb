@@ -1,0 +1,35 @@
+<fieldset>
+	<legend><%= legend %></legend>
+	<div class="field">
+		<%= f.label :model, 'Model:' %>
+		<%= f.text_field :model %>
+	</div>
+	<div class="field">
+		<%= f.label :upc, 'UPC:' %>
+		<%= f.text_field :upc %>
+	</div>
+	<div class="field">
+		<%= f.label :short_description, 'Short Description:' %>
+ 		<%= f.text_area :short_description %>
+	</div>
+	<div class="field">
+		<%= f.label :long_description, 'Long Description:' %>
+ 		<%= f.text_area :long_description %>
+	</div>
+	<div class="field">
+		<%= f.label :image_1, 'Image_1 URL:' %>
+ 		<%= f.text_field :image_1 %>
+	</div>
+	<div class="field">
+		<%= f.label :image_2, 'Image_2 URL:' %>
+ 		<%= f.text_field :image_2 %>
+	</div>
+	<div class="actions">
+		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if edit then link_to edit, edit_product_path(@product), :class => :button, :style => "float: left; width: 33%"  end %>
+		<%= if quit then link_to quit, products_path, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if delete then link_to delete, @product, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
+	</div>
+</fieldset>
+
+

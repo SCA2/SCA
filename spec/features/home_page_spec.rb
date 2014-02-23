@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'home page' do
+feature 'home page slider' do
 
   before { visit home_path }
   subject { page }
@@ -18,18 +18,43 @@ feature 'home page' do
   end
   
   context 'as an admin' do
-    scenario 'add image to slider', js: false do
+    scenario 'add image - happy path', js: false do
       admin = create(:admin)
       sign_in admin
       visit home_path
-      expect(page).to_not have_content 'new_photo_url'
+      expect(page).to_not have_content 'new_image_url'
       find(:link_or_button, 'Add Image').click
       fill_in 'Name:', with: 'New image name'
       fill_in 'Caption:', with: 'Awesome! New! Product!'
       fill_in 'URL:', with: 'new_image_url'
-      click_button "Add Image"
+      find(:link_or_button, 'Create').click
       expect(current_path).to eq slider_image_path(1)
       expect(page).to have_content "Slider image was successfully created."
+    end
+    
+    scenario 'add image - bad data', js: false do
+      admin = create(:admin)
+      sign_in admin
+      visit home_path
+      expect(page).to_not have_content 'new_image_url'
+      find(:link_or_button, 'Add Image').click
+      fill_in 'Name:', with: 'New image name'
+      find(:link_or_button, 'Create').click
+      expect(current_path).to eq slider_images_path
+      expect(page).to have_content "Caption can't be blank"
+      expect(page).to have_content "Url can't be blank"
+    end
+
+    scenario 'add image - quit', js: false do
+      admin = create(:admin)
+      sign_in admin
+      visit home_path
+      expect(page).to_not have_content 'new_image_url'
+      find(:link_or_button, 'Add Image').click
+      fill_in 'Name:', with: 'New image name'
+      find(:link_or_button, 'Quit').click
+      expect(current_path).to eq slider_images_path
+      expect(page).to have_title "Home"
     end
   end
 end

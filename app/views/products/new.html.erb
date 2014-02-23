@@ -1,0 +1,19 @@
+<% provide(:title, @product) %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns" style="margin: 5em 1em 0em 0em">
+			<%= form_for(@product) do |f| %>
+				<%= render 'errors' %>
+				<%= render :partial => 'form', :locals => { 
+																				:f => f, 
+																				:legend => 'Create Product', 
+																				:submit => 'Save',
+																				:edit => nil,
+																				:quit => 'Quit',
+																				:delete => 'Delete' } %>
+			<% end %>
+		</div>
+	</div>	
+</div> <!-- box_2 -->
+
