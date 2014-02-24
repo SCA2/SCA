@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140223061924) do
+ActiveRecord::Schema.define(version: 20140224165900) do
 
   create_table "faqs", force: true do |t|
     t.string   "category"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140223061924) do
     t.string   "category"
     t.integer  "category_weight"
     t.integer  "model_weight"
+    t.text     "notes"
   end
 
   create_table "slider_images", force: true do |t|

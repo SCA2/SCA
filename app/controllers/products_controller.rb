@@ -1,10 +1,16 @@
 class ProductsController < ApplicationController
   
+  before_action :signed_in_admin, except: :index
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
   def index
-    @products = Product.all
+    @category = Product.select(:category).distinct.order(:category_weight)
+    @products = Product.order(:model_weight)
+    respond_to do |format|
+      format.html
+      format.csv { render text: @faqs.to_csv }
+    end
   end
 
   # GET /products/1
@@ -54,7 +60,14 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:model, :upc, :short_description, :long_description, :image_1, :image_2, :price)
+      params.require(:product).permit(:model, :model_weight, :category, :category_weight, 
+      :upc, :price, :short_description, :long_description, :notes, :image_1, :image_2)
+    end
+
+    def signed_in_admin
+      unless signed_in? && current_user.admin?
+        redirect_to home_url, :notice => "Sorry, admins only!"
+      end
     end
     
 end

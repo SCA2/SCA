@@ -4,8 +4,15 @@
 		<% if signed_in? && current_user.admin? %>
 			<p><%= p.upc %></p>
 		<% end %>
-		<div class="short-description"><%= p.short_description %></div>
-		<div><%= p.price %></div>
+		<div class="short-description">
+			<%= p.short_description %>
+		</div>
+		<div class="notes">
+			<%= p.notes %>
+		</div>
+		<div class="price">
+			<%= p.price %>
+		</div>
 	</div>
 	<div class="image-box">
 		<%= link_to image_tag p.image_1 %>		
