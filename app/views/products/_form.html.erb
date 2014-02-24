@@ -1,20 +1,36 @@
-<fieldset>
+<fieldset style="margin: 1em 0em 0em 0em; border: none">
 	<legend><%= legend %></legend>
-	<div class="field">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :model, 'Model:' %>
 		<%= f.text_field :model %>
 	</div>
-	<div class="field">
+	<div class="field" style = "float: left; width: 25%">
+		<%= f.label :model_weight, 'Model Sort Weight:' %>
+		<%= f.text_field :model_weight %>
+	</div>
+	<div class="field" style = "float: left; width: 25%">
+		<%= f.label :category, 'Category:' %>
+		<%= f.text_field :category %>
+	</div>
+	<div class="field" style = "float: left; width: 25%">
+		<%= f.label :category_weight, 'Category Sort Weight:' %>
+		<%= f.text_field :category_weight %>
+	</div>
+	<div class="field" style = "float: left; width: 50%">
 		<%= f.label :upc, 'UPC:' %>
 		<%= f.text_field :upc %>
 	</div>
+	<div class="field" style = "float: left; width: 50%">
+		<%= f.label :price, 'Price:' %>
+		<%= f.text_field :price %>
+	</div>
 	<div class="field">
 		<%= f.label :short_description, 'Short Description:' %>
- 		<%= f.text_area :short_description %>
+ 		<%= f.text_area :short_description, style: "height: 5em" %>
 	</div>
 	<div class="field">
 		<%= f.label :long_description, 'Long Description:' %>
- 		<%= f.text_area :long_description %>
+ 		<%= f.text_area :long_description, style: "height: 15em" %>
 	</div>
 	<div class="field">
 		<%= f.label :image_1, 'Image_1 URL:' %>
