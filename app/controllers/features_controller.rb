@@ -22,7 +22,7 @@ class FeaturesController < ApplicationController
 
   # POST /features
   def create
-    @feature = Feature.new(feature_params)
+    @feature = product.features.build(feature_params)
 
     if @feature.save
       redirect_to @feature, notice: 'Feature was successfully created.'
@@ -54,6 +54,6 @@ class FeaturesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def feature_params
-      params[:feature]
+      params.require(:feature).permit(:model, :caption, :caption_sort_order, :short_description)
     end
 end

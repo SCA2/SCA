@@ -15,6 +15,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    @features = @product.features.order(:caption_weight)
   end
 
   # GET /products/new

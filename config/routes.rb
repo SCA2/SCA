@@ -1,11 +1,13 @@
 SCA::Application.routes.draw do
   
-  resources :users, :products, :slider_images
+  resources :users, :slider_images
   resources :sessions, only: [:new, :create, :destroy]
   resources :faqs do
     collection { post :import }
   end
-
+  resources :products
+  resources :features
+  
   get "home", to: 'slider_images#index', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "reviews", to: "static_pages#reviews", as: 'reviews'

@@ -395,6 +395,41 @@ div.small-product {
   }
 }
 
+// Product show
+
+div.large-product {
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  font-size: 0.85em;
+  margin: 2em 2em 2em 2em;
+  border: 1px solid #000000;
+
+  div.text-box {
+    float: left;
+    width: 100%;
+//    border: 1px solid #000000;
+    .model {
+      font-weight: bold;
+      font-size: 1.0em;
+      color: #382E22;
+    }
+    .short-description {
+      margin-top: 1em;
+    }
+    .notes {
+      margin-top: 1em;
+    }
+    .price {
+      margin-top: 1em;
+    }
+  }
+  
+  div.image-box {
+    width: 100%
+  }
+}
+
 /* forms */
 
 #error_explanation {

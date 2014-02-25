@@ -1,4 +1,4 @@
-<% provide(:title, @product) %>
+<% provide(:title, @product.model.to_s) %>
 
 <div class="box_2">
 	<div class="row">
@@ -10,12 +10,20 @@
 			<%= render 'errors' %>
 			<%= render 	:partial => 'large_product', 
 									:locals => { 
-									:p => @product, 
-									:legend => 'Product ' << @product.id.to_s, 
+									:product => @product, 
+									:features => @product.features,
 									:submit => nil,
 									:edit => 'Edit',
 									:quit => 'Quit',
 									:delete => 'Delete' } %>
+		 	<% if signed_in? && current_user.admin? %>
+				<div class="actions">
+					<%= link_to 'New Product', new_product_path, class: :button, style: "float: left; width: 25%" %>
+					<%= link_to 'New Feature', new_feature_path(@product), class: :button, style: "float: left; width: 25%" %>
+					<%= link_to 'Edit', edit_product_path(@product), class: :button, style: "float: left; width: 25%" %>
+					<%= link_to 'Delete', @product, method: :delete, class: :button, style: "float: left; width: 25%", data: { :confirm => 'Are you sure?' } %>
+				</div>
+			<% end %>
 		</div>
 	</div>	
 </div> <!-- box_2 -->

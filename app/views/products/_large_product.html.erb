@@ -1,18 +1,31 @@
-<fieldset>
-	<legend><%= legend %></legend>
-	<div>
-		<p><%= p.model %></p>
-		<p><%= p.upc %></p>
-		<p><%= p.short_description %></p>
-		<p><%= p.long_description %></p>
-		<p><%= image_tag(p.image_1) %></p>
-		<p><%= image_tag(p.image_2) %></p>
+<div class="large-product">
+	<div class="image-box">
+		<%= link_to image_tag product.image_1 %>		
+	</div>	
+	<div class="text-box">
+		<%= link_to product.model, p, :class => :model %>
+		<% if signed_in? && current_user.admin? %>
+			<p><%= product.upc %></p>
+		<% end %>
+		<div class="long-description">
+			<%= product.long_description %>
+		</div>
+		<div class="notes">
+			<%= product.notes %>
+		</div>
+		<div class="price">
+			<%= product.price %>
+		</div>
 	</div>
-	<div class="actions">
-		<%= if edit then link_to edit, edit_product_path(@product), :class => :button, :style => "float: left; width: 33%"  end %>
-		<%= if quit then link_to quit, products_path, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if delete then link_to delete, @product, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
+	<div class="features-box">
+		<% if product.features.any? %>
+			<% product.features.each do |feature| %>
+				<%= render 	:partial => "feature", 
+										:locals => { :f => feature } %>
+			<% end %>
+		<% end %>
 	</div>
-</fieldset>
-
-
+	<div class="image-box">
+		<%= link_to image_tag product.image_2 %>		
+	</div>	
+</div>
