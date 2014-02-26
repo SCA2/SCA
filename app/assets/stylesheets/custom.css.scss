@@ -4,6 +4,7 @@
 @import "foundation/components/panels";
 @import "foundation/components/alert-boxes";
 @import "foundation/components/pagination";
+@import "foundation/components/buttons";
 @import url(fonts.css.scss);
 
 $sca-brown-1: #16120E;
@@ -395,15 +396,30 @@ div.small-product {
   }
 }
 
+// Foundation buttons
+
+.admin-button {
+  @include button();
+  width: 32.75%; 
+  padding: 0.1em;
+  margin: 0 auto 0 auto;
+}
+
 // Product show
 
 div.large-product {
   display: inline-block;
+  width: 100%;
   font-family: Arial, sans-serif;
   font-weight: normal;
   font-size: 0.85em;
-  margin: 2em 2em 2em 2em;
-  border: 1px solid #000000;
+  margin: 0;
+//  border: 1px solid #000000;
+
+  .product-image {
+    width: 100%;
+    margin: 0 0 1em 0;
+  }
 
   div.text-box {
     float: left;
@@ -430,6 +446,25 @@ div.large-product {
   }
 }
 
+div.feature-box {
+  display: inline-block;
+  margin-top: 1em;
+  .caption-box {
+    font-weight: bold;
+    float: left;
+    width: 25%;
+  }
+  .description-box {
+    float: left;
+    width: 75%;
+  }
+}
+
+div.actions {
+  display: inline-block;
+  width: 100%;
+  margin: 1em 0 0 0;
+}
 /* forms */
 
 #error_explanation {

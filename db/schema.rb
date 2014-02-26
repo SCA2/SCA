@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140225063440) do
+ActiveRecord::Schema.define(version: 20140226064701) do
 
   create_table "faqs", force: true do |t|
     t.string   "category"
@@ -26,13 +26,14 @@ ActiveRecord::Schema.define(version: 20140225063440) do
   create_table "features", force: true do |t|
     t.string   "model"
     t.string   "caption"
-    t.text     "short_description"
-    t.text     "long_description"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "product_id"
-    t.integer  "caption_sort_order"
+    t.integer  "sort_order"
   end
+
+  add_index "features", ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order"
 
   create_table "products", force: true do |t|
     t.string   "model"
@@ -48,6 +49,7 @@ ActiveRecord::Schema.define(version: 20140225063440) do
     t.integer  "category_weight"
     t.integer  "model_weight"
     t.text     "notes"
+    t.integer  "product_id"
   end
 
   create_table "slider_images", force: true do |t|

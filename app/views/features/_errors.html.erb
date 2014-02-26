@@ -1,7 +1,7 @@
 <% if @feature.errors.any? %>
 	<div id="error_explanation">
 		<h6><%= pluralize(@feature.errors.count, "error") %> 
-			kept this FAQ from being saved: </h6>
+			kept this feature from being saved: </h6>
 		<ul>
 			<% @feature.errors.full_messages.each do |msg| %>
 			<li><%= msg %></li>

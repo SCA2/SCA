@@ -1,24 +1,27 @@
 <fieldset style="margin: 1em 0em 0em 0em; border: none">
 	<legend><%= legend %></legend>
-	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :model, 'Model:' %>
-		<%= f.text_field :model %>
+	<div class="field" style = "float: left; width: 33%">
+		<%= f.label :product_id, 'Product ID:' %>
+		<%= f.text_field :product_id, :value => p.id %>
 	</div>
-	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :caption_sort_order, 'Caption Sort Order:' %>
-		<%= f.number_field :caption_sort_order, in: 1..100 %>
+	<div class="field" style = "float: left; width: 33%">
+		<%= f.label :model, 'Model:' %>
+		<%= f.text_field :model, :value => p.model %>
+	</div>
+	<div class="field" style = "float: left; width: 33%">
+		<%= f.label :sort_order, 'Sort Order:' %>
+		<%= f.number_field :sort_order, in: 1..100 %>
 	</div>
 	<div class="field" style = "float: left; width: 33%">
 		<%= f.label :caption, 'Caption:' %>
 		<%= f.text_field :caption, style: "height: 5em" %>
 	</div>
 	<div class="field" style = "float: left; width: 67%">
-		<%= f.label :short_description, 'Short Description:' %>
- 		<%= f.text_area :short_description, style: "height: 5em" %>
+		<%= f.label :description, 'Description:' %>
+ 		<%= f.text_area :description, style: "height: 5em" %>
 	</div>
 	<div class="actions">
 		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if edit then link_to edit, edit_product_path(@product), :class => :button, :style => "float: left; width: 33%"  end %>
 		<%= if quit then link_to quit, products_path, :class => :button, :style => "float: left; width: 33%" end %>
 		<%= if delete then link_to delete, @product, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
 	</div>

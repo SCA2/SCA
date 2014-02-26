@@ -1,10 +1,13 @@
 class Product < ActiveRecord::Base
   
-  validates :model, :model_weight, :category, :category_weight, :upc,
-            :price, :short_description, :long_description, :image_1, presence: true
-    
-  has_many :features, inverse_of: :product
+  has_many :features, inverse_of: :product, dependent: :destroy
+  
+  accepts_nested_attributes_for :features
 
+  validates :model, :model_weight, :category, :category_weight,
+            :short_description, :long_description, 
+            :image_1, :upc, :price, presence: true
+    
   def self.to_csv
     CSV.generate do |csv|
       csv << column_names

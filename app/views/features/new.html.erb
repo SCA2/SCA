@@ -7,10 +7,9 @@
 				<%= render 'errors' %>
 				<%= render :partial => 'form', :locals => { 
 																				:f => f,
-																				:product => product, 
+																				:p => @product,
 																				:legend => 'Create Feature', 
 																				:submit => 'Save',
-																				:edit => nil,
 																				:quit => 'Quit',
 																				:delete => 'Delete' } %>
 			<% end %>

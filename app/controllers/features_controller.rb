@@ -13,7 +13,8 @@ class FeaturesController < ApplicationController
 
   # GET /features/new
   def new
-    @feature = Feature.new
+    @product = Product.find(params[:product_id])
+    @feature = @product.features.build
   end
 
   # GET /features/1/edit
@@ -22,10 +23,11 @@ class FeaturesController < ApplicationController
 
   # POST /features
   def create
-    @feature = product.features.build(feature_params)
+    @product = Product.find(params[:feature][:product_id])
+    @feature = @product.features.build(feature_params)
 
     if @feature.save
-      redirect_to @feature, notice: 'Feature was successfully created.'
+      redirect_to @product, notice: 'Feature was successfully created.'
     else
       render action: 'new'
     end
@@ -54,6 +56,10 @@ class FeaturesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def feature_params
-      params.require(:feature).permit(:model, :caption, :caption_sort_order, :short_description)
+      params.require(:feature).permit(:model, :caption, :sort_order, :description)
+    end
+    
+    def nested_params
+      params.permit(:feature[:product_id.to_i])
     end
 end
