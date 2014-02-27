@@ -66,10 +66,4 @@ class SliderImagesController < ApplicationController
       params.require(:slider_image).permit(:name, :caption, :url)
     end
     
-    def signed_in_admin
-      unless signed_in? && current_user.admin?
-        redirect_to home_url, :notice => "Sorry, admins only!"
-      end
-    end
-    
 end

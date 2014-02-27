@@ -65,10 +65,4 @@ class ProductsController < ApplicationController
       :upc, :price, :short_description, :long_description, :notes, :image_1, :image_2)
     end
 
-    def signed_in_admin
-      unless signed_in? && current_user.admin?
-        redirect_to home_url, :notice => "Sorry, admins only!"
-      end
-    end
-    
 end

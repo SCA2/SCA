@@ -45,4 +45,10 @@ module SessionsHelper
     session[:return_to] = request.url if request.get?
   end
 
+  def signed_in_admin
+    unless signed_in? && current_user.admin?
+      redirect_to home_url, :notice => "Sorry, admins only!"
+    end
+  end
+
 end

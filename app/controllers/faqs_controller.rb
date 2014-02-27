@@ -67,10 +67,4 @@ class FaqsController < ApplicationController
       params.require(:faq).permit(:category, :category_weight, :question, :question_weight, :answer)
     end
     
-    def signed_in_admin
-      unless signed_in? && current_user.admin?
-        redirect_to faqs_url, :notice => "Sorry, admins only!"
-      end
-    end
-    
 end

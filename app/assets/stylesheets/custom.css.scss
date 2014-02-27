@@ -413,8 +413,18 @@ div.large-product {
   font-family: Arial, sans-serif;
   font-weight: normal;
   font-size: 0.85em;
+  line-height: 1.3em;
   margin: 0;
 //  border: 1px solid #000000;
+
+  .section-header {
+    font-weight: bold;
+    font-size: 1.25em;
+    padding: 0 0 0.25em 0;
+    margin: 1em 0 0 0;
+    border-bottom: solid $sca-red-3;
+    border-width: 2px;
+  }
 
   .product-image {
     width: 100%;
@@ -431,7 +441,7 @@ div.large-product {
   .notes { margin-top: 1em; }
   .price { margin-top: 1em; }
 
-  div.feature-box {
+  .feature-box {
     display: inline-block;
     width: 100%;
     margin: 1em 0 0 0;
