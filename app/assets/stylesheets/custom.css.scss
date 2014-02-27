@@ -194,9 +194,9 @@ div.box_5 {
   padding: 0;
 }
 
-div.section_header {
+div.section-header {
   font-weight: bold;
-  margin: 0 0 1em 0;
+  margin: 1em 0 1em 0;
   border-bottom: solid $sca-red-3;
   border-width: 2px;
 }
@@ -421,50 +421,54 @@ div.large-product {
     margin: 0 0 1em 0;
   }
 
-  div.text-box {
-    float: left;
-    width: 100%;
-//    border: 1px solid #000000;
-    .model {
-      font-weight: bold;
-      font-size: 1.0em;
-      color: #382E22;
-    }
-    .short-description {
-      margin-top: 1em;
-    }
-    .notes {
-      margin-top: 1em;
-    }
-    .price {
-      margin-top: 1em;
-    }
-  }
-  
-  div.image-box {
-    width: 100%
-  }
-}
-
-div.feature-box {
-  display: inline-block;
-  margin-top: 1em;
-  .caption-box {
+  .model {
     font-weight: bold;
-    float: left;
-    width: 25%;
+    font-size: 1.0em;
+    color: #382E22;
   }
-  .description-box {
-    float: left;
-    width: 75%;
+
+  .long-description { margin-top: 1em; }
+  .notes { margin-top: 1em; }
+  .price { margin-top: 1em; }
+
+  div.feature-box {
+    display: inline-block;
+    width: 100%;
+    margin: 1em 0 0 0;
+//    border: 1px solid #000000;
+
+    .caption-box {
+      font-weight: bold;
+      float: left;
+      width: 30%;
+    }
+
+    .description-box {
+      float: left;
+      width: 70%;
+    }
+  }
+
+  .actions {
+    margin: 1em 0 0 0;
+//    border: 1px solid #000000;
+
+    .admin-button {
+      @include button();
+      width: 100%; 
+      padding: 0.1em;
+      margin: 0 auto 0 auto;
+    }  
+  }
+
+  .top-image-box { width: 100% }
+
+  .bottom-image-box {
+    width: 100%;
+    margin: 1em 0 0 0
   }
 }
 
-div.actions {
-  display: inline-block;
-  width: 100%;
-  margin: 1em 0 0 0;
-}
 /* forms */
 
 #error_explanation {
