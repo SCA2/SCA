@@ -1,6 +1,7 @@
 class FeaturesController < ApplicationController
 
-  before_action :set_feature, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, except: :index
+  before_action :set_feature, only: [:show, :edit, :update]
 
   # GET /features
   def index
@@ -17,8 +18,11 @@ class FeaturesController < ApplicationController
     @feature = @product.features.build
   end
 
+
   # GET /features/1/edit
   def edit
+    @product = Product.find(params[:product_id])
+    @feature = @product.features.find(params[:id])
   end
 
   # POST /features
@@ -35,8 +39,10 @@ class FeaturesController < ApplicationController
 
   # PATCH/PUT /features/1
   def update
+    @product = Product.find(params[:product_id])
+    @feature = @product.features.find(params[:id])
     if @feature.update(feature_params)
-      redirect_to @feature, notice: 'Feature was successfully updated.'
+      redirect_to @product, notice: 'Feature was successfully updated.'
     else
       render action: 'edit'
     end
@@ -44,8 +50,10 @@ class FeaturesController < ApplicationController
 
   # DELETE /features/1
   def destroy
+    @product = Product.find(params[:product_id])
+    @feature = @product.features.find_by(id: params[:id])
     @feature.destroy
-    redirect_to features_url
+    redirect_to @product
   end
 
   private
@@ -59,7 +67,4 @@ class FeaturesController < ApplicationController
       params.require(:feature).permit(:model, :caption, :sort_order, :description)
     end
     
-    def nested_params
-      params.permit(:feature[:product_id.to_i])
-    end
 end

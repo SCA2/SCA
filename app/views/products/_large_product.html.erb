@@ -21,7 +21,7 @@
 		<% if product.features.any? %>
 			<% product.features.each do |feature| %>
 				<%= render 	:partial => "feature", 
-										:locals => { :f => feature } %>
+										:locals => { :f => feature, :p => product } %>
 			<% end %>
 		<% end %>
 	</div>

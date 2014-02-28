@@ -50,5 +50,35 @@ feature "Products" do
         it { should have_content(f2.description) }
       end
     end
+    
+    describe 'add new feature to product' do
+      let(:product) { FactoryGirl.create(:product) }
+      before { visit product_path(product) }
+      subject { page }
+      
+      context 'with invalid information' do
+        before { click_link 'New Feature' }
+        
+        it 'should not create a feature' do
+          expect { click_button 'Save' }.not_to change(Feature, :count)
+        end
+        
+        describe 'error messages' do
+          before { click_button 'Save' }
+          it { should have_content('error') }
+        end
+      end
+      
+      context 'with valid information' do
+        before { click_link 'New Feature' }
+        it 'should create a feature' do
+          fill_in 'Sort Order', with: 20
+          fill_in 'Caption', with: 'Caption text'
+          fill_in 'Description', with: 'Description text'
+          expect { click_button 'Save' }.to change(Feature, :count).by(1)
+        end
+      end
+    end
+    
   end
 end

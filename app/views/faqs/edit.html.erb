@@ -7,7 +7,7 @@
 		</div>
 		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
 			<%= form_for(@faq) do |f| %>
-				<%= render 'errors' %>
+				<%= render 'shared/errors', object: f.object %>
 				<%= render :partial => 'form', 	:locals => { 
 																				:f => f, 
 																				:legend => 'Update FAQ ' << @faq.id.to_s, 

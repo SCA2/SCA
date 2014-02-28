@@ -7,7 +7,7 @@
 		</div>
 	
 		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
-			<%= render 'errors' %>
+			<%= render 'shared/errors', object: @product %>
 			<%= render 	:partial => 'large_product', 
 									:locals => { :product => @product } %>
 		 	<% if signed_in? && current_user.admin? %>

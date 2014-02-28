@@ -13,6 +13,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.14.0'
   gem 'rails_layout'
   gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'debugger'
 end
 
 group :test do

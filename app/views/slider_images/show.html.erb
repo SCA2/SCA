@@ -7,7 +7,7 @@
 		</div>
 		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
 			<%= form_for(@slider_image) do |f| %>
-				<%= render 'errors' %>
+				<%= render 'shared/errors', object: f.object %>
 				<%= render :partial => 'form', 	:locals => { 
 																				:f => f, 
 																				:legend => 'Slider Image ' << @slider_image.id.to_s,

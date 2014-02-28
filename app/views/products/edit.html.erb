@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="small-12 columns">
 			<%= form_for(@product) do |f| %>
-				<%= render 'errors' %>
+				<%= render 'shared/errors', object: f.object %>
 				<%= render :partial => 'form', :locals => { 
 																				:f => f, 
 																				:legend => 'Update Product ' << @product.id.to_s, 

@@ -1,4 +1,19 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, @feature) %>
 
-<%= link_to 'Edit', edit_feature_path(@feature) %> |
-<%= link_to 'Back', features_path %>
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns" style="margin: 5em 1em 0em 0em">
+			<%= form_for(@feature, :url => product_feature_path(@product, @feature)) |f| %>
+				<%= render 'shared/errors', object: f.object %>
+				<%= render :partial => 'form', :locals => { 
+																				:f => f,
+																				:p => @product,
+																				:legend => 'Create Feature', 
+																				:submit => 'Save',
+																				:quit => 'Quit',
+																				:delete => 'Delete' } %>
+			<% end %>
+		</div>
+	</div>	
+</div> <!-- box_2 -->
+

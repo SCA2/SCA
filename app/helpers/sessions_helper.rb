@@ -50,5 +50,9 @@ module SessionsHelper
       redirect_to home_url, :notice => "Sorry, admins only!"
     end
   end
+  
+  def signed_in_admin?
+    signed_in? && current_user.admin?
+  end
 
 end
