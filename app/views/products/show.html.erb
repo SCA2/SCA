@@ -3,14 +3,14 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
-			<%= render 'layouts/sidebar_left' %>
+			<%= render 	'layouts/sidebar_left', :products => @products %>
 		</div>
 	
 		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
 			<%= render 'shared/errors', object: @product %>
 			<%= render 	:partial => 'large_product', 
 									:locals => { :product => @product } %>
-		 	<% if signed_in? && current_user.admin? %>
+		 	<% if signed_in_admin? %>
 				<div class="actions", style="margin: 1em 0 0 0">
 					<%= link_to 'New Product', new_product_path, class: "admin-button" %>
 					<%= link_to 'Edit', edit_product_path(@product), class: "admin-button" %>

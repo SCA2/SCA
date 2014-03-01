@@ -2,6 +2,7 @@ class SliderImagesController < ApplicationController
   
   before_action :signed_in_admin, except: :index
   before_action :set_slider_image, only: [:show, :edit, :update, :destroy]
+  before_action :set_products
 
   # GET /images
   def index
@@ -64,6 +65,10 @@ class SliderImagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def slider_image_params
       params.require(:slider_image).permit(:name, :caption, :url)
+    end
+    
+    def set_products
+      @products = Product.order(:category_weight, :model_weight)
     end
     
 end

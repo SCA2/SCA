@@ -1,7 +1,7 @@
 <div class="small-product">
 	<div class="text-box">
-		<%= link_to p.model, p, :class => :model %>
-		<% if signed_in? && current_user.admin? %>
+		<%= link_to p.model, product_path(p), class: :model %>
+		<% if signed_in_admin? %>
 			<p><%= p.upc %></p>
 		<% end %>
 		<div class="short-description">
@@ -15,6 +15,6 @@
 		</div>
 	</div>
 	<div class="image-box">
-		<%= link_to image_tag p.image_1 %>		
+		<%= link_to image_tag(p.image_1), product_path(p) %>		
 	</div>	
 </div>

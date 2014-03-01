@@ -17,7 +17,7 @@
 		</div>
 	</div>
 
- 	<% if signed_in? && current_user.admin? %>
+ 	<% if signed_in_admin? %>
 		<%= button_to 'Add Image', new_slider_image_path, label: 'Add Image', id: 'add_image', class: 'button', method: 'get' %>
 	<% end %>
 

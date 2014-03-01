@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  
+  before_action :set_products
+  
   def new
   end
 
@@ -17,4 +20,10 @@ class SessionsController < ApplicationController
     sign_out
     redirect_to home_path, :notice => "Signed out!"
   end
+  
+  private
+  
+    def set_products
+      @products = Product.order(:category_weight, :model_weight)
+    end
 end

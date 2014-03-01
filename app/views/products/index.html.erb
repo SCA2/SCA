@@ -2,21 +2,18 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-12 columns" style="margin: 0 0 0 0">
+		<div class="small-12 columns">
 			<% @category.each do |c| %>
-				<%= render 	:partial => "category", 
-										:locals => {
-									 	:title => c.category,
-									 	:products => @products.where(category: c.category)} %>
+				<div class="category-box">
+					<%= render 	:partial => "category", 
+											:locals => {
+										 	:title => c.category,
+										 	:products => @products.where(category: c.category)} %>
+				</div>
 			<% end %>
-			<% if signed_in? && current_user.admin? %>
-				<div style= "margin: 1em 0 0 0">
+			<% if signed_in_admin? %>
+				<div id= "index-actions">
 					<%= link_to 'New Product', new_product_path, label: 'New Product', class: "admin-button" %>
-					<%= link_to 'Download CSV', products_path(format: 'csv'), label: 'Download CSV', class: "admin-button" %>
-					<%= form_tag import_faqs_path, multipart: true do %>
-						<%= file_field_tag :file %>
-						<%= submit_tag "Upload CSV", class: "admin-button" %>
-					<% end %>
 				</div>
 			<% end %>
 		</div>

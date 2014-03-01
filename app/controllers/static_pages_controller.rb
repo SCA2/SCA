@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
-  def products
-  end
-
+  
+  before_action :set_products
+  
   def forums
   end
 
@@ -28,4 +28,11 @@ class StaticPagesController < ApplicationController
 
   def cart
   end
+  
+  private
+  
+    def set_products
+      @products = Product.order(:category_weight, :model_weight)
+    end
+
 end

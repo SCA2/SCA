@@ -1,12 +1,12 @@
 class FeaturesController < ApplicationController
 
-  before_action :signed_in_user, except: :index
-  before_action :set_feature, only: [:show, :edit, :update]
+  before_action :signed_in_admin, except: :show
+  before_action :set_feature, only: [:show, :edit, :update, :destroy]
 
   # GET /features
-  def index
-    @features = Feature.all
-  end
+#  def index
+    #@features = Feature.all
+#  end
 
   # GET /features/1
   def show
@@ -21,8 +21,6 @@ class FeaturesController < ApplicationController
 
   # GET /features/1/edit
   def edit
-    @product = Product.find(params[:product_id])
-    @feature = @product.features.find(params[:id])
   end
 
   # POST /features
@@ -39,8 +37,6 @@ class FeaturesController < ApplicationController
 
   # PATCH/PUT /features/1
   def update
-    @product = Product.find(params[:product_id])
-    @feature = @product.features.find(params[:id])
     if @feature.update(feature_params)
       redirect_to @product, notice: 'Feature was successfully updated.'
     else
@@ -50,8 +46,6 @@ class FeaturesController < ApplicationController
 
   # DELETE /features/1
   def destroy
-    @product = Product.find(params[:product_id])
-    @feature = @product.features.find_by(id: params[:id])
     @feature.destroy
     redirect_to @product
   end
@@ -59,7 +53,8 @@ class FeaturesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_feature
-      @feature = Feature.find(params[:id])
+      @product = Product.find(params[:product_id])
+      @feature = @product.features.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

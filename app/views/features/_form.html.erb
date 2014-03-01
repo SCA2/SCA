@@ -22,8 +22,8 @@
 	</div>
 	<div class="actions">
 		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if quit then link_to quit, @product, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if delete then link_to delete, @product, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
+		<%= if quit then link_to quit, p, :class => :button, :style => "float: left; width: 33%" end %>
+		<%= if delete then link_to delete, product_feature_path(p, f), method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
 	</div>
 </fieldset>
 

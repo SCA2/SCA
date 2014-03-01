@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   
-  before_action :signed_in_admin, except: :index
+  before_action :signed_in_admin, except: [:index, :show]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -15,6 +15,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    @products = Product.order(:category_weight, :model_weight)
     @features = @product.features.order(:caption_sort_order)
   end
 
