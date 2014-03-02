@@ -1,0 +1,19 @@
+<div class="line-item">
+	<div class="text-box">
+		<%=	link_to item.product.model + ' ' + item.product.category,
+				product_path(item.product), class: :model %>
+<!--
+		<div class="short-description">
+			<%= item.product.short_description %>
+		</div>
+-->
+		<div class="price-line">
+			<div class="price"><%= number_to_currency(item.product.price) %></div>
+		</div>
+	</div>
+<!--
+	<div class="image-box">
+		<%= link_to image_tag(item.product.image_1), product_path(item.product) %>		
+	</div>
+-->	
+</div>

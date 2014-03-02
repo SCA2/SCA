@@ -8,6 +8,8 @@ SCA::Application.routes.draw do
   resources :products do
     resources :features  
   end
+  resources :line_items, only: [:create, :destroy]
+  resources :carts, only: [:index, :show]
   
   get "home", to: 'slider_images#index', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
@@ -18,7 +20,6 @@ SCA::Application.routes.draw do
   get "repairs", to: "static_pages#repairs", as: 'repairs'
   get "resources", to: "static_pages#resources", as: 'resources'
   get "contact", to: "static_pages#contact", as: 'contact'
-  get "order", to: "static_pages#cart", as: 'cart'
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'

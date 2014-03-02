@@ -1,20 +1,21 @@
 <div class="small-product">
 	<div class="text-box">
-		<%= link_to p.model, product_path(p), class: :model %>
+		<%= link_to product.model, product_path(product), class: :model %>
 		<% if signed_in_admin? %>
-			<p><%= p.upc %></p>
+			<p><%= product.upc %></p>
 		<% end %>
 		<div class="short-description">
-			<%= p.short_description %>
+			<%= product.short_description %>
 		</div>
 		<div class="notes">
-			<%= p.notes %>
+			<%= product.notes %>
 		</div>
-		<div class="price">
-			<%= p.price %>
+		<div class="price-line">
+			<div class="price"><%= number_to_currency(product.price) %></div>
+			<div><%= button_to 'Add to Cart', line_items_path(product_id: product) %></div>
 		</div>
 	</div>
 	<div class="image-box">
-		<%= link_to image_tag(p.image_1), product_path(p) %>		
+		<%= link_to image_tag(product.image_1), product_path(product) %>		
 	</div>	
 </div>

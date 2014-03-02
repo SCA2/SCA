@@ -2,7 +2,7 @@
 <% products.each do |product| %>
 	<%= render 	:partial => "small_product", 
 							:locals => {
-							:p => product,
+							:product => product,
 						 	:legend => product.model } %>
  	<% if signed_in_admin? %>
 	<div class="actions">

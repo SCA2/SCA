@@ -405,7 +405,8 @@ div.small-product {
     .notes {
       margin-top: 1em;
     }
-    .price {
+    .price-line {
+      display: inline;
       margin-top: 1em;
     }
   }
@@ -473,7 +474,13 @@ div.large-product {
 
   .long-description { margin-top: 1em; }
   .notes { margin-top: 1em; }
-  .price { margin-top: 1em; }
+
+  
+  .price-line {
+    margin-top: 1em;
+    .price { font-weight: bold }
+    form, div { display: inline; }
+   }
 
   .feature-box {
     display: inline-block;

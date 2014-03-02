@@ -12,8 +12,9 @@
 		<div class="notes">
 			<%= product.notes %>
 		</div>
-		<div class="price">
-			<%= product.price %>
+		<div class="price-line">
+			<div class="price"><%= number_to_currency(product.price) %></div>
+			<div><%= button_to 'Add to Cart', line_items_path(product_id: product) %></div>
 		</div>
 	</div>
 	<div class="section-header">Features</div>
