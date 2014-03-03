@@ -27,7 +27,7 @@
 <% else %>
     <li><%= link_to "Sign In", signin_path %></li>
 <% end %>
-<li><%= link_to image_tag('shopping-cart-icon.png'), carts_path %></li> 
-<li><%= link_to "0 Items", carts_path %></li> 
-<li><%= link_to "Checkout", carts_path %></li>
+<li><%= link_to image_tag('shopping-cart-icon.png'), @cart %></li> 
+<li><%= link_to @cart.total_items.to_s + ' Items', @cart %></li> 
+<li><%= link_to "Checkout", @cart %></li>
 

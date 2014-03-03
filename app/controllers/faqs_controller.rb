@@ -1,8 +1,10 @@
 class FaqsController < ApplicationController
   
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
+
   before_action :signed_in_admin, except: :index
   before_action :set_faq, only: [:show, :edit, :update, :destroy]
-  before_action :set_products
 
   # GET /faqs
   def index
@@ -66,10 +68,6 @@ class FaqsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def faq_params
       params.require(:faq).permit(:category, :category_weight, :question, :question_weight, :answer)
-    end
-    
-    def set_products
-      @products = Product.order(:category_weight, :model_weight)
     end
     
 end

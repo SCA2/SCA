@@ -1,6 +1,7 @@
 class CartsController < ApplicationController
   
   include CurrentCart
+  include SidebarData
   
   before_action :set_products
   before_action :signed_in_admin, except: [:show]
@@ -35,6 +36,21 @@ class CartsController < ApplicationController
     end
   end
   
+  # PATCH/PUT /carts/1
+  def update
+    if @cart.id == session[:cart_id]
+      redirect_to @cart, notice: 'Cart was successfully updated.'
+    else
+      redirect_to products_url
+    end
+  end
+
+  # DELETE /carts/1
+  def destroy
+    @cart.destroy if @cart.id == session[:cart_id]
+    session[:cart_id] = nil
+    redirect_to products_url, notice: 'Your cart is currently empty'
+  end
   
   private
   
@@ -50,10 +66,6 @@ class CartsController < ApplicationController
 
     def invalid_cart
       logger.error "Attempt to access invalid cart #{params[:id]}"
-      redirect_to store_url, notice: 'Invalid cart'
+      redirect_to products_url, notice: 'Invalid cart'
     end
-    
-    def set_products
-      @products = Product.order(:category_weight, :model_weight)
-    end 
 end

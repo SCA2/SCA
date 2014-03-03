@@ -1,13 +1,14 @@
 class Product < ActiveRecord::Base
   
   has_many :features, inverse_of: :product, dependent: :destroy
-  has_many :line_items
+  accepts_nested_attributes_for :features
+  
+  has_many :line_items, inverse_of: :product
+  accepts_nested_attributes_for :line_items
   
   before_destroy :ensure_not_referenced_by_any_line_item
-  
-  accepts_nested_attributes_for :features
 
-  validates :model, :model_weight, :category, :category_weight,
+  validates :model, :model_sort_order, :category, :category_sort_order,
             :short_description, :long_description, 
             :image_1, :upc, :price, presence: true
     

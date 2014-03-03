@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
+
   before_action :signed_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
-  before_action :set_products
   
   def index
     @users = User.paginate(page: params[:page])
@@ -77,8 +79,4 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user.admin?
     end
     
-    def set_products
-      @products = Product.order(:category_weight, :model_weight)
-    end
-
 end

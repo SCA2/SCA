@@ -1,12 +1,15 @@
 class ProductsController < ApplicationController
   
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
+
   before_action :signed_in_admin, except: [:index, :show]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
   def index
-    @category = Product.select(:category).distinct.order(:category_weight)
-    @products = Product.order(:model_weight)
+    @category = Product.select(:category).distinct.order(:category_sort_order)
+    @products = Product.order(:model_sort_order)
     respond_to do |format|
       format.html
       format.csv { render text: @faqs.to_csv }
@@ -15,7 +18,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
-    @products = Product.order(:category_weight, :model_weight)
+    @products = Product.order(:category_sort_order, :model_sort_order)
     @features = @product.features.order(:caption_sort_order)
   end
 
@@ -62,7 +65,7 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:model, :model_weight, :category, :category_weight, 
+      params.require(:product).permit(:model, :model_sort_order, :category, :category_sort_order, 
       :upc, :price, :short_description, :long_description, :notes, :image_1, :image_2)
     end
 

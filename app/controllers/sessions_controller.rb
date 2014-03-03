@@ -24,6 +24,6 @@ class SessionsController < ApplicationController
   private
   
     def set_products
-      @products = Product.order(:category_weight, :model_weight)
+      @products = Product.order(:category_sort_order, :model_sort_order)
     end
 end

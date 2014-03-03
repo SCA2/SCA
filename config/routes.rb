@@ -8,8 +8,8 @@ SCA::Application.routes.draw do
   resources :products do
     resources :features  
   end
-  resources :line_items, only: [:create, :destroy]
-  resources :carts, only: [:index, :show]
+  resources :line_items
+  resources :carts
   
   get "home", to: 'slider_images#index', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'

@@ -5,16 +5,16 @@
 		<%= f.text_field :model %>
 	</div>
 	<div class="field" style = "float: left; width: 25%">
-		<%= f.label :model_weight, 'Model Sort Weight:' %>
-		<%= f.number_field :model_weight, in: 1..100 %>
+		<%= f.label :model_sort_order, 'Model Sort Order:' %>
+		<%= f.number_field :model_sort_order, in: 1..100 %>
 	</div>
 	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :category, 'Category:' %>
 		<%= f.select :category, options_for_select(['Microphone Preamp', 'Compressor', 'DI', 'Discrete Op-Amp', 'Chassis']) %>
 	</div>
 	<div class="field" style = "float: left; width: 25%">
-		<%= f.label :category_weight, 'Category Sort Weight:' %>
-		<%= f.number_field :category_weight, in: 1..100 %>
+		<%= f.label :category_sort_order, 'Category Sort Order:' %>
+		<%= f.number_field :category_sort_order, in: 1..100 %>
 	</div>
 	<div class="field" style = "float: left; width: 50%">
 		<%= f.label :upc, 'UPC:' %>

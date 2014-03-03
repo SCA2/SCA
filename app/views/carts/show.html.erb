@@ -3,15 +3,29 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
-			<%= render 	'layouts/sidebar_left', :products => @products %>
+			<%= render 'layouts/sidebar_left', :products => @products %>
 		</div>
-	
 		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
 			<%= render 'shared/errors', :object => @cart %>
-			<% @cart.line_items.each do |item| %>
-				<%= render 'line_item', :item => item %>
-			<% end %>
+			<table class="carts">
+				<tr>
+					<th>Remove</th>
+					<th colspan="2">Item</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>Ext</th>
+				</tr>
+				<%= render @cart.line_items %>
+				<tr class="total-line">
+					<td colspan="5">Total</td>
+					<td class="total-cell">
+						<%= number_to_currency(@cart.total_price, precision: 0) %>
+					</td>
+				</tr>
+			</table>
+			<%= button_to 'Empty cart', @cart, method: :delete,
+					data: { confirm: 'Are you sure?' } %>
+			<%= button_to 'Keep shopping', products_path, method: :get %>
 		</div>
 	</div>	
 </div> <!-- box_2 -->
-

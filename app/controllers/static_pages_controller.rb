@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
   
-  before_action :set_products
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
   
   def forums
   end
@@ -25,14 +26,5 @@ class StaticPagesController < ApplicationController
 
   def troubleshooting
   end
-
-  def cart
-  end
-  
-  private
-  
-    def set_products
-      @products = Product.order(:category_weight, :model_weight)
-    end
 
 end
