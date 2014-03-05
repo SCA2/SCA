@@ -1,12 +1,10 @@
 class FeaturesController < ApplicationController
 
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
+  
   before_action :signed_in_admin, except: :show
   before_action :set_feature, only: [:show, :edit, :update, :destroy]
-
-  # GET /features
-#  def index
-    #@features = Feature.all
-#  end
 
   # GET /features/1
   def show

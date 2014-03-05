@@ -7,13 +7,13 @@ SCA::Application.routes.draw do
   end
   resources :products do
     resources :features  
+    resources :options, except: :index
   end
   resources :line_items
   resources :carts
   
   get "home", to: 'slider_images#index', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
-  get "reviews", to: "static_pages#reviews", as: 'reviews'
   get "support", to: "static_pages#support", as: 'support'
   get "tips", to: "static_pages#tips", as: 'tips'
   get "troubleshooting", to: "static_pages#troubleshooting", as: 'troubleshooting'

@@ -8,4 +8,9 @@ class LineItem < ActiveRecord::Base
   def extended_price
     product.price * quantity
   end
+  
+  def extended_weight
+    product.shipping_weight * quantity
+  end
+
 end

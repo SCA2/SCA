@@ -1,0 +1,19 @@
+<div class="price-line">
+	<%= p.model %>
+	<%= option.model %>
+	<%= option.description %>
+	<span class="price"><%= number_to_currency(option.price) %></span>
+	<%= button_to 'Add to Cart', line_items_path(:product_id => p) %>
+
+	<% if signed_in_admin? %>
+		<div class="admin-box">
+			<%= link_to "edit", edit_product_option_path(p, option),
+													title: option.model %>
+			
+	    <%= link_to "delete", product_option_path(p, option), 
+	    											method: :delete,
+	                         	data: { confirm: "You sure?" },
+	                          title: option.model %>
+		</div>
+	<% end %>
+</div>

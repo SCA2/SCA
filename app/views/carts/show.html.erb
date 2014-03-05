@@ -14,12 +14,16 @@
 					<th>Quantity</th>
 					<th>Price</th>
 					<th>Ext</th>
+					<th>Weight</th>
 				</tr>
 				<%= render @cart.line_items %>
 				<tr class="total-line">
-					<td colspan="5">Total</td>
+					<td class="total-cell" colspan="5">Total</td>
 					<td class="total-cell">
 						<%= number_to_currency(@cart.total_price, precision: 0) %>
+					</td>
+					<td class="total-cell">
+						<%= @cart.total_weight %>
 					</td>
 				</tr>
 			</table>

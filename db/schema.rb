@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303063238) do
+ActiveRecord::Schema.define(version: 20140305032708) do
 
   create_table "carts", force: true do |t|
     t.datetime "created_at"
@@ -52,6 +52,21 @@ ActiveRecord::Schema.define(version: 20140303063238) do
   add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
   add_index "line_items", ["product_id"], name: "index_line_items_on_product_id"
 
+  create_table "options", force: true do |t|
+    t.string   "model"
+    t.string   "description"
+    t.integer  "price"
+    t.string   "upc"
+    t.integer  "shipping_weight"
+    t.integer  "finished_stock"
+    t.integer  "kit_stock"
+    t.integer  "part_stock"
+    t.integer  "sort_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "product_id"
+  end
+
   create_table "products", force: true do |t|
     t.string   "model"
     t.text     "short_description"
@@ -66,11 +81,19 @@ ActiveRecord::Schema.define(version: 20140303063238) do
     t.integer  "category_sort_order"
     t.integer  "model_sort_order"
     t.text     "notes"
-    t.string   "kit"
-    t.string   "option"
     t.integer  "part_stock"
     t.integer  "kit_stock"
     t.integer  "finished_stock"
+    t.integer  "shipping_weight"
+    t.string   "bom_1"
+    t.string   "bom_2"
+    t.string   "bom_3"
+    t.string   "schematic_1"
+    t.string   "schematic_2"
+    t.string   "schematic_3"
+    t.string   "image_3"
+    t.string   "assembly_1"
+    t.string   "assembly_2"
   end
 
   create_table "slider_images", force: true do |t|

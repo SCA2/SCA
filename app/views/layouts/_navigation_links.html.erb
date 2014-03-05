@@ -1,10 +1,14 @@
 <!-- add navigation links to this file -->
 
 <li><%= link_to "Home",			home_path %></li>
-<li><%= link_to "Products",	products_path %></li>
+<li><a href="/products" data-dropdown="drop3" data-options="is_hover:true">Products</a><b class="caret"></b>
+	<ul id="drop3" class="f-dropdown" data-dropdown-content>
+		<% @products.each do |p| %>
+			<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>
+		<% end %>
+	</ul>
 <li><%= link_to "FAQ",			faqs_path %></li>
 <li><%= link_to "Forums",		forums_path %></li>
-<li><%= link_to "Reviews",	reviews_path %></li>
 <li><a href="/support" data-dropdown="drop1" data-options="is_hover:true">Support <b class="caret"></b></a>
 	<ul id="drop1" class="f-dropdown" data-dropdown-content>
     <li><%= link_to "Assembly Tips",		tips_path %></li>
@@ -29,5 +33,4 @@
 <% end %>
 <li><%= link_to image_tag('shopping-cart-icon.png'), @cart %></li> 
 <li><%= link_to @cart.total_items.to_s + ' Items', @cart %></li> 
-<li><%= link_to "Checkout", @cart %></li>
 

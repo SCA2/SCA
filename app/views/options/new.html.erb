@@ -1,14 +1,14 @@
-<% provide(:title, 'New Feature ' + @feature.id.to_s) %>
+<% provide(:title, 'New Option') %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns" style="margin: 5em 1em 0em 0em">
-			<%= form_for [@product, @feature] do |f| %>
+			<%= form_for [@product, @option] do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', :locals => { 
+				<%= render partial: 'form', :locals => { 
 																				:f => f,
 																				:p => @product,
-																				:legend => 'Create Feature ' + @feature.id.to_s, 
+																				:legend => 'Create Option', 
 																				:submit => 'Save',
 																				:quit => 'Quit',
 																				:delete => nil } %>
