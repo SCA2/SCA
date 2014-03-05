@@ -25,12 +25,13 @@ class LineItemsController < ApplicationController
 
   def create
     product = Product.find(params[:product_id])
-    @line_item = @cart.add_product(product.id)
+    option = Option.find(params[:option_id])
+    @line_item = @cart.add_product(product.id, option.id)
 
     if @line_item.save
       redirect_to @cart, notice: product.model + ' added to cart.'
     else
-      render action: 'new'
+      redirect_to product_url(product), notice: 'Sorry, there was a problem with the cart.'
     end
   end
   

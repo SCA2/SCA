@@ -3,7 +3,7 @@
 	<%= option.model %>
 	<%= option.description %>
 	<span class="price"><%= number_to_currency(option.price) %></span>
-	<%= button_to 'Add to Cart', line_items_path(:product_id => p) %>
+	<%= button_to 'Add to Cart', line_items_path(:product_id => p, :option_id => option) %>
 
 	<% if signed_in_admin? %>
 		<div class="admin-box">
