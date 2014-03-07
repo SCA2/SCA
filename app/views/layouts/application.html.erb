@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title><%= content_for?(:title) ? yield(:title) : "Seventh Circle Audio" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Sca" %>">
-    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
-    <%# Modernizr is required for Zurb Foundation %>
+
+    <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
-
-	  <%= render 'layouts/sca_meta_tags' %>
-		<%= render 'layouts/shim' %>
-
   </head>
+
   <body class="row">
  		<%= render 'layouts/header' %>	
     <main role="main" class="box-1">
@@ -23,5 +20,7 @@
 		<%= render 'layouts/footer' %>
 <!--    <%= debug(params) if Rails.env.development? %> -->
 <!--    <%= debug(@current_user) if Rails.env.development? %> -->
+    <%= javascript_include_tag "application" %>
   </body>
 </html>
+

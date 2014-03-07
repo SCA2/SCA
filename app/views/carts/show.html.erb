@@ -2,15 +2,12 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
-			<%= render 'layouts/sidebar_left', :products => @products %>
-		</div>
-		<div class="small-8 columns" style="margin: 1em 1em 0em 0em">
+		<div class="small-12 columns" style="margin: 1em 1em 0em 0em">
 			<%= render 'shared/errors', :object => @cart %>
 			<table class="carts">
 				<tr>
 					<th>Remove</th>
-					<th colspan="2">Item</th>
+					<th colspan="3">Item</th>
 					<th>Quantity</th>
 					<th>Price</th>
 					<th>Ext</th>
@@ -18,7 +15,7 @@
 				</tr>
 				<%= render @cart.line_items %>
 				<tr class="total-line">
-					<td class="total-cell" colspan="5">Total</td>
+					<td class="total-cell" colspan="6">Total</td>
 					<td class="total-cell">
 						<%= number_to_currency(@cart.total_price, precision: 0) %>
 					</td>

@@ -26,8 +26,8 @@ class LineItemsController < ApplicationController
   def create
     product = Product.find(params[:product_id])
     option = Option.find(params[:option_id])
-    @line_item = @cart.add_product(product.id, option.id)
-
+    @line_item = @cart.add_product(product, option)
+    
     if @line_item.save
       redirect_to @cart, notice: product.model + ' added to cart.'
     else

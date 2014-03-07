@@ -31,6 +31,6 @@
 <% else %>
     <li><%= link_to "Sign In", signin_path %></li>
 <% end %>
-<li><%= link_to image_tag('shopping-cart-icon.png'), @cart %></li> 
-<li><%= link_to @cart.total_items.to_s + ' Items', @cart %></li> 
+<li><%= link_to image_tag('shopping-cart-icon.png'), @cart %></li>
+<li><%= if @cart then link_to @cart.total_items.to_s + ' Items', @cart end %></li>
 

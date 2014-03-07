@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails'
-gem 'foundation-rails', '5.0.3'
+gem 'foundation-rails'
 gem 'bcrypt-ruby'
 gem 'will_paginate'
 gem 'will_paginate-foundation'

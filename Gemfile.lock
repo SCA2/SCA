@@ -64,7 +64,7 @@ GEM
     faker (1.2.0)
       i18n (~> 0.5)
     ffi (1.9.3-x86-mingw32)
-    foundation-rails (5.0.3.0)
+    foundation-rails (5.0.3.1)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
     hike (1.2.3)
@@ -175,7 +175,7 @@ DEPENDENCIES
   debugger
   factory_girl_rails (~> 4.2.1)
   faker (~> 1.2.0)
-  foundation-rails (= 5.0.3)
+  foundation-rails
   jbuilder
   jquery-rails
   launchy (~> 2.3.0)
