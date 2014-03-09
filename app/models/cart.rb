@@ -9,14 +9,11 @@ class Cart < ActiveRecord::Base
       current_item = line_items.find_by(option_id: option.id)
       if current_item
         current_item.quantity += 1
-      else
-        current_item = line_items.build(product_id: product.id)
-        current_item.option = option
+        return current_item
       end
-    else
-      current_item = line_items.build(product_id: product.id)
-      current_item.option = option
     end
+    current_item = line_items.build(product_id: product.id)
+    current_item.option = option
     current_item
   end
   

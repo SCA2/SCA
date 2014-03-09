@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307034057) do
+ActiveRecord::Schema.define(version: 20140309064651) do
 
   create_table "carts", force: true do |t|
     t.datetime "created_at"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140307034057) do
     t.integer  "quantity",       default: 1
     t.integer  "extended_price"
     t.integer  "option_id"
+    t.boolean  "remove",         default: false
   end
 
   add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
