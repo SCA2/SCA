@@ -39,9 +39,11 @@ class CartsController < ApplicationController
   # PATCH/PUT /carts/1
   def update
     if @cart.id == session[:cart_id]
-      redirect_to @cart, notice: 'Cart was successfully updated.'
-    else
-      redirect_to products_url
+      if @cart.update(cart_params)
+        redirect_to @cart, notice: 'Cart was successfully updated.'
+      else
+        redirect_to products_url
+      end
     end
   end
 
@@ -61,9 +63,9 @@ class CartsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_params
-      params[:cart]
+      params.require(:cart).permit(:line_items_attributes => [:id, :quantity, :_destroy])
     end
-
+    
     def invalid_cart
       logger.error "Attempt to access invalid cart #{params[:id]}"
       redirect_to products_url, notice: 'Invalid cart'

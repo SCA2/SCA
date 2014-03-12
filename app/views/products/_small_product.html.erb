@@ -11,7 +11,8 @@
 			<%= product.notes %>
 		</div>
 		<div class="price-line">
-			<div class="price"><%= number_to_currency(product.price) %></div>
+			<div><%= select_tag 'option', options_from_collection_for_select(product.options, 'id', 'model', 0) %></div>
+			<div class="price"><%= number_to_currency(product.options[0].price) %></div>
 			<div><%= button_to 'Add to Cart', line_items_path(product_id: product) %></div>
 		</div>
 	</div>
