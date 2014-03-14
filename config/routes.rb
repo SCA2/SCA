@@ -23,6 +23,7 @@ SCA::Application.routes.draw do
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'
+  put "products_update_option", to: 'products#update_option', as: 'products_update_option'
   
   match "features", to: 'features#create', via: :post
   

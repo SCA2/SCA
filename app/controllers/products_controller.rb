@@ -4,19 +4,17 @@ class ProductsController < ApplicationController
   before_action :set_cart, :set_products
 
   before_action :signed_in_admin, except: [:index, :show]
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
   # GET /products
   def index
-    @category = Product.select(:category).distinct.order(:category_sort_order)
+    @categories = Product.select(:category).distinct.order(:category_sort_order)
     @products = Product.order(:model_sort_order)
+    logger.debug @categories.inspect
   end
 
   # GET /products/1
   def show
-    @products = Product.order(:category_sort_order, :model_sort_order)
-    @features = @product.features.order(:caption_sort_order)
-    @options = @product.options.order(:sort_order)
   end
 
   # GET /products/new
@@ -48,6 +46,15 @@ class ProductsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /products/1
+  def update_option
+    if @product.update(product_option_params)
+      redirect_to products_url
+    else
+      render action: 'edit'
+    end
+  end
+
   # DELETE /products/1
   def destroy
     @product.destroy
@@ -55,15 +62,16 @@ class ProductsController < ApplicationController
   end
 
   private
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
     end
-
+    
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(:model, :model_sort_order,
-      :category, :category_sort_order,
+      :category, :category_sort_order, :current_option,
       :upc, :price, :shipping_weight,
       :finished_stock, :kit_stock, :part_stock,
       :short_description, :long_description, :notes,
@@ -71,6 +79,10 @@ class ProductsController < ApplicationController
       :bom_1, :bom_2, :bom_3,
       :schematic_1, :schematic_2, :schematic_3,
       :assembly_1, :assembly_2, :assembly_3)
+    end
+
+    def product_option_params
+      params.require(:product).permit(:current_option)
     end
 
 end

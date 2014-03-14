@@ -15,7 +15,8 @@ class Product < ActiveRecord::Base
             :image_1, :bom_1, :schematic_1, :assembly_1, 
             :upc, :price, :shipping_weight, 
             :finished_stock, :kit_stock, :part_stock, presence: true
-    
+  
+  
   private
   
     def ensure_not_referenced_by_any_line_item

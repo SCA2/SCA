@@ -12,11 +12,10 @@
 		<div class="notes">
 			<%= product.notes %>
 		</div>
-		<div class="features-box">
+		<div class="options-box">
 			<% if product.options.any? %>
 				<%= render product.options, :p => product %>
 			<% end %>
-			
 		</div>
 	</div>
  	<% if signed_in_admin? %>
