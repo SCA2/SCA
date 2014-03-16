@@ -1,16 +1,8 @@
 <% provide(:title, 'Products') %>
-
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns">
-			<% @categories.each do |c| %>
-				<div class="category-box">
-					<%= render 	:partial => "category", 
-											:locals => {
-										 	:title => c.category,
-										 	:products => @products.where(category: c.category)} %>
-				</div>
-			<% end %>
+			<%= render partial: 'product', collection: @products %>
 			<% if signed_in_admin? %>
 				<div id= "index-actions">
 					<%= link_to 'New Product', new_product_path, label: 'New Product', class: "admin-button" %>

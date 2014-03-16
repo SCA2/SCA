@@ -402,12 +402,11 @@ div.small-product {
       margin-top: 1em;
     }
     .notes {
+      font-weight: bold;
       margin-top: 1em;
     }
   }
   .options-box {
-//    clear: both;
-//    width: 100%;
     margin: 1em 0 0 0;
 //    border: 1px solid #000000;
 
@@ -418,30 +417,46 @@ div.small-product {
       font-size: 95%;
       font-style: italic;
       background-color: darken($sca-brown-4, 2%);
-    
-    }
-
-    .description-line {
-      color: #382E22;
     }
     .price-line {
-//      display: inline;
       margin-top: 1em;
       .price {
-        margin-left: 1em;
+        float: right;
         font-weight: bold }
-      .button_to {
+      #update-button {
+        float: left;
+      }
+      #add-button {
+        margin-left: 1em;
+        float: left;
+      }
+      #edit-link {
+        margin-left: 1em;
+        float: left;
+      }
+      #delete-link {
+        margin-left: 1em;
         float: left;
       }
     }
-  }
-  
+  } 
   div.image-box {
     float: right;
 //    border: 1px solid #000000;
     img {
       width: 36em;
     }
+  }
+  .actions {
+    clear: both;
+    margin: 0 0 0 0;
+//    border: 1px solid #000000;
+    .admin-button {
+      @include button();
+      width: 33%; 
+      padding: 0.1em;
+      margin: 0 auto 0 auto;
+    }  
   }
 }
 
@@ -495,16 +510,55 @@ div.large-product {
     font-size: 1.0em;
     color: #382E22;
   }
-
-  .long-description { margin-top: 1em; }
-  .notes { margin-top: 1em; }
-
-  
-  .price-line {
+  .long-description {
     margin-top: 1em;
-    .price { font-weight: bold }
-    form, div { display: inline; }
-   }
+  }
+  .notes {
+    margin-top: 1em;
+    font-weight: bold;
+  }
+  .options-box {
+    overflow: hidden;
+    margin: 1em 0 0 0;
+//    border: 1px solid #000000;
+    
+    #product_current_option {
+      height: 1.8em;
+      width: 27em;
+      float: left;
+      margin: 0 0 0 0;
+      padding: 0 1em 0 0;
+      font-size: 95%;
+      font-style: italic;
+      background-color: darken($sca-brown-4, 2%);
+    }
+    .price {
+      margin: 0 0 0 0;
+      float: right;
+      font-weight: bold
+    }
+    #update-button {
+      height: 1.75em;
+      margin: 0 0 0 0.5em;
+      float: left;
+    }
+    #add-button {
+      height: 1.75em;
+      margin: 0 0 0 0.5em;
+      float: left;
+    }
+    #edit-link {
+      margin: 0 1em 0 10em;
+      clear: left;
+      float: left;
+    }
+    #delete-link {
+      margin: 0 0 0 0;
+      clear: right;
+      float: left;
+    }
+  }
+
 
   .feature-box {
     display: inline-block;

@@ -13,9 +13,7 @@
 			<%= product.notes %>
 		</div>
 		<div class="options-box">
-			<% if product.options.any? %>
-				<%= render product.options, :p => product %>
-			<% end %>
+			<%= render 'options/option', :product => @product %>
 		</div>
 	</div>
  	<% if signed_in_admin? %>

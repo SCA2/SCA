@@ -8,9 +8,8 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @categories = Product.select(:category).distinct.order(:category_sort_order)
-    @products = Product.order(:model_sort_order)
-    logger.debug @categories.inspect
+    @products = Product.order(:category_sort_order, :model_sort_order)
+#    logger.debug '@products: ' + @products.inspect
   end
 
   # GET /products/1
@@ -49,9 +48,10 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update_option
     if @product.update(product_option_params)
-      redirect_to products_url
-    else
-      render action: 'edit'
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     end
   end
 

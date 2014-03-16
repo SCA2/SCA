@@ -1,0 +1,10 @@
+<% @product = product %>
+<% if first_in_category?(@products, product) %>
+	<div class="category-box">
+		<div class="section-header"><%= product.category %></div>
+<% end %>
+<%= render 'small_product' %> 
+<% if last_in_category?(@products, product) %>
+	</div>
+<% end %>
+    
