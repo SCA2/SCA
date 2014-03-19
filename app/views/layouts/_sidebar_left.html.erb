@@ -1,10 +1,22 @@
 <div class="box_3">
-	<ul class="custom-side-nav">
-		<h6><b>About the...</b></h6>
-		<% products.each do |p| %>
-			<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>
-		<% end %>
-	</ul>
+	<% if @product %>
+		<ul class="custom-side-nav">
+			<h6><b><%= @product.model %> Documents</b></h6>
+			<li><%= link_to 'Specifications', @product.specifications %></li>
+			<li><%= link_to 'Schematic', @product.schematic %></li>
+			<li><%= link_to 'Bill of Material', @product.bom %></li>
+			<li><%= link_to 'Assembly Instructions', @product.assembly %></li>
+		</ul>
+	<% end %>
+
+	<% if @products %>
+		<ul class="custom-side-nav">
+			<h6><b>Products</b></h6>
+			<% @products.each do |p| %>
+				<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>
+			<% end %>
+		</ul>
+	<% end %>
 	
 	<ul class="custom-side-nav">
 		<h6><b>Support Links</b></h6>

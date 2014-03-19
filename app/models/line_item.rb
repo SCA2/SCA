@@ -11,7 +11,7 @@ class LineItem < ActiveRecord::Base
   end
   
   def extended_weight
-    product.shipping_weight * quantity
+    option.shipping_weight * quantity
   end
   
 end

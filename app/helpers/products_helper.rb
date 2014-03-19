@@ -27,4 +27,18 @@ module ProductsHelper
       return !products.where('category = ? and model_sort_order > ?', category, sort_order).exists?
     end
   end
+  
+  def get_stock(product)
+    product.options.find(product.current_option).finished_stock.to_s
+  end
+  
+  def get_product_div_class(counter)
+    div_class = "small-product"
+    if counter.even?
+      div_class << " even"
+    else
+      div_class << " odd"
+    end
+    return ("class=" << "'" << div_class << "'").html_safe
+  end
 end

@@ -1,41 +1,38 @@
 <div class="large-product">
 	<div class="top-image-box">
-		<%= link_to image_tag product.image_1, class: "product-image" %>		
+		<%= link_to image_tag @product.image_1, class: "product-image" %>		
 	</div>
 	<div class="section-header">
-		<%= product.model + ' ' + product.category %>
+		<%= @product.model + ' ' + @product.category %>
 	</div>
 	<div class="text-box">
 		<div class="long-description">
-			<%= product.long_description %>
+			<%= @product.long_description %>
 		</div>
 		<div class="notes">
-			<%= product.notes %>
+			<%= @product.notes %>
 		</div>
-		<div class="options-box">
-			<%= render 'options/option', :product => @product %>
+		<div class="options-box" <%= "id=options-box-" + @product.id.to_s %>>
+			<%= render 'options/option' %>
 		</div>
 	</div>
- 	<% if signed_in_admin? %>
-		<div class="actions", style="margin: 1em 0 0 0">
-			<%= link_to 'New Option', new_product_option_path(product), class: "admin-button" %>
-		</div>
-	<% end %>
+	<div class="actions-box" <%= "id=actions-box-" + @product.id.to_s %>>
+		<%= render 'options/action' %>
+  </div>
 	<div class="section-header">Features</div>
 	<div class="features-box">
-		<% if product.features.any? %>
-			<% product.features.each do |feature| %>
-				<%= render 	:partial => "feature", 
-										:locals => { :f => feature, :p => product } %>
+		<% if @product.features.any? %>
+			<% @product.features.each do |feature| %>
+				<%= render 'feature', f: feature, p: @product %>
 			<% end %>
 		<% end %>
 	</div>
  	<% if signed_in_admin? %>
 		<div class="actions", style="margin: 1em 0 0 0">
-			<%= link_to 'New Feature', new_product_feature_path(product), class: "admin-button" %>
+			<%= link_to 'New Feature', new_product_feature_path(@product), class: "admin-button" %>
 		</div>
 	<% end %>
 	<div class="bottom-image-box">
-		<%= link_to image_tag product.image_2, class: "product-image" %>		
+		<%= link_to image_tag @product.image_2, class: "product-image" %>		
 	</div>	
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140314055104) do
+ActiveRecord::Schema.define(version: 20140318203451) do
 
   create_table "carts", force: true do |t|
     t.datetime "created_at"
@@ -73,30 +73,19 @@ ActiveRecord::Schema.define(version: 20140314055104) do
     t.string   "model"
     t.text     "short_description"
     t.text     "long_description"
-    t.string   "upc"
     t.string   "image_1"
     t.string   "image_2"
-    t.decimal  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "category"
     t.integer  "category_sort_order"
     t.integer  "model_sort_order"
     t.text     "notes"
-    t.integer  "part_stock"
-    t.integer  "kit_stock"
-    t.integer  "finished_stock"
-    t.integer  "shipping_weight"
-    t.string   "bom_1"
-    t.string   "bom_2"
-    t.string   "bom_3"
-    t.string   "schematic_1"
-    t.string   "schematic_2"
-    t.string   "schematic_3"
-    t.string   "image_3"
-    t.string   "assembly_1"
-    t.string   "assembly_2"
+    t.string   "bom"
+    t.string   "schematic"
+    t.string   "assembly"
     t.integer  "current_option"
+    t.string   "specifications"
   end
 
   create_table "slider_images", force: true do |t|

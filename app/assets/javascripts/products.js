@@ -1,5 +1,5 @@
 $(document).on('load', this, function () {
-	$('#update-button').remove();
+	$('.update-button').remove();
 });
 
 $(document).on('change', '.select-option', function () {

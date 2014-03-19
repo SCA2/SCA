@@ -4,7 +4,7 @@ class CartsController < ApplicationController
   include SidebarData
   
   before_action :set_products
-  before_action :signed_in_admin, except: [:show]
+  before_action :signed_in_admin, except: [:show, :update, :destroy]
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   

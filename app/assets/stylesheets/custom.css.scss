@@ -5,36 +5,32 @@
 @import "foundation/components/alert-boxes";
 @import "foundation/components/pagination";
 @import "foundation/components/buttons";
+@import "foundation/components/tabs";
 @import url(fonts.css.scss);
 
-$sca-brown-1: #16120E;
-$sca-brown-2: #382E22;
-$sca-brown-3: #DEB887;
-$sca-brown-35: #E7CAA5;
-$sca-brown-4: #FDF5E6;
-$sca-red-1: #660000;
-$sca-red-2: #990000;
-$sca-red-3: #CC0000;
+$brown-10: #16120E;
+$brown-20: #382E22;
+$brown-25: #6F5C44;
+$brown-27: #A78A65;
+$brown-28: #BD9C73;
+$brown-30: #DEB887;
+$brown-35: #E7CAA5;
+$brown-37: #EFDCC4;
+$brown-38: #F7EDE1;
+$brown-40: #FDF5E6;
+$red-10: #660000;
+$red-20: #990000;
+$red-30: #CC0000;
 
-$grayMediumLight: #eaeaea;
+$grayMediumLight: #EAEAEA;
 
-.bg_1 {BACKGROUND-COLOR: $sca-brown-4;}
-.bg_2 {BACKGROUND-COLOR: #F7EDE1;}
-.bg_3 {BACKGROUND-COLOR: #EFDCC4;}
-.bg_4 {BACKGROUND-COLOR: #E7CAA5;}
-.bg_5 {BACKGROUND-COLOR: #DEB887;}
-.bg_6 {BACKGROUND-COLOR: #BD9C73;}
-.bg_7 {BACKGROUND-COLOR: #A78A65;}
-.bg_8 {BACKGROUND-COLOR: #6F5C44;}
-.bg_9 {BACKGROUND-COLOR: #990000;}
-.bg_10 {BACKGROUND-COLOR: #16120E;}
+header {
+  background-color: $brown-40;
+  padding: 1em 0 0 0;  
+}
 
 div.logo {
-  background: $sca-brown-4;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 1em auto;
   width: 43em;  
 }
 
@@ -51,11 +47,16 @@ img.logo_1 {
 }
 
 main[role=main] {
-  background-color: $sca-brown-4;
+  background-color: $brown-40;
 }
 
 body {
-  background-color: $sca-brown-4;
+  background-color: $brown-10;
+}
+
+footer {
+  background-color: $brown-20;
+  padding: 0.5em 0 0.5em 0;    
 }
 
 span.Q {
@@ -95,12 +96,13 @@ img.photo_1 {
 }
 
 div.box_2 {
-  margin: 1.5em 1em 1.5em 1em;
-  border: 1px solid $sca-brown-35;
+  margin: 0em 1em 0em 1em;
+  padding: 1em 0 1.5em 0;
+//  border: 1px solid $brown-35;
 }
 
 div.box_3 {
-  border: 1px solid $sca-brown-2;
+  border: 1px solid #EFDCC4;
   background: #EFDCC4;
   text-align: center;
   a img {
@@ -108,18 +110,20 @@ div.box_3 {
   }
 }
 
+// sidebar
+
 .custom-side-nav {
   @include side-nav(
-    $link-color: $sca-brown-1,
+    $link-color: $brown-10,
     $font-size: 1em
   );
   font-family: verdana, sans-serif;
   font-weight: normal;
   text-align: left;
   line-height: 1.05em;
-  background: $sca-brown-3;
-  border: solid $sca-brown-2;
-  border-width: 1px;
+  background: $brown-30;
+//  border: solid $brown-20;
+//  border-width: 1px;
   margin: 1em 1em 1em 1em;
   padding: 1em 1em 1em 1em;
 
@@ -138,7 +142,7 @@ div.box_3 {
   }
 }
 
-$accordion-border: lighten($sca-brown-3, 15%);
+$accordion-border: lighten($brown-30, 15%);
 
 .accordion {
   margin-bottom: 0;
@@ -157,11 +161,11 @@ $accordion-border: lighten($sca-brown-3, 15%);
   margin-bottom: 0 !important;
 }
 .accordion dd.active a {
-  background: darken($sca-brown-35, 6%); 
+  background: darken($brown-35, 6%); 
 }
 .accordion dd > a {
-  background: $sca-brown-35;
-  color: $sca-brown-1;
+  background: $brown-35;
+  color: $brown-10;
   border-top: solid $accordion-border;
   border-width: 1px;
   padding: 0.30rem;
@@ -170,14 +174,14 @@ $accordion-border: lighten($sca-brown-3, 15%);
 //  font-size: 1rem; 
 }
 .accordion dd > a:hover {
-  background: darken($sca-brown-35, 6%);
+  background: darken($brown-35, 6%);
 }
 .accordion .content {
   display: none;
   padding: 0.85rem; }
 .accordion .content.active {
   display: block;
-  background: lighten($sca-brown-4, 3%); 
+  background: lighten($brown-40, 3%); 
   border-top: solid $accordion-border;
   border-width: 1px;
 }
@@ -194,7 +198,7 @@ div.box_5 {
 div.section-header {
   font-weight: bold;
   margin: 1em 0 1em 0;
-  border-bottom: solid $sca-red-3;
+  border-bottom: solid $red-30;
   border-width: 2px;
 }
 
@@ -210,7 +214,7 @@ div.footer {
 div.popup {
   height: 90%;
 /*  width: 90%;*/
-  background: $sca-brown-4;
+  background: $brown-40;
   text-align: center;
   padding: 5% 5% 5% 5%;
   margin: 5% 5% 5% 5%;
@@ -218,7 +222,7 @@ div.popup {
 
 div.popup2 {
   height: 90%;
-  background: $sca-brown-4;
+  background: $brown-40;
   font-family: verdana, sans-serif;
   font-weight: normal;
   font-size: 75%;
@@ -365,7 +369,7 @@ div.category-box {
     font-weight: bold;
     padding: 0.2em 0.5em 0.2em 0.5em;
     margin: 0 0 0 0;
-    background-color: $sca-brown-35;
+    background-color: $brown-35;
     border: 0;
   }
   .actions {
@@ -386,8 +390,16 @@ div.small-product {
   font-weight: normal;
   font-size: 0.85em;
   line-height: 1.3em;
-  margin: 2em 2em 2em 2em;
+  margin: 0 0 0 0;
+  padding: 1em 1em 1em 2em;
 //  border: 1px solid #000000;
+  &.even {
+    background-color: darken($brown-40, 2%);
+  }
+  &.odd {
+    background-color: lighten($brown-40, 2%);
+  }
+
 
   .text-box {
     float: left;
@@ -395,7 +407,7 @@ div.small-product {
 //    border: 1px solid #000000;
     .model {
       font-weight: bold;
-      font-size: 1.0em;
+      font-size: 1.35em;
       color: #382E22;
     }
     .short-description {
@@ -405,51 +417,79 @@ div.small-product {
       font-weight: bold;
       margin-top: 1em;
     }
+    .actions-box {
+      margin: 0.5em 0 0 0;
+      .admin-button {
+        @include button();
+        width: 32.5%; 
+        padding: 0.1em;
+      }
+    }  
   }
   .options-box {
+    overflow: hidden;
     margin: 1em 0 0 0;
 //    border: 1px solid #000000;
 
-    #product_current_option {
+    .select-option {
+//      float: left;
+      clear: both;
+      width: 27em;
       height: 1.6em;
       margin: 0 0 0 0;
-      padding: 0 0 0 0;
+      padding: 0 1em 0 0;
       font-size: 95%;
       font-style: italic;
-      background-color: darken($sca-brown-4, 2%);
+      background-color: $brown-40;
     }
-    .price-line {
-      margin-top: 1em;
-      .price {
-        float: right;
-        font-weight: bold }
-      #update-button {
-        float: left;
-      }
-      #add-button {
-        margin-left: 1em;
-        float: left;
-      }
-      #edit-link {
-        margin-left: 1em;
-        float: left;
-      }
-      #delete-link {
-        margin-left: 1em;
-        float: left;
-      }
+    .price {
+      color: #A00;
+      display: inline-block;
+      float: left;
+      margin: 1em 0 0 1.5em;
+      font-size: 1.35em;
+      font-weight: bold;
+    }
+    .stock {
+      color: $brown-20;
+      display: inline-block;
+      float: left;
+      margin: 1em 0 0 1.5em;
+      font-size: 1.35em;
+      font-weight: bold;      
+    }
+    #update-button {
+      float: left;
+    }
+    #add-button {
+      display: inline-block;
+      float: left;
+      height: 2em;
+      margin: 1em 0 0 0;
+      font-size: 100%;
+      font-weight: bold;
+    }
+    #edit-link {
+      display: inline-block;
+      margin-left: 1em;
+      float: left;
+    }
+    #delete-link {
+      display: inline-block;
+      margin-left: 1em;
+      float: left;
     }
   } 
   div.image-box {
     float: right;
-//    border: 1px solid #000000;
+    border: 1px solid #A00;
     img {
       width: 36em;
     }
   }
   .actions {
     clear: both;
-    margin: 0 0 0 0;
+    margin: 0.5em 0 0 0;
 //    border: 1px solid #000000;
     .admin-button {
       @include button();
@@ -469,16 +509,6 @@ div.small-product {
   }  
 }
 
-
-// Foundation buttons
-
-.admin-button {
-  @include button();
-  width: 32.75%; 
-  padding: 0.1em;
-  margin: 0 auto 0 auto;
-}
-
 // Product show
 
 div.large-product {
@@ -496,7 +526,7 @@ div.large-product {
     font-size: 1.25em;
     padding: 0 0 0.25em 0;
     margin: 1em 0 0 0;
-    border-bottom: solid $sca-red-3;
+    border-bottom: solid $red-30;
     border-width: 2px;
   }
 
@@ -522,43 +552,55 @@ div.large-product {
     margin: 1em 0 0 0;
 //    border: 1px solid #000000;
     
-    #product_current_option {
-      height: 1.8em;
+    .select-option {
+      height: 2em;
       width: 27em;
       float: left;
-      margin: 0 0 0 0;
+      margin: 0.1em 0 0 0;
       padding: 0 1em 0 0;
       font-size: 95%;
       font-style: italic;
-      background-color: darken($sca-brown-4, 2%);
+      background-color: darken($brown-40, 2%);
     }
     .price {
-      margin: 0 0 0 0;
-      float: right;
-      font-weight: bold
+      color: #A00;
+//      display: inline-block;
+      float: left;
+      margin: 0.25em 0 0 1em;
+      font-size: 2em;
+      font-weight: bold;
     }
+    .stock {
+      color: $brown-20;
+      display: inline-block;
+      float: right;
+      margin: 0.75em 4.5em 0 0;
+      font-size: 1.35em;
+      font-weight: bold;
+    }      
     #update-button {
       height: 1.75em;
       margin: 0 0 0 0.5em;
       float: left;
     }
     #add-button {
-      height: 1.75em;
-      margin: 0 0 0 0.5em;
+      display: inline-block;
       float: left;
-    }
-    #edit-link {
-      margin: 0 1em 0 10em;
-      clear: left;
-      float: left;
-    }
-    #delete-link {
-      margin: 0 0 0 0;
-      clear: right;
-      float: left;
+      height: 2em;
+      margin: 0 0 0 3em;
+      font-size: 100%;
+      font-weight: bold;
     }
   }
-
+  
+  .actions-box {
+    margin: 1em 0 0 0;
+    .admin-button {
+      @include button();
+      width: 32.5%; 
+      padding: 0.1em;
+    }
+  }  
 
   .feature-box {
     display: inline-block;
@@ -619,10 +661,17 @@ div.large-product {
   }
 }
 
+// Cart Peek
+
+#cart-peek {
+  float: right;
+  margin: 0 0.75em 0 0;
+}
+
 // forms
 
 #error_explanation {
-  color: $sca-red-3;
+  color: $red-30;
   ul {
     font-size: .75em;
     list-style: none;
@@ -635,14 +684,14 @@ div.large-product {
 //  border-width: 1px;
 //  border-color: $sca-red-3;
   font-weight: bold !important;
-  color: $sca-red-3 !important;
+  color: $red-30 !important;
 }
 
-/* miscellaneous */
+// Debug panel
 
 .debug_dump {
   @include panel(
-    $bg: $sca-brown-35,
+    $bg: $brown-35,
     $padding: 20px,
     $adjust: true
   );
@@ -650,14 +699,19 @@ div.large-product {
   margin-top: 45px;
 }
 
-.alert-box {
+// Alert/Message box
+
+div[class^='alert-box'], div[class*=' alert-box'] {
   @include alert(
     // Adjust the background of the alert
-    $bg: $sca-red-3,
-    // Give a border to the alert box
-    $radius: false !important
+    $bg: $red-30
   );
-  margin-top: 1em;
+  .close {
+    color: $brown-10;
+    opacity: 0.75;
+    &:hover { opacity: 1.0;}
+  }
+  margin: 0;
 }
 
 /* Users index */
@@ -668,10 +722,34 @@ div.large-product {
   li {
     overflow: auto;
     padding: 10px 0;
-    border-top: 1px solid $sca-brown-35;
+    border-top: 1px solid $brown-35;
     &:last-child {
-      border-bottom: 1px solid $sca-brown-4;
+      border-bottom: 1px solid $brown-40;
     }
+  }
+}
+
+// Foundation buttons
+
+.admin-button {
+  @include button();
+  width: 32.75%; 
+  padding: 0.1em;
+  margin: 0 auto 0 auto;
+}
+
+// Foundation tabs
+
+.tabs {
+
+  .section-container.tabs section.active .title, .section-container.tabs .section.active .title   {
+    background-color: #65c8c6;
+    color: #ffffff;
+  }
+
+  .section-container.tabs section .title, .section-container.tabs .section .title {
+    background-color: #46166b;
+    color: #ffffff;
   }
 }
 

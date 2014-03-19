@@ -4,11 +4,10 @@
 	<%= form_for :product, url: products_update_option_path(id: @product), method: :put, remote: true do |f| %>
 		<%= f.select :current_option, (options_for_select get_extended_models(@product), @product.current_option), {}, class: 'select-option', id: 'select-' + @product.id.to_s %>
 <!--		<%= f.submit 'Update Price', id: 'update-button' %>-->
-		<span class="price" id="price"><%= number_to_currency(option.price, precision: 0) %></span>
 	<% end %>
 	<%= button_to 'Add to Cart', line_items_path(product_id: @product, option_id: option), id: 'add-button', remote: :true %>
-	<% if signed_in_admin? %>
-		<%= link_to "edit", edit_product_option_path(@product, option), id: 'edit-link' %>
-    <%= link_to "delete", product_option_path(@product, option), method: :delete, data: { confirm: "You sure?" }, id: 'delete-link' %>
-	<% end %>
+	<div class="price" <%= "id=price-" + @product.id.to_s %>><%= number_to_currency(option.price, precision: 0) %></div>
+	<div class="stock" <%= "id=stock-" + @product.id.to_s %>>
+		<%= get_stock(@product) + ' can ship today' %><br>
+	</div>
 <% end %>

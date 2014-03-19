@@ -1,44 +1,20 @@
 <fieldset style="margin: 1em 0em 0em 0em; border: none">
 	<legend><%= legend %></legend>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :model, 'Model:' %>
 		<%= f.text_field :model %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :model_sort_order, 'Model Sort Order:' %>
 		<%= f.number_field :model_sort_order, in: 1..100 %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :category, 'Category:' %>
 		<%= f.select :category, options_for_select(['Microphone Preamp', 'Compressor', 'DI', 'Discrete Op-Amp', 'Chassis']) %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :category_sort_order, 'Category Sort Order:' %>
 		<%= f.number_field :category_sort_order, in: 1..100 %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :upc, 'UPC:' %>
-		<%= f.text_field :upc %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :price, 'Price:' %>
-		<%= f.number_field :price %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :shipping_weight, 'Shipping Weight:' %>
-		<%= f.number_field :shipping_weight %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :finished_stock, 'Assembled Stock:' %>
-		<%= f.number_field :finished_stock %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :kit_stock, 'Kit Stock:' %>
-		<%= f.number_field :kit_stock %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :part_stock, 'Part Stock:' %>
-		<%= f.number_field :part_stock %>
 	</div>
 	<div class="field">
 		<%= f.label :short_description, 'Short Description:' %>
@@ -61,28 +37,20 @@
  		<%= f.text_field :image_2 %>
 	</div>
 	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :bom_1, 'BOM 1 URL:' %>
- 		<%= f.text_field :bom_1 %>
+		<%= f.label :specifications, 'Specifications URL:' %>
+ 		<%= f.text_field :specifications %>
 	</div>
 	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :bom_2, 'BOM 2 URL:' %>
- 		<%= f.text_field :bom_2 %>
+		<%= f.label :schematic, 'Schematic URL:' %>
+ 		<%= f.text_field :schematic %>
 	</div>
 	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :schematic_1, 'Schematic 1 URL:' %>
- 		<%= f.text_field :schematic_1 %>
+		<%= f.label :bom, 'BOM URL:' %>
+ 		<%= f.text_field :bom %>
 	</div>
 	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :schematic_2, 'Schematic 2 URL:' %>
- 		<%= f.text_field :schematic_2 %>
-	</div>
-	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :assembly_1, 'Assembly Instructions 1 URL:' %>
- 		<%= f.text_field :assembly_1 %>
-	</div>
-	<div class="field" style = "float: left; width: 50%">
-		<%= f.label :assembly_2, 'Assembly Instructions 2 URL:' %>
- 		<%= f.text_field :assembly_2 %>
+		<%= f.label :assembly, 'Assembly Instructions URL:' %>
+ 		<%= f.text_field :assembly %>
 	</div>
 	<div class="actions">
 		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>

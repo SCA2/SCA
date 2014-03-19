@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
 
-  before_action :signed_in_admin, except: [:index, :show]
+  before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
   # GET /products
@@ -72,13 +72,9 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:model, :model_sort_order,
       :category, :category_sort_order, :current_option,
-      :upc, :price, :shipping_weight,
-      :finished_stock, :kit_stock, :part_stock,
       :short_description, :long_description, :notes,
-      :image_1, :image_2, :image_3,
-      :bom_1, :bom_2, :bom_3,
-      :schematic_1, :schematic_2, :schematic_3,
-      :assembly_1, :assembly_2, :assembly_3)
+      :image_1, :image_2, 
+      :specifications, :bom, :schematic, :assembly)
     end
 
     def product_option_params

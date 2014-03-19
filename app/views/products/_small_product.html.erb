@@ -1,4 +1,4 @@
-<div class="small-product">
+<div <%= get_product_div_class(index) %>>
 	<div class="text-box" <%= "id=text-box-" + @product.id.to_s %>>
 		<%= link_to @product.model, product_path(@product), class: :model %>
 		<div class="short-description" <%= "id=short-description-" + @product.id.to_s %>>
@@ -10,6 +10,9 @@
 		<div class="options-box" <%= "id=options-box-" + @product.id.to_s %>>
 			<%= render 'options/option' %>
 		</div>
+		<div class="actions-box" <%= "id=actions-box-" + @product.id.to_s %>>
+			<%= render 'options/action' %>
+  	</div>
 	</div>
 	<div class="image-box" <%= "id=image-box-" + @product.id.to_s %>>
 		<%= link_to image_tag(@product.image_1), product_path(@product) %>		
