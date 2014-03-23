@@ -7,22 +7,7 @@
 @import "foundation/components/buttons";
 @import "foundation/components/tabs";
 @import url(fonts.css.scss);
-
-$brown-10: #16120E;
-$brown-20: #382E22;
-$brown-25: #6F5C44;
-$brown-27: #A78A65;
-$brown-28: #BD9C73;
-$brown-30: #DEB887;
-$brown-35: #E7CAA5;
-$brown-37: #EFDCC4;
-$brown-38: #F7EDE1;
-$brown-40: #FDF5E6;
-$red-10: #660000;
-$red-20: #990000;
-$red-30: #CC0000;
-
-$grayMediumLight: #EAEAEA;
+@import "colors";
 
 header {
   background-color: $brown-40;
@@ -659,6 +644,29 @@ div.large-product {
     font-weight: bold;
     border-top: 1px solid #382E22;
   }
+  .actions {
+//    border: 1px solid #000000;
+
+    .form-buttons {
+      margin: 1em 0 0 0;
+      width: 100%;
+      .button {
+        @include button();
+        width: 24.5%; 
+        padding: 0.1em;
+        margin: 0 auto 0 auto;        
+      }
+    }
+    .paypal-button {
+      margin: 1em 0 0 0;
+      width: 100%;
+      a img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      } 
+    }
+  }  
 }
 
 // Cart Peek

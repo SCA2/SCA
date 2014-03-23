@@ -43,9 +43,17 @@
 				</td>
 			</tr>
 		</table>
-		<%= button_to 'Update cart', cart_path, method: :put %>
-		<%= button_to 'Empty cart', cart, method: :delete,
-				data: { confirm: 'Are you sure?' } %>
-		<%= button_to 'Keep shopping', products_path, method: :get %>
+		<div class="actions">
+			<div class="form-buttons">
+				<%= link_to 'Update cart', cart_path, method: :put, class: "button" %>
+				<%= link_to 'Empty cart', cart, method: :delete, class: "button",
+						data: { confirm: 'Are you sure?' } %>
+				<%= link_to 'Keep shopping', products_path, method: :get, class: "button" %>
+				<%= link_to 'Checkout', new_order_path, method: :get, class: "button" %>
+			</div>
+			<div class="paypal-button">
+				<%= link_to image_tag("https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"),	express_path %>
+			</div>
+		</div>
 	<% end %>
 </div>

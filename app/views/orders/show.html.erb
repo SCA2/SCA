@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cart:</strong>
+  <%= @order.cart_id %>
+</p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @order.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @order.last_name %>
+</p>
+
+<p>
+  <strong>Shipping address 1:</strong>
+  <%= @order.shipping_address_1 %>
+</p>
+
+<p>
+  <strong>Shipping address 2:</strong>
+  <%= @order.shipping_address_2 %>
+</p>
+
+<p>
+  <strong>Shipping city:</strong>
+  <%= @order.shipping_city %>
+</p>
+
+<p>
+  <strong>Shipping state:</strong>
+  <%= @order.shipping_state %>
+</p>
+
+<p>
+  <strong>Shipping post code:</strong>
+  <%= @order.shipping_post_code %>
+</p>
+
+<p>
+  <strong>Shipping country:</strong>
+  <%= @order.shipping_country %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @order.email %>
+</p>
+
+<p>
+  <strong>Telephone:</strong>
+  <%= @order.telephone %>
+</p>
+
+<p>
+  <strong>Card type:</strong>
+  <%= @order.card_type %>
+</p>
+
+<p>
+  <strong>Card expires on:</strong>
+  <%= @order.card_expires_on %>
+</p>
+
+<p>
+  <strong>Cart:</strong>
+  <%= @order.cart_id %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>

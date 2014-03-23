@@ -8,6 +8,7 @@
 // Allows the use of rem-calc() or lower-bound() in your settings
 @import "foundation/functions";
 @import "foundation/settings";
+@import "colors";
 
 // $experimental: true;
 
@@ -921,8 +922,8 @@ $panel-border-color: #382E22;
 // $include-html-table-classes: $include-html-classes;
 
 // These control the background color for the table and even rows
-// $table-bg: #fff;
-// $table-even-row-bg: #f9f9f9  ;
+$table-bg: $brown-40;
+$table-even-row-bg: $brown-40;
 
 // These control the table cell border style
 // $table-border-style: solid;

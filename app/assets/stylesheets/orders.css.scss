@@ -1,0 +1,99 @@
+// Place all the styles related to the Orders controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "colors";
+@import "foundation/components/breadcrumbs";
+@import "foundation/components/buttons";
+
+
+div.addresses {
+//  display: block;
+//  overflow: hidden;
+  width: 100%;
+  margin: 0 auto 0 auto;
+  div.billing-address {
+    display: inline-block;
+    width: 49%;
+    margin: 0 1% 0 0;
+  }
+  div.shipping-address {
+    display: inline-block;
+    width: 49%;
+    margin: 0 0 0 0;
+  }
+}
+
+#actions {
+  width: 100%;
+  margin: 1em 0 1em 0;
+  .button {
+    @include button();
+    width: 25%; 
+    padding: 0.1em;
+    display: block;
+    &#back {
+      float: left;
+    }
+    &#continue {
+      float: right;
+    }
+  }
+}
+
+fieldset {
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  background-color: $brown-40;
+  border: solid 1px $brown-35;
+  margin: 0 0 0 0;
+
+  legend {
+    background-color: inherit;
+  }
+}
+
+table.address-table {
+  border: none;
+  background-color: $brown-40;
+  width: 100%;
+  margin: 0 auto 0 auto;
+  
+  tr.field {
+    line-height: 2em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 1em;
+    color: $brown-10;
+    &:nth-child(odd) {
+      background-color: darken($brown-40, 5%)
+    }
+  }
+  td.label {
+    margin: 0 0 0 0;
+    padding: 0 1em 0 1em;
+    background-color: inherit;
+    text-align: left;
+    label {
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;  
+    }
+  }
+  td.input {
+    margin: 0 0 0 0;
+    padding: 0 0.5em 0 0.5em;
+    width: 70%;
+    input {
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;  
+      height: 1.8em;
+    }
+  }
+}
+
+.checkout-breadcrumbs {
+  @include crumb-container;
+  li {
+    @include crumbs;
+  }
+}

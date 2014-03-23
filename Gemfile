@@ -31,6 +31,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jbuilder'
+gem 'activemerchant', '~> 1.42.7'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

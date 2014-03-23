@@ -1,16 +1,18 @@
 SCA::Application.routes.draw do
   
-  resources :users, :slider_images
+  
+  resources :users, :slider_images, :orders, :line_items, :carts
+
   resources :sessions, only: [:new, :create, :destroy]
+
   resources :faqs do
     collection { post :import }
   end
+
   resources :products do
     resources :features  
     resources :options, except: :index
   end
-  resources :line_items
-  resources :carts
   
   get "home", to: 'slider_images#index', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
@@ -20,12 +22,13 @@ SCA::Application.routes.draw do
   get "repairs", to: "static_pages#repairs", as: 'repairs'
   get "resources", to: "static_pages#resources", as: 'resources'
   get "contact", to: "static_pages#contact", as: 'contact'
+
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'
   put "products_update_option", to: 'products#update_option', as: 'products_update_option'
-  
   match "features", to: 'features#create', via: :post
+  get "express", to: "orders#express", as: 'express'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

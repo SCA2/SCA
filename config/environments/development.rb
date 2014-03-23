@@ -26,4 +26,16 @@ SCA::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+  
+  #Paypal
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      login: "seller_api1.seventhcircleaudio.com",
+      password: "1395378556",
+      signature: "AFcWxV21C7fd0v3bYYYRCpSSRl31ApUVvNIwibHp-K5LkdUJTOBF9q2i"
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  end
 end
