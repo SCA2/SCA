@@ -3,25 +3,17 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns" style="margin: 1em 0em 1em 0em">
-			<div class="addresses">				
-				<%= render 'progress_bar' %>
-				<div class="billing-address">
-					<%= form_for(@order) do |f| %>
-						<%= render 'shared/errors', object: f.object %>
-						<%= render 'billing_address_form', f: f, legend: "Billing Address" %>
-					<% end %>
+			<%= form_for(@order.address) do |f| %>
+				<% logger.debug '@order.address: ' + @order.address.inspect %>
+				<div class="shipping-method">				
+					<%= render 'shared/errors', object: f.object %>
+					<%= render 'progress_bar' %>
+					<p>Shipping method</p>
+				<div id="actions">
+					<%= link_to 'Back to Addresses', :back, class: "button", id: "back" %>
+					<%= button_to 'Continue Checkout', f.submit, class: "button", id: "continue" %>
 				</div>
-				<div class="shipping-address">
-					<%= form_for(@order) do |f| %>
-						<%= render 'shared/errors', object: f.object %>
-						<%= render 'shipping_address_form', f: f, legend: "Shipping Address" %>
-					<% end %>
-				</div>
-			</div>
-			<div id="actions">
-				<%= link_to 'Back to Cart', orders_path, class: "button", id: "back" %>
-				<%= link_to 'Continue Checkout', orders_path, method: :post, class: "button", id: "continue" %>
-			</div>
+			<% end %>
 		</div>
 	</div>	
 </div> <!-- box_2 -->

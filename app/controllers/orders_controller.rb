@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
       return
     end
     @order = Order.new(:express_token => params[:token])
+    redirect_to new_address_url
   end
 
   def create
@@ -36,7 +37,7 @@ class OrdersController < ApplicationController
     )
     redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
@@ -47,4 +48,5 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:cart_id, :first_name, :last_name, :shipping_address_1, :shipping_address_2, :shipping_city, :shipping_state, :shipping_post_code, :shipping_country, :email, :telephone, :card_type, :card_expires_on, :cart_id, :card_number, :card_verification, :ip_address, :express_token)
     end
+
 end

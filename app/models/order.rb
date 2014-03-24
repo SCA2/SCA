@@ -1,6 +1,9 @@
 class Order < ActiveRecord::Base
+
   belongs_to :cart
+  has_one :address
   has_many :transactions
+  has_many :line_items
   
   attr_accessor :card_number, :card_verification, :ip_address
   
@@ -51,12 +54,12 @@ class Order < ActiveRecord::Base
     {
       :ip => ip_address,
       :billing_address => {
-        :name     => first_name + ' ' + last_name,
-        :address1 => shipping_address_1,
-        :city     => shipping_city,
-        :state    => shipping_state,
-        :country  => shipping_country,
-        :zip      => shipping_post_code
+        :name     => billing_first_name + ' ' + billing_last_name,
+        :address1 => billing_address_1,
+        :city     => billing_city,
+        :state    => billing_state,
+        :country  => billing_country,
+        :zip      => billing_post_code
       }
     }
   end

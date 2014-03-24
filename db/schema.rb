@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323060132) do
+ActiveRecord::Schema.define(version: 20140324050002) do
+
+  create_table "addresses", force: true do |t|
+    t.integer  "order_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "post_code"
+    t.string   "country"
+    t.string   "telephone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "carts", force: true do |t|
     t.datetime "created_at"
@@ -71,31 +86,13 @@ ActiveRecord::Schema.define(version: 20140323060132) do
 
   create_table "orders", force: true do |t|
     t.integer  "cart_id"
-    t.string   "shipping_first_name"
-    t.string   "shipping_last_name"
-    t.string   "shipping_address_1"
-    t.string   "shipping_address_2"
-    t.string   "shipping_city"
-    t.string   "shipping_state"
-    t.string   "shipping_post_code"
-    t.string   "shipping_country"
     t.string   "email"
-    t.string   "shipping_telephone"
     t.string   "card_type"
     t.date     "card_expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "express_token"
     t.string   "express_payer_id"
-    t.string   "billing_first_name"
-    t.string   "billing_last_name"
-    t.string   "billing_address_1"
-    t.string   "billing_address_2"
-    t.string   "billing_city"
-    t.string   "billing_state"
-    t.string   "billing_post_code"
-    t.string   "billing_country"
-    t.string   "billing_telephone"
   end
 
   create_table "products", force: true do |t|

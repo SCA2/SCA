@@ -1,0 +1,31 @@
+<% provide(:title, 'New Order') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns" style="margin: 1em 0em 1em 0em">
+				<% logger.debug '@billing_address: ' + @billing_address.inspect %>
+				<% logger.debug '@shipping_address: ' + @shipping_address.inspect %>
+				<div class="addresses">				
+					<%= render 'shared/progress_bar' %>
+					<div class="billing-address">
+						<%= form_for @billing_address, url: create_billing_addresses_path do |f| %>
+							<%= render 'shared/errors', object: f.object %>
+							<%= render 'address_form', f: f, legend: "Billing Address" %>
+							<%= f.submit 'Save', class: 'button' %>
+						<% end %>
+					</div>
+					<div class="shipping-address">
+						<%= form_for @shipping_address, url: create_shipping_addresses_path do |f| %>
+							<%= render 'shared/errors', object: f.object %>
+							<%= render 'address_form', f: f, legend: "Shipping Address" %>
+							<%= f.submit 'Save', class: 'button' %>
+						<% end %>
+					</div>
+				</div>
+				<div class="actions">
+					<%= link_to 'Back to Cart', :back, class: 'button', id: 'back' %>
+					<%= button_to 'Continue Checkout', new_order_path, class: 'button', id: 'continue' %>
+				</div>
+		</div>
+	</div>	
+</div> <!-- box_2 -->
