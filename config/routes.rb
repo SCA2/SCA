@@ -5,6 +5,10 @@ SCA::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
+  resources :users do
+    resources :addresses    
+  end
+  
   resources :faqs do
     collection { post :import }
   end
@@ -14,22 +18,22 @@ SCA::Application.routes.draw do
     resources :options, except: :index
   end
   
-  resources :addresses do
-    member do
-      get 'show_billing'
-      get 'show_shipping'
-      patch 'update_billing'
-      patch 'update_shipping'
-    end
-    collection do
-      post 'create_billing'
-      post 'create_shipping'
-    end    
-  end
-  
   resources :orders do
+    resources :addresses
     collection do
       get 'express'
+    end
+    member do
+      get 'billing'
+      post 'create_billing'
+      get 'shipping'
+      post 'create_shipping'
+      get 'shipper'
+      patch 'update_shipper'
+      get 'payment'
+      patch 'update_payment'
+      get 'confirm'
+      patch 'update_confirm'
     end
   end
   

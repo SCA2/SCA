@@ -1,18 +1,18 @@
-<% provide(:title, 'Confirm Address') %>
+<% provide(:title, 'Shipping Address') %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-3 columns sidebar">
 			<%= render 'layouts/sidebar_left' %>
 		</div>
-		<div class="small-9 columns" style="margin: 1em 0em 1em 0em">
+		<div class="small-9 columns main">
 			<div class="addresses">				
 				<%= render 'shared/progress_bar' %>
 				<div class="billing-address">
-					<%= form_for [@addressable,  @address] do |f| %>
+					<%= form_for [@order,  @address], url: create_shipping_order_path(@order) do |f| %>
 						<%= render 'shared/errors', object: f.object %>
 						<%= render 'address_form', f: f, type: @type %>
-						<%= f.submit 'Update', class: 'button' %>
+						<%= f.submit 'Save', class: 'button' %>
 					<% end %>
 				</div>
 			</div>
@@ -23,3 +23,4 @@
 		</div>
 	</div>	
 </div>
+

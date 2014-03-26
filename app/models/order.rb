@@ -1,13 +1,15 @@
 class Order < ActiveRecord::Base
 
   belongs_to :cart
-  has_one :address
+  has_many :addresses, as: :addressable
   has_many :transactions
   has_many :line_items
   
+  accepts_nested_attributes_for :addresses
+  
   attr_accessor :card_number, :card_verification, :ip_address
   
-  validate :validate_card, :on => :create
+  validate :validate_card, :on => :save
   
   CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
   
@@ -40,6 +42,13 @@ class Order < ActiveRecord::Base
     (cart.total_price*100).round
   end
   
+  def add_line_items_from_cart(cart)
+    cart.line_items.each do |item|
+      item.cart_id = nil
+      line_items << item
+    end
+  end
+
   private
   
   def process_purchase
@@ -95,4 +104,5 @@ class Order < ActiveRecord::Base
   def transaction_params
       params.require(:transaction).permit(:purchased_at)
   end
+  
 end

@@ -7,12 +7,12 @@
 
 <p>
   <strong>First name:</strong>
-  <%= @order.first_name %>
+  <%= @order.addresses.find_by(:address_type => 'shipping').first_name %>
 </p>
 
 <p>
   <strong>Last name:</strong>
-  <%= @order.last_name %>
+  <%= @order.shipping_last_name %>
 </p>
 
 <p>
