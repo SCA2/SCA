@@ -50,14 +50,22 @@ class OrdersController < ApplicationController
   end
   
   def update_shipper
-    redirect_to payment_order_path(@order)
+    if @order.update(order_params)
+      redirect_to payment_order_path(@order)
+    else
+      render 'new', notice: 'Sorry, shipping method could not be updated'
+    end
   end
 
   def payment
   end
   
   def update_payment
-    redirect_to confirm_order_path(@order)
+    if @order.update(order_params)
+      redirect_to confirm_order_path(@order)
+    else
+      render 'new', notice: 'Sorry, payment info could not be updated'
+    end
   end
 
   def confirm
@@ -68,8 +76,11 @@ class OrdersController < ApplicationController
   end
 
   def update
-#    @order = @cart.build_order(order_params)
-    @order.add_line_items_from_cart(@cart)
+    logger.debug "@order: " + @order.inspect
+    logger.debug "@order.addresses: " + @order.addresses.inspect
+    logger.debug "@cart: " + @cart.inspect
+    logger.debug "@cart.line_items: " + @cart.line_items.inspect
+    @cart.order = @order
     @order.ip_address = request.remote_ip
     if @order.save
       if @order.purchase
@@ -104,7 +115,8 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:cart_id, :first_name, :last_name, :shipping_address_1, :shipping_address_2, :shipping_city, :shipping_state, :shipping_post_code, :shipping_country, :email, :telephone, :card_type, :card_expires_on, :cart_id, :card_number, :card_verification, :ip_address, :express_token)
+      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token, :shipping_method, 
+                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state, :post_code, :country, :telephone])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,0 +1,56 @@
+<div class="carts">
+	<%= form_for cart do |cart_form| %>
+		<table class="carts" style="width: 100%">
+			<tr>
+				<th>Remove</th>
+				<th colspan="2">Item</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Ext</th>
+				<th>Weight</th>
+			</tr>
+			<%= cart_form.fields_for :line_items do |line_form| %>
+				<% line_item = cart.line_items[line_form.index] %>
+				<tr>
+					<% model = line_item.product.model + line_item.option.model %>
+					<% item = line_item.product.category + ', ' + line_item.option.description %>
+					<td class="checkbox-cell">
+						<%= line_form.check_box :_destroy  %>
+					</td>
+					<td><%= link_to model, line_item.product %></td>
+					<td><%= link_to item, line_item.product %></td>
+					<td class="quantity-cell">
+						<%= line_form.number_field :quantity, value: line_item.quantity, width: 4 %>
+					</td>
+					<td class="item-price">
+						<%= number_to_currency(line_item.option.price, precision: 0) %>
+					</td>
+					<td class="item-price">
+						<%= number_to_currency(line_item.extended_price, precision: 0) %>
+					</td>
+					<td class="quantity-cell">
+						<%= line_item.extended_weight %>
+					</td>
+				</tr>
+			<% end %>
+			<tr class="total-line">
+				<td class="total-cell" colspan="5">Total</td>
+				<td class="total-cell">
+					<%= number_to_currency(cart.total_price, precision: 0) %>
+				</td>
+				<td class="total-cell">
+					<%= cart.total_weight %>
+				</td>
+			</tr>
+		</table>
+		<div class="actions">
+			<div class="form-buttons">
+				<%= link_to 'Update cart', cart_path, method: :put, class: "button" %>
+				<%= link_to 'Empty cart', cart, method: :delete, class: "button",
+						data: { confirm: 'Are you sure?' } %>
+				<%= link_to 'Keep shopping', products_path, method: :get, class: "button" %>
+				<%= link_to 'Checkout', new_order_path, method: :get, class: "button" %>
+			</div>
+		</div>
+	<% end %>
+</div>

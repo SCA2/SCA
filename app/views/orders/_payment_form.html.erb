@@ -2,14 +2,6 @@
 	<legend><%= legend %></legend>
 	<table class="address-table">
 		<tr class="field">
-			<td class="label"><%= f.label :email %></td>
-			<td class="input"><%= f.text_field :email %></td>
-		</tr>
-		<tr class="field">
-			<td class="label"><%= f.label :telephone %></td>
-			<td class="input"><%= f.text_field :telephone %></td>
-		</tr>
-		<tr class="field">
 			<td class="label"><%= f.label :card_type %></td>
 			<td class="input"><%= f.select :card_type, Order::CARD_TYPES, prompt: 'Select a payment method' %></td>
 		</tr>
@@ -25,8 +17,9 @@
 			<td class="label"><%= f.label :card_expires_on %></td>
 			<td class="input"><%= f.date_select :card_expires_on, discard_day: true, start_year: Date.today.year, end_year: (Date.today.year + 10), add_month_numbers: true %></td>
 		</tr>
+		<tr class="field">
+			<td class="label"><%= f.label :email %></td>
+			<td class="input"><%= f.text_field :email %></td>
+		</tr>
 	</table>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 </fieldset>

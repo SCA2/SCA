@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325174552) do
+ActiveRecord::Schema.define(version: 20140328004547) do
 
   create_table "addresses", force: true do |t|
     t.string   "first_name"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20140325174552) do
     t.datetime "updated_at"
     t.string   "express_token"
     t.string   "express_payer_id"
+    t.string   "shipping_method"
   end
 
   create_table "products", force: true do |t|

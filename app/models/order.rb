@@ -3,11 +3,10 @@ class Order < ActiveRecord::Base
   belongs_to :cart
   has_many :addresses, as: :addressable
   has_many :transactions
-  has_many :line_items
   
   accepts_nested_attributes_for :addresses
   
-  attr_accessor :card_number, :card_verification, :ip_address
+  attr_accessor :checkout_method, :shipping_cost, :card_number, :card_verification, :ip_address
   
   validate :validate_card, :on => :save
   
@@ -42,13 +41,6 @@ class Order < ActiveRecord::Base
     (cart.total_price*100).round
   end
   
-  def add_line_items_from_cart(cart)
-    cart.line_items.each do |item|
-      item.cart_id = nil
-      line_items << item
-    end
-  end
-
   private
   
   def process_purchase
@@ -60,15 +52,16 @@ class Order < ActiveRecord::Base
   end
   
   def standard_purchase_options
+    billing = addresses.find_by(:address_type => 'billing')
     {
       :ip => ip_address,
       :billing_address => {
-        :name     => billing_first_name + ' ' + billing_last_name,
-        :address1 => billing_address_1,
-        :city     => billing_city,
-        :state    => billing_state,
-        :country  => billing_country,
-        :zip      => billing_post_code
+        :name     => billing.first_name + ' ' + billing.last_name,
+        :address1 => billing.address_1,
+        :city     => billing.city,
+        :state    => billing.state,
+        :country  => billing.country,
+        :zip      => billing.post_code
       }
     }
   end
@@ -90,14 +83,15 @@ class Order < ActiveRecord::Base
   end
   
   def credit_card
+    billing = addresses.find_by(:address_type => 'billing')
     @credit_card ||= ActiveMerchant::Billing::CreditCard.new(
       type:               card_type,
       number:             card_number,
       verification_value: card_verification,
       month:              card_expires_on.month,
       year:               card_expires_on.year,
-      first_name:         first_name,
-      last_name:          last_name
+      first_name:         billing.first_name,
+      last_name:          billing.last_name
     )
   end
   

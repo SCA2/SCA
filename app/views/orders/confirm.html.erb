@@ -1,5 +1,6 @@
 <% provide(:title, 'Confirm Order') %>
-
+<% billing = @order.addresses.find_by(:address_type => 'billing') %>
+<% shipping = @order.addresses.find_by(:address_type => 'shipping') %>
 <div class="box_2">
 	<div class="row">
 		<div class="small-3 columns sidebar">
@@ -7,10 +8,17 @@
 		</div>
 		<div class="small-9 columns main">
 			<%= render 'shared/progress_bar' %>
-			<h6>Confirm Order</h6>
-			<%= form_for @order do |f| %>
-				<%= render 'shared/errors', object: f.object %>
-				<%= link_to 'Back', :back, class: "button"  %>
+			<div class='address-box'>
+				<%= render 'confirm_address', f: billing, legend: 'Billing Address' %>
+				<%= render 'confirm_address', f: shipping, legend: 'Shipping Address' %>
+			</div>
+			<div class="address-box">
+				<%= render 'confirm_payment', f: @order, legend: 'Payment' %>
+				<%= render 'confirm_shipper', f: @order, legend: 'Shipping Method' %>
+			</div>
+			<%= render 'confirm_cart', :cart => @cart %>
+			<%= link_to 'Back', :back, class: "button"  %>
+			<%= form_for @order, url: order_path(@order) do |f| %>
 				<%= f.submit 'Continue Checkout', class: "button" %>
 			<% end %>
 		</div>

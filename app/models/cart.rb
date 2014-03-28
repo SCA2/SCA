@@ -1,6 +1,6 @@
 class Cart < ActiveRecord::Base
   
-  has_one :order
+  has_one :order, dependent: :destroy, inverse_of: :cart
   has_many :line_items, dependent: :destroy, inverse_of: :cart
   accepts_nested_attributes_for :line_items, allow_destroy: true
   

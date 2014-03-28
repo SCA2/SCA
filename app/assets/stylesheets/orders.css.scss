@@ -41,15 +41,24 @@ div.addresses {
   }
 }
 
+div.address-box {
+  width: 100%;
+}
+
 fieldset {
   font-family: Arial, sans-serif;
   font-weight: normal;
-  background-color: $brown-40;
-  border: solid 1px $brown-35;
-  margin: 0 0 0 0;
+  border: none;
+//  border: solid 1px $brown-35;
+  margin: 0 0 1em 0;
 
   legend {
     background-color: inherit;
+  }
+  &.confirm-address, &.confirm-payment, &.confirm-shipper {
+    display: inline-block;
+    float: left;
+    width: 49.5%;
   }
 }
 

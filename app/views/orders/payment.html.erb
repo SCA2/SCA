@@ -7,9 +7,9 @@
 		</div>
 		<div class="small-9 columns main">
 			<%= render 'shared/progress_bar' %>
-			<h6>Get Payment</h6>
 			<%= form_for @order, url: update_payment_order_path(@order) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
+				<%= render 'payment_form', f: f, legend: 'Card Info' %>
 				<%= link_to 'Back', :back, class: "button"  %>
 				<%= f.submit 'Continue Checkout', class: "button" %>
 			<% end %>
