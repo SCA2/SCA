@@ -10,8 +10,6 @@
 			<%= form_for @order do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'method_form', f: f, legend: 'Checkout Method' %>
-				<%= link_to 'Back', :back, class: "button"  %>
-				<%= f.submit 'Continue Checkout', class: "button" %>
 			<% end %>
 		</div>
 	</div>	

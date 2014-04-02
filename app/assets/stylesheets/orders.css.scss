@@ -12,36 +12,84 @@ div.addresses {
 //  overflow: hidden;
   width: 100%;
   margin: 0 auto 0 auto;
-  div.billing-address {
+  div.address {
     display: inline-block;
-    width: 49%;
+    width: 100%;
     margin: 0 1% 0 0;
   }
-  div.shipping-address {
+}
+
+div#login {
+  margin: 1em 0 0 0;
+  div.login-fields {
     display: inline-block;
-    width: 49%;
-    margin: 0 0 0 0;
+    width: 60%;
+    margin-right: 1em;
+  }
+  div.login-buttons {
+    display: inline-block;
+    width: 36%;
+    .form-button {
+      display: block;
+      margin: 1em 0 1em 0;
+      padding: 1em 0 1em 0;
+      width: 100%;
+      .button {
+        @include button();
+        width: 100%;
+        margin: 0;
+        padding: 0.25em;
+      }
+    }
   }
 }
+
+.checkout-buttons {
+  margin: 1em 0 0 0;
+  width: 100%;
+  .form-button {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 32.5%;
+    .button {
+      display: block;
+      @include button();
+      width: 100%;
+      margin: 0;
+      padding: 0.25em;
+    }
+    .paypal-button {
+      display: block;
+      text-align: center;
+      width: 100%;
+      margin: 0 0.5em 0 0.5em;
+      a img {
+        margin: 0 auto 0 auto;
+      } 
+    }
+  }
+}
+
 
 .actions {
   width: 100%;
-  margin: 1em 0 1em 0;
-  .button {
-    @include button();
-    width: 25%; 
-    padding: 0.1em;
-    display: block;
-    &#back {
-      float: left;
-    }
-    &#continue {
-      float: right;
+  margin: 1em 0 0 0;
+  .form-button {
+    display: inline-block;
+    margin: 0;
+    padding: 0 0.5em 0 0.5em;
+    width: 49.7%;
+    .button {
+      @include button();
+      width: 100%;
+      margin: 0;
+      padding: 0.25em;
     }
   }
 }
 
-div.address-box {
+div.review-box {
   width: 100%;
 }
 
@@ -57,8 +105,7 @@ fieldset {
   }
   &.confirm-address, &.confirm-payment, &.confirm-shipper {
     display: inline-block;
-    float: left;
-    width: 49.5%;
+    width: 33%;
   }
 }
 

@@ -1,1 +1,29 @@
-Order Failed
+<% provide(:title, 'Transaction Failed') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+		<div class="small-9 columns" style="margin: 1em 0em 0em 0em">
+			<h6>Sorry, the transaction failed.</h6>
+			
+			<p>order_id: <%= @transaction.order_id %></p>
+			<p>action: <%= @transaction.action %></p>
+			<p>amount: <%= @transaction.amount %></p>
+			<p>success: <%= @transaction.success %></p>
+			<p>authorization: <%= @transaction.authorization %></p>
+			<p>message: <%= @transaction.message %></p>
+				
+		</div>
+	</div>	
+</div>
+
+<!--
+<div>
+	<% @transaction.params.each do |key, value| %>
+		<p><%= key.to_s + ': ' + value.to_s %></p>
+	<% end %>
+</div>
+-->
+

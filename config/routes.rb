@@ -1,7 +1,9 @@
 SCA::Application.routes.draw do
   
   
-  resources :carts, :line_items, :slider_images, :users
+  resources :carts, except: [:index, :edit, :new]
+  
+  resources :line_items, :slider_images, :users
 
   resources :sessions, only: [:new, :create, :destroy]
 
@@ -22,6 +24,7 @@ SCA::Application.routes.draw do
     resources :addresses
     collection do
       get 'express'
+      get 'create_express'
     end
     member do
       get 'billing'

@@ -1,5 +1,7 @@
 class Order < ActiveRecord::Base
 
+  include ActiveMerchant::Shipping
+
   belongs_to :cart
   has_many :addresses, as: :addressable
   has_many :transactions
@@ -14,15 +16,9 @@ class Order < ActiveRecord::Base
   
   def purchase
     response = process_purchase
-    self.transactions.create!(  :action => "purchase", 
-                                :amount => price_in_cents,
-                                :response => response)
-    
-    transaction = self.transactions.find_by(order_id: self.id)                            
+    transactions.create!(:action => "purchase", :amount => price_in_cents, :response => response)
     if response.success?
-      transaction.update(:purchased_at => Time.now) 
-    else
-      transaction.update(:purchased_at => nil)
+      cart.update(:purchased_at => Time.now) 
     end
     response.success?
   end
@@ -32,15 +28,68 @@ class Order < ActiveRecord::Base
     if new_record? && !token.blank?
       details = EXPRESS_GATEWAY.details_for(token)
       self.express_payer_id = details.payer_id
-      self.first_name = details.params["first_name"]
-      self.last_name = details.params["last_name"]
     end
+  end
+
+  def get_express_address(token)
+    details = EXPRESS_GATEWAY.details_for(token)
+    self.addresses.create!(:address_type => 'billing',
+      :first_name => details.params["first_name"],
+      :last_name => details.params["last_name"],
+      :address_1 => details.params["street1"],
+      :address_2 => details.params["street2"],
+      :city => details.params["city_name"],
+      :state => details.params["state_or_province"],
+      :country => details.params["country"],
+      :post_code => details.params["postal_code"],
+      :telephone => details.params["phone"]
+    )
+    self.addresses.create!(:address_type => 'shipping',
+      :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
+      :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
+      :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
+      :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
+      :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
+      :state => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
+      :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
+      :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
+      :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"],
+    )
   end
 
   def price_in_cents
     (cart.total_price*100).round
   end
   
+  def origin
+    Location.new(country: "US", state: "CA", city: "Oakland", postal_code: "94612")
+  end
+ 
+  def destination
+    shipping = self.addresses.find_by(:address_type => 'shipping')
+    Location.new(country: shipping.country, state: shipping.state, city: shipping.city, postal_code: shipping.post_code)
+  end
+ 
+  def packages
+    package = Package.new(weight, [length, width, height], cylinder: false)
+  end
+ 
+  def get_rates_from_shipper(shipper)
+    response = shipper.find_rates(origin, destination, packages)
+    response.rates.sort_by(&:price)
+#    response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+  end
+ 
+  def ups_rates
+    ups = UPS.new(login: 'tpryan', password: 'ups1138', key: 'DC1022E5FAC7AD60')
+    get_rates_from_shipper(ups)
+  end
+ 
+  def usps_rates
+    usps = USPS.new(login: 'your usps account number', password: 'your usps password')
+    get_rates_from_shipper(usps)
+  end
+
   private
   
   def process_purchase

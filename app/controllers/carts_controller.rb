@@ -5,25 +5,10 @@ class CartsController < ApplicationController
   
   before_action :set_products
   before_action :signed_in_admin, except: [:show, :update, :destroy]
-  before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  before_action :set_cart, only: [:show, :update, :destroy]   # method in CurrentCart
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   
-  # GET /carts
-  def index
-    @carts = Cart.all
-  end
-
-  # GET /carts/1
   def show   
-  end
-
-  # GET /carts/new
-  def new
-    @cart = Cart.new
-  end
-
-  # GET /carts/1/edit
-  def edit
   end
 
   def create
@@ -32,11 +17,10 @@ class CartsController < ApplicationController
     if @cart.save
       redirect_to @cart, notice: 'Cart was successfully created.'
     else
-      render action: 'new'
+      redirect_to products_url, notice: 'Cart could not be saved'
     end
   end
   
-  # PATCH/PUT /carts/1
   def update
     if @cart.id == session[:cart_id]
       if @cart.update(cart_params)
@@ -47,7 +31,6 @@ class CartsController < ApplicationController
     end
   end
 
-  # DELETE /carts/1
   def destroy
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
@@ -56,13 +39,9 @@ class CartsController < ApplicationController
   
   private
   
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cart
-      @cart = Cart.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def cart_params
+      logger.debug "params: " + params.inspect
       params.require(:cart).permit(:line_items_attributes => [:id, :quantity, :_destroy])
     end
     

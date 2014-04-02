@@ -5,21 +5,17 @@ class LineItemsController < ApplicationController
   before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
   
-  # GET /line_items
   def index
     @line_items = LineItem.all
   end
 
-  # GET /line_items/1
   def show
   end
 
-  # GET /line_items/new
   def new
     @line_item = LineItem.new
   end
 
-  # GET /line_items/1/edit
   def edit
   end
 
@@ -38,7 +34,6 @@ class LineItemsController < ApplicationController
     end
   end
   
-  # PATCH/PUT /line_items/1
   def update
     if @line_item.update(line_item_params)
       redirect_to @line_item, notice: 'Line item was successfully updated.'
@@ -47,7 +42,6 @@ class LineItemsController < ApplicationController
     end
   end
 
-  # DELETE /line_items/1
   def destroy
     @cart = set_cart
     @line_item = @cart.line_items.find(params[:id])

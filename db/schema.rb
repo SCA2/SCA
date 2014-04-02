@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328004547) do
+ActiveRecord::Schema.define(version: 20140402014015) do
 
   create_table "addresses", force: true do |t|
     t.string   "first_name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140328004547) do
   create_table "carts", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "purchased_at"
   end
 
   create_table "faqs", force: true do |t|
@@ -96,6 +97,10 @@ ActiveRecord::Schema.define(version: 20140328004547) do
     t.string   "express_token"
     t.string   "express_payer_id"
     t.string   "shipping_method"
+    t.float    "length"
+    t.float    "width"
+    t.float    "height"
+    t.float    "weight"
   end
 
   create_table "products", force: true do |t|
@@ -135,7 +140,6 @@ ActiveRecord::Schema.define(version: 20140328004547) do
     t.text     "params"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "purchased_at"
   end
 
   create_table "users", force: true do |t|

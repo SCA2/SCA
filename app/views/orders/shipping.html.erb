@@ -12,13 +12,16 @@
 					<%= form_for [@order,  @address], url: create_shipping_order_path(@order) do |f| %>
 						<%= render 'shared/errors', object: f.object %>
 						<%= render 'address_form', f: f, type: @type %>
-						<%= f.submit 'Save', class: 'button' %>
+						<div class="actions">
+							<div class="form-button">
+								<%= link_to 'Back to Billing Address', :back, class: 'button', id: 'back' %>
+							</div>
+							<div class="form-button">
+								<%= f.submit 'Continue Checkout', class: 'button' %>
+							</div>
+						</div>
 					<% end %>
 				</div>
-			</div>
-			<div class="actions">
-				<%= link_to 'Back to Cart', :back, class: 'button', id: 'back' %>
-				<%= button_to 'Continue Checkout', new_order_path, class: 'button', id: 'continue' %>
 			</div>
 		</div>
 	</div>	
