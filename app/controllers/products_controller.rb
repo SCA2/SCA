@@ -9,7 +9,6 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     @products = Product.order(:category_sort_order, :model_sort_order)
-#    logger.debug '@products: ' + @products.inspect
   end
 
   # GET /products/1

@@ -6,6 +6,18 @@ class LineItem < ActiveRecord::Base
   
   validates :cart, :product, :option, presence: true
   
+  def product_model
+    product.model
+  end
+
+  def option_model
+    option.model
+  end
+
+  def full_model
+    product.model + option.model
+  end
+
   def extended_price
     option.price * quantity
   end

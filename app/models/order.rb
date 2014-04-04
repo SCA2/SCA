@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
   
   accepts_nested_attributes_for :addresses
   
-  attr_accessor :checkout_method, :shipping_cost, :card_number, :card_verification, :ip_address
+  attr_accessor :card_number, :card_verification, :ip_address
   
   validate :validate_card, :on => :save
   
@@ -58,7 +58,7 @@ class Order < ActiveRecord::Base
   end
 
   def price_in_cents
-    (cart.total_price*100).round
+    (total(cart) * 100).round
   end
   
   def origin
@@ -77,9 +77,14 @@ class Order < ActiveRecord::Base
   def get_rates_from_shipper(shipper)
     response = shipper.find_rates(origin, destination, packages)
     response.rates.sort_by(&:price)
-#    response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
   end
- 
+  
+  def get_rates_from_params
+    method = shipping_method.split(',')[0].strip  
+    cost = shipping_method.split(',')[1].strip.to_i
+    self.update(shipping_method: method, shipping_cost: cost)
+  end
+  
   def ups_rates
     ups = UPS.new(login: 'tpryan', password: 'ups1138', key: 'DC1022E5FAC7AD60')
     get_rates_from_shipper(ups)
@@ -90,6 +95,10 @@ class Order < ActiveRecord::Base
     get_rates_from_shipper(usps)
   end
 
+  def total(cart)
+    cart.subtotal + shipping_cost.to_f / 100
+  end
+  
   private
   
   def process_purchase
@@ -142,10 +151,6 @@ class Order < ActiveRecord::Base
       first_name:         billing.first_name,
       last_name:          billing.last_name
     )
-  end
-  
-  def transaction_params
-      params.require(:transaction).permit(:purchased_at)
   end
   
 end

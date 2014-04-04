@@ -62,7 +62,6 @@ class OrdersController < ApplicationController
   
   before_action :set_order, except: [:new, :create, :express, :create_express]
 
-  # serve checkout method form
   def new
     if @cart.line_items.empty?
       redirect_to products_url, notice: "Your cart is empty"
@@ -72,9 +71,6 @@ class OrdersController < ApplicationController
     end
   end
   
-  # create order as guest
-  # create order as registered user
-  # create PayPal express order
   def create
     @order = Order.create(:express_token => params[:token])
     redirect_to billing_order_path(@order)
@@ -136,6 +132,7 @@ class OrdersController < ApplicationController
   
   def update_shipper
     if @order.update(order_params)
+      @order.get_rates_from_params
       redirect_to confirm_order_path(@order)
     else
       render 'new', notice: 'Sorry, shipping method could not be updated'
@@ -188,7 +185,8 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token, :shipping_method, :length, :width, :height, :weight, 
+      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token,
+                                    :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
                                     :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state, :post_code, :country, :telephone])
     end
 

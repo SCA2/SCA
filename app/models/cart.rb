@@ -18,7 +18,15 @@ class Cart < ActiveRecord::Base
     current_item
   end
   
-  def total_price
+  def discount
+    #check for CH02 combos
+    m = line_items.size
+    #check for PC01 combos
+    #check for op-amp combos
+    #check for subpanel combos
+  end
+  
+  def subtotal
     line_items.to_a.sum { |item| item.extended_price }
   end
   

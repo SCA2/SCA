@@ -1,46 +1,58 @@
-<div class="carts">
+<fieldset>
+	<legend>Cart Contents</legend>
 	<%= form_for cart do |cart_form| %>
-		<table class="carts" style="width: 100%">
-			<tr>
-				<th>Line</th>
-				<th>Item</th>
-				<th>Description</th>
-				<th class="number">Quantity</th>
-				<th class="number">Price</th>
-				<th class="number">Ext</th>
-				<th class="number">Weight</th>
+		<table class="confirm-cart" style="width: 100%">
+			<tr id="header">
+				<th id="line">Line</th>
+				<th id="item">Item</th>
+				<th id="description">Description</th>
+				<th id="quantity">Quantity</th>
+				<th id="price">Price</th>
+				<th id="ext">Ext</th>
 			</tr>
 			<%= cart_form.fields_for :line_items do |line_form| %>
 				<% line_item = cart.line_items[line_form.index] %>
 				<tr>
 					<% model = line_item.product.model + line_item.option.model %>
 					<% item = line_item.product.category + ', ' + line_item.option.description %>
-					<td style="text-align: center"><%= line_form.index + 1 %></td>
-					<td><%= link_to model, line_item.product %></td>
-					<td><%= link_to item, line_item.product %></td>
+					<td class="line-cell"><%= line_form.index + 1 %></td>
+					<td class="item-cell"><%= link_to model, line_item.product %></td>
+					<td class="description-cell"><%= link_to item, line_item.product %></td>
 					<td class="quantity-cell" style="text-align: center">
 						<%= line_item.quantity %>
 					</td>
-					<td class="item-price">
+					<td class="price-cell">
 						<%= number_to_currency(line_item.option.price, precision: 0) %>
 					</td>
-					<td class="item-price">
+					<td class="price-cell">
 						<%= number_to_currency(line_item.extended_price, precision: 0) %>
-					</td>
-					<td class="weight-cell" style="text-align: center">
-						<%= line_item.extended_weight %>
 					</td>
 				</tr>
 			<% end %>
-			<tr class="total-line">
+			<tr id="discount-line">
+				<td class="total-cell" colspan="5">Package Discount</td>
+				<td class="total-cell">
+					<%= number_to_currency(cart.discount, precision: 2) %>
+				</td>
+			</tr>
+			<tr id="subtotal-line">
+				<td class="total-cell" colspan="5">Subtotal</td>
+				<td class="total-cell">
+					<%= number_to_currency(cart.subtotal, precision: 2) %>
+				</td>
+			</tr>
+			<tr id="shipping-line">
+				<td class="total-cell" colspan="5">Shipping</td>
+				<td class="total-cell">
+					<%= number_to_currency(order.shipping_cost.to_f / 100, precision: 2) %>
+				</td>
+			</tr>
+			<tr id="total-line">
 				<td class="total-cell" colspan="5">Total</td>
 				<td class="total-cell">
-					<%= number_to_currency(cart.total_price, precision: 0) %>
-				</td>
-				<td class="total-weight-cell">
-					<%= cart.total_weight %>
+					<%= number_to_currency(order.total(cart), precision: 2) %>
 				</td>
 			</tr>
 		</table>
 	<% end %>
-</div>
+</fieldset>

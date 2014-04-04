@@ -147,9 +147,100 @@ table.address-table {
   }
 }
 
+table.shipper {
+  display: inline-block;
+  border: solid 1px $brown-35;
+  background-color: inherit;
+  width: 50%;
+  margin: 0 auto 0 auto;
+  
+  tr {
+    line-height: 1em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 1em;
+    color: $brown-10;
+    &:nth-child(odd) {
+      background-color: darken($brown-40, 5%)
+    }
+  }
+  td {
+    width: 100%;
+    margin: 0 0 0 0;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    background-color: inherit;
+    text-align: left;
+    vertical-align: center;
+    input {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+// breadcrumbs
+
 .checkout-breadcrumbs {
   @include crumb-container;
+  border: 1px solid $brown-35;
+  background-color: darken($brown-40, 5%);
   li {
     @include crumbs;
+    a { color: $brown-10; }
+    &.unavailable a { color: $brown-30; }
+    &.unavailable:hover a { color: $brown-30, 25%; }
+  }
+}
+
+// confirm cart
+
+.confirm-cart {
+  border: none;
+  background-color: darken($brown-40, 5%);
+  tr#discount-line, #subtotal-line, #shipping-line, #total-line {
+    background-color: darken($brown-40, 5%);
+  }
+  th {
+    background-color: darken($brown-40, 5%);
+    padding: 0.5em 0.1em 0.5em 0.1em;
+  }
+  th#line, #item, #description, #quantity {
+    text-align: center;
+  }
+  th#price, #ext, #weight {
+    padding: 0.5em 1em 0.5em 0.1em;
+    text-align: right;
+  }
+  th#item, #description {
+    padding: 0.5em 0.1em 0.5em 1em;
+    text-align: left;
+  }
+  th#line, #quantity {
+    text-align: center;
+  }
+  td {
+    line-height: 1.8em;
+    vertical-align: middle;
+    padding: 0 0.1em 0 0.1em;
+  }
+  .line-cell {
+    text-align: center;
+  }
+  .item-cell, .description-cell {
+    text-align: left;
+    padding-left: 1em;
+  }
+  .quantity-cell {
+    width: 1em;
+    text-align: center;
+  }
+  .price-cell, .ext-cell {
+    padding-right: 1em;
+    text-align: right;
+  }
+  .total-cell, .total-price-cell {
+    padding-right: 1em;
+    font-weight: bold;
+    text-align: right;
   }
 }

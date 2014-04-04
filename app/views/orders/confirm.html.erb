@@ -1,6 +1,7 @@
 <% provide(:title, 'Confirm Order') %>
 <% billing = @order.addresses.find_by(:address_type => 'billing') %>
 <% shipping = @order.addresses.find_by(:address_type => 'shipping') %>
+
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns main">
@@ -10,7 +11,7 @@
 				<%= render 'confirm_address', f: shipping, legend: 'Shipping Address' %>
 				<%= render 'confirm_shipper', f: @order, legend: 'Shipping Method' %>
 			</div>
-			<%= render 'confirm_cart', cart: @cart %>
+			<%= render 'confirm_cart', cart: @cart, order: @order %>
 			<%= form_for @order, url: @redirect, method: :patch do |f| %>
 				<%= f.hidden_field :express_token %>
 				<div class="actions">
