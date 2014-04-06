@@ -1,11 +1,13 @@
 SCA::Application.routes.draw do
   
   
+  get "password_resets/new"
   resources :carts, except: [:index, :edit, :new]
   
   resources :line_items, :slider_images, :users
 
   resources :sessions, only: [:new, :create, :destroy]
+  resources :password_resets, only: [:new, :create, :edit, :update]
 
   resources :users do
     resources :addresses    

@@ -2,7 +2,11 @@ module SessionsHelper
   
   def sign_in(user)
     remember_token = User.new_remember_token
-    cookies.permanent[:remember_token] = remember_token
+    if params[:remember_me]
+      cookies.permanent[:remember_token] = remember_token
+    else
+      cookies[:remember_token] = remember_token
+    end
     user.update_attribute(:remember_token, User.encrypt(remember_token))
     self.current_user = user
   end
@@ -53,6 +57,13 @@ module SessionsHelper
   
   def signed_in_admin?
     signed_in? && current_user.admin?
+  end
+  
+  def send_password_reset
+    self.create_reset_token
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    UserMailer.password_reset(self).deliver
   end
 
 end

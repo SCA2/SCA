@@ -1,0 +1,28 @@
+<% provide(:title, 'Password Reset') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
+			<%= render 'layouts/sidebar_left', :products => @products %>
+		</div>
+	
+		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
+			<div class="password_reset">
+				<%= form_tag password_resets_path, method: :post do %>
+					<fieldset>
+						<legend>Reset password</legend>
+						<div class='field'>
+							<%= label :email, 'Email:' %>
+							<%= text_field_tag :email, params[:email], size: 40 %>
+						</div>
+						<div class="actions">
+							<%= submit_tag 'Reset Password'%>
+						</div>
+					</fieldset>
+				<% end %>
+			</div>
+		</div>
+	</div>	
+</div>
+
+

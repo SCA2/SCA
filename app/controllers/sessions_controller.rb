@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+ class SessionsController < ApplicationController
   
   before_action :set_products
   

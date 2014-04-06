@@ -16,7 +16,10 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 5 }
   
   def User.new_remember_token
-    SecureRandom.urlsafe_base64
+    begin
+      t = SecureRandom.urlsafe_base64
+    end while User.exists?(:remember_token => t)
+    return t
   end
 
   def User.encrypt(token)
@@ -27,6 +30,10 @@ class User < ActiveRecord::Base
 
     def create_remember_token
       self.remember_token = User.encrypt(User.new_remember_token)
+    end
+    
+    def create_reset_token
+      self.password_reset_token = User.encrypt(User.new_remember_token)
     end
   
 end
