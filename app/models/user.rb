@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   
   has_many :addresses, as: :addressable
+  accepts_nested_attributes_for :addresses
   
   before_save { self.email = email.downcase }
   before_create :create_remember_token
@@ -13,7 +14,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   
   has_secure_password
-  validates :password, length: { minimum: 5 }
+  validates :password, length: { minimum: 5 }, on: :create
   
   def User.new_remember_token
     begin
@@ -24,6 +25,15 @@ class User < ActiveRecord::Base
 
   def User.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+  
+  def send_password_reset
+    create_reset_token
+    logger.debug "user: " + self.inspect
+    self.update!(password_reset_sent_at: Time.zone.now)
+#    save!
+    logger.debug "Mailer: " + self.password_reset_token.inspect
+    UserMailer.password_reset(self).deliver
   end
 
   private

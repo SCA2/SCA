@@ -2,7 +2,7 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-12 columns" style="margin: 1em 0em 1em 0em">
+		<div class="small-12 columns">
 				<div class="addresses">				
 					<%= render 'shared/progress_bar' %>
 					<div class="billing-address">

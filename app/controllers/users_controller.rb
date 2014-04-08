@@ -16,6 +16,7 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new
+      @user
     end
   end
 

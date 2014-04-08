@@ -109,6 +109,44 @@ fieldset {
   }
 }
 
+table.user-table {
+  border: none;
+  background-color: $brown-40;
+  width: 100%;
+  margin: 0 auto 0 auto;
+  
+  tr.field {
+    line-height: 2em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 1em;
+    color: $brown-10;
+    &:nth-child(odd) {
+      background-color: darken($brown-40, 5%)
+    }
+  }
+  td.label {
+    margin: 0 0 0 0;
+    padding: 0 1em 0 1em;
+    background-color: inherit;
+    text-align: left;
+    label {
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;  
+    }
+  }
+  td.input {
+    margin: 0 0 0 0;
+    padding: 0 0.5em 0 0.5em;
+    width: 70%;
+    input {
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;  
+      height: 1.8em;
+    }
+  }
+}
+
 table.address-table {
   border: none;
   background-color: $brown-40;

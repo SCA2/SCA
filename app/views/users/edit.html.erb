@@ -2,14 +2,21 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns" style="margin: 1em 0em 1em 1em">
-			<%= render 'layouts/sidebar_left', :products => @products %>
-		</div>
-		<div class="small-8 columns" style="margin: 5em 1em 0em 0em">
-			<%= form_for(@user) do |f| %>
-				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', 	:locals => { :f => f, :legend => 'Update your profile', :submit => 'Save changes' } %>
+		<div class="small-12 columns">
+			<%= form_for @user do |user| %>
+				<%= render 'shared/errors', object: user.object %>
+				<%= render 'form', f: user, legend: 'Update your profile' %>
+					<%= fields_for @user.address do |address| %>
+						<%= render 'address_form', f: address, type: 'billing' %>
+					<% end %>
+					<%= fields_for @user.address do |address| %>
+						<%= render 'address_form', f: address, type: 'shipping' %>
+					<% end %>
+				<div class="actions">
+					<%= f.submit 'Save changes', class: 'button' %>
+				</div>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>
+

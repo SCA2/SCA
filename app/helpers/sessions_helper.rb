@@ -59,11 +59,4 @@ module SessionsHelper
     signed_in? && current_user.admin?
   end
   
-  def send_password_reset
-    self.create_reset_token
-    self.password_reset_sent_at = Time.zone.now
-    save!
-    UserMailer.password_reset(self).deliver
-  end
-
 end
