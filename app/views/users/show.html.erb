@@ -1,18 +1,15 @@
 <% provide(:title, @user.name) %>
-<% billing = @user.addresses.find_by(:address_type => 'billing') %>
-<% shipping = @user.addresses.find_by(:address_type => 'shipping') %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-3 columns">
 			<%= render 'layouts/sidebar_left' %>
 		</div>
-	
 		<div class="small-9 columns">
 			<div class='review-box'>
 				<%= render 'orders/confirm_user', f: @user, legend: 'User' %>
-				<%= render 'orders/confirm_address', f: billing, legend: 'Billing Address' if billing %>
-				<%= render 'orders/confirm_address', f: shipping, legend: 'Shipping Address' if shipping %>
+				<%= render 'orders/confirm_address', f: @billing, legend: 'Billing Address' if @billing %>
+				<%= render 'orders/confirm_address', f: @shipping, legend: 'Shipping Address' if @shipping %>
 			</div>
 		</div>
 	</div>	

@@ -36,7 +36,7 @@ main[role=main] {
 }
 
 body {
-  background-color: $brown-10;
+  background: $brown-10 !important;
 }
 
 footer {
@@ -424,7 +424,6 @@ div.small-product {
       margin: 0 0 0 0;
       padding: 0 1em 0 0;
       font-size: 95%;
-      font-style: italic;
       background-color: inherit;
     }
     .price {
@@ -535,7 +534,6 @@ div.large-product {
   .options-box {
     overflow: hidden;
     margin: 1em 0 0 0;
-//    border: 1px solid #000000;
     
     .select-option {
       height: 2em;
@@ -544,12 +542,10 @@ div.large-product {
       margin: 0.1em 0 0 0;
       padding: 0 1em 0 0;
       font-size: 95%;
-      font-style: italic;
       background-color: darken($brown-40, 2%);
     }
     .price {
       color: #A00;
-//      display: inline-block;
       float: left;
       margin: 0.25em 0 0 1em;
       font-size: 2em;
@@ -629,96 +625,6 @@ div.large-product {
     width: 100%;
     margin: 1em 0 0 0
   }
-}
-
-// Shopping cart
-
-.carts {
-  th {
-//    border: 1px solid #382E22;
-    padding: 0.5em 0.1em 0.5em 0.1em;
-  }
-  th#remove, #item, #description, #quantity {
-    text-align: center;
-  }
-  th#price, #ext, #weight {
-    padding: 0.5em 1em 0.5em 0.1em;
-    text-align: right;
-  }
-  th#remove, #item, #description, #quantity {
-    text-align: center;
-  }
-  th#remove {
-    padding: 0.5em 0.1em 0.5em 1em;
-  }
-
-  td {
-    line-height: 1.8em;
-    vertical-align: middle;
-    padding: 0 0.1em 0 0.1em;
-  }
-  .checkbox-cell {
-    padding-left: 1em;
-    width: 1em;
-    text-align: center;
-    input {
-      margin: 0;
-    }
-  }
-  .item-cell {
-    text-align: center;
-  }
-  .description-cell {
-    text-align: left;
-  }
-  .quantity-cell {
-    width: 1em;
-    input {
-      margin: 0;
-//      padding: 0 0 0 0.5em;
-      text-align: center;
-    }
-  }
-  .price-cell, .ext-cell, .weight-cell {
-    padding-right: 1em;
-    text-align: right;
-  }
-  .total-cell, .total-price-cell, .total-weight-cell {
-    padding-right: 1em;
-    border-top: 1px solid #382E22;
-    font-weight: bold;
-    text-align: right;
-  }
-  .weight-cell, .total-weight-cell {
-    padding-right: 1em;
-    width: 1em;
-    text-align: right;
-  }
-  .actions {
-    width: 100%;
-    margin: 1em 0 0 0;
-    .form-button {
-      display: inline-block;
-      margin: 0;
-      padding: 0;
-      width: 24.5%;
-      .button {
-        @include button();
-        width: 100%;
-        margin: 0;
-        padding: 0.25em;
-      }
-    }
-    .paypal-button {
-      margin: 1em 0 0 0;
-      width: 100%;
-      a img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      } 
-    }
-  }  
 }
 
 // Cart Peek

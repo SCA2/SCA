@@ -23,18 +23,16 @@ SCA::Application.routes.draw do
   end
   
   resources :orders do
-    resources :addresses
+#    resources :addresses
     collection do
       get 'express'
       get 'create_express'
     end
     member do
-      get 'billing'
-      post 'create_billing'
+      get 'addresses'
+      post 'create_addresses'
       get 'shipping'
-      post 'create_shipping'
-      get 'shipper'
-      patch 'update_shipper'
+      patch 'update_shipping'
       get 'payment'
       patch 'update_payment'
       get 'confirm'

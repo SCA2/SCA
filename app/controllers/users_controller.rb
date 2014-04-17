@@ -16,13 +16,16 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new
-      @user
+      @billing = @user.addresses.build(address_type: 'billing')
+      @shipping = @user.addresses.build(address_type: 'shipping')
     end
   end
 
   # GET /users/:id
   def show
     @user = User.find(params[:id])
+    @billing = @user.addresses.find_by(address_type: 'billing')
+    @shipping = @user.addresses.find_by(address_type: 'shipping')
   end
 
   # POST /users
@@ -35,17 +38,19 @@ class UsersController < ApplicationController
         sign_in @user
         redirect_to @user, :notice => "Signed up!"
       else
-        render 'new'
+        redirect_to signup_url
       end
     end
   end
   
   # PATCH /users/:id
   def edit
+    @billing = @user.addresses.find_or_create_by(:address_type => 'billing')
+    @shipping = @user.addresses.find_or_create_by(:address_type => 'shipping')
   end
   
   def update
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       redirect_to @user, :notice => "Profile updated!"
     else
       render 'edit'
@@ -67,7 +72,8 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit( :name, :email, :password, :password_confirmation,
+                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state, :post_code, :country, :telephone])
     end
     
     def correct_user
@@ -78,5 +84,6 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end
-    
+
 end
+

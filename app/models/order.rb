@@ -8,10 +8,16 @@ class Order < ActiveRecord::Base
   
   accepts_nested_attributes_for :addresses
   
-  attr_accessor :card_number, :card_verification, :ip_address
+  attr_accessor :card_number, :card_verification, :ip_address, :order_ready
   
-  validate :validate_card, :on => :save
-  
+  validate :validate_card, if: :order_ready?
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, 
+                    format: { with: VALID_EMAIL_REGEX },
+                    if: :order_ready?
+
+
   CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
   
   def purchase
@@ -33,6 +39,7 @@ class Order < ActiveRecord::Base
 
   def get_express_address(token)
     details = EXPRESS_GATEWAY.details_for(token)
+    self.update(email: details.params["payer"])
     self.addresses.create!(:address_type => 'billing',
       :first_name => details.params["first_name"],
       :last_name => details.params["last_name"],
@@ -135,7 +142,7 @@ class Order < ActiveRecord::Base
   def validate_card
     if express_token.blank? && !credit_card.valid?
       credit_card.errors.full_messages.each do |message|
-        errors.add_to_base message
+        errors[:base] << message
       end
     end
   end
@@ -153,4 +160,13 @@ class Order < ActiveRecord::Base
     )
   end
   
+  def order_ready?
+    logger.debug "order_ready: " + order_ready.inspect
+    if order_ready == true
+      return true
+    else
+      return false
+    end
+  end
+
 end

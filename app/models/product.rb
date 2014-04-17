@@ -11,9 +11,7 @@ class Product < ActiveRecord::Base
   before_destroy :ensure_not_referenced_by_any_line_item
 
   validates :model, :model_sort_order, :category, :category_sort_order,
-            :short_description, :long_description,
-            :specifications, :bom, :schematic, :assembly,  
-            :image_1, :image_2, presence: true 
+            :short_description, :long_description, :image_1, presence: true 
             
   
   

@@ -1,0 +1,54 @@
+
+Dear <%= @billing.first_name + ' ' + @billing.last_name %>,
+
+Thank you for choosing Seventh Circle Audio.  We appreciate your business!                                                  
+
+Your order confirmation is below.  Please save a copy for your records.                                     
+
+--------------------------------------------------------------------------------
+<%= sprintf("%-38s  %-38s", "Order Date", @cart.purchased_at.to_s) %>
+<%= sprintf("%-38s  %-38s", "Transaction ID", @transaction.params['transaction_id'].to_s) %>
+<%= sprintf("%-38s  %-38s", "Shipping Method", @order.shipping_method) %>
+--------------------------------------------------------------------------------
+
+<%= sprintf("%-38s  %-38s", "Billing Address", "Shipping Address") %>
+
+<%= sprintf("%-38s  %-38s", @billing.first_name + ' ' + @billing.last_name, @shipping.first_name + ' ' + @shipping.last_name) %>
+<%= sprintf("%-38s  %-38s", @billing.address_1, @shipping.address_1 ) %>
+<% if !@billing.address_2 || @billing.address_2.size == 0 %>
+<% 	billing_2 = "" %>
+<% else %>
+<% 	billing_2 = @billing.address_2 %>
+<% end %>
+<% if !@shipping.address_2 || @shipping.address_2.size == 0 %>
+<%	shipping_2 = "" %>
+<% else %>
+<% 	shipping_2 = @shipping.address_2 %>
+<% end %>
+<%= sprintf("%-38s  %-38s", @billing.address_2, @shipping.address_2) %>
+<%= sprintf("%-38s  %-38s", @billing.city + ', ' + @billing.state, @shipping.city + ', ' + @shipping.state) %>
+<%= sprintf("%-38s  %-38s", @billing.post_code, @shipping.post_code) %>
+<%= sprintf("%-38s  %-38s", @billing.country, @shipping.country) %>
+<%= sprintf("%-38s  %-38s", @billing.telephone, @shipping.telephone) %>
+
+--------------------------------------------------------------------------------
+<%= sprintf("%-5s%-12s%-43.43s%4s%8s%8s", "Line", "Item", "Description", "Qty", "Price", "Total") %>
+--------------------------------------------------------------------------------
+<% @cart.line_items.each_with_index do |line_item, index| %>
+	<% line = (index + 1).to_s %>
+	<% model = line_item.product.model + line_item.option.model %>
+	<% item = line_item.product.category + ', ' + line_item.option.description %>
+	<% price = number_to_currency(line_item.option.price, precision: 0) %>
+	<% ext = number_to_currency(line_item.extended_price, precision: 0) %>
+<%= sprintf("%-5s%-12s%-43.43s%4s%8s%8s", line, model, item, line_item.quantity, price, ext) %>
+<% end %>
+
+<%= sprintf("%71s%9s", "Package Discount", number_to_currency(@cart.discount, precision: 2)) %>
+<%= sprintf("%71s%9s", "Subtotal", number_to_currency(@cart.subtotal, precision: 2)) %>
+<%= sprintf("%71s%9s", "Shipping", number_to_currency(@order.shipping_cost.to_f / 100, precision: 2)) %>
+<%= sprintf("%71s%9s", "Sales Tax", number_to_currency(0, precision: 2)) %>
+<%= sprintf("%71s%9s", "Total", number_to_currency(@order.total(@cart), precision: 2)) %>
+--------------------------------------------------------------------------------
+
+Please email sales@seventhcircleaudio.com with questions about order status.                               
+

@@ -1,9 +1,7 @@
-<% if @product.options.any? %>
+<% if signed_in_admin? %>
 	<% @product.current_option ||= @product.options.first.id.to_i %>
- 	<% if signed_in_admin? %>
-		<% option = @product.options.find(@product.current_option) %>
-		<%= link_to 'New Option', new_product_option_path(@product), class: "admin-button", id: 'new-link'  %>
-		<%= link_to "Edit Option", edit_product_option_path(@product, option), class: "admin-button", id: 'edit-link' %>
-	  <%= link_to "Delete Option", product_option_path(@product, option), class: "admin-button", method: :delete, data: { confirm: "You sure?" }, id: 'delete-link' %>
-	<% end %>
+	<% option = @product.options.find(@product.current_option) %>
+	<%= link_to 'New Option', new_product_option_path(@product), class: "admin-button", id: 'new-link'  %>
+	<%= link_to "Edit Option", edit_product_option_path(@product, option), class: "admin-button", id: 'edit-link' %>
+  <%= link_to "Delete Option", product_option_path(@product, option), class: "admin-button", method: :delete, data: { confirm: "You sure?" }, id: 'delete-link' %>
 <% end %>

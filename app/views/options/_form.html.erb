@@ -8,19 +8,23 @@
 		<%= f.label :description, 'Description:' %>
  		<%= f.text_field :description %>
 	</div>
-	<div class="field" style = "float: left; width: 25%">
+	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :price, 'Price:' %>
 		<%= f.number_field :price %>
 	</div>
-	<div class="field" style = "float: left; width: 25%">
+	<div class="field" style = "float: left; width: 20%">
+		<%= f.label :discount, 'Discount:' %>
+		<%= f.number_field :discount %>
+	</div>
+	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :shipping_weight, 'Shipping Weight:' %>
 		<%= f.number_field :shipping_weight %>
 	</div>
-	<div class="field" style = "float: left; width: 25%">
+	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :sort_order, 'Sort Order:' %>
 		<%= f.number_field :sort_order, in: 1..100 %>
 	</div>
-	<div class="field" style = "float: left; width: 25%">
+	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :upc, 'UPC:' %>
 		<%= f.text_field :upc %>
 	</div>

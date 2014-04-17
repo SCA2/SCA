@@ -29,10 +29,7 @@ class User < ActiveRecord::Base
   
   def send_password_reset
     create_reset_token
-    logger.debug "user: " + self.inspect
     self.update!(password_reset_sent_at: Time.zone.now)
-#    save!
-    logger.debug "Mailer: " + self.password_reset_token.inspect
     UserMailer.password_reset(self).deliver
   end
 

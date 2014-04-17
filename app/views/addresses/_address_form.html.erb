@@ -1,7 +1,7 @@
 <fieldset id="address">
-	<legend><%= type.capitalize + " Address" %></legend>
+	<legend><%= f.object.address_type.capitalize + " Address" %></legend>
 	<table class="address-table">
-		<%= f.hidden_field :address_type, value: type %>
+		<%= f.hidden_field :address_type, value: f.object.address_type %>
 		<tr class="field">
 			<td class="label"><%= f.label :first_name %></td>
 			<td class="input"><%= f.text_field :first_name %></td>

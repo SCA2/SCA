@@ -6,22 +6,18 @@ class OptionsController < ApplicationController
   before_action :signed_in_admin, except: :show
   before_action :set_option, only: [:show, :edit, :update, :destroy]
 
-  # GET /options/1
   def show
   end
 
-  # GET /options/new
   def new
     @product = Product.find(params[:product_id])
     @option = @product.options.build
   end
 
 
-  # GET /options/1/edit
   def edit
   end
 
-  # POST /options
   def create
     @product = Product.find(params[:product_id])
     @option = @product.options.build(option_params)
@@ -33,7 +29,6 @@ class OptionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /options/1
   def update
     if @option.update(option_params)
       redirect_to @product, notice: 'Option was successfully updated.'
@@ -42,7 +37,6 @@ class OptionsController < ApplicationController
     end
   end
 
-  # DELETE /options/1
   def destroy
     @option.destroy
     redirect_to @product
@@ -57,7 +51,7 @@ class OptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def option_params
-      params.require(:option).permit( :model, :current_option, :description, :price,
+      params.require(:option).permit( :model, :current_option, :description, :price, :discount,
                                       :upc, :shipping_weight, :finished_stock,
                                       :kit_stock, :part_stock, :sort_order)
     end

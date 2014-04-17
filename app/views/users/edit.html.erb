@@ -6,14 +6,14 @@
 			<%= form_for @user do |user| %>
 				<%= render 'shared/errors', object: user.object %>
 				<%= render 'form', f: user, legend: 'Update your profile' %>
-					<%= fields_for @user.address do |address| %>
-						<%= render 'address_form', f: address, type: 'billing' %>
-					<% end %>
-					<%= fields_for @user.address do |address| %>
-						<%= render 'address_form', f: address, type: 'shipping' %>
-					<% end %>
+				<%= user.fields_for :addresses, @billing do |address| %>
+					<%= render 'addresses/address_form', f: address %>
+				<% end %>
+				<%= user.fields_for :addresses, @shipping do |address| %>
+					<%= render 'addresses/address_form', f: address %>
+				<% end %>
 				<div class="actions">
-					<%= f.submit 'Save changes', class: 'button' %>
+					<%= user.submit 'Save changes', class: 'button' %>
 				</div>
 			<% end %>
 		</div>

@@ -15,6 +15,8 @@ class PasswordResetsController < ApplicationController
   
   def edit
     @user = User.find_by_password_reset_token!(params[:id])
+  rescue
+    redirect_to root_url, notice: 'Sorry, no user by that token'
   end
   
   def update
@@ -26,6 +28,8 @@ class PasswordResetsController < ApplicationController
     else
       render :edit
     end
+  rescue
+    redirect_to root_url, notice: 'Sorry, no user by that token'      
   end
   
   private

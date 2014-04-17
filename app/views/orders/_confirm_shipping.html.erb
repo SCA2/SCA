@@ -1,0 +1,9 @@
+<fieldset class="confirm-shipper">
+	<legend><%= legend %></legend>
+	<table class="address-table">
+		<tr class="field">
+			<td class="input"><%= f.shipping_method %></td>
+			<td class="input"><%= number_to_currency(f.shipping_cost.to_f / 100) %></td>
+		</tr>
+	</table>
+</fieldset>

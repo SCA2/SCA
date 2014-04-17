@@ -7,5 +7,10 @@ class Option < ActiveRecord::Base
   default_scope -> { order('sort_order ASC') }
   
   validates :product_id, :model, :description, :price, :sort_order, presence: true
+  
+  after_initialize :init
 
+  def init
+    self.discount ||= 0
+  end
 end

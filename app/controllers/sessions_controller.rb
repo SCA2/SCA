@@ -1,6 +1,7 @@
  class SessionsController < ApplicationController
   
-  before_action :set_products
+  include CurrentCart, SidebarData
+  before_action :set_cart, :set_products
   
   def new
   end
@@ -21,9 +22,4 @@
     redirect_to home_path, :notice => "Signed out!"
   end
   
-  private
-  
-    def set_products
-      @products = Product.order(:category_sort_order, :model_sort_order)
-    end
 end

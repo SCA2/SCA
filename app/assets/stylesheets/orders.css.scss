@@ -6,16 +6,17 @@
 @import "foundation/components/breadcrumbs";
 @import "foundation/components/buttons";
 
+div.user-info {
+  width: 49%;  
+}
 
 div.addresses {
-//  display: block;
-//  overflow: hidden;
   width: 100%;
-  margin: 0 auto 0 auto;
+  margin: 0;
   div.address {
     display: inline-block;
-    width: 100%;
-    margin: 0 1% 0 0;
+    width: 49%;
+    margin: 0;
   }
 }
 
@@ -232,11 +233,14 @@ table.shipper {
 
 // confirm cart
 
-.confirm-cart {
+table.confirm-cart {
   border: none;
   background-color: darken($brown-40, 5%);
   tr#discount-line, #subtotal-line, #shipping-line, #total-line {
     background-color: darken($brown-40, 5%);
+  }
+  tr#divider-line {
+    background-color: $brown-40;
   }
   th {
     background-color: darken($brown-40, 5%);
@@ -280,5 +284,105 @@ table.shipper {
     padding-right: 1em;
     font-weight: bold;
     text-align: right;
+  }
+  .divider-cell {
+    height: 2em;
+  }
+}
+
+// Main cart
+
+div.main-cart {
+  width: 100%;
+  .actions {
+    width: 100%;
+    margin: 1em 0 0 0;
+    .form-button {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      width: 24.5%;
+      .button {
+        @include button();
+        width: 100%;
+        margin: 0;
+        padding: 0.25em;
+      }
+    }
+    .paypal-button {
+      margin: 1em 0 0 0;
+      width: 100%;
+      a img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      } 
+    }
+  }  
+}
+
+table.main-cart {
+  width: 100%;
+  border: none;
+  background-color: darken($brown-40, 5%);
+  tr#discount-line, #subtotal-line, #shipping-line, #total-line {
+    background-color: inherit;
+  }
+  tr#divider-line {
+    background-color: $brown-40;
+    line-height: 0.5em;
+  }
+  th {
+    background-color: darken($brown-40, 5%);
+    padding: 0.5em 0.1em 0.5em 0.1em;
+  }
+  th#remove, #item, #description, #quantity {
+    text-align: center;
+  }
+  th#price, #ext, #weight {
+    padding: 0.5em 1em 0.5em 0.1em;
+    text-align: right;
+  }
+  th#item, #description {
+    padding: 0.5em 0.1em 0.5em 1em;
+    text-align: left;
+  }
+  th#remove, #quantity {
+    text-align: center;
+  }
+  td {
+    line-height: 1.8em;
+    vertical-align: middle;
+    padding: 0 0.1em 0 0.1em;
+  }
+  .remove-cell {
+    width: 1em;
+    text-align: center;
+    input {
+      margin: 0;
+    }
+  }
+  .item-cell, .description-cell {
+    text-align: left;
+    padding-left: 1em;
+  }
+  .quantity-cell {
+    width: 1em;
+    input {
+      margin: 0;
+      text-align: center;
+    }
+  }
+  .price-cell, .ext-cell {
+    padding-right: 1em;
+    text-align: right;
+  }
+  .total-cell, .total-price-cell {
+    padding-right: 1em;
+    font-weight: bold;
+    text-align: right;
+  }
+  .divider-cell {
+    height: 0.5em;
   }
 }

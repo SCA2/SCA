@@ -1,6 +1,6 @@
-<div class="carts">
+<div class="main-cart">
 	<%= form_for cart do |cart_form| %>
-		<table class="carts" style="width: 100%">
+		<table class="main-cart">
 			<tr>
 				<th id="remove">Remove</th>
 				<th id="item">Item</th>
@@ -8,14 +8,13 @@
 				<th id="quantity">Quantity</th>
 				<th id="price">Price</th>
 				<th id="ext">Ext</th>
-				<th id="weight">Weight</th>
 			</tr>
 			<%= cart_form.fields_for :line_items do |line_form| %>
 				<% line_item = cart.line_items[line_form.index] %>
 				<tr>
 					<% model = line_item.product.model + line_item.option.model %>
 					<% item = line_item.product.category + ', ' + line_item.option.description %>
-					<td class="checkbox-cell">
+					<td class="remove-cell">
 						<%= line_form.check_box :_destroy  %>
 					</td>
 					<td class="item-cell"><%= link_to model, line_item.product %></td>
@@ -29,33 +28,39 @@
 					<td class="price-cell">
 						<%= number_to_currency(line_item.extended_price, precision: 0) %>
 					</td>
-					<td class="weight-cell">
-						<%= line_item.extended_weight %>
-					</td>
 				</tr>
 			<% end %>
-			<tr class="total-line">
-				<td class="total-cell" colspan="5">Total</td>
+			<tr id="divider-line"><td class="divider-cell" colspan="6"></td></tr>
+			<tr id="discount-line">
+				<td class="total-cell" colspan="5">Discount</td>
 				<td class="total-price-cell">
-					<%= number_to_currency(cart.total_price, precision: 0) %>
+					<%= number_to_currency(cart.discount, precision: 0) %>
 				</td>
-				<td class="total-weight-cell">
-					<%= cart.total_weight %>
+			</tr>
+			<tr id="total-line">
+				<td class="total-cell" colspan="5">Subtotal</td>
+				<td class="total-price-cell">
+					<%= number_to_currency(cart.subtotal, precision: 0) %>
 				</td>
 			</tr>
 		</table>
 		<div class="actions">
-			<div class="form-button">
-				<%= button_to 'Update cart', cart, class: "button" %>
+			<div>
+				<div class="form-button">
+					<%= button_to 'Update cart', cart, class: "button" %>
+				</div>
+				<div class="form-button">
+					<%= link_to 'Empty cart', cart, method: :delete, class: "button", data: { confirm: 'Are you sure?' } %>
+				</div>
+				<div class="form-button">
+					<%= link_to 'Keep shopping', products_path, method: :get, class: "button" %>
+				</div>
+				<div class="form-button">
+					<%= link_to 'Checkout', orders_path, method: :post, class: "button" %>
+				</div>
 			</div>
-			<div class="form-button">
-				<%= link_to 'Empty cart', cart, method: :delete, class: "button", data: { confirm: 'Are you sure?' } %>
-			</div>
-			<div class="form-button">
-				<%= link_to 'Keep shopping', products_path, method: :get, class: "button" %>
-			</div>
-			<div class="form-button">
-				<%= link_to 'Checkout', new_order_path, method: :get, class: "button" %>
+			<div class="paypal-button">
+				<%= link_to image_tag("https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"),	express_orders_path, class: 'paypal-button' %>
 			</div>
 		</div>
 	<% end %>

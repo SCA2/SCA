@@ -82,9 +82,9 @@ SCA::Application.configure do
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :production
     paypal_options = {
-      login: "seller_api1.seventhcircleaudio.com",
-      password: "1395378556",
-      signature: "AFcWxV21C7fd0v3bYYYRCpSSRl31ApUVvNIwibHp-K5LkdUJTOBF9q2i"
+      login: "sales_api1.seventhcircleaudio.com",
+      password: "KF2FKPJ5YACKVBW2",
+      signature: "AFcWxV21C7fd0v3bYYYRCpSSRl31AVJd7buQNsdHnJI4Wa4QVAZrqcti"
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
