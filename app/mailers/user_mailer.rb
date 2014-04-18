@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
 
+  default css: "mailers.css.scss"
   default from: "admin@seventhcircleaudio.com"
   default return_path: "admin@seventhcircleaudio.com"
   default date: Time.now

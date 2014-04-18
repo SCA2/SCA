@@ -1,0 +1,105 @@
+
+@import "colors";
+
+table.order_confirmation {
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  border: none;
+  color: $brown-10;
+  background-color: #FFF;
+  width: 100%;
+  
+  .address-table {
+    width: 100%;
+  }
+  
+  caption {
+    text-align: left;
+    font-weight: bold;
+    padding: 0 0 0.5em 0.5em;
+  }
+  
+  tr.field {
+    line-height: 1.2em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: 1em;
+    &:nth-child(odd) {
+      background-color: darken(#FFF, 5%)
+    }
+  }
+  tr#discount-line, #subtotal-line, #shipping-line, #salestax-line, #total-line {
+    background-color: darken(#FFF, 5%);
+  }
+  th {
+    background-color: darken(#FFF, 5%);
+    padding: 0.5em 0.1em 0.5em 0.1em;
+  }
+  th#heading {
+    width: 100%;
+    text-align: right;
+    padding-right: 0.5em;  
+  }
+  th#price, #ext {
+    padding: 0.5em 0.5em 0.5em 0.1em;
+    text-align: right;
+  }
+  th#item, #description {
+    padding: 0.5em 0.1em 0.5em 1em;
+    text-align: left;
+  }
+  th#line, #quantity {
+    text-align: center;
+  }
+  th#line {
+    padding-left: 0.5em;
+  }
+  td {
+    line-height: 1.8em;
+    vertical-align: middle;
+    padding: 0 0.1em 0 0.1em;
+  }
+  td.label {
+    margin: 0 0 0 0;
+    padding: 0 1em 0 0.5em;
+    background-color: inherit;
+    text-align: left;
+    font-weight: bold;  
+  }
+  td.input {
+    margin: 0 0 0 0;
+    padding: 0 0.5em 0 1em;
+  }
+  .text-cell {
+    padding-left: 0.5em;
+  }
+  .line-cell {
+    padding-left: 0.5em;
+    text-align: center;
+  }
+  .item-cell, .description-cell {
+    text-align: left;
+    padding-left: 1em;
+  }
+  .quantity-cell {
+    width: 1em;
+    text-align: center;
+  }
+  .price-cell, .ext-cell {
+    padding-right: 0.5em;
+    text-align: right;
+  }
+  .total-cell, .total-price-cell {
+    padding-right: 0.5em;
+    font-weight: bold;
+    text-align: right;
+  }
+  .divider-cell {
+    height: 1em;
+  }
+  .footer-cell {
+    height: 2em;
+    text-align: center;
+  }
+}
+

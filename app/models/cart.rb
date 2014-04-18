@@ -4,6 +4,8 @@ class Cart < ActiveRecord::Base
   has_many :line_items, dependent: :destroy, inverse_of: :cart
   accepts_nested_attributes_for :line_items, allow_destroy: true
   
+  TAX_RATE = 900  # sales tax percentage * 100
+  
   def add_product(product, option)
     current_item = line_items.find_by(product_id: product.id)
     if current_item
@@ -59,6 +61,10 @@ class Cart < ActiveRecord::Base
 
   def subtotal
     line_items.to_a.sum { |item| item.extended_price } - discount
+  end
+  
+  def sales_tax
+    (subtotal * TAX_RATE).to_f / 10000
   end
   
   def total_items

@@ -103,7 +103,7 @@ class Order < ActiveRecord::Base
   end
 
   def total(cart)
-    cart.subtotal + shipping_cost.to_f / 100
+    cart.subtotal + cart.sales_tax + shipping_cost.to_f / 100
   end
   
   private

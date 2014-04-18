@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409014019) do
+ActiveRecord::Schema.define(version: 20140418050340) do
 
   create_table "addresses", force: true do |t|
     t.string   "first_name"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20140409014019) do
     t.float    "height"
     t.float    "weight"
     t.integer  "shipping_cost",    limit: 255
+    t.integer  "sales_tax"
   end
 
   create_table "products", force: true do |t|

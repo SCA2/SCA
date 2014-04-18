@@ -236,7 +236,7 @@ table.shipper {
 table.confirm-cart {
   border: none;
   background-color: darken($brown-40, 5%);
-  tr#discount-line, #subtotal-line, #shipping-line, #total-line {
+  tr#discount-line, #subtotal-line, #shipping-line, #salestax-line, #total-line {
     background-color: darken($brown-40, 5%);
   }
   tr#divider-line {
@@ -325,8 +325,8 @@ table.main-cart {
   width: 100%;
   border: none;
   background-color: darken($brown-40, 5%);
-  tr#discount-line, #subtotal-line, #shipping-line, #total-line {
-    background-color: inherit;
+  tr#discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
+    background-color: darken($brown-40, 5%);
   }
   tr#divider-line {
     background-color: $brown-40;

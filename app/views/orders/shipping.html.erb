@@ -1,0 +1,45 @@
+<% provide(:title, 'Shipper') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns sidebar">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+		<div class="small-9 columns main">
+			<%= render 'shared/progress_bar' %>
+			<%= form_for @order, url: update_shipping_order_path(@order) do |f| %>
+				<%= render 'shared/errors', object: f.object %>
+				<fieldset id="shipper">
+					<legend><%= 'Shipping Method' %></legend>
+					<table class="shipper">
+						<% @order.ups_rates.each_with_index do |rate, index| %>
+							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
+							<tr>
+								<td>
+									<% if index == 0 %> 
+										<%= f.radio_button :shipping_method, ship_method, :checked => true %>
+									<% else %>
+										<%= f.radio_button :shipping_method, ship_method, :checked => false %>
+									<% end %>
+									<%= f.label :shipping_method, rate.service_name %>
+								</td>
+								<td>
+									<%= number_to_currency(rate.price.to_f / 100) %>
+								</td>
+								
+							</tr>
+						<% end %>
+					</table> 
+				</fieldset>
+				<div class="actions">
+					<div class="form-button">
+						<%= link_to 'Back to Shipping Address', :back, class: 'button', id: 'back' %>
+					</div>
+					<div class="form-button">
+						<%= f.submit 'Continue Checkout', class: 'button' %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>	
+</div>
