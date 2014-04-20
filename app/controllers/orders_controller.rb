@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
-  before_action :set_order, except: [:create, :express, :create_express]
+  before_action :set_order, except: [:subregion_options, :create, :express, :create_express]
 
   def create
     if @cart.line_items.empty?
@@ -34,6 +34,10 @@ class OrdersController < ApplicationController
     redirect_to shipping_order_path(@order)
   end
   
+  def subregion_options
+    render partial: 'subregion_select'
+  end
+  
   def addresses
     @billing = @order.addresses.build(address_type: 'billing')
     @shipping = @order.addresses.build(address_type: 'shipping')
@@ -44,11 +48,11 @@ class OrdersController < ApplicationController
   end
   
   def create_addresses
-    @order.update(order_params)
+    @order.update!(order_params)
     if @order.save
       redirect_to shipping_order_path(@order), notice: 'Addresses saved'
     else
-      redirect_to current_cart, notice: 'Sorry, address could not be saved'
+      redirect_to @cart, notice: 'Sorry, address could not be saved'
     end
   end
   
@@ -128,12 +132,7 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token,
                                     :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
-                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state, :post_code, :country, :telephone])
+                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def address_params
-      params.require(:address).permit(:order_id, :user_id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state, :post_code, :country, :telephone)
-    end
-    
 end

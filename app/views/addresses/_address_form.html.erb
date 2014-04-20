@@ -23,16 +23,16 @@
 			<td class="input"><%= f.text_field :city %></td>
 		</tr>
 		<tr class="field">
-			<td class="label"><%= f.label :state, 'State' %></td>
-			<td class="input"><%= f.subregion_select :state %></td>
+			<td class="label"><%= f.label :state_code, 'State' %></td>
+			<td class="input"><%= render partial: 'subregion_select', locals: { select_name: f.object_name, address_type: f.object.address_type, parent_region: f.object.country } %>
+		</tr>
+		<tr class="field">
+			<td class="label"><%= f.label :country, 'Country' %></td>
+			<td class="input"><%= f.country_select :country, priority: %w{ US }, selected: 'US' %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :post_code, 'Post Code' %></td>
 			<td class="input"><%= f.text_field :post_code %></td>
-		</tr>
-		<tr class="field">
-			<td class="label"><%= f.label :country, 'Country' %></td>
-			<td class="input"><%= f.country_select :country %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :telephone %></td>

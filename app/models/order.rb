@@ -46,7 +46,7 @@ class Order < ActiveRecord::Base
       :address_1 => details.params["street1"],
       :address_2 => details.params["street2"],
       :city => details.params["city_name"],
-      :state => details.params["state_or_province"],
+      :state_code => details.params["state_or_province"],
       :country => details.params["country"],
       :post_code => details.params["postal_code"],
       :telephone => details.params["phone"]
@@ -57,7 +57,7 @@ class Order < ActiveRecord::Base
       :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
       :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
       :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
-      :state => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
+      :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
       :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
       :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
       :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"],
@@ -74,7 +74,7 @@ class Order < ActiveRecord::Base
  
   def destination
     shipping = self.addresses.find_by(:address_type => 'shipping')
-    Location.new(country: shipping.country, state: shipping.state, city: shipping.city, postal_code: shipping.post_code)
+    Location.new(country: shipping.country, state: shipping.state_code, city: shipping.city, postal_code: shipping.post_code)
   end
  
   def packages
@@ -121,12 +121,12 @@ class Order < ActiveRecord::Base
     {
       :ip => ip_address,
       :billing_address => {
-        :name     => billing.first_name + ' ' + billing.last_name,
-        :address1 => billing.address_1,
-        :city     => billing.city,
-        :state    => billing.state,
-        :country  => billing.country,
-        :zip      => billing.post_code
+        :name       => billing.first_name + ' ' + billing.last_name,
+        :address1   => billing.address_1,
+        :city       => billing.city,
+        :state_code => billing.state_code,
+        :country    => billing.country,
+        :zip        => billing.post_code
       }
     }
   end

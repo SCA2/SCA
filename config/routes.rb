@@ -25,10 +25,12 @@ SCA::Application.routes.draw do
   resources :orders do
 #    resources :addresses
     collection do
+      get 'subregion_options'
       get 'express'
       get 'create_express'
     end
     member do
+#      get 'subregion_options'
       get 'addresses'
       post 'create_addresses'
       get 'shipping'
