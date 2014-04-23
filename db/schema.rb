@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419212453) do
+ActiveRecord::Schema.define(version: 20140423154453) do
 
   create_table "addresses", force: true do |t|
     t.string   "first_name"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20140419212453) do
     t.datetime "updated_at"
     t.integer  "product_id"
     t.integer  "discount"
+    t.integer  "shipping_volume"
   end
 
   create_table "orders", force: true do |t|
@@ -98,10 +99,6 @@ ActiveRecord::Schema.define(version: 20140419212453) do
     t.string   "express_token"
     t.string   "express_payer_id"
     t.string   "shipping_method"
-    t.float    "length"
-    t.float    "width"
-    t.float    "height"
-    t.float    "weight"
     t.integer  "shipping_cost",    limit: 255
     t.integer  "sales_tax"
   end
@@ -128,9 +125,10 @@ ActiveRecord::Schema.define(version: 20140419212453) do
   create_table "slider_images", force: true do |t|
     t.string   "name"
     t.text     "caption"
-    t.string   "url"
+    t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "product_url"
   end
 
   create_table "transactions", force: true do |t|

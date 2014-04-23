@@ -180,13 +180,17 @@ table.address-table {
     width: 70%;
     input {
       margin: 0 0 0 0;
-      padding: 0 0 0 0;  
+      padding: 0 0 0 0.2em;  
       height: 1.8em;
     }
     select {
       margin: 0 0 0 0;
       padding: 0 0 0 0;  
       height: 1.8em;
+      &.cc-date-select {
+        padding-left: 0.2em;  
+        width: 49.5%;
+      }
     }
   }
 }

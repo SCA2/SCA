@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
   end
   
   def express
-    response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.price_in_cents,
+    response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
       :ip                   => request.remote_ip,
       :return_url           => create_express_orders_url,
       :cancel_return_url    => products_url,
@@ -29,8 +29,10 @@ class OrdersController < ApplicationController
   
   def create_express
     token = params[:token]
-    @order = Order.create(:express_token => token)
+    @order = Order.new(:express_token => token)
     @order.get_express_address(token)
+    @order.cart = @cart
+    @order.save
     redirect_to shipping_order_path(@order)
   end
   
@@ -39,11 +41,12 @@ class OrdersController < ApplicationController
   end
   
   def addresses
-    @billing = @order.addresses.build(address_type: 'billing')
-    @shipping = @order.addresses.build(address_type: 'shipping')
-    if signed_in?
+    if signed_in? && current_user.addresses.any?
       @billing = current_user.addresses.find_by(address_type: 'billing').dup
       @shipping = current_user.addresses.find_by(address_type: 'shipping').dup
+    else
+      @billing = @order.addresses.build(address_type: 'billing')
+      @shipping = @order.addresses.build(address_type: 'shipping')
     end
   end
   
@@ -56,18 +59,7 @@ class OrdersController < ApplicationController
     end
   end
   
-  def box_size
-    #if module_count > 2 then medium
-    #if module_count > 6 then multiple
-    #if CH02_count > 0 then large
-    #if CH02_count > 1 then multiple    
-  end
-  
   def shipping
-    @order.weight = 15 * 16
-    @order.length = 24
-    @order.width = 12
-    @order.height = 6
   end
   
   def update_shipping
@@ -108,6 +100,7 @@ class OrdersController < ApplicationController
       @order.ip_address = request.remote_ip
       if @order.purchase
         @transaction = @order.transactions.last
+        @order.cart.inventory
         UserMailer.order_received(@order).deliver
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil

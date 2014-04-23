@@ -5,15 +5,10 @@ class SliderImagesController < ApplicationController
   
   before_action :signed_in_admin, except: :index
   before_action :set_slider_image, only: [:show, :edit, :update, :destroy]
-  before_action :set_products
 
   # GET /images
   def index
     @slider_images = SliderImage.order(:id)
-    respond_to do |format|
-      format.html
-      format.csv { render text: @slider_images.to_csv }
-    end
   end
 
   # GET /images/1
@@ -54,11 +49,6 @@ class SliderImagesController < ApplicationController
     redirect_to home_url
   end
 
-  def import
-    Faq.import(params[:file])
-    redirect_to home_url, notice: "Slider images imported."
-  end
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_slider_image

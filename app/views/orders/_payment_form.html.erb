@@ -6,16 +6,23 @@
 			<td class="input"><%= f.select :card_type, Order::CARD_TYPES, prompt: 'Select a payment method' %></td>
 		</tr>
 		<tr class="field">
-			<td class="label"><%= f.label :card_number %></td>
+			<td class="label"><%= f.label :card_number, "Card Number (16 Digits)" %></td>
 			<td class="input"><%= f.text_field :card_number %></td>
 		</tr>
 		<tr class="field">
-			<td class="label"><%= f.label :card_verification, "CVV Number" %></td>
-			<td class="input"><%= f.text_field :card_verification %></td>
+			<td class="label"><%= f.label :card_verification, "CVV Number (3 Digits)" %></td>
+			<td class="input"><%= f.number_field :card_verification %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :card_expires_on %></td>
-			<td class="input"><%= f.date_select :card_expires_on, discard_day: true, start_year: Date.today.year, end_year: (Date.today.year + 10), add_month_numbers: true %></td>
+			<td class="input"><%= f.date_select :card_expires_on,
+														{ order: [:month, :year],
+														use_short_month: 1,
+														discard_day: true,
+														start_year: Date.today.year,
+														end_year: (Date.today.year + 10),
+														add_month_numbers: true },
+														{class: "cc-date-select"} %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :email %></td>

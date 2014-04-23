@@ -2,7 +2,7 @@ class Order < ActiveRecord::Base
 
   include ActiveMerchant::Shipping
 
-  belongs_to :cart
+  belongs_to :cart, inverse_of: :order
   has_many :addresses, as: :addressable
   has_many :transactions
   
@@ -22,7 +22,7 @@ class Order < ActiveRecord::Base
   
   def purchase
     response = process_purchase
-    transactions.create!(:action => "purchase", :amount => price_in_cents, :response => response)
+    transactions.create!(:action => "purchase", :amount => total_in_cents, :response => response)
     if response.success?
       cart.update(:purchased_at => Time.now) 
     end
@@ -64,8 +64,20 @@ class Order < ActiveRecord::Base
     )
   end
 
-  def price_in_cents
+  def total(cart)
+    cart.subtotal + sales_tax + shipping_cost.to_f / 100
+  end
+  
+  def total_in_cents
     (total(cart) * 100).round
+  end
+  
+  def subtotal(cart)
+    cart.subtotal
+  end
+  
+  def subtotal_in_cents
+    (subtotal(cart) * 100).round
   end
   
   def origin
@@ -78,12 +90,18 @@ class Order < ActiveRecord::Base
   end
  
   def packages
-    package = Package.new(weight, [length, width, height], cylinder: false)
+    package = Package.new(self.cart.weight,
+                          dimensions,
+                          :cylinder => false,
+                          :units => :imperial,
+                          :currency => 'USD',
+                          :value => cart.subtotal * 100)        
   end
  
   def get_rates_from_shipper(shipper)
     response = shipper.find_rates(origin, destination, packages)
-    response.rates.sort_by(&:price)
+    logger.debug "response: " + response.inspect
+    response.rates.sort_by(&:price)    
   end
   
   def get_rates_from_params
@@ -98,21 +116,54 @@ class Order < ActiveRecord::Base
   end
  
   def usps_rates
-    usps = USPS.new(login: 'your usps account number', password: 'your usps password')
+    usps = USPS.new(login: '825SEVEN1015', password: '391FA81EE622')
     get_rates_from_shipper(usps)
   end
 
-  def total(cart)
-    cart.subtotal + cart.sales_tax + shipping_cost.to_f / 100
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 900)
+    
+  def sales_tax
+    state = addresses.find_by(address_type: 'shipping').state_code
+    if SALES_TAX[state]
+      (cart.subtotal * SALES_TAX[state]).to_f / 10000
+    else
+      0
+    end
+  end
+  
+  def dimensions
+    case cart.total_volume
+    when 0 .. (6 * 4 * 3)
+      length = 6
+      width = 4
+      height = 3
+    when (6 * 4  * 3) .. (12 * 9 * 6)
+      length = 12
+      width = 9
+      height = 6
+    when (12 * 9  * 6) .. (12 * 12 * 10)
+      length = 12
+      width = 12
+      height = 10
+    when (12 * 12  * 10) .. (24 * 12 * 6)
+      length = 24
+      width = 12
+      height = 6
+    else
+      length = 24
+      width = 12
+      height = 6
+    end
+    return [length, width, height]  
   end
   
   private
   
   def process_purchase
     if express_token.blank?
-      STANDARD_GATEWAY.purchase(price_in_cents, credit_card, standard_purchase_options)
+      STANDARD_GATEWAY.purchase(total_in_cents, credit_card, standard_purchase_options)
     else
-      EXPRESS_GATEWAY.purchase(price_in_cents, express_purchase_options)
+      EXPRESS_GATEWAY.purchase(total_in_cents, express_purchase_options)
     end
   end
   
@@ -161,7 +212,6 @@ class Order < ActiveRecord::Base
   end
   
   def order_ready?
-    logger.debug "order_ready: " + order_ready.inspect
     if order_ready == true
       return true
     else

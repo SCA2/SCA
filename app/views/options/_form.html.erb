@@ -21,22 +21,26 @@
 		<%= f.number_field :shipping_weight %>
 	</div>
 	<div class="field" style = "float: left; width: 20%">
+		<%= f.label :shipping_volume, 'Shipping Volume:' %>
+		<%= f.number_field :shipping_volume %>
+	</div>
+	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :sort_order, 'Sort Order:' %>
 		<%= f.number_field :sort_order, in: 1..100 %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :upc, 'UPC:' %>
 		<%= f.text_field :upc %>
 	</div>
-	<div class="field" style = "float: left; width: 33%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :finished_stock, 'Finished Stock:' %>
 		<%= f.number_field :finished_stock %>
 	</div>
-	<div class="field" style = "float: left; width: 33%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :kit_stock, 'Kit Stock:' %>
 		<%= f.number_field :kit_stock %>
 	</div>
-	<div class="field" style = "float: left; width: 33%">
+	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :part_stock, 'Part Stock:' %>
 		<%= f.number_field :part_stock %>
 	</div>

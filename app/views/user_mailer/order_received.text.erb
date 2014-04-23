@@ -26,7 +26,7 @@ Your order confirmation is below.  Please save a copy for your records.
 <% 	shipping_2 = @shipping.address_2 %>
 <% end %>
 <%= sprintf("%-38s  %-38s", @billing.address_2, @shipping.address_2) %>
-<%= sprintf("%-38s  %-38s", @billing.city + ', ' + @billing.state, @shipping.city + ', ' + @shipping.state) %>
+<%= sprintf("%-38s  %-38s", @billing.city + ', ' + @billing.state_code, @shipping.city + ', ' + @shipping.state_code) %>
 <%= sprintf("%-38s  %-38s", @billing.post_code, @shipping.post_code) %>
 <%= sprintf("%-38s  %-38s", @billing.country, @shipping.country) %>
 <%= sprintf("%-38s  %-38s", @billing.telephone, @shipping.telephone) %>
@@ -46,7 +46,7 @@ Your order confirmation is below.  Please save a copy for your records.
 <%= sprintf("%71s%9s", "Package Discount", number_to_currency(@cart.discount, precision: 2)) %>
 <%= sprintf("%71s%9s", "Subtotal", number_to_currency(@cart.subtotal, precision: 2)) %>
 <%= sprintf("%71s%9s", "Shipping", number_to_currency(@order.shipping_cost.to_f / 100, precision: 2)) %>
-<%= sprintf("%71s%9s", "Sales Tax", number_to_currency(0, precision: 2)) %>
+<%= sprintf("%71s%9s", "Sales Tax", number_to_currency(@order.sales_tax, precision: 2)) %>
 <%= sprintf("%71s%9s", "Total", number_to_currency(@order.total(@cart), precision: 2)) %>
 --------------------------------------------------------------------------------
 

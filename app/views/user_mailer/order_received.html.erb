@@ -33,7 +33,7 @@
 						<td class="input"><%= @billing.address_2 %></td>
 					</tr>
 				<% end %>
-				<tr class="field"><td class="input"><%= @billing.city + ', ' + @billing.state %></td></tr>
+				<tr class="field"><td class="input"><%= @billing.city + ', ' + @billing.state_code %></td></tr>
 				<tr class="field"><td class="input"><%= @billing.post_code %></td></tr>
 				<tr class="field"><td class="input"><%= @billing.country %></td></tr>
 				<tr class="field"><td class="input"><%= @billing.telephone %></td></tr>
@@ -49,7 +49,7 @@
 						<td class="input"><%= @shipping.address_2 %></td>
 					</tr>
 				<% end %>
-				<tr class="field"><td class="input"><%= @shipping.city + ', ' + @shipping.state %></td></tr>
+				<tr class="field"><td class="input"><%= @shipping.city + ', ' + @shipping.state_code %></td></tr>
 				<tr class="field"><td class="input"><%= @shipping.post_code %></td></tr>
 				<tr class="field"><td class="input"><%= @shipping.country %></td></tr>
 				<tr class="field"><td class="input"><%= @shipping.telephone %></td></tr>
@@ -103,7 +103,7 @@
 				<tr id="salestax-line">
 					<td class="total-cell" colspan="5">Sales Tax</td>
 					<td class="total-cell">
-						<%= number_to_currency(@cart.sales_tax, precision: 2) %>
+						<%= number_to_currency(@order.sales_tax, precision: 2) %>
 					</td>
 				</tr>
 				<tr id="shipping-line">
