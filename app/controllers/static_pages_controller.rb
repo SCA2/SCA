@@ -3,6 +3,10 @@ class StaticPagesController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
+  def home
+    @slider_images = SliderImage.order(:id)
+  end
+  
   def forums
   end
 

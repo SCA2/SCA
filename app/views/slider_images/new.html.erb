@@ -6,17 +6,23 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<%= form_for(@slider_image) do |f| %>
-				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', 	:locals => { 
-																				:f => f, 
-																				:legend => 'New Slider Image', 
-																				:submit => 'Create',
-																				:edit => nil,
-																				:quit => 'Quit',
-																				:delete => nil } %>
-			<% end %>
+			<div class="slider-image-index">
+				<%= form_for @slider_image do |f| %>
+					<%= render 'shared/errors', object: f.object %>
+					<fieldset>
+						<legend> New Slider Image </legend>
+						<%= render 'form', f: f %>
+						<div class="actions">
+						<div class="action-spacer"></div>
+							<div class="action-buttons">
+								<%= f.submit 'Submit', class: :button %>
+								<%= link_to 'Quit', slider_images_path, class: :button %>
+							</div>
+						</div>
+					</fieldset>
+				<% end %>
+			</div>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>
 

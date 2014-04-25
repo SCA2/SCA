@@ -3,28 +3,23 @@ class SliderImagesController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
-  before_action :signed_in_admin, except: :index
+  before_action :signed_in_admin
   before_action :set_slider_image, only: [:show, :edit, :update, :destroy]
 
-  # GET /images
   def index
     @slider_images = SliderImage.order(:id)
   end
 
-  # GET /images/1
   def show
   end
 
-  # GET /images/new
   def new
     @slider_image = SliderImage.new
   end
 
-  # GET /images/1/edit
   def edit
   end
 
-  # POST /images
   def create
     @slider_image = SliderImage.new(slider_image_params)
     if @slider_image.save
@@ -34,19 +29,17 @@ class SliderImagesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /images/1
   def update
     if @slider_image.update(slider_image_params)
-      redirect_to @slider_image, notice: 'Slider image was successfully updated.'
+      redirect_to slider_images_path, notice: 'Slider image ' + @slider_image.id.to_s + ' was successfully updated.'
     else
       render action: 'edit'
     end
   end
 
-  # DELETE /images/1
   def destroy
     @slider_image.destroy
-    redirect_to home_url
+    redirect_to slider_images_url
   end
 
   private
@@ -57,7 +50,7 @@ class SliderImagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def slider_image_params
-      params.require(:slider_image).permit(:name, :caption, :url)
+      params.require(:slider_image).permit(:name, :caption, :image_url, :product_url, :sort_order)
     end
     
 end

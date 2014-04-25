@@ -1,23 +1,22 @@
-<fieldset>
-	<legend><%= legend %></legend>
-	<div class="field">
-		<%= f.label :name, 'Name:' %>
-		<%= f.text_field :name %>
-	</div>
-	<div class="field">
-		<%= f.label :caption, 'Caption:' %>
- 		<%= f.text_area :caption %>
-	</div>
-	<div class="field">
-		<%= f.label :url, 'URL:' %>
- 		<%= f.text_field :url %>
-	</div>
-	<div class="actions">
-		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if edit then link_to edit, edit_slider_image_path(@slider_image), :class => :button, :style => "float: left; width: 33%"  end %>
-		<%= if quit then link_to quit, slider_images_path, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if delete then link_to delete, @slider_image, method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
-	</div>
-</fieldset>
+<div class="field">
+	<%= f.label :name, 'Name:' %>
+	<%= f.text_field :name %>
+</div>
+<div class="field">
+	<%= f.label :caption, 'Caption:' %>
+	<%= f.text_field :caption %>
+</div>
+<div class="field">
+	<%= f.label :image_url, 'Image URL:' %>
+	<%= f.text_field :image_url %>
+</div>
+<div class="field">
+	<%= f.label :product_url, 'Product URL:' %>
+	<%= f.text_field :product_url %>
+</div>
+<div class="field">
+	<%= f.label :sort_order, 'Sort order:' %>
+	<%= f.number_field :sort_order %>
+</div>
 
 
