@@ -32,6 +32,8 @@ img.logo_1 {
 }
 
 main[role=main] {
+  margin: 0;
+  padding: 0;
   background-color: $brown-40;
 }
 
@@ -65,25 +67,16 @@ ul.ul_1 li{
   margin: 0 2em 1em 2em;
 }
 
-img.photo_1 {
-  top: 0px;
-  left: 10px;
-  width: 60em;
-}
-
-.fb-iframe-align {
-    margin: 0 0 0 10px !important;
-    text-align:center;
-}
-
-.box_1 {
+div.slider-box {
+  margin: 0;
+  padding: 0;
   width: 100%;
 }
 
 div.box_2 {
   margin: 0em 1em 0em 1em;
   padding: 1em 0 1.5em 0;
-//  border: 1px solid $brown-35;
+  border: 1px solid $brown-35;
 }
 
 div.box_3 {
