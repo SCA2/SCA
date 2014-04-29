@@ -4,20 +4,14 @@ class SliderImagesController < ApplicationController
   before_action :set_cart, :set_products
   
   before_action :signed_in_admin
-  before_action :set_slider_image, only: [:show, :edit, :update, :destroy]
+  before_action :set_slider_image, only: [:update, :destroy]
 
   def index
     @slider_images = SliderImage.order(:id)
   end
 
-  def show
-  end
-
   def new
     @slider_image = SliderImage.new
-  end
-
-  def edit
   end
 
   def create
@@ -25,15 +19,15 @@ class SliderImagesController < ApplicationController
     if @slider_image.save
       redirect_to @slider_image, notice: 'Slider image was successfully created.'
     else
-      render action: 'new'
+      render 'new'
     end
   end
 
   def update
     if @slider_image.update(slider_image_params)
-      redirect_to slider_images_path, notice: 'Slider image ' + @slider_image.id.to_s + ' was successfully updated.'
+      redirect_to slider_images_url, notice: 'Slider image ' + @slider_image.id.to_s + ' was successfully updated.'
     else
-      render action: 'edit'
+      render 'index', alert: 'Unable to update slider image ' + @slider_image.id.to_s
     end
   end
 

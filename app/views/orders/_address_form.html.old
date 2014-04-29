@@ -1,7 +1,7 @@
 <fieldset id="address">
-	<legend><%= f.object.address_type.capitalize + " Address" %></legend>
+	<legend><%= type.capitalize + " Address" %></legend>
 	<table class="address-table">
-		<%= f.hidden_field :address_type, value: f.object.address_type %>
+		<%= f.hidden_field :address_type, value: type %>
 		<tr class="field">
 			<td class="label"><%= f.label :first_name %></td>
 			<td class="input"><%= f.text_field :first_name %></td>
@@ -24,15 +24,15 @@
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :state_code, 'State' %></td>
-			<td class="input"><%= render partial: 'addresses/subregion_select', locals: { select_name: f.object_name, selected: f.object.state_code, parent_region: f.object.country } %>
-		</tr>
-		<tr class="field">
-			<td class="label"><%= f.label :country, 'Country' %></td>
-			<td class="input"><%= f.country_select :country, priority: %w{ US }, selected: 'US' %></td>
+			<td class="input"><%= f.text_field :state_code %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :post_code, 'Post Code' %></td>
 			<td class="input"><%= f.text_field :post_code %></td>
+		</tr>
+		<tr class="field">
+			<td class="label"><%= f.label :country, 'Country' %></td>
+			<td class="input"><%= f.text_field :country %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :telephone %></td>

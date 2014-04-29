@@ -3,28 +3,33 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns main">
-			<div class="addresses">				
+			<div class="edit-profile">				
 				<%= form_for @user do |user| %>
 					<%= render 'shared/errors', object: user.object %>
-					<div class="user-info">
-						<%= render 'form', f: user, legend: 'Sign up', submit: 'Sign up' %>
+					<div class="user">
+						<div class="user-info">
+							<%= render 'form', f: user, legend: 'Sign up' %>
+						</div>
+						<div class="contact-preferences">
+							<%= render 'contact', f: user, legend: 'Contact Preferences' %>
+						</div>
 					</div>
-					<div class="address">
-						<%= user.fields_for :addresses, @billing do |billing| %>
-							<%= render 'addresses/address_form', f: billing %>
-						<% end %>
-					</div>
-					<div class="address">
-						<%= user.fields_for :addresses, @shipping do |shipping| %>
-							<%= render 'addresses/address_form', f: shipping %>
-						<% end %>
+					<div class="addresses">
+						<div class="address">
+							<%= user.fields_for :addresses, @user.addresses.first do |billing| %>
+								<%= render 'addresses/address_form', f: billing %>
+							<% end %>
+						</div>
+						<div class="address">
+							<%= user.fields_for :addresses, @user.addresses.second do |shipping| %>
+								<%= render 'addresses/address_form', f: shipping %>
+							<% end %>
+						</div>
 					</div>
 					<div class="actions">
-						<div class="form-button">
-							<%= link_to 'Quit', products_path, class: 'button' %>
-						</div>
-						<div class="form-button">
+						<div class="button-box">
 							<%= user.submit 'Create Account', class: 'button' %>
+							<%= link_to 'Quit', products_path, class: 'button' %>
 						</div>
 					</div>
 				<% end %>

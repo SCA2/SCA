@@ -6,8 +6,18 @@
 @import "foundation/components/breadcrumbs";
 @import "foundation/components/buttons";
 
-div.user-info {
-  width: 49%;  
+div.user {
+  width: 100%;
+  margin: 0;
+  div.user-info {
+    display: inline-block;
+    width: 49%;  
+  }
+  
+  div.contact-preferences {
+    display: inline-block;
+    width: 49%;    
+  }
 }
 
 div.addresses {
@@ -395,3 +405,4 @@ table.main-cart {
     height: 0.5em;
   }
 }
+

@@ -6,7 +6,17 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<%= render 'form' %>		
+			<div class="edit-profile">
+				<div class="user-info">
+					<%= render 'form' %>
+				</div>		
+				<div class="signin-actions">
+					<div class="button-box">
+						<%= submit_tag 'Sign in', class: 'button' %>
+						<%= link_to "Forgot your password?", new_password_reset_path, class: 'button' %>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>	
 </div>

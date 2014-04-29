@@ -3,19 +3,37 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns">
-			<%= form_for @user do |user| %>
-				<%= render 'shared/errors', object: user.object %>
-				<%= render 'form', f: user, legend: 'Update your profile' %>
-				<%= user.fields_for :addresses, @billing do |address| %>
-					<%= render 'addresses/address_form', f: address %>
+			<div class="edit-profile">				
+				<%= form_for @user do |user| %>
+					<%= render 'shared/errors', object: user.object %>
+					<div class="user">
+						<div class="user-info">
+							<%= render 'form', f: user, legend: 'Update your profile' %>
+						</div>
+						<div class="contact-preferences">
+							<%= render 'contact', f: user, legend: 'Contact Preferences' %>
+						</div>						
+					</div>
+					<div class="addresses">
+						<div class="address">
+							<%= user.fields_for :addresses, @user.addresses.first do |address| %>
+								<%= render 'addresses/address_form', f: address %>
+							<% end %>
+						</div>
+						<div class="address">
+							<%= user.fields_for :addresses, @user.addresses.second do |address| %>
+								<%= render 'addresses/address_form', f: address %>
+							<% end %>
+						</div>
+					</div>
+					<div class="actions">
+						<div class="button-box">
+							<%= user.submit 'Save changes', class: 'button' %>
+							<%= link_to 'Quit', user_path, class: 'button' %>
+						</div>
+					</div>
 				<% end %>
-				<%= user.fields_for :addresses, @shipping do |address| %>
-					<%= render 'addresses/address_form', f: address %>
-				<% end %>
-				<div class="actions">
-					<%= user.submit 'Save changes', class: 'button' %>
-				</div>
-			<% end %>
+			</div>
 		</div>
 	</div>	
 </div>

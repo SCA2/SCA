@@ -4,14 +4,25 @@ SCA::Application.routes.draw do
   get "password_resets/new"
   resources :carts, except: [:index, :edit, :new]
   
-  resources :line_items, :slider_images, :users
+  resources :line_items, :users
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
+  resources :slider_images, only: [:index, :new, :create, :update, :destroy]
 
   resources :users do
-    resources :addresses    
+#    resources :addresses do    
+#      collection do
+#        get 'subregion_options'
+#      end
+#    end
   end
+
+    resources :addresses do    
+      collection do
+        get 'subregion_options'
+      end
+    end
   
   resources :faqs do
     collection { post :import }
@@ -30,7 +41,6 @@ SCA::Application.routes.draw do
       get 'create_express'
     end
     member do
-#      get 'subregion_options'
       get 'addresses'
       post 'create_addresses'
       get 'shipping'

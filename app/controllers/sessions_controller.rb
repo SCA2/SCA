@@ -19,7 +19,7 @@
 
   def destroy
     sign_out
-    redirect_to home_path, :notice => "Signed out!"
+    redirect_to home_url
   end
   
 end

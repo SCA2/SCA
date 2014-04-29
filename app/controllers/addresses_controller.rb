@@ -3,8 +3,12 @@ class AddressesController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
-  before_action :set_addressable
+  before_action :set_addressable, except: :subregion_options
   before_action :set_address, only: [:show, :update]
+  
+  def subregion_options
+    render partial: 'subregion_select'
+  end
   
   def index
     @addresses = @addressable.addresses

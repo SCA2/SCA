@@ -1,0 +1,24 @@
+<% provide(:title, 'Contact Us') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
+		</div>	
+		<div class="small-9 columns">
+			<% if signed_in? %>
+				<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">My Account <b class="caret"></b></a>
+					<ul id="drop2" class="f-dropdown" data-dropdown-content>
+				    <li><%= link_to "Users", users_path %></li>
+				    <li><%= link_to "Profile", current_user %></li>
+				    <li><%= link_to "Settings",	edit_user_path(current_user) %></li>
+				    <li class="divider"></li>
+				    <li><%= link_to "Sign out",	signout_path, method: "delete" %></li>
+				  </ul>
+				</li>
+			<% else %>
+			    <li><%= link_to "Sign In", signin_path %></li>
+			<% end %>
+		</div>
+	</div>	
+</div> <!-- box_2 -->

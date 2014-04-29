@@ -16,30 +16,30 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new
-      @billing = @user.addresses.build(address_type: 'billing')
-      @shipping = @user.addresses.build(address_type: 'shipping')
+      @user.addresses.build(address_type: 'billing')
+      @user.addresses.build(address_type: 'shipping')
     end
   end
 
-  # GET /users/:id
   def show
     @user = User.find(params[:id])
     @billing = @user.addresses.find_by(address_type: 'billing')
     @shipping = @user.addresses.find_by(address_type: 'shipping')
   end
 
-  # POST /users
   def create
     if signed_in?
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new(user_params)
+#      @user.addresses[0] = @billing
+#      @user.addresses[1] = @shipping
       if @user.save
         sign_in @user
         UserMailer.signup_confirmation(@user).deliver
         redirect_to @user, :notice => "Signed up!"
       else
-        redirect_to signup_url
+        render 'new'
       end
     end
   end
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit( :name, :email, :password, :password_confirmation,
+      params.require(:user).permit( :name, :email, :password, :password_confirmation, :contact_news, :contact_updates, :contact_sales,
                                     :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
     end
     

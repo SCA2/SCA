@@ -16,15 +16,20 @@ class OrdersController < ApplicationController
   end
   
   def express
-    response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
-      :ip                   => request.remote_ip,
-      :return_url           => create_express_orders_url,
-      :cancel_return_url    => products_url,
-      :currency             => 'USD',
-      :brand_name           => 'Seventh Circle Audio',
-      :allow_guest_checkout => 'true'
-    )
-    redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+    if @cart.line_items.empty?
+      redirect_to products_url, notice: "Your cart is empty"
+      return
+    else
+      response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
+        :ip                   => request.remote_ip,
+        :return_url           => create_express_orders_url,
+        :cancel_return_url    => products_url,
+        :currency             => 'USD',
+        :brand_name           => 'Seventh Circle Audio',
+        :allow_guest_checkout => 'true'
+      )
+      redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+    end
   end
   
   def create_express

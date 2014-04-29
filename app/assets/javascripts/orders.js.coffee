@@ -3,23 +3,22 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $('select#order_addresses_attributes_0_country').change (event) ->
-    select_wrapper = $('#order_state_code_wrapper_billing')
+  $("[id*='addresses_attributes'][id*='country']").change (event) ->
     country_code = $(this).val()
-    url = "/orders/subregion_options?parent_region=#{country_code}&address_type=billing&select_name=order[addresses_attributes][0]"
-    select_wrapper.parent('.input').load(url)
-
-  $('select#order_addresses_attributes_1_country').change (event) ->
-    select_wrapper = $('#order_state_code_wrapper_shipping')
-    country_code = $(this).val()
-    url = "/orders/subregion_options?parent_region=#{country_code}&address_type=shipping&select_name=order[addresses_attributes][1]"
+    target = '[addresses_attributes]'
+    target_index = $(this).attr('name').indexOf(target) + target.length + 1
+    index = $(this).attr('name').charAt(target_index)
+    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=[addresses_attributes][" + index + "]"
+    select_wrapper = $("[id*='addresses_attributes'][id*=" + index + "][id*='state_code']")
     select_wrapper.parent('.input').load(url)
 
 $ ->
-    country_code = $('select#order_addresses_attributes_0_country').val();
-    url = "/orders/subregion_options?parent_region=#{country_code}&address_type=billing&select_name=order[addresses_attributes][0]"
-    $('#order_state_code_wrapper_billing').parent('.input').load(url)
+    country_code = $("[id*='addresses_attributes'][id*='0'][id*='country']").val();
+    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=user[addresses_attributes][0]"
+    $("[id*='addresses_attributes'][id*='0'][id*='state_code']").parent('.input').load(url)
 
-    country_code = $('select#order_addresses_attributes_1_country').val();
-    url = "/orders/subregion_options?parent_region=#{country_code}&address_type=shipping&select_name=order[addresses_attributes][1]"
-    $('#order_state_code_wrapper_shipping').parent('.input').load(url)
+$ ->
+    country_code = $("[id*='addresses_attributes'][id*='1'][id*='country']").val();
+    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=user[addresses_attributes][1]"
+    $("[id*='addresses_attributes'][id*='1'][id*='state_code']").parent('.input').load(url)
+

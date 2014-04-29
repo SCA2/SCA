@@ -6,11 +6,30 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<div class='review-box'>
-				<%= render 'orders/confirm_user', f: @user, legend: 'User' %>
-				<%= render 'orders/confirm_address', f: @billing, legend: 'Billing Address' if @billing %>
-				<%= render 'orders/confirm_address', f: @shipping, legend: 'Shipping Address' if @shipping %>
-			</div>
+			<div class='show-profile'>
+				<div class="user">
+					<div class="user-info">
+						<%= render 'orders/confirm_user', f: @user, legend: 'User' %>
+					</div>
+					<div class="contact-preferences">
+						<%= render 'orders/confirm_contact', f: @user, legend: 'Contact Preferences' %>
+					</div>
+				</div>
+				<div class="addresses">
+					<div class="address">						
+						<%= render 'orders/confirm_address', f: @billing, legend: 'Billing Address' if @billing %>
+					</div>
+					<div class="address">						
+						<%= render 'orders/confirm_address', f: @shipping, legend: 'Shipping Address' if @shipping %>
+					</div>
+				</div>
+				<div class="actions">
+					<div class="button-box">					
+			  		<%= link_to "Edit Profile",	edit_user_path(current_user), class: :button %>
+			  		<%= link_to "Quit",	home_path, class: :button %>
+			  	</div>
+			  </div>
+			 </div>
 		</div>
 	</div>	
 </div>

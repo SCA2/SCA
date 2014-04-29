@@ -11,25 +11,55 @@
 
 header {
   background-color: $brown-40;
-  padding: 1em 0 0 0;  
+  padding: 0;
+  margin: 0;
+  border: none;
+  
+  div.logo {
+    display: inline-block;
+    float: left;
+    width: 75%;
+    margin: 1em 0 0 1em;
+//    border: 1px #000 solid;
+  }
+  
+  img.title_1 {
+    top: 0em;
+    left: 18em;
+    width: 30em;
+  }
+  
+  img.logo_1 {
+    top: 0.6em;
+    left: 49em;
+    width: 12em;
+  }
+  
+  div.user-login {
+    display: inline-block;
+    float: right;
+    margin: 1em 1em 1em 0;
+//    border: 1px #000 solid;
+  }
+  
+  table.login {
+    border: none;
+    tr {
+      td {
+        padding: 0;
+        margin: 0;
+        line-height: 1.2em;
+        text-align: right;
+      }
+    }
+  }
+  
+  div.navbar {
+    display: inline-block;
+    width: 100%;
+  }
 }
 
-div.logo {
-  margin: 0 auto 1em auto;
-  width: 43em;  
-}
-
-img.title_1 {
-  top: 0em;
-  left: 18em;
-  width: 30em;
-}
-
-img.logo_1 {
-  top: 0.6em;
-  left: 49em;
-  width: 12em;
-}
 
 main[role=main] {
   margin: 0;
@@ -76,7 +106,7 @@ div.slider-box {
 div.box_2 {
   margin: 0em 1em 0em 1em;
   padding: 1em 0 1.5em 0;
-  border: 1px solid $brown-35;
+//  border: 1px solid $brown-35;
 }
 
 div.box_3 {

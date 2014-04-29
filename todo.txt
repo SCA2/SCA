@@ -1,8 +1,16 @@
 1) restyle foundation buttons - color
-2) fix home page - extend photo to edge, remove extra buttons
-3) fix overall background color
+2) 
+2) checkout terms
+2) checkout progress bar 
+3) reduce font size in main dropdowns
 4) fix part name scheme for chassis
-5) order_acknowledge, order_shipped, user_signup, user_password mailers
-6) shipping units - imperial
-7) add USPS rates
-8) rewrite cart_peek after transaction
+5) order_shipped mailer
+6) cc acknowledge mail to orders@sca
+7) add USPS rates for small orders
+8) show 0 items after transaction succeeds
+9) prevent express checkout with empty cart
+10) add admin page for all users
+11) add admin page for inventory (all products.options )
+12) add admin page for pending orders
+13) display lead time quantities
+14) new home page photos
