@@ -13,18 +13,17 @@ SCA::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send.
-#  config.action_mailer.logger.development
+  #  config.action_mailer.logger.development
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'] }
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'seventhcircleaudio.com',
-    user_name:            'tpryan1965',
-    password:             'G00gl3_1138',
+    address:              ENV['MAILER_ADDRESS'],
+    port:                 ENV['MAILER_PORT'],
+    domain:               ENV['MAILER_DOMAIN'],
+    user_name:            ENV['GMAIL_USERNAME'],
+    password:             ENV['GMAIL_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true  }
 
@@ -43,9 +42,9 @@ SCA::Application.configure do
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
-      login: "seller_api1.seventhcircleaudio.com",
-      password: "1395378556",
-      signature: "AFcWxV21C7fd0v3bYYYRCpSSRl31ApUVvNIwibHp-K5LkdUJTOBF9q2i"
+      login:      ENV['PAYPAL_DEV_LOGIN'],
+      password:   ENV['PAYPAL_DEV_PASSWORD'],
+      signature:  ENV['PAYPAL_DEV_SIGNATURE']
     }
     ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)

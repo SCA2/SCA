@@ -1,26 +1,23 @@
 <% provide(:title, 'Confirm Order') %>
-<% billing = @order.addresses.find_by(:address_type => 'billing') %>
-<% shipping = @order.addresses.find_by(:address_type => 'shipping') %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns main">
 			<%= render 'shared/errors', object: @order %>
 			<%= render 'shared/progress_bar' %>
-			<div class='review-box'>
-				<%= render 'confirm_address', f: billing, legend: 'Billing Address' %>
-				<%= render 'confirm_address', f: shipping, legend: 'Shipping Address' %>
-				<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
-			</div>
-			<%= render 'confirm_cart', cart: @cart, order: @order %>
-			<%= form_for @order, url: @redirect, method: :patch do |f| %>
-				<%= f.hidden_field :express_token %>
+			<%= form_for @order, url: @redirect, method: :patch do |form| %>
+				<%= form.hidden_field :express_token %>
+				<div class='review-box'>
+					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
+					<%= render 'confirm_address', f: @shipping, legend: 'Shipping Address' %>
+					<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
+				</div>
+				<%= render 'confirm_cart' %>
+				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
 				<div class="actions">
-					<div class="form-button">
-						<%= link_to 'Back to Shipping Method', :back, class: 'button', id: 'back' %>
-					</div>
-					<div class="form-button">
-						<%= f.submit 'Continue Checkout', class: 'button' %>
+					<div class="button-box">
+						<%= link_to 'Back to Shipping', shipping_order_path, class: 'button' %>
+						<%= form.submit 'Continue Checkout', class: 'button' %>
 					</div>
 				</div>
 			<% end %>

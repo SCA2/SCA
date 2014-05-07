@@ -1,16 +1,20 @@
-1) restyle foundation buttons - color
-2) 
-2) checkout terms
-2) checkout progress bar 
-3) reduce font size in main dropdowns
-4) fix part name scheme for chassis
-5) order_shipped mailer
-6) cc acknowledge mail to orders@sca
-7) add USPS rates for small orders
-8) show 0 items after transaction succeeds
-9) prevent express checkout with empty cart
-10) add admin page for all users
-11) add admin page for inventory (all products.options )
-12) add admin page for pending orders
-13) display lead time quantities
-14) new home page photos
+Pre-deploy
+* display lead time quantities
+* fix part name scheme for chassis
+* add USPS rates for small orders (l x w x h)
+* migrate to postgresql
+
+Pre-release
+* add all products
+* fix FAQ format
+* new home page photos
+* add admin page for all users
+* add admin page for pending orders
+
+Later
+* tests
+* prevent re-loading checkout success/failure
+* reduce font size in main dropdowns
+* checkout progress bar 
+* order_shipped mailer
+* add admin page for inventory (all products.options)

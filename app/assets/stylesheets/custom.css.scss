@@ -9,6 +9,11 @@
 @import url(fonts.css.scss);
 @import "colors";
 
+div.jump-up {
+  width: 100%;
+  text-align: right;  
+}
+
 header {
   background-color: $brown-40;
   padding: 0;

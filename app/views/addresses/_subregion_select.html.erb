@@ -1,4 +1,5 @@
 <% select_name ||= params[:select_name] %>
+<% subregion ||= 0 %>
 
 <div id=<%= select_name + '[state_code]' %>>
   <% parent_region ||= params[:parent_region] %>
@@ -7,7 +8,7 @@
   <% if country.nil? %>
     <em>Please select a country below</em>
   <% elsif country.subregions? %>
-    <%= subregion_select(select_name, :state_code, parent_region, selected: country) %>
+    <%= subregion_select(select_name, :state_code, parent_region, selected: subregion) %>
   <% else %>
     <%= text_field(select_name, :state_code) %>
   <% end %>

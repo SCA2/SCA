@@ -22,7 +22,9 @@ class UserMailer < ActionMailer::Base
     @order = order
     @billing = order.addresses.find_by(address_type: 'billing')
     @shipping = order.addresses.find_by(address_type: 'shipping')
-    mail to: order.email, subject: "Thank you for your order"
+    mail  to: order.email, 
+          bcc: "orders@seventhcircleaudio.com",
+          subject: "Thank you for your order"
   end
 
   def order_shipped(user)

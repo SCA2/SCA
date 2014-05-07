@@ -32,10 +32,8 @@
 					</table> 
 				</fieldset>
 				<div class="actions">
-					<div class="form-button">
-						<%= link_to 'Back to Shipping Address', :back, class: 'button', id: 'back' %>
-					</div>
-					<div class="form-button">
+					<div class="button-box">
+						<%= link_to 'Back to Addresses', addresses_order_path, class: 'button' %>
 						<%= f.submit 'Continue Checkout', class: 'button' %>
 					</div>
 				</div>

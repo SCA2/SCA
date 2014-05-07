@@ -4,10 +4,52 @@
 	<div class="row">
 		<div class="small-3 columns">
 			<%= render 'layouts/sidebar_left' %>
-		</div>
-	
+		</div>	
 		<div class="small-9 columns">
+			<h4>Testing and Troubleshooting Tips</h4>
+			<hr class="divider">
+			<p>Electronics troubleshooting combines circuit theory, careful measurement, common sense observation, and a bit of deductive reasoning.  Knowledge and experience can certainly help, but it's possible to be an effective troubleshooter with only a basic understanding of circuit behavior as long as you can apply some basic principles in a systematic way.  So don't worry if you only have a hazy idea of how the circuit is supposed to behave.  Troubleshooting is more about asking the right questions than knowing all the answers.  A healthy dose of patience and determination doesn't hurt, either.</p>
 			
+			<h5>Check Your Work AGAIN</h5>
+			<hr class="divider">
+			<p>We've sold thousands of kits and, while most builders assemble their modules without any problems, we've seen enough come back to know that the overwhelming majority of problems are caused by</p>
+			
+			<ul>
+			<li>Poor soldering</li>
+			<li>Incorrectly installed components</li>
+			</ul>
+			
+			<p>Who would have guessed?  We realize it's tempting to blame the strange noises and smoke on a faulty component, defective circuit board, or an old soldering iron, but it's rarely the case that anything other than the assembly work itself is at fault.  So at the risk of repeating ourselves, make absolutely sure that you</p> 
+			
+			<ul>
+			<li>Installed all the resistors in the right places</li>
+			<li>Installed all the polarized components (diodes, electrolytic capacitors, etc) the right way round</li>
+			<li>Have not inadvertently swapped a transistor or IC.  You must read the component markings carefully</li>
+			</ul>
+			
+			
+			<h5>General Tips</h5>
+			<hr class="divider">
+			<p>Keep calm.  Remember that the circuits are proven to work, and if yours doesn't the problem is probably very simple and should be easy to find.</p>
+			<p>Don't replace parts at random.  Only replace a part unless you have a very good reason to suspect it's faulty, not because you can't think of anything else to try.</p>
+			<p>Measure first, then hypothesize.  The circuit voltages will tell you what's wrong.</p>
+			<p>Understand your meter!  You must know how to measure voltage and resistance!  If your meter has a diode test feature, you need to understand how to use it!</p>
+			<p>Use your senses.  If something seems too hot to the touch or smells like it's burning, it usually (but not always) indicates a problem.</p>
+			<p>Poke around.  Test for problematic solder joints and loose connections by prodding components with a non-conductive probe.</p>
+			
+			<h5>First DC, then AC</h5>
+			<hr class="divider">
+			<p>Before you do anything else, make sure the DC voltages are correct.  Even if you've seen the symptoms before, even if you think you know exactly what's wrong, even if you know "it has to be" that suspicious looking transistor, make sure the DC voltages are correct.</p>
+			
+			<h5>Divide and Conquer</h5>
+			<hr class="divider">
+			<p>Once you've established the power supplies are working and the DC voltages are correct you can start signal tracing.</p>
+			
+			<h5>Using your DMM</h5>
+			<hr class="divider">
+			<p>As with soldering, there's a lot of good information to be found on the Internet about making electrical measurements.  You should already know the difference between voltage, current, and resistance before attempting one of our kits, and it's important you be able to make basic voltage and resistance measurements.  Read and understand the instructions that come with your meter, and be sure you know how it displays a short vs. an open circuit, and 1 ohm vs. 1K ohm, for example.</p>
+			<p>Unless explicitly stated otherwise in the assembly instructions, voltage measurements are always made with respect to "PGND", short for "power ground" as opposed to "chassis ground" (CGND) or "audio ground" (AGND).  That means your black meter probe connects to a convenient PGND location and the red probe connects to the point in the circuit being measured.  For example, if the instructions say to measure the voltage at U1, pin 4, place the red probe on the specified pin and the black probe anywhere in the circuit that connects to PGND.  Usually, the power supply connector is the best place to find PGND, but it's not the only place.</p>
+			<p>Resistors need to be measured out of the circuit.  Trying to measure resistors in-circuit will give values that are off by a little or a lot depending on what the resistor is connected to.</p>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>

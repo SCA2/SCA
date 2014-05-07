@@ -8,14 +8,16 @@ class Order < ActiveRecord::Base
   
   accepts_nested_attributes_for :addresses
   
-  attr_accessor :card_number, :card_verification, :ip_address, :order_ready
+  attr_accessor :card_number, :card_verification, :ip_address, :validate_order, :validate_terms, :accept_terms
   
-  validate :validate_card, if: :order_ready?
+  validate :validate_card, if: :validate_order?
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, 
                     format: { with: VALID_EMAIL_REGEX },
-                    if: :order_ready?
+                    if: :validate_order?
+                      
+  validates :accept_terms, acceptance: true, if: :validate_terms?
 
 
   CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
@@ -211,8 +213,16 @@ class Order < ActiveRecord::Base
     )
   end
   
-  def order_ready?
-    if order_ready == true
+  def validate_order?
+    if validate_order == true
+      return true
+    else
+      return false
+    end
+  end
+
+  def validate_terms?
+    if validate_terms == true
       return true
     else
       return false

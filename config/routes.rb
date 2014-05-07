@@ -60,6 +60,9 @@ SCA::Application.routes.draw do
   get "repairs", to: "static_pages#repairs", as: 'repairs'
   get "resources", to: "static_pages#resources", as: 'resources'
   get "contact", to: "static_pages#contact", as: 'contact'
+  get "terms", to: "static_pages#terms", as: 'terms'
+  get "privacy", to: "static_pages#privacy", as: 'privacy'
+  get "conditions", to: "static_pages#conditions", as: 'conditions'
 
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'

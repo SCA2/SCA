@@ -13,12 +13,24 @@ $ ->
     select_wrapper.parent('.input').load(url)
 
 $ ->
-    country_code = $("[id*='addresses_attributes'][id*='0'][id*='country']").val();
-    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=user[addresses_attributes][0]"
-    $("[id*='addresses_attributes'][id*='0'][id*='state_code']").parent('.input').load(url)
+    subregion = $("[id*='addresses_attributes'][id*='0'][id*='state_code']")
+    if subregion.prop("id")
+      if subregion.prop("innerHTML").search("Please") != -1
+        select = $("[id*='addresses_attributes'][id*='0'][id*='country']")
+        if select.prop("name")
+          country_code = select.val()
+          select_name = select.prop("name").replace("[country]", "")
+          url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=#{select_name}"
+          $("[id*='addresses_attributes'][id*='0'][id*='state_code']").parent('.input').load(url)
 
 $ ->
-    country_code = $("[id*='addresses_attributes'][id*='1'][id*='country']").val();
-    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=user[addresses_attributes][1]"
-    $("[id*='addresses_attributes'][id*='1'][id*='state_code']").parent('.input').load(url)
+    subregion = $("[id*='addresses_attributes'][id*='1'][id*='state_code']")
+    if subregion.prop("id")
+      if subregion.prop("innerHTML").search("Please") != -1
+        select = $("[id*='addresses_attributes'][id*='1'][id*='country']")
+        if select.prop("name")
+          country_code = select.val()
+          select_name = select.prop("name").replace("[country]", "")
+          url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=#{select_name}"
+          $("[id*='addresses_attributes'][id*='1'][id*='state_code']").parent('.input').load(url)
 

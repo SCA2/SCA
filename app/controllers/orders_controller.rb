@@ -42,25 +42,29 @@ class OrdersController < ApplicationController
   end
   
   def subregion_options
+    if @order.addresses.any?
+      @billing = @order.addresses.find_by(:address_type => 'billing')
+      @shipping = @order.addresses.find_by(:address_type => 'shipping')      
+    end
     render partial: 'subregion_select'
   end
   
   def addresses
     if signed_in? && current_user.addresses.any?
-      @billing = current_user.addresses.find_by(address_type: 'billing').dup
-      @shipping = current_user.addresses.find_by(address_type: 'shipping').dup
+      @order.addresses << current_user.addresses.find_by(address_type: 'billing').dup
+      @order.addresses << current_user.addresses.find_by(address_type: 'shipping').dup
     else
-      @billing = @order.addresses.build(address_type: 'billing')
-      @shipping = @order.addresses.build(address_type: 'shipping')
+      @order.addresses.build(address_type: 'billing')
+      @order.addresses.build(address_type: 'shipping')
     end
   end
   
   def create_addresses
-    @order.update!(order_params)
+    @order.update(order_params)
     if @order.save
-      redirect_to shipping_order_path(@order), notice: 'Addresses saved'
+      redirect_to shipping_order_path(@order)
     else
-      redirect_to @cart, notice: 'Sorry, address could not be saved'
+      render 'addresses'
     end
   end
   
@@ -72,24 +76,31 @@ class OrdersController < ApplicationController
       @order.get_rates_from_params
       redirect_to confirm_order_path(@order)
     else
-      render 'new', notice: 'Sorry, shipping method could not be updated'
+      render 'shipping'
     end
   end
 
   def confirm
-    if @order.express_token
+    if @order.express_token.to_s.length > 1
       @redirect = order_path(@order)
     else
       @redirect = update_confirm_order_path(@order)
     end
+    if @order.addresses.any?
+      @billing = @order.addresses.find_by(:address_type => 'billing')
+      @shipping = @order.addresses.find_by(:address_type => 'shipping')
+    else
+      redirect_to shipping_order_path(@order), alert: 'Addresses not saved!'
+    end
   end
   
   def update_confirm
-    if @order.express_token
-      redirect_to update_path(@order)
+    @order.validate_terms = true
+    if @order.update(order_params)
+      redirect_to payment_order_path @order
     else
-      redirect_to payment_order_path(@order)
-    end
+      redirect_to confirm_order_path, alert: 'You must accept terms to proceed'
+    end 
   end
 
   def payment
@@ -99,7 +110,15 @@ class OrdersController < ApplicationController
   end
   
   def update
-    @order.order_ready = true
+    if @order.express_token.to_s.length > 1
+      @order.validate_terms = true
+      unless @order.update(order_params)
+        redirect_to confirm_order_path, alert: 'You must accept terms to proceed'
+        return
+      end 
+    end
+    
+    @order.validate_order = true
     if @order.update(order_params)
       @order.cart = @cart
       @order.ip_address = request.remote_ip
@@ -112,7 +131,7 @@ class OrdersController < ApplicationController
         render 'success'
       else
         @transaction = @order.transactions.last
-        render :action => 'failure'
+        render 'failure'
       end
     else
       render 'payment'
@@ -128,7 +147,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token,
+      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token, :accept_terms,
                                     :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
                                     :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
     end

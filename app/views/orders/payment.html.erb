@@ -11,10 +11,8 @@
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'payment_form', f: f, legend: 'Card Info' %>
 				<div class="actions">
-					<div class="form-button">
-						<%= link_to 'Back to Confirmation', :back, class: 'button', id: 'back' %>
-					</div>
-					<div class="form-button">
+					<div class="button-box">
+						<%= link_to 'Back to Confirmation', confirm_order_path, class: 'button' %>
 						<%= f.submit 'Continue Checkout', class: 'button' %>
 					</div>
 				</div>
@@ -22,3 +20,4 @@
 		</div>
 	</div>	
 </div>
+

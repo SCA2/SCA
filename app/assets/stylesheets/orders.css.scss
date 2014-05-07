@@ -82,20 +82,17 @@ div#login {
   }
 }
 
-
-.actions {
+div.actions {
   width: 100%;
   margin: 1em 0 0 0;
-  .form-button {
-    display: inline-block;
-    margin: 0;
-    padding: 0 0.5em 0 0.5em;
-    width: 49.7%;
+  div.button-box {
+    width: 65%;
+    margin: 0 auto 0 auto;
     .button {
       @include button();
-      width: 100%;
-      margin: 0;
-      padding: 0.25em;
+      width: 46%;
+      padding: 0.5em 0.5em 0.5em 0.5em;
+      margin: 0 0.5em 0 0.5em;
     }
   }
 }
@@ -108,8 +105,9 @@ fieldset {
   font-family: Arial, sans-serif;
   font-weight: normal;
   border: none;
-//  border: solid 1px $brown-35;
+//  border: 1px solid #000;
   margin: 0 0 1em 0;
+  padding: 0.5em 0.5em 0.5em 0.5em;
 
   legend {
     background-color: inherit;
@@ -192,6 +190,10 @@ table.address-table {
       margin: 0 0 0 0;
       padding: 0 0 0 0.2em;  
       height: 1.8em;
+      &[type="checkbox"] {
+        margin: 0;
+        padding: 0;
+      }
     }
     select {
       margin: 0 0 0 0;
@@ -199,7 +201,7 @@ table.address-table {
       height: 1.8em;
       &.cc-date-select {
         padding-left: 0.2em;  
-        width: 49.5%;
+        width: 49.25%;
       }
     }
   }
@@ -253,6 +255,7 @@ table.shipper {
 // confirm cart
 
 table.confirm-cart {
+  margin: 0;
   border: none;
   background-color: darken($brown-40, 5%);
   tr#discount-line, #subtotal-line, #shipping-line, #salestax-line, #total-line {
@@ -403,6 +406,13 @@ table.main-cart {
   }
   .divider-cell {
     height: 0.5em;
+  }
+}
+
+.button {
+  background-color: $brown-25 !important;
+  &:hover {
+    background-color: $red-20 !important;
   }
 }
 

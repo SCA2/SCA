@@ -24,7 +24,10 @@
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :state_code, 'State' %></td>
-			<td class="input"><%= render partial: 'addresses/subregion_select', locals: { select_name: f.object_name, selected: f.object.state_code, parent_region: f.object.country } %>
+			<td class="input"><%= render partial: 'addresses/subregion_select',
+														locals: { select_name: f.object_name,
+																			subregion: f.object.state_code,
+																			parent_region: f.object.country } %>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :country, 'Country' %></td>
