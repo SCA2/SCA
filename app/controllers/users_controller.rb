@@ -3,9 +3,9 @@ class UsersController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
 
-  before_action :signed_in_user, only: [:index, :edit, :update]
+  before_action :signed_in_user, only: [:edit, :update]
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
+  before_action :admin_user, only: [:index, :destroy]
   
   def index
     @users = User.paginate(page: params[:page])
@@ -32,8 +32,8 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new(user_params)
-#      @user.addresses[0] = @billing
-#      @user.addresses[1] = @shipping
+      @user.addresses << @billing
+      @user.addresses << @shipping
       if @user.save
         sign_in @user
         UserMailer.signup_confirmation(@user).deliver

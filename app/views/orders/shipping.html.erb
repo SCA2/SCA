@@ -10,7 +10,7 @@
 			<%= form_for @order, url: update_shipping_order_path(@order) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<fieldset id="shipper">
-					<legend><%= 'Shipping Method' %></legend>
+					<legend><%= 'UPS Options' %></legend>
 					<table class="shipper">
 						<% @order.ups_rates.each_with_index do |rate, index| %>
 							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
@@ -29,8 +29,32 @@
 								
 							</tr>
 						<% end %>
-					</table> 
+					</table>
 				</fieldset>
+				<%if @cart.max_dimension < 12 %> 
+					<fieldset id="shipper">
+						<legend><%= 'USPS Options' %></legend>
+						<table class="shipper">
+							<% @order.usps_rates.each_with_index do |rate, index| %>
+								<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
+								<tr>
+									<td>
+										<% if index == 0 %> 
+											<%= f.radio_button :shipping_method, ship_method, :checked => true %>
+										<% else %>
+											<%= f.radio_button :shipping_method, ship_method, :checked => false %>
+										<% end %>
+										<%= f.label :shipping_method, rate.service_name %>
+									</td>
+									<td>
+										<%= number_to_currency(rate.price.to_f / 100) %>
+									</td>
+									
+								</tr>
+							<% end %>
+						</table>
+					</fieldset>
+				<% end %> 
 				<div class="actions">
 					<div class="button-box">
 						<%= link_to 'Back to Addresses', addresses_order_path, class: 'button' %>

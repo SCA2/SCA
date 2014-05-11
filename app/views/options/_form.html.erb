@@ -1,12 +1,20 @@
 <fieldset style="margin: 1em 0em 0em 0em; border: none">
 	<legend><%= legend %></legend>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 15%">
 		<%= f.label :model, 'Option:' %>
 		<%= f.text_field :model %>
 	</div>
-	<div class="field" style = "float: left; width: 80%">
+	<div class="field" style = "float: left; width: 60%">
 		<%= f.label :description, 'Description:' %>
  		<%= f.text_field :description %>
+	</div>
+	<div class="field" style = "float: left; width: 15%">
+		<%= f.label :upc, 'UPC:' %>
+		<%= f.text_field :upc %>
+	</div>
+	<div class="field" style = "float: left; width: 10%">
+		<%= f.label :sort_order, 'Sort Order:' %>
+		<%= f.number_field :sort_order, in: 1..100 %>
 	</div>
 	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :price, 'Price:' %>
@@ -16,25 +24,29 @@
 		<%= f.label :discount, 'Discount:' %>
 		<%= f.number_field :discount %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
+	<div class="field" style = "float: left; width: 15%">
+		<%= f.label :shipping_length, 'Shipping Length:' %>
+		<%= f.number_field :shipping_length %>
+	</div>
+	<div class="field" style = "float: left; width: 15%">
+		<%= f.label :shipping_width, 'Shipping Width:' %>
+		<%= f.number_field :shipping_width %>
+	</div>
+	<div class="field" style = "float: left; width: 15%">
+		<%= f.label :shipping_height, 'Shipping Height:' %>
+		<%= f.number_field :shipping_height %>
+	</div>
+	<div class="field" style = "float: left; width: 15%">
 		<%= f.label :shipping_weight, 'Shipping Weight:' %>
 		<%= f.number_field :shipping_weight %>
 	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :shipping_volume, 'Shipping Volume:' %>
-		<%= f.number_field :shipping_volume %>
-	</div>
-	<div class="field" style = "float: left; width: 20%">
-		<%= f.label :sort_order, 'Sort Order:' %>
-		<%= f.number_field :sort_order, in: 1..100 %>
+	<div class="field" style = "float: left; width: 25%">
+		<%= f.label :assembled_stock, 'Assembled Stock:' %>
+		<%= f.number_field :assembled_stock %>
 	</div>
 	<div class="field" style = "float: left; width: 25%">
-		<%= f.label :upc, 'UPC:' %>
-		<%= f.text_field :upc %>
-	</div>
-	<div class="field" style = "float: left; width: 25%">
-		<%= f.label :finished_stock, 'Finished Stock:' %>
-		<%= f.number_field :finished_stock %>
+		<%= f.label :partial_stock, 'Partial Stock:' %>
+		<%= f.number_field :partial_stock %>
 	</div>
 	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :kit_stock, 'Kit Stock:' %>

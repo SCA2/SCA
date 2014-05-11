@@ -63,6 +63,7 @@ SCA::Application.routes.draw do
   get "terms", to: "static_pages#terms", as: 'terms'
   get "privacy", to: "static_pages#privacy", as: 'privacy'
   get "conditions", to: "static_pages#conditions", as: 'conditions'
+  get "admin", to: "static_pages#admin", as: "admin"
 
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'

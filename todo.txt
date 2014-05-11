@@ -1,15 +1,13 @@
 Pre-deploy
 * display lead time quantities
-* fix part name scheme for chassis
 * add USPS rates for small orders (l x w x h)
+* fix part name scheme for chassis
 * migrate to postgresql
 
 Pre-release
 * add all products
 * fix FAQ format
 * new home page photos
-* add admin page for all users
-* add admin page for pending orders
 
 Later
 * tests

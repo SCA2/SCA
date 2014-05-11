@@ -76,11 +76,6 @@ body {
   background: $brown-10 !important;
 }
 
-footer {
-  background-color: $brown-20;
-  padding: 0.5em 0 0.5em 0;    
-}
-
 span.Q {
   float: left;
   width: 2em;
@@ -216,12 +211,23 @@ div.section-header {
 }
 
 div.footer {
+  background-color: $brown-20;
   clear: both;
-  font-size: .6em;
+  font-size: 0.6em;
   text-align: center;
-  color: #A78A65;
-  margin-top: 4em;
-  margin-bottom: 2em;
+  color: $brown-27;
+  padding: 2em 0 2em 0;
+  p {
+    margin: 1em 0 1em 0;
+    padding: 0;
+    font-size: 1em;
+    a {
+      color: $brown-25;
+    }
+    a:visited {
+      color: $brown-25;
+    }
+  }    
 }
 
 div.popup {

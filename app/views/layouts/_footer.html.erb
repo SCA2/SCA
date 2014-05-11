@@ -1,16 +1,22 @@
 <footer class="footer">
 	<div class="footer">
-Please read our <%= link_to 'Terms of Service', terms_path %>, <%= link_to 'Privacy Policy', privacy_path %>,  and <%= link_to 'Conditions Statement', conditions_path %>.<br />
-We will not be held liable for typographical errors in prices or inaccuracies in product specifications.<br />
-Prices and specifications are subject to change without notice.<br />
-		<i>All trademarks used in these pages are the property of their respective owners.</i><br><br>
-		Copyright &copy; 2014 Seventh Circle Audio<br>Unauthorized Use Prohibited<br><br>
-		<% if current_user %>
-			Logged in as <%= current_user.email %>
-			<%= link_to "Log out", signout_path %>
-		<% else %>
-			<%= link_to "Admin login", signin_path %>
-		<% end %>
+		<p>Please read our <%= link_to 'Terms of Service', terms_path %>, <%= link_to 'Privacy Policy', privacy_path %>,  and <%= link_to 'Conditions Statement', conditions_path %>.<br>
+		Prices and specifications are subject to change without notice.</p>
+		<p><i>All trademarks used in these pages are the property of their respective owners.</i></p>
+		<p>Copyright &copy; 2014 Seventh Circle Audio<br>Unauthorized Use Prohibited</p>
+		<p>
+			<% if current_user %>
+				Logged in as <%= current_user.email %>
+				<%= link_to "Log out", signout_path, method: :delete %>
+			<% else %>
+				<%= link_to "Log in", signin_path %>
+			<% end %>
+		</p>
+		<p>
+			<% if signed_in_admin? %>
+				<%= link_to "Admin", admin_path %>
+			<% end %>
+		</p>
 	</div>
 	
 	

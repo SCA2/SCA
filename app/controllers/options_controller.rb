@@ -51,9 +51,9 @@ class OptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def option_params
-      params.require(:option).permit( :model, :current_option, :description, :price, :discount,
-                                      :upc, :shipping_weight, :shipping_volume, :finished_stock,
-                                      :kit_stock, :part_stock, :sort_order)
+      params.require(:option).permit( :model, :current_option, :description, :price, :discount, :upc,
+                                      :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
+                                      :assembled_stock, :partial_stock, :kit_stock, :part_stock, :sort_order)
     end
     
 end

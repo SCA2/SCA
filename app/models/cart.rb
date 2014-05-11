@@ -1,6 +1,6 @@
 class Cart < ActiveRecord::Base
   
-  has_one :order, dependent: :destroy, inverse_of: :cart
+  has_one :order, inverse_of: :cart
   has_many :line_items, dependent: :destroy, inverse_of: :cart
   accepts_nested_attributes_for :line_items, allow_destroy: true
   
@@ -63,6 +63,11 @@ class Cart < ActiveRecord::Base
   
   def total_volume
     line_items.to_a.sum { |item| item.quantity * item.option.shipping_volume }
+  end
+  
+  def max_dimension
+    a = line_items.to_a.sort { |item| item.option.shipping_length }
+    a.last.option.shipping_length
   end
   
   def total_items

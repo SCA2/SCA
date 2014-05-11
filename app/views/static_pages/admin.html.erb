@@ -1,4 +1,4 @@
-<% provide(:title, 'Contact Us') %>
+<% provide(:title, 'Site Admin') %>
 
 <div class="box_2">
 	<div class="row">
@@ -7,18 +7,11 @@
 		</div>	
 		<div class="small-9 columns">
 			<% if signed_in? %>
-				<li><a href="#" data-dropdown="drop2" data-options="is_hover:true">My Account <b class="caret"></b></a>
-					<ul id="drop2" class="f-dropdown" data-dropdown-content>
-				    <li><%= link_to "Users", users_path %></li>
-				    <li><%= link_to "Profile", current_user %></li>
-				    <li><%= link_to "Settings",	edit_user_path(current_user) %></li>
-				    <li class="divider"></li>
-				    <li><%= link_to "Sign out",	signout_path, method: "delete" %></li>
-				  </ul>
-				</li>
+				<p><%= link_to "View Users", users_path %></br>
+			  <%= link_to "View Orders", orders_path %></p>
 			<% else %>
-			    <li><%= link_to "Sign In", signin_path %></li>
+		    <p><%= link_to "Please log in", signin_path %></p>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>

@@ -3,8 +3,25 @@ class OrdersController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
-  before_action :set_order, except: [:subregion_options, :create, :express, :create_express]
+  before_action :set_order, except: [:index, :subregion_options, :create, :express, :create_express]
 
+  def index
+    @orders = Order.order(:created_at)    
+  end
+  
+  def show
+
+    @billing = @order.addresses.find_by(:address_type => 'billing')
+    @shipping = @order.addresses.find_by(:address_type => 'shipping')
+    @cart = @order.cart
+    
+    if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
+      redirect_to orders_path, alert: "Invalid record"
+      return
+    end
+
+  end
+  
   def create
     if @cart.line_items.empty?
       redirect_to products_url, notice: "Your cart is empty"
@@ -120,13 +137,15 @@ class OrdersController < ApplicationController
     
     @order.validate_order = true
     if @order.update(order_params)
-      @order.cart = @cart
       @order.ip_address = request.remote_ip
       if @order.purchase
         @transaction = @order.transactions.last
         @order.cart.inventory
+        @order.cart = @cart
+        @order.save
+        @cart.save
         UserMailer.order_received(@order).deliver
-        Cart.destroy(session[:cart_id])
+#        Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         render 'success'
       else
@@ -138,6 +157,11 @@ class OrdersController < ApplicationController
     end
   end
     
+  def destroy
+    @order.destroy
+    redirect_to orders_path
+  end
+
   private
     
     # Use callbacks to share common setup or constraints between actions.

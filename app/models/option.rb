@@ -7,7 +7,7 @@ class Option < ActiveRecord::Base
   default_scope -> { order('sort_order ASC') }
   
   validates :product_id, :model, :description, :price, :sort_order,
-            :finished_stock, :kit_stock, :part_stock, presence: true
+            :assembled_stock, :partial_stock, :kit_stock, :part_stock, presence: true
   
   after_initialize :init
 
@@ -31,6 +31,10 @@ class Option < ActiveRecord::Base
       #send email notification
     end
     self.save
+  end
+  
+  def shipping_volume
+    self.shipping_length * self.shipping_width * self.shipping_height
   end
   
 end

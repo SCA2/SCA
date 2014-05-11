@@ -2,6 +2,9 @@ class StaticPagesController < ApplicationController
   
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
+
+  def admin  
+  end
   
   def home
     @slider_images = SliderImage.order(:id)
@@ -30,5 +33,5 @@ class StaticPagesController < ApplicationController
 
   def troubleshooting
   end
-
+  
 end

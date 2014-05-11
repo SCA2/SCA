@@ -99,11 +99,23 @@ class Order < ActiveRecord::Base
                           :currency => 'USD',
                           :value => cart.subtotal * 100)        
   end
+  
+  def prune_response(response)
+    usps = response.rates.select do |str|
+      (str.service_name.to_s.include? "USPS") && 
+      (str.service_name.to_s.include? "Priority") &&
+      !(str.service_name.to_s.include? "Hold")
+    end
+    ups = response.rates.select do |str|
+      str.service_name.to_s.include? "UPS"
+    end
+    return ups + usps
+  end
  
   def get_rates_from_shipper(shipper)
     response = shipper.find_rates(origin, destination, packages)
-    logger.debug "response: " + response.inspect
-    response.rates.sort_by(&:price)    
+    response.rates.sort_by(&:price)
+    prune_response(response)    
   end
   
   def get_rates_from_params
@@ -113,12 +125,12 @@ class Order < ActiveRecord::Base
   end
   
   def ups_rates
-    ups = UPS.new(login: 'tpryan', password: 'ups1138', key: 'DC1022E5FAC7AD60')
+    ups = UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
     get_rates_from_shipper(ups)
   end
  
   def usps_rates
-    usps = USPS.new(login: '825SEVEN1015', password: '391FA81EE622')
+    usps = USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
     get_rates_from_shipper(usps)
   end
 
@@ -134,20 +146,25 @@ class Order < ActiveRecord::Base
   end
   
   def dimensions
+    max_dimension = cart.max_dimension
     case cart.total_volume
-    when 0 .. (6 * 4 * 3)
+    when (0 .. (6 * 4 * 3)) && max_dimension < 6
       length = 6
       width = 4
       height = 3
-    when (6 * 4  * 3) .. (12 * 9 * 6)
+    when ((6 * 4  * 3) .. (11 * 8 * 5)) && max_dimension < 11
+      length = 11
+      width = 8
+      height = 5
+    when ((6 * 4  * 3) .. (12 * 9 * 6)) && max_dimension < 12
       length = 12
       width = 9
       height = 6
-    when (12 * 9  * 6) .. (12 * 12 * 10)
+    when ((12 * 9  * 6) .. (12 * 12 * 12)) && max_dimension < 12
       length = 12
       width = 12
-      height = 10
-    when (12 * 12  * 10) .. (24 * 12 * 6)
+      height = 12
+    when ((12 * 12  * 12) .. (24 * 12 * 6)) && max_dimension < 24
       length = 24
       width = 12
       height = 6

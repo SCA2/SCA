@@ -1,74 +1,30 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, 'Order ' + @order.id.to_s) %>
 
-<p>
-  <strong>Cart:</strong>
-  <%= @order.cart_id %>
-</p>
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns main">
+			<%= render 'shared/errors', object: @order %>
+			<%= render 'shared/progress_bar' %>
+			<%= form_for @order, url: @redirect, method: :patch do |form| %>
+				<%= form.hidden_field :express_token %>
+				<div class='review-box'>
+					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
+					<%= render 'confirm_address', f: @shipping, legend: 'Shipping Address' %>
+					<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
+				</div>
+				<%= render 'confirm_cart' %>
+				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
+				<div class="actions">
+					<div style="width: 20%; margin: 0 auto 0 auto">
+						<%= link_to 'Quit', orders_path %>
+						&nbsp; &nbsp; | &nbsp; &nbsp;
+						<%= link_to 'Ship', @order %>
+						&nbsp; &nbsp; | &nbsp; &nbsp;
+						<%= link_to 'Delete', @order, method: :delete, data: { confirm: "Are you sure?" } %>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>	
+</div>
 
-<p>
-  <strong>First name:</strong>
-  <%= @order.addresses.find_by(:address_type => 'shipping').first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @order.shipping_last_name %>
-</p>
-
-<p>
-  <strong>Shipping address 1:</strong>
-  <%= @order.shipping_address_1 %>
-</p>
-
-<p>
-  <strong>Shipping address 2:</strong>
-  <%= @order.shipping_address_2 %>
-</p>
-
-<p>
-  <strong>Shipping city:</strong>
-  <%= @order.shipping_city %>
-</p>
-
-<p>
-  <strong>Shipping state:</strong>
-  <%= @order.shipping_state %>
-</p>
-
-<p>
-  <strong>Shipping post code:</strong>
-  <%= @order.shipping_post_code %>
-</p>
-
-<p>
-  <strong>Shipping country:</strong>
-  <%= @order.shipping_country %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @order.email %>
-</p>
-
-<p>
-  <strong>Telephone:</strong>
-  <%= @order.telephone %>
-</p>
-
-<p>
-  <strong>Card type:</strong>
-  <%= @order.card_type %>
-</p>
-
-<p>
-  <strong>Card expires on:</strong>
-  <%= @order.card_expires_on %>
-</p>
-
-<p>
-  <strong>Cart:</strong>
-  <%= @order.cart_id %>
-</p>
-
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
