@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.string   "express_token"
     t.string   "express_payer_id"
     t.string   "shipping_method"
-    t.integer  "shipping_cost",    limit: 255
+    t.integer  "shipping_cost"
     t.integer  "sales_tax"
   end
 

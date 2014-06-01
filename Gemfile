@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.1'
 
 gem 'rails'
 gem 'foundation-rails'
@@ -9,7 +9,6 @@ gem 'will_paginate-foundation'
 
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'rspec-rails', '~> 2.14.0'
   gem 'rails_layout'
   gem 'factory_girl_rails', '~> 4.2.1'
@@ -24,6 +23,11 @@ group :test do
   gem 'launchy', '~> 2.3.0'
 end
 
+group :production do
+  gem 'rails_12factor'
+end
+
+gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
@@ -39,8 +43,4 @@ gem 'carmen-rails'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
-end
-
-group :production do
-  
 end

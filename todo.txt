@@ -1,6 +1,5 @@
 Pre-deploy
 * display lead time quantities
-* add USPS rates for small orders (l x w x h)
 * fix part name scheme for chassis
 * migrate to postgresql
 
