@@ -1,0 +1,330 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"do",
+				"do"
+			],
+			[
+				"set",
+				"set"
+			],
+			[
+				"ca",
+				"capistrano"
+			],
+			[
+				"capi",
+				"capistrano-rvm"
+			],
+			[
+				"capist",
+				"capistrano-rails"
+			],
+			[
+				"se",
+				"session_sort"
+			],
+			[
+				"sort",
+				"sort_by"
+			],
+			[
+				"mov",
+				"movies_path"
+			],
+			[
+				"so",
+				"sort_by_title"
+			],
+			[
+				"sor",
+				"sort_by"
+			],
+			[
+				"all",
+				"all_ratings"
+			],
+			[
+				"ra",
+				"rating"
+			],
+			[
+				"rati",
+				"ratings"
+			],
+			[
+				"class",
+				"class_eval"
+			],
+			[
+				"attr",
+				"attr_name"
+			],
+			[
+				"wi",
+				"winner0"
+			],
+			[
+				"to",
+				"tournament"
+			],
+			[
+				"tou",
+				"tournament_winner"
+			],
+			[
+				"winner",
+				"winner1"
+			],
+			[
+				"in",
+				"inspect"
+			],
+			[
+				"play",
+				"player1"
+			],
+			[
+				"str",
+				"strategy"
+			],
+			[
+				"stra",
+				"strategy"
+			],
+			[
+				"size",
+				"size-2"
+			],
+			[
+				"pr",
+				"price_as_string"
+			],
+			[
+				"sum",
+				"sum_2_n"
+			],
+			[
+				"max",
+				"max_2_sum"
+			],
+			[
+				"sca",
+				"sca"
+			],
+			[
+				"s",
+				"sca1138"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/step_definitions/web_steps.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/sort_movie_list.feature",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/step_definitions/movie_steps.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/support/env.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/filter_movie_list.feature",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/support/paths.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/log/development.log",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/app/views/movies/new.html.haml",
+		"/media/tpryan/Applications/LinuxRails/SCA/Gemfile",
+		"/media/tpryan/Applications/LinuxRails/SCA/Capfile",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/deploy.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/deploy/production.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/Gemfile",
+		"/home/tpryan/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/controllers/movies_controller.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/doc/HW2.txt",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/Procfile",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/views/movies/index.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/models/movie.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/views/movies/HW2.txt",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/assets/stylesheets/application.css",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/views/layouts/application.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/views/movies/edit.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/views/movies/show.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/controllers/movies_controller.rb",
+		"/media/tpryan/Applications/LinuxRails/saasbook/hw-skeletons/rottenpotatoes/Gemfile",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/views/movies/index.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/assets/stylesheets/custom.css",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/assets/stylesheets/application.css",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/views/movies/new.html.haml",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/db/seeds.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/db/schema.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/app/models/movie.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/db/migrate/20140525224456_create_movies.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/config/routes.rb",
+		"/media/tpryan/Applications/LinuxRails/CS169HW/HW1.5/myrottenpotatoes/Gemfile",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/README.md",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/attr_accessor_with_history_spec.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/attr_accessor_with_history.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/rock_paper_scissors_spec.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/rock_paper_scissors.rb",
+		"/home/tpryan/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/tpryan/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/dessert.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/dessert_spec.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/fun_with_strings_spec.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/fun_with_strings.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/.rspec",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW0-3.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW0.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/work/hello/README",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/work/hello/Rakefile",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/work/hello/lib/greeter.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/work/hello/lib/hello.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/work/hello/hello.rb",
+		"/home/tpryan/.profile",
+		"/home/tpryan/.bash_profile",
+		"/home/tpryan/.gitconfig",
+		"/home/tpryan/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/tpryan/Desktop/mkusb.sh",
+		"/media/tpryan/Applications/LinuxRailsProjects/temp/Gemfile",
+		"/media/tpryan/Applications/LinuxRailsProjects/SCA/db/schema.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml",
+		"/media/tpryan/Applications/LinuxRailsProjects/SCA/Gemfile",
+		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml.old",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/git_tutorial/work/hello/hello.rb",
+		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/git_tutorial/work/hello/git_tutorial.zip"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"movie",
+			"ctrl+d",
+			"gem",
+			"query",
+			"sort_by",
+			"'Movie",
+			"#{@movie.title}",
+			"movie",
+			"successfully",
+			"strategy",
+			"self"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 271.0,
+	"status_bar_visible": true
+}
