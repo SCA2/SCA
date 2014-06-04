@@ -52,6 +52,7 @@ SCA::Application.routes.draw do
     end
   end
   
+  root 'home'
   get "home", to: 'static_pages#home', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "support", to: "static_pages#support", as: 'support'
@@ -73,9 +74,6 @@ SCA::Application.routes.draw do
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-#  root 'home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
