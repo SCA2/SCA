@@ -52,8 +52,8 @@ SCA::Application.routes.draw do
     end
   end
   
-  root 'home'
-  get "home", to: 'static_pages#home', as: 'home'
+  root to: 'static_pages#home', as: 'home'
+#  get "home", to: 'static_pages#home', as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "support", to: "static_pages#support", as: 'support'
   get "tips", to: "static_pages#tips", as: 'tips'
