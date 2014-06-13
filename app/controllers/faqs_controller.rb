@@ -8,7 +8,8 @@ class FaqsController < ApplicationController
 
   # GET /faqs
   def index
-    @category = Faq.select(:category).distinct.order(:category_weight)
+    @category = Faq.select(:category).distinct
+    @category.order(:category_weight)
     @faqs = Faq.order(:question_weight)
     respond_to do |format|
       format.html

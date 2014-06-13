@@ -17,3 +17,6 @@
 
 # Ignore environment variables
 /config/local_env.yml
+
+# Ignore sublime text workspace
+*.sublime-workspace
