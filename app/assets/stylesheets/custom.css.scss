@@ -128,12 +128,19 @@ div.box_3 {
   font-family: verdana, sans-serif;
   font-weight: normal;
   text-align: left;
-  line-height: 1.05em;
+  line-height: 0.9em;
   background: $brown-30;
 //  border: solid $brown-20;
 //  border-width: 1px;
   margin: 1em 1em 1em 1em;
   padding: 1em 1em 1em 1em;
+
+  li {
+    border: solid $brown-20;
+    border-width: 1px;
+    margin: 0;
+    padding: 0;
+  }
 
   a {
     &:visited:hover {
