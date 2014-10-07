@@ -9,7 +9,9 @@ gem 'will_paginate-foundation'
 
 
 group :development, :test do
+  gem 'autotest-rails', '~> 4.2.1'
   gem 'rspec-rails', '~> 2.14.0'
+  gem 'cucumber-rails', '~> 1.4.1', :require => false
   gem 'rails_layout'
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'debugger'

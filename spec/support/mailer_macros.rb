@@ -1,3 +1,5 @@
+include ApplicationHelper
+
 module MailerMacros
   def last_email
     ActionMailer::Base.deliveries.last

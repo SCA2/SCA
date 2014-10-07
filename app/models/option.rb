@@ -6,8 +6,14 @@ class Option < ActiveRecord::Base
   
   default_scope -> { order('sort_order ASC') }
   
-  validates :product_id, :model, :description, :price, :sort_order,
-            :assembled_stock, :partial_stock, :kit_stock, :part_stock, presence: true
+  validates :product_id, :model, :description, :upc, :price, :discount, :sort_order,
+            :assembled_stock, :partial_stock, :kit_stock, :part_stock,
+            :shipping_length, :shipping_width, :shipping_height, :shipping_weight, presence: true
+
+  validates :shipping_length, numericality: { only_integer: true, greater_than: 0, less_than: 25 }
+  validates :shipping_width, numericality: { only_integer: true, greater_than: 0, less_than: 13 }
+  validates :shipping_height, numericality: { only_integer: true, greater_than: 0, less_than: 7 }
+
   
   after_initialize :init
 
@@ -17,11 +23,15 @@ class Option < ActiveRecord::Base
     self.discount ||= 0
   end
   
+  def shipping_volume
+    self.shipping_length * self.shipping_width * self.shipping_height
+  end
+  
   def subtract_stock(quantity)
-    self.finished_stock -= quantity
-    if self.finished_stock < 0
-      self.kit_stock += self.finished_stock
-      self.finished_stock = 0
+    self.assembled_stock -= quantity
+    if self.assembled_stock < 0
+      self.kit_stock += self.assembled_stock
+      self.assembled_stock = 0
     end
     if self.kit_stock < 0
       self.part_stock += self.kit_stock
@@ -33,8 +43,32 @@ class Option < ActiveRecord::Base
     self.save
   end
   
-  def shipping_volume
-    self.shipping_length * self.shipping_width * self.shipping_height
+  def sell_kit(quantity)
+    self.kit_stock -= quantity
+    if self.kit_stock < 0
+      self.part_stock += self.kit_stock
+      self.kit_stock = 0
+    end
+    if self.part_stock < REORDER_LIMIT
+      #send email notification
+    end
+    self.save
   end
-  
+
+  def sell_assembled(quantity)
+    self.assembled_stock -= quantity
+    if self.assembled_stock < 0
+      self.partial_stock += self.assembled_stock
+      self.assembled_stock = 0
+    end
+    if self.partial_stock < 0
+      self.part_stock += self.partial_stock
+      self.partial_stock = 0
+    end
+    if self.part_stock < REORDER_LIMIT
+      #send email notification
+    end
+    self.save
+  end
+
 end

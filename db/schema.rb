@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140508234437) do
+ActiveRecord::Schema.define(version: 20140923195242) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "addresses", force: true do |t|
     t.string   "first_name"
@@ -29,6 +32,8 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.string   "addressable_type"
     t.string   "address_type"
   end
+
+  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
 
   create_table "carts", force: true do |t|
     t.datetime "created_at"
@@ -56,7 +61,7 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.integer  "sort_order"
   end
 
-  add_index "features", ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order"
+  add_index "features", ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order", using: :btree
 
   create_table "line_items", force: true do |t|
     t.integer  "product_id"
@@ -69,8 +74,8 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.boolean  "remove",         default: false
   end
 
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
-  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id"
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
   create_table "options", force: true do |t|
     t.string   "model"
@@ -78,7 +83,6 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.integer  "price"
     t.string   "upc"
     t.integer  "shipping_weight"
-    t.integer  "finished_stock"
     t.integer  "kit_stock"
     t.integer  "part_stock"
     t.integer  "sort_order"
@@ -164,7 +168,7 @@ ActiveRecord::Schema.define(version: 20140508234437) do
     t.boolean  "contact_updates"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
 end

@@ -4,16 +4,80 @@
 		"selected_items":
 		[
 			[
+				"im",
+				"image"
+			],
+			[
+				"image",
+				"image_url"
+			],
+			[
+				"should",
+				"should_not"
+			],
+			[
+				"sh",
+				"shipping_height"
+			],
+			[
+				"shi",
+				"shipping_width"
+			],
+			[
+				"ship",
+				"shipping_height"
+			],
+			[
+				"opt",
+				"option"
+			],
+			[
+				"par",
+				"partial_stock"
+			],
+			[
+				"ass",
+				"assembled_stock"
+			],
+			[
+				"des",
+				"description"
+			],
+			[
+				"sor",
+				"sort_order"
+			],
+			[
+				"lo",
+				"long_description"
+			],
+			[
+				"ca",
+				"category_sort_order"
+			],
+			[
+				"mod",
+				"model"
+			],
+			[
+				"ad",
+				"addresses"
+			],
+			[
+				"address",
+				"address_1"
+			],
+			[
+				"cate",
+				"category_weight"
+			],
+			[
 				"do",
 				"do"
 			],
 			[
 				"set",
 				"set"
-			],
-			[
-				"ca",
-				"capistrano"
 			],
 			[
 				"capi",
@@ -38,10 +102,6 @@
 			[
 				"so",
 				"sort_by_title"
-			],
-			[
-				"sor",
-				"sort_by"
 			],
 			[
 				"all",
@@ -127,15 +187,23 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
 		],
-		"width": 0.0
+		"width": 485.0
 	},
 	"console":
 	{
-		"height": 0.0
+		"height": 139.0
 	},
 	"distraction_free":
 	{
@@ -148,6 +216,71 @@
 	},
 	"file_history":
 	[
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/carts.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/line_items.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/line_item_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/db/schema.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/line_item.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/order.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/order_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/spec_helper.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/slider_image_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/slider_image.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/option_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/address_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/address.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/sca.sublime-project",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/user.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/controllers/password_resets_controller.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/helpers/sessions_helper.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/mailers/user_mailer.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/features/password_resets_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/routes.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/controllers/sessions_controller.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/user_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/helpers/password_resets_helper.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/mailers/user_mailer_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/support/mailer_macros.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/password_resets/new.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/password_resets/edit.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/users.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/requests/password_resets_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/environments/test.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/product_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/feature_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/option.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/product.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/db/migrate/20140923195242_drop_finished_stock_from_options.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/product.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/support/utilities.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/features/authentication_pages_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/cart_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/cart.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/db/migrate/20140801003229_add_index_to_addresses.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/Gemfile",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/database.yml",
+		"/media/tpryan/Applications/LinuxRails/SCA/config/application.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/greeter_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/faq_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/order_transaction_spec.rb",
+		"/home/tpryan/.rvm/gems/ruby-2.1.1/gems/activesupport-4.1.1/lib/active_support/dependencies.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/todo.txt",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/controllers/faqs_controller.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/helpers/faqs_helper.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/faq.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/_accordion.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/_form.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/edit.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/index.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/new.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/faqs/show.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/layouts/_navigation_links.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/views/static_pages/tips.html.erb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/mailer_macros.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/assets/stylesheets/custom.css.scss",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/assets/stylesheets/fonts.css.scss",
+		"/home/tpryan/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/media/tpryan/Applications/LinuxRails/SCA/.gitignore",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/step_definitions/web_steps.rb",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/sort_movie_list.feature",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/step_definitions/movie_steps.rb",
@@ -156,12 +289,10 @@
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/features/support/paths.rb",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/log/development.log",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW3/rottenpotatoes/app/views/movies/new.html.haml",
-		"/media/tpryan/Applications/LinuxRails/SCA/Gemfile",
 		"/media/tpryan/Applications/LinuxRails/SCA/Capfile",
 		"/media/tpryan/Applications/LinuxRails/SCA/config/deploy.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/config/deploy/production.rb",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/Gemfile",
-		"/home/tpryan/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/app/controllers/movies_controller.rb",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/doc/HW2.txt",
 		"/media/tpryan/Applications/LinuxRails/CS169HW/HW2/rottenpotatoes/Procfile",
@@ -212,9 +343,7 @@
 		"/media/tpryan/Applications/LinuxRailsProjects/SCA/db/schema.rb",
 		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml",
 		"/media/tpryan/Applications/LinuxRailsProjects/SCA/Gemfile",
-		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml.old",
-		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/git_tutorial/work/hello/hello.rb",
-		"/media/tpryan/Applications/LinuxRailsProjects/GitImmersion/git_tutorial/work/hello/git_tutorial.zip"
+		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml.old"
 	],
 	"find":
 	{
@@ -225,13 +354,50 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"option",
+			"user",
+			"login_path",
+			"user",
+			"product",
+			"MailerMacros",
+			"last_email",
+			"password_reset",
+			"user",
+			"shipping_length",
+			"finished_stock",
+			"price",
+			"feature",
+			"short_description",
+			"be_valid",
+			"caption_sort_order",
+			"should",
+			"first_feature",
+			"features",
+			"feature",
+			"model",
+			"mo",
+			"model",
+			"Confirm",
+			"Password",
+			"Email",
+			"phones",
+			"Contact",
+			"other_contact",
+			"contact",
+			"state",
+			"first_name",
+			"utf8",
+			"unicode",
+			"require 'Faq",
+			"Faq",
 			"movie",
 			"ctrl+d",
 			"gem",
@@ -263,6 +429,11 @@
 			"sheets":
 			[
 			]
+		},
+		{
+			"sheets":
+			[
+			]
 		}
 	],
 	"incremental_find":
@@ -282,11 +453,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -310,21 +488,33 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"user_s",
+				"spec/models/user_spec.rb"
+			],
+			[
+				"user",
+				"app/models/user.rb"
+			],
+			[
+				".css",
+				"app/assets/stylesheets/custom.css.scss"
+			]
 		],
 		"width": 0.0
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 271.0,
+	"side_bar_width": 269.0,
 	"status_bar_visible": true
 }

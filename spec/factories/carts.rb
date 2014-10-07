@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :cart do
-    line_items ""
+    purchased_at { Time.now }
   end
 end

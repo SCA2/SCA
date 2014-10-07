@@ -9,9 +9,10 @@ describe "Authentication" do
     
     it { should have_title('Sign in') }
     it { should have_content('Sign in') }
-    it { should have_content('Email:') }
-    it { should have_content('Password:') }
-    it { should have_content('Confirm:') }
+    it { should have_content('Email') }
+    it { should have_content('Password') }
+    it { should have_content('Password confirmation') }
+    it { should have_content('Remember me on this computer') }
     it { should have_button('Sign in') }
     it { should_not have_link('Users') }
     it { should_not have_link('Profile') }
@@ -39,7 +40,7 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
       before { sign_in user }
 
-      it { should have_title(user.name) }
+      it { save_and_open_page; should have_title(user.name) }
       it { should have_link('Users', href: users_path) }
       it { should have_link('Profile',     href: user_path(user)) }
       it { should have_link('Settings', href: edit_user_path(user)) }

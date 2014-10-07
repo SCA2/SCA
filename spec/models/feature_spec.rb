@@ -1,22 +1,24 @@
 require 'spec_helper'
 
 describe Feature do
+
   let(:product) { FactoryGirl.create(:product) }
-  before { @feature = product.features.build(
+  before do
+    @feature = product.features.build(
                       model: 'A12KF',
                       caption: 'Caption',
-                      caption_sort_order: 10,
-                      short_description: 'Short description',
-                      long_description: 'Long description') }
+                      sort_order: 10,
+                      description: 'Description')
+  end
   
   subject { @feature }
   
   it { should respond_to(:product_id) }
   it { should respond_to(:model) }
   it { should respond_to(:caption) }
-  it { should respond_to(:caption_sort_order) }
-  it { should respond_to(:short_description) }
-  it { should respond_to(:long_description) }
+  it { should respond_to(:sort_order) }
+  it { should respond_to(:description) }
+  
   its(:product) { should eq product }
   
   it { should be_valid }
@@ -36,19 +38,11 @@ describe Feature do
     it { should_not be_valid }
   end
 
-  describe 'with no caption_sort_order' do
-    before { @feature.caption_sort_order = nil }
+  describe 'with no sort_order' do
+    before { @feature.sort_order = nil }
     it { should_not be_valid }
   end
 
-  describe 'with no short_description' do
-    before { @feature.short_description = nil }
-    it { should_not be_valid }
+  describe 'with no description' do
   end
-
-  describe 'with no long_description' do
-    before { @feature.long_description = nil }
-    it { should_not be_valid }
-  end
-
 end

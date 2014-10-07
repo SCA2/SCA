@@ -51,9 +51,9 @@ SCA::Application.routes.draw do
       patch 'update_confirm'
     end
   end
-  
-  root to: 'static_pages#home', as: 'home'
-#  get "home", to: 'static_pages#home', as: 'home'
+
+  root to: "static_pages#home"
+  get "home", to: "static_pages#home", as: 'home'
   get "forums", to: "static_pages#forums", as: 'forums'
   get "support", to: "static_pages#support", as: 'support'
   get "tips", to: "static_pages#tips", as: 'tips'
@@ -68,6 +68,7 @@ SCA::Application.routes.draw do
 
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
+  #get "signout", to: 'sessions#destroy', as: 'signout'
   delete "signout", to: 'sessions#destroy', as: 'signout'
   put "products_update_option", to: 'products#update_option', as: 'products_update_option'
   match "features", to: 'features#create', via: :post

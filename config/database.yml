@@ -1,17 +1,17 @@
 development:
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   database: sca_development
   pool: 5
 
 test:
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   database: sca_test
   pool: 5
 
 production:
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   database: sca_production
   pool: 5
