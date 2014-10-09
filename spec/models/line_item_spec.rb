@@ -3,8 +3,10 @@ require 'spec_helper'
 describe LineItem do
 
   # let(:product) { FactoryGirl.create(:product) }
+  # let(:option) { FactoryGirl.create(:option) }
+  # let(:cart) { FactoryGirl.create(:cart) }
   before do
-    @line_item = build(:line_item)
+    @line_item = create(:line_item)
   end
   
   subject { @line_item }

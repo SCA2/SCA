@@ -3,13 +3,7 @@ require 'spec_helper'
 describe Product do
 
   before do
-    @product = Product.new( model: 'A12',
-                            short_description: 'Short description',
-                            long_description: 'Long description',
-                            image_1: 'image_url',
-                            category: 'Microphone Preamp',
-                            category_sort_order: 10,
-                            model_sort_order: 10)
+    @product = build(:product)
   end
   
   subject { @product }

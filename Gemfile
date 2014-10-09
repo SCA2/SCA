@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.1.3'
 
 gem 'rails'
 gem 'foundation-rails'
@@ -14,7 +14,7 @@ group :development, :test do
   gem 'cucumber-rails', '~> 1.4.1', :require => false
   gem 'rails_layout'
   gem 'factory_girl_rails', '~> 4.2.1'
-  gem 'debugger'
+  gem 'byebug'
 end
 
 group :test do
@@ -37,7 +37,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jbuilder'
-gem 'activemerchant', '~> 1.42.7'
+#gem 'activemerchant', '~> 1.42.7'
 gem 'active_shipping'
 gem 'roadie'
 gem 'carmen-rails'
@@ -46,3 +46,9 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
+gem 'activemerchant', '1.44.1',
+  :path => 'vendor/gems/activemerchant-1.44.1',
+  :require => 'active_merchant'
+gem 'active_utils', '2.2.3',
+  :path => 'vendor/gems/active_utils-2.2.3'

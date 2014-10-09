@@ -183,6 +183,64 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "spec/models/product_spec.rb",
+			"settings":
+			{
+				"buffer_size": 3275,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "spec/models/cart_spec.rb",
+			"settings":
+			{
+				"buffer_size": 333,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 1717 files for \"bogus\" (case sensitive)\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/active_utils-2.2.3/test/unit/connection_test.rb:\n  105  \n  106    def test_override_ca_file\n  107:     @connection.ca_file = \"/bogus\"\n  108:     assert_equal \"/bogus\", @connection.ca_file\n  109:     assert_equal \"/bogus\", @connection.send(:http).ca_file\n  110    end\n  111  \n  ...\n  116  \n  117    def test_override_ca_path\n  118:     @connection.ca_path = \"/bogus\"\n  119:     assert_equal \"/bogus\", @connection.ca_path\n  120:     assert_equal \"/bogus\", @connection.send(:http).ca_path\n  121    end\n  122  \n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/CHANGELOG:\n 1357  * Update format of line items given to the gateway. Cleanup and uncomment unit tests [cody]\n 1358  * Add support for the SkipJack gateway [Bill Bereza, cody]\n 1359: * Make the bogus gateway easier to test by moving messages into constants [cody]\n 1360  * Add retry logic when connection has been refused for all gateways. Enable safe retries of all connection failures with the PayflowGateway, as it has a unique request header. [cody]\n 1361  * Catch Timeout::Error when posting data [cody]\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/base.rb:\n   33  \n   34        # Return the matching gateway for the provider\n   35:       # * <tt>bogus</tt>: BogusGateway - Does nothing (for testing)\n   36        # * <tt>moneris</tt>: MonerisGateway\n   37        # * <tt>authorize_net</tt>: AuthorizeNetGateway\n   ..\n   53        # Return the matching integration module\n   54        # You can then get the notification from the module\n   55:       # * <tt>bogus</tt>: Bogus - Does nothing (for testing)\n   56        # * <tt>chronopay</tt>: Chronopay\n   57        # * <tt>paypal</tt>: Paypal\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/credit_card.rb:\n   23      # * Laser\n   24      #\n   25:     # For testing purposes, use the 'bogus' credit card brand. This skips the vast majority of\n   26      # validations, allowing you to focus on your core concerns until you're ready to be more concerned\n   27      # with the details of particular credit cards or your gateway.\n   ..\n   89        # * +'laser'+\n   90        #\n   91:       # Or, if you wish to test your implementation, +'bogus'+.\n   92        #\n   93        # @return (String) the credit card brand\n   ..\n  231  \n  232          # Bogus card is pretty much for testing purposes. Lets just skip these extra tests if its used\n  233:         return errors_hash(errors) if brand == 'bogus'\n  234  \n  235          errors_hash(\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/credit_card_methods.rb:\n   95          #\n   96          def brand?(number)\n   97:           return 'bogus' if valid_test_mode_card_number?(number)\n   98  \n   99            card_companies.reject { |c,p| c == 'maestro' }.each do |company, pattern|\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/gateways/bogus.rb:\n   15  \n   16        self.supported_countries = ['US']\n   17:       self.supported_cardtypes = [:bogus]\n   18        self.homepage_url = 'http://example.com'\n   19        self.display_name = 'Bogus'\n\n/media/tpryan/Applications/LinuxRails/SCA/vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/gateways/paypal/paypal_bogus.rb:\n    8      class PaypalBogusGateway < BogusGateway\n    9  \n   10:       REDIRECT_URL = \"https://bogus.paypal.com\"\n   11  \n   12        def setup_authorization money, options = {}\n\n15 matches across 7 files\n",
+			"settings":
+			{
+				"buffer_size": 3716,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "spec/factories/cart.rb",
+			"settings":
+			{
+				"buffer_size": 404,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "spec/factories/order.rb",
+			"settings":
+			{
+				"buffer_size": 545,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/models/order.rb",
+			"settings":
+			{
+				"buffer_size": 7385,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/gateways/paypal/paypal_bogus.rb",
+			"settings":
+			{
+				"buffer_size": 1739,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -199,7 +257,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 485.0
+		"width": 476.0
 	},
 	"console":
 	{
@@ -216,11 +274,21 @@
 	},
 	"file_history":
 	[
+		"/etc/pulse/daemon.conf",
+		"/media/tpryan/Applications/LinuxRails/SCA/Gemfile",
+		"/media/tpryan/Applications/LinuxRails/SCA/db/schema.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/product.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/cart.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/line_item.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/line_item_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/line_item.rb",
+		"/home/tpryan/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/tpryan/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/cart.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/feature.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/option.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/carts.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/line_items.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/line_item_spec.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/db/schema.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/app/models/line_item.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/app/models/order.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/order_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/spec_helper.rb",
@@ -249,15 +317,12 @@
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/product_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/feature_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/app/models/option.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/product.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/db/migrate/20140923195242_drop_finished_stock_from_options.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/app/models/product.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/support/utilities.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/features/authentication_pages_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/cart_spec.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/app/models/cart.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/db/migrate/20140801003229_add_index_to_addresses.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/Gemfile",
 		"/media/tpryan/Applications/LinuxRails/SCA/config/database.yml",
 		"/media/tpryan/Applications/LinuxRails/SCA/config/application.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/greeter_spec.rb",
@@ -320,8 +385,6 @@
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/attr_accessor_with_history.rb",
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/rock_paper_scissors_spec.rb",
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/rock_paper_scissors.rb",
-		"/home/tpryan/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
-		"/home/tpryan/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/lib/dessert.rb",
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/dessert_spec.rb",
 		"/media/tpryan/Applications/LinuxRailsProjects/CS169HW/HW1/public/spec/fun_with_strings_spec.rb",
@@ -338,12 +401,7 @@
 		"/home/tpryan/.bash_profile",
 		"/home/tpryan/.gitconfig",
 		"/home/tpryan/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
-		"/home/tpryan/Desktop/mkusb.sh",
-		"/media/tpryan/Applications/LinuxRailsProjects/temp/Gemfile",
-		"/media/tpryan/Applications/LinuxRailsProjects/SCA/db/schema.rb",
-		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml",
-		"/media/tpryan/Applications/LinuxRailsProjects/SCA/Gemfile",
-		"/media/tpryan/Applications/LinuxRailsProjects/SCA/config/database.yml.old"
+		"/home/tpryan/Desktop/mkusb.sh"
 	],
 	"find":
 	{
@@ -362,6 +420,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"sample",
+			"bogus",
+			"details_for",
 			"option",
 			"user",
 			"login_path",
@@ -426,13 +487,281 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "spec/models/product_spec.rb",
+					"settings":
+					{
+						"buffer_size": 3275,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "spec/models/cart_spec.rb",
+					"settings":
+					{
+						"buffer_size": 333,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 3716,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										232,
+										237
+									],
+									[
+										265,
+										270
+									],
+									[
+										319,
+										324
+									],
+									[
+										464,
+										469
+									],
+									[
+										497,
+										502
+									],
+									[
+										551,
+										556
+									],
+									[
+										883,
+										888
+									],
+									[
+										1401,
+										1406
+									],
+									[
+										1712,
+										1717
+									],
+									[
+										2046,
+										2051
+									],
+									[
+										2398,
+										2403
+									],
+									[
+										2655,
+										2660
+									],
+									[
+										2903,
+										2908
+									],
+									[
+										3270,
+										3275
+									],
+									[
+										3606,
+										3611
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		},
 		{
+			"selected": 3,
 			"sheets":
 			[
+				{
+					"buffer": 3,
+					"file": "spec/factories/cart.rb",
+					"settings":
+					{
+						"buffer_size": 404,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "spec/factories/order.rb",
+					"settings":
+					{
+						"buffer_size": 545,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/models/order.rb",
+					"settings":
+					{
+						"buffer_size": 7385,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "vendor/gems/activemerchant-1.44.1/lib/active_merchant/billing/gateways/paypal/paypal_bogus.rb",
+					"settings":
+					{
+						"buffer_size": 1739,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -464,7 +793,7 @@
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.492359932088,
 			1.0
 		],
 		"rows":
@@ -515,6 +844,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 269.0,
+	"side_bar_width": 354.0,
 	"status_bar_visible": true
 }
