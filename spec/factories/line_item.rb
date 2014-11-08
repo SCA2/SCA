@@ -2,17 +2,13 @@
 
 FactoryGirl.define do
   factory :line_item do
-    quantity { 1 }
-    extended_price { 1 }
-    remove { false }
-    cart
-    product
-    option
-
-    after(:create) do |line_item|
-        line_item.cart = FactoryGirl.create(:cart)
-        line_item.product = FactoryGirl.create(:product)
-        line_item.option = FactoryGirl.create(:option)
+    association :cart
+    association :product
+    association :option
+    after(:build) do |line_item|
+      line_item.cart = build(:cart)
+      line_item.product = build(:product)
+      line_item.option = build(:option)
     end
   end
 end

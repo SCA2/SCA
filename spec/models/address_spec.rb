@@ -73,6 +73,3 @@ describe Address do
 	end
 
 end
-
-
-#belongs_to :addressable, :polymorphic => true

@@ -39,9 +39,21 @@ SCA::Application.configure do
   ActiveModel::SecurePassword.min_cost = true
   
   # Configure ActiveMerchant
+  # config.after_initialize do
+  #   ActiveMerchant::Billing::Base.mode = :test
+  #   ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+  #   ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+  # end
+
+  #Paypal
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test
-    ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
+    paypal_options = {
+      login:      ENV['PAYPAL_DEV_LOGIN'],
+      password:   ENV['PAYPAL_DEV_PASSWORD'],
+      signature:  ENV['PAYPAL_DEV_SIGNATURE']
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
 end

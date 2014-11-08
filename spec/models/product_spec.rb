@@ -106,4 +106,26 @@ describe Product do
     end
   end
 
+  describe 'line_item associations' do
+    before { @product.save }
+    let!(:first_line_item) do
+      FactoryGirl.create(:line_item, product: @product, sort_order: 10)
+    end
+    let!(:last_line_item) do
+      FactoryGirl.create(:option, product: @product, sort_order: 100)
+    end
+    
+    it 'should have the line items sorted by sort_order' do
+      expect(@product.line_items.to_a).to eq [first_line_item, last_line_item]
+    end
+    
+    it 'should destroy associated options' do
+      line_items = @product.line_items.to_a
+      @product.destroy
+      expect(line_items).not_to be_empty
+      line_items.each do |line_items| 
+        expect(Feature.where(id: line_item.id)).to be_empty
+      end
+    end
+  end
 end

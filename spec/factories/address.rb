@@ -2,7 +2,10 @@
 
 FactoryGirl.define do
   factory :address do
-    order_id 1
+
+    association :user
+    association :order
+
     billing_first_name "MyString"
     billing_last_name "MyString"
     billing_address_1 "MyString"
