@@ -40,7 +40,6 @@ describe Order do
   it { should respond_to(:card_number) }
   it { should respond_to(:card_verification) }
   it { should respond_to(:ip_address) }
-  it { should respond_to(:validate_card) }
   it { should respond_to(:validate_order) }
   it { should respond_to(:validate_terms) }
   it { should respond_to(:accept_terms) }

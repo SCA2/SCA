@@ -1,28 +1,31 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
+require 'faker'
+
 FactoryGirl.define do
-  factory :address do
-
-    association :user
-    association :order
-
-    billing_first_name "MyString"
-    billing_last_name "MyString"
-    billing_address_1 "MyString"
-    billing_address_2 "MyString"
-    billing_city "MyString"
-    billing_state "MyString"
-    billing_post_code "MyString"
-    billinig_country "MyString"
-    billing_telephone "MyString"
-    shipping_first_name "MyString"
-    shipping_last_name "MyString"
-    shipping_address_1 "MyString"
-    shipping_address_2 "MyString"
-    shipping_city "MyString"
-    shipping_state "MyString"
-    shipping_post_code "MyString"
-    shipping_country "MyString"
-    shipping_telephone "MyString"
+  factory :user_address, class: "Address" do
+    association :addressable, :factory => :user
+    first_name "MyString"
+    last_name "MyString"
+    address_1 "MyString"
+    address_2 "MyString"
+    city "MyString"
+    state "MyString"
+    post_code "MyString"
+    country "MyString"
+    telephone "MyString"
+  end
+  
+  factory :order_address, class: "Address" do
+    association :addressable, :factory => :order
+    first_name "MyString"
+    last_name "MyString"
+    address_1 "MyString"
+    address_2 "MyString"
+    city "MyString"
+    state "MyString"
+    post_code "MyString"
+    country "MyString"
+    telephone "MyString"
   end
 end

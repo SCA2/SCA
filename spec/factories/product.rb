@@ -1,7 +1,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :product, class: 'Product' do
+  factory :product do
     model {['A12', 'C84', 'J99', 'N72', 'T15', 'D11', 'B16', 'CH02', 'PC01'].at(rand(0..8))}
     short_description { Faker::Lorem.sentence.to_s }
     long_description { Faker::Lorem.sentences.to_s }

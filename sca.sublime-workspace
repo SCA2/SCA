@@ -4,8 +4,48 @@
 		"selected_items":
 		[
 			[
+				"r_",
+				"r_leg"
+			],
+			[
+				"l",
+				"l_leg"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"border-r",
+				"border-top-right-radius"
+			],
+			[
+				"li",
+				"line_items"
+			],
+			[
+				"lin",
+				"line_items"
+			],
+			[
 				"line",
-				"line_item"
+				"line_items"
+			],
+			[
+				"tra",
+				"transaction"
+			],
+			[
+				"or",
+				"order_address"
+			],
+			[
+				"my",
+				"my_playlist"
+			],
+			[
+				"sil",
+				"silverware_drawer"
 			],
 			[
 				"be",
@@ -180,10 +220,6 @@
 				"sidebar"
 			],
 			[
-				"l",
-				"line-height"
-			],
-			[
 				"c",
 				"table-cell"
 			],
@@ -226,10 +262,6 @@
 			[
 				"fon",
 				"font-family"
-			],
-			[
-				"mar",
-				"margin"
 			],
 			[
 				"border-bo",
@@ -407,22 +439,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "spec/models/order_spec.rb",
-			"settings":
-			{
-				"buffer_size": 332,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/models/order.rb",
-			"settings":
-			{
-				"buffer_size": 7391,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -456,23 +472,50 @@
 	},
 	"file_history":
 	[
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/feature.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/product.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/line_item.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/product_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/product.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/line_item_spec.rb",
+		"/media/tpryan/Applications/DevBootcamp/android-css/android.html",
+		"/media/tpryan/Applications/DevBootcamp/android-css/android.css",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/README",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/README.md",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/.git/MERGE_MSG",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/lib/hello.rb",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/lib/lib/hello.rb",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/Rakefile",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/lib/greeter.rb",
+		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/hello.rb",
+		"/home/tpryan/.gitconfig",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/spec_helper.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/order.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/order_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/address.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/transaction.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/transaction_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/transaction.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/app/models/line_item.rb",
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-5/6-validate-credit-card/my_solution.rb",
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-6/3-playlist/my_solution.rb",
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-6/3-PezDispenser/my_solution.rb",
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-6/2-variable-scope/my_solution.rb",
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-6/1-drawer-debugger/my_solution.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/order.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/cart_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/address_spec.rb",
+		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/cart.rb",
 		"/home/tpryan/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/tpryan/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/media/tpryan/Applications/LinuxRails/SCA/app/models/cart.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/cart_spec.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/product_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/option.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/line_item.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/app/models/order.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/models/line_item_spec.rb",
 		"/media/tpryan/Applications/LinuxRails/SCA/config/environments/test.rb",
 		"/media/tpryan/Applications/DevBootcamp/git_tutorial/work/hello/.git/COMMIT_EDITMSG",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/small-cohort.txt",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/my_solution.rb",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/dlx.rb",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/csv_test.rb",
-		"/media/tpryan/Applications/LinuxRails/SCA/spec/factories/cart.rb",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/test-4.csv",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/2-create-acct-groups/test-3.csv",
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-2/week-4/3-calculate-mode/my_solution.rb",
@@ -556,34 +599,7 @@
 		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/8-calculate-grade/letter_grade_spec.rb",
 		"/media/tpryan/Applications/DevBootcamp/Exercises/8/spec/spec_8.rb",
 		"/media/tpryan/Applications/DevBootcamp/Exercises/10/spec/spec_10.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/7-good-guess/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/9/spec/spec_9.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/7/spec/spec_7.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/6-math-methods/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/6-math-methods/my_",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/5-format-address/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/5/spec/spec_5.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/5-format-address/format_address_spec.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/4/spec/spec_4.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/4-defining-method/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/3/spec/spec_3.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/3-local-variables/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/2/spec/spec_2.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/2-simple-string-methods/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/1-defining-variables/my_solution.rb",
-		"/media/tpryan/Applications/DevBootcamp/Exercises/1/spec/spec_1.rb",
-		"/home/tpryan/.bashrc",
-		"/home/tpryan/.profile",
-		"/home/tpryan/.gemrc",
-		"/usr/local/bin/rspec",
-		"/media/tpryan/Applications/DevBootcamp/sca2.github.io/about.html",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/9-gps1-2/README.md",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/9-gps1-2/GPS12/css/style.css",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/9-gps1-2/GPS12/index.html",
-		"/media/tpryan/Applications/DevBootcamp/sca2.github.io/.git/MERGE_MSG",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/9-gps1-2/GPS12/gps1-2.html",
-		"/home/tpryan/.config/sublime-text-2/Packages/User/HTML.sublime-settings",
-		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-1/6-tracking-changes/my_reflection.md"
+		"/media/tpryan/Applications/DevBootcamp/phase-0-unit-1/week-3/challenges/7-good-guess/my_solution.rb"
 	],
 	"find":
 	{
@@ -603,6 +619,20 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"product_2",
+			"product",
+			"last_feature",
+			"first_option",
+			"feature",
+			"first_feature",
+			"features",
+			"a",
+			"billing",
+			"billing_first_name",
+			"add_item",
+			"def",
+			"FactoryGirl",
+			"def",
 			"association",
 			"it",
 			"cart",
@@ -716,21 +746,7 @@
 			"caption_sort_order",
 			"should",
 			"first_feature",
-			"features",
-			"feature",
-			"model",
-			"mo",
-			"model",
-			"Confirm",
-			"Password",
-			"Email",
-			"phones",
-			"Contact",
-			"other_contact",
-			"contact",
-			"state",
-			"first_name",
-			"utf8"
+			"features"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -750,65 +766,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "spec/models/order_spec.rb",
-					"settings":
-					{
-						"buffer_size": 332,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								71,
-								71
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/models/order.rb",
-					"settings":
-					{
-						"buffer_size": 7391,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Ruby/Ruby.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

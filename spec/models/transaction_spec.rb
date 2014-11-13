@@ -1,5 +1,12 @@
 require 'spec_helper'
 
 describe Transaction do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @transaction = build(:transaction)
+  end
+  
+  subject { @transaction }
+
+  it { should respond_to(:response=) }
+
 end

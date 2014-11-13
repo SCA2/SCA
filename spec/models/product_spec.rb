@@ -2,11 +2,13 @@ require 'spec_helper'
 
 describe Product do
 
-  before do
-    @product = build(:product)
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:product)).to be_valid
   end
-  
-  subject { @product }
+
+  let(:product) { FactoryGirl.build(:product) }
+  let(:cart) { FactoryGirl.build_stubbed(:cart) }
+  let(:option) { FactoryGirl.build_stubbed(:option) }
 
   it { should respond_to(:model) }
   it { should respond_to(:short_description) }
@@ -24,11 +26,6 @@ describe Product do
   it { should respond_to(:assembly) }
   it { should respond_to(:current_option) }
   it { should respond_to(:specifications ) }
-
-  it "is valid with a model, model_sort_order, category, category_sort_order,
-      short_description, long_description, image_1" do
-    expect(@product).to be_valid
-  end
 
   it "is invalid without a model" do
     expect(Product.new(model: nil)).to have(1).errors_on(:model)
@@ -64,18 +61,26 @@ describe Product do
 
   describe 'feature associations' do
 
-    before { @product.save }
+    let(:first_feature) { FactoryGirl.create(:feature, sort_order: 10) }
+    let(:last_feature) { FactoryGirl.create(:feature, sort_order: 100) }
 
-    let!(:first_feature)  { FactoryGirl.create(:feature, product: @product, sort_order: 10) }
-    let!(:last_feature)   { FactoryGirl.create(:feature, product: @product, sort_order: 100) }
+    before do
+      product.save
+      product.features << first_feature
+      product.features << last_feature
+    end
+
+    it 'should have two features' do
+      expect(product.features.count).to eq 2
+    end
     
-    it 'should have the features sorted by sort_order' do
-      expect(@product.features.to_a).to eq [first_feature, last_feature]
+    it 'should have two features sorted by sort_order' do
+      expect(product.features.to_a).to eq [first_feature, last_feature]
     end
     
     it 'should destroy associated features' do
-      features = @product.features.to_a
-      @product.destroy
+      features = product.features.to_a
+      product.destroy
       expect(features).not_to be_empty
       features.each do |feature| 
         expect(Feature.where(id: feature.id)).to be_empty
@@ -84,21 +89,27 @@ describe Product do
   end
 
   describe 'option associations' do
-    before { @product.save }
-    let!(:first_option) do
-      FactoryGirl.create(:option, product: @product, sort_order: 10)
+
+    let(:first_option) { FactoryGirl.create(:option, product: product, sort_order: 10) }
+    let(:last_option) { FactoryGirl.create(:option, product: product, sort_order: 100) }
+
+    before do
+      product.save
+      product.options << first_option
+      product.options << last_option
     end
-    let!(:last_option) do
-      FactoryGirl.create(:option, product: @product, sort_order: 100)
+
+    it 'should have two options' do
+      expect(product.options.count).to eq 2
     end
-    
+
     it 'should have the options sorted by sort_order' do
-      expect(@product.options.to_a).to eq [first_option, last_option]
+      expect(product.options.to_a).to eq [first_option, last_option]
     end
     
     it 'should destroy associated options' do
-      options = @product.options.to_a
-      @product.destroy
+      options = product.options.to_a
+      product.destroy
       expect(options).not_to be_empty
       options.each do |option| 
         expect(Feature.where(id: option.id)).to be_empty
@@ -107,23 +118,27 @@ describe Product do
   end
 
   describe 'line_item associations' do
-    before { @product.save }
-    let!(:first_line_item) do
-      FactoryGirl.create(:line_item, product: @product, sort_order: 10)
+
+    # let(:cart) { FactoryGirl.build_stubbed(:cart) }
+    # let(:option) { FactoryGirl.build_stubbed(:option) }
+    let(:line_item_1) { FactoryGirl.build(:line_item, product: product, option: option, cart: cart) }
+    let(:line_item_2) { FactoryGirl.build(:line_item, product: product, option: option, cart: cart) }
+
+    before do
+      product.save
+      product.line_items << line_item_1
+      product.line_items << line_item_2
     end
-    let!(:last_line_item) do
-      FactoryGirl.create(:option, product: @product, sort_order: 100)
+
+    it 'should have two line_items' do
+      expect(product.line_items.count).to eq 2
     end
     
-    it 'should have the line items sorted by sort_order' do
-      expect(@product.line_items.to_a).to eq [first_line_item, last_line_item]
-    end
-    
-    it 'should destroy associated options' do
-      line_items = @product.line_items.to_a
-      @product.destroy
+    it 'should destroy associated line_items' do
+      line_items = product.line_items.to_a
+      product.destroy
       expect(line_items).not_to be_empty
-      line_items.each do |line_items| 
+      line_items.each do |line_item| 
         expect(Feature.where(id: line_item.id)).to be_empty
       end
     end
