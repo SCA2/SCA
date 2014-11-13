@@ -21,7 +21,7 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c| c.syntax = :expect end
 
   # Include Factory Girl syntax to simplify calls to factories
-  # config.include FactoryGirl::Syntax::Methods
+  config.include FactoryGirl::Syntax::Methods
   
   # ## Mock Framework
   #

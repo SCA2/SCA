@@ -1,11 +1,16 @@
 require 'spec_helper'
 
 describe Order do
-  before do
-    @order = build(:order)
+
+  let(:order) { FactoryGirl.build(:order) }
+
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:order)).to be_valid
   end
-  
-  subject { @order }
+
+  let(:cart) { FactoryGirl.build_stubbed(:cart) }
+  let(:address) { FactoryGirl.build_stubbed(:address) }
+  let(:transaction) { FactoryGirl.build_stubbed(:transaction) }
 
   it { should respond_to(:cart) }
   it { should respond_to(:addresses) }
