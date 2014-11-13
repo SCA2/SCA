@@ -9,20 +9,20 @@ gem 'will_paginate-foundation'
 
 
 group :development, :test do
+  gem 'rspec-rails', '~> 3.1.0'
+  gem 'factory_girl_rails', '~> 4.4.1'
   gem 'autotest-rails', '~> 4.2.1'
-  gem 'rspec-rails', '~> 2.14.0'
   gem 'cucumber-rails', '~> 1.4.1', :require => false
   gem 'rails_layout'
-  gem 'factory_girl_rails', '~> 4.2.1'
   gem 'byebug'
 end
 
 group :test do
-  gem 'faker', '~> 1.2.0'
-  gem 'capybara', '~> 2.1.0'
-  gem 'database_cleaner', '~> 1.0.1'
-  gem 'selenium-webdriver', '~> 2.39.0'
-  gem 'launchy', '~> 2.3.0'
+  gem 'faker', '~> 1.4.3'
+  gem 'capybara', '~> 2.4.3'
+  gem 'database_cleaner', '~> 1.3.0'
+  gem 'launchy', '~> 2.4.2'
+  gem 'selenium-webdriver', '~> 2.43.0'
 end
 
 group :production do
@@ -39,7 +39,7 @@ gem 'turbolinks'
 gem 'jbuilder'
 #gem 'activemerchant', '~> 1.42.7'
 gem 'active_shipping'
-gem 'roadie'
+gem 'roadie', '~> 2.4'
 gem 'carmen-rails'
 
 group :doc do
