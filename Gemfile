@@ -48,8 +48,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'activemerchant', '1.44.1',
-  :path => 'vendor/gems/activemerchant-1.44.1',
-  :require => 'active_merchant'
-gem 'active_utils', '2.2.3',
-  :path => 'vendor/gems/active_utils-2.2.3'
+gem 'activemerchant', '~> 1.44.1'
+#   :path => 'vendor/gems/activemerchant-1.44.1',
+#   :require => 'active_merchant'
+gem 'active_utils', '~> 2.2.3'
+  # :path => 'vendor/gems/active_utils-2.2.3'
