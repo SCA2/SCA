@@ -23,6 +23,8 @@ describe Option do
   
   subject { @option }
   
+  it { should be_valid }
+  
   it { should respond_to(:product_id) }
   it { should respond_to(:model) }
   it { should respond_to(:description) }
@@ -39,9 +41,8 @@ describe Option do
   it { should respond_to(:assembled_stock) }
   it { should respond_to(:partial_stock) }
   
-  it { is_expected.to have_attribute(:product => product) }
+  it { expect(@option.product).to eql product }
   
-  it { should be_valid }
   
   describe 'when product_id is not present' do
     before { @option.product_id = nil }
