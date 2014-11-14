@@ -1,48 +1,49 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Feature do
+  
+  let(:feature) { FactoryGirl.create(:feature) }
 
-  let(:product) { FactoryGirl.create(:product) }
-  before do
-    @feature = product.features.build(
-                      model: 'A12KF',
-                      caption: 'Caption',
-                      sort_order: 10,
-                      description: 'Description')
-  end
-  
-  subject { @feature }
-  
+  subject { feature }
+
+  it { should be_valid }  
   it { should respond_to(:product_id) }
   it { should respond_to(:model) }
   it { should respond_to(:caption) }
   it { should respond_to(:sort_order) }
   it { should respond_to(:description) }
+
+  context 'invalid without' do
   
-  its(:product) { should eq product }
-  
-  it { should be_valid }
-  
-  describe 'when product_id is not present' do
-    before { @feature.product_id = nil }
-    it { should_not be_valid }
-  end
-  
-  describe 'with no model' do
-    before { @feature.model = nil }
-    it { should_not be_valid }
+    it 'product_id' do
+      expect(build(:feature, :product_id => nil)).not_to be_valid
+    end
+    
+    it 'model' do
+      expect(build(:feature, :model => nil)).not_to be_valid
+    end
+
+    it 'caption' do
+      expect(build(:feature, :caption => nil)).not_to be_valid
+    end
+
+    it 'sort_order' do
+      expect(build(:feature, :sort_order => nil)).not_to be_valid
+    end
+
+    it 'description' do
+      expect(build(:feature, :description => nil)).not_to be_valid
+    end
   end
 
-  describe 'with no caption' do
-    before { @feature.caption = nil }
-    it { should_not be_valid }
+  context 'has association' do
+    
+    let(:product) { create(:product) }
+    
+    it 'with product' do
+      product.features << feature
+      expect(product.features.first).to eql feature
+    end
   end
 
-  describe 'with no sort_order' do
-    before { @feature.sort_order = nil }
-    it { should_not be_valid }
-  end
-
-  describe 'with no description' do
-  end
 end

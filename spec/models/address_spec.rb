@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Address do
 	it "is valid with a first_name, last_name, address_1, city, state_code and country" do

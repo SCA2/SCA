@@ -1,5 +1,5 @@
 # spec/models/faq.rb
-require 'spec_helper'
+require 'rails_helper'
 
 describe Faq do
   it "has a valid factory" do

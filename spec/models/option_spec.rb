@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Option do
 
@@ -39,7 +39,7 @@ describe Option do
   it { should respond_to(:assembled_stock) }
   it { should respond_to(:partial_stock) }
   
-  its(:product) { should eq product }
+  it { is_expected.to have_attribute(:product => product) }
   
   it { should be_valid }
   
