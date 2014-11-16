@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
   default css: "mailers.css.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"
-  default date: Time.now
+  default date: Time.now.asctime
   default content_type: "text/html"
 
   def signup_confirmation(user)
@@ -15,7 +15,6 @@ class UserMailer < ActionMailer::Base
   
   def password_reset(user)
     @user = user
-    byebug
     mail to: user.email, subject: "Password Reset"
   end
   

@@ -251,6 +251,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   launchy (~> 2.4.2)
+  mail (~> 2.6.3)
   pg
   rails
   rails_12factor

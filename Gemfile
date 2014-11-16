@@ -30,6 +30,7 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'mail', '~> 2.6.3'
 gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
