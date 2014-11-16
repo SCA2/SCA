@@ -38,9 +38,10 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jbuilder'
-#gem 'activemerchant', '~> 1.42.7'
+gem 'activemerchant', '~> 1.44.1'
+gem 'active_utils', '~> 2.2.3'
 gem 'active_shipping'
-gem 'roadie', '~> 2.4'
+# gem 'roadie-rails', '~> 1.0.3'
 gem 'carmen-rails'
 
 group :doc do
@@ -48,8 +49,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'activemerchant', '~> 1.44.1'
 #   :path => 'vendor/gems/activemerchant-1.44.1',
 #   :require => 'active_merchant'
-gem 'active_utils', '~> 2.2.3'
   # :path => 'vendor/gems/active_utils-2.2.3'

@@ -1,8 +1,10 @@
 class UserMailer < ActionMailer::Base
 
+  # include Roadie::Rails::Automatic
+
   default css: "mailers.css.scss"
-  default from: "admin@seventhcircleaudio.com"
-  default return_path: "admin@seventhcircleaudio.com"
+  default from: "sales@seventhcircleaudio.com"
+  default return_path: "sales@seventhcircleaudio.com"
   default date: Time.now
   default content_type: "text/html"
 
@@ -13,6 +15,7 @@ class UserMailer < ActionMailer::Base
   
   def password_reset(user)
     @user = user
+    byebug
     mail to: user.email, subject: "Password Reset"
   end
   
@@ -28,6 +31,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def order_shipped(user)
+    @user = user
     mail to: user.email, subject: "Your Seventh Circle Audio order has shipped!"
   end
 end

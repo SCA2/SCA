@@ -21,6 +21,11 @@ RSpec.configure do |config|
 
   # Include Factory Girl syntax to simplify calls to factories
   config.include FactoryGirl::Syntax::Methods
+
+  # Include rails url helpers
+  config.include Rails.application.routes.url_helpers
+
+  config.include Capybara::DSL
   
   # ## Mock Framework
   #
@@ -49,6 +54,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
   
-  config.include MailerMacros
+  config.include(MailerMacros)
   config.before(:each) { reset_email }
 end
