@@ -9,10 +9,42 @@ $brown-35: #E7CAA5;
 $brown-37: #EFDCC4;
 $brown-38: #F7EDE1;
 $brown-40: #FDF5E6;
-$red-10: #660000;
-$red-20: #990000;
-$red-30: #CC0000;
+$brown-50: #FCF8F4;
+
+$blue-00: #060C0F;
+$blue-10: #0F1D24;
+$blue-20: #1E3A49;
+$blue-30: #2C566D;
+$blue-40: #32627B;
+$blue-50: #3B7391;
+$blue-60: #6C96AD;
+$blue-70: #9EBAC9;
+$blue-80: #CEDCE3;
+$blue-90: #ECF2F5;
+
+$red-00: #0D0200;
+$red-10: #200400;
+$red-20: #400800;
+$red-30: #5F0C00;
+$red-40: #6C0E00;
+$red-50: #7F1000;
+$red-60: #9F4C40;
+$red-70: #C08880;
+$red-80: #DFC3BF;
+$red-90: #F3E8E6;
 
 $grayMediumLight: #EAEAEA;
 
 $body-bg: $brown-10;
+$topbar-bg: $brown-30;
+$topbar-link-color: $brown-10;
+$panel-border-color: $brown-20;
+$table-bg: $brown-40;
+$table-even-row-bg: $brown-40;
+$topbar-bg-color: $brown-30;
+
+$topbar-link-color: $brown-10;
+$topbar-link-color-hover: $brown-10;
+$topbar-link-weight: bold;
+$topbar-link-hover-lightness: -10%; // Darken by 10%
+$topbar-link-bg-hover: $brown-40;
