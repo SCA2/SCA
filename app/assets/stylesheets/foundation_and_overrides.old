@@ -39,7 +39,7 @@ $include-html-classes: true;
 // $total-columns: 12;
 
 // We use these to control various global styles
-$body-bg: $brown-10;
+$body-bg: $brown-00;
 // $body-font-color: #222;
 // $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: normal;
@@ -924,8 +924,8 @@ $panel-border-color: #382E22;
 // $include-html-table-classes: $include-html-classes;
 
 // These control the background color for the table and even rows
-$table-bg: $brown-40;
-$table-even-row-bg: $brown-40;
+$table-bg: $brown-85;
+$table-even-row-bg: $brown-85;
 
 // These control the table cell border style
 // $table-border-style: solid;

@@ -120,7 +120,7 @@ fieldset {
 
 table.user-table {
   border: none;
-  background-color: $brown-40;
+  background-color: $brown-85;
   width: 100%;
   margin: 0 auto 0 auto;
   
@@ -129,9 +129,9 @@ table.user-table {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     font-size: 1em;
-    color: $brown-10;
+    color: $brown-00;
     &:nth-child(odd) {
-      background-color: darken($brown-40, 5%)
+      background-color: darken($brown-85, 5%)
     }
   }
   td.label {
@@ -158,7 +158,7 @@ table.user-table {
 
 table.address-table {
   border: none;
-  background-color: $brown-40;
+  background-color: $brown-85;
   width: 100%;
   margin: 0 auto 0 auto;
   
@@ -167,9 +167,9 @@ table.address-table {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     font-size: 1em;
-    color: $brown-10;
+    color: $brown-00;
     &:nth-child(odd) {
-      background-color: darken($brown-40, 5%)
+      background-color: darken($brown-85, 5%)
     }
   }
   td.label {
@@ -209,7 +209,7 @@ table.address-table {
 
 table.shipper {
   display: inline-block;
-  border: solid 1px $brown-35;
+  border: solid 1px $brown-60;
   background-color: inherit;
   width: 50%;
   margin: 0 auto 0 auto;
@@ -219,9 +219,9 @@ table.shipper {
     margin: 0 0 0 0;
     padding: 0 0 0 0;
     font-size: 1em;
-    color: $brown-10;
+    color: $brown-00;
     &:nth-child(odd) {
-      background-color: darken($brown-40, 5%)
+      background-color: darken($brown-85, 5%)
     }
   }
   td {
@@ -242,13 +242,13 @@ table.shipper {
 
 .checkout-breadcrumbs {
   @include crumb-container;
-  border: 1px solid $brown-35;
-  background-color: darken($brown-40, 5%);
+  border: 1px solid $brown-60;
+  background-color: darken($brown-85, 5%);
   li {
     @include crumbs;
-    a { color: $brown-10; }
-    &.unavailable a { color: $brown-30; }
-    &.unavailable:hover a { color: $brown-30, 25%; }
+    a { color: $brown-00; }
+    &.unavailable a { color: $brown-50; }
+    &.unavailable:hover a { color: $brown-50, 25%; }
   }
 }
 
@@ -257,15 +257,15 @@ table.shipper {
 table.confirm-cart {
   margin: 0;
   border: none;
-  background-color: darken($brown-40, 5%);
+  background-color: darken($brown-85, 5%);
   tr#discount-line, #subtotal-line, #shipping-line, #salestax-line, #total-line {
-    background-color: darken($brown-40, 5%);
+    background-color: darken($brown-85, 5%);
   }
   tr#divider-line {
-    background-color: $brown-40;
+    background-color: $brown-85;
   }
   th {
-    background-color: darken($brown-40, 5%);
+    background-color: darken($brown-85, 5%);
     padding: 0.5em 0.1em 0.5em 0.1em;
   }
   th#line, #item, #description, #quantity {
@@ -346,16 +346,16 @@ div.main-cart {
 table.main-cart {
   width: 100%;
   border: none;
-  background-color: darken($brown-40, 5%);
+  background-color: darken($brown-85, 5%);
   tr#discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
-    background-color: darken($brown-40, 5%);
+    background-color: darken($brown-85, 5%);
   }
   tr#divider-line {
-    background-color: $brown-40;
+    background-color: $brown-85;
     line-height: 0.5em;
   }
   th {
-    background-color: darken($brown-40, 5%);
+    background-color: darken($brown-85, 5%);
     padding: 0.5em 0.1em 0.5em 0.1em;
   }
   th#remove, #item, #description, #quantity {
@@ -410,9 +410,9 @@ table.main-cart {
 }
 
 .button {
-  background-color: $brown-25 !important;
+  background-color: $brown-20 !important;
   &:hover {
-    background-color: $red-20 !important;
+    background-color: $red-30 !important;
   }
 }
 
