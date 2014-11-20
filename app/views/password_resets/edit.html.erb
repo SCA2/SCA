@@ -6,7 +6,7 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<%= form_for(@user) do |f| %>
+			<%= form_for @user, :url => password_reset_path(params[:id]) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<fieldset>
 					<legend>Change Password</legend>

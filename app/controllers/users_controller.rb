@@ -32,8 +32,8 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new(user_params)
-      @user.addresses << @billing
-      @user.addresses << @shipping
+      # @user.addresses << @billing
+      # @user.addresses << @shipping
       if @user.save
         sign_in @user
         UserMailer.signup_confirmation(@user).deliver

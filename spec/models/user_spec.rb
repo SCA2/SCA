@@ -6,13 +6,14 @@ describe User do
   
   subject { user }
   
-  it { should respond_to(:password_confirmation) }
-  it { should respond_to(:remember_token) }
-  it { should respond_to(:authenticate) }
-  it { should respond_to(:admin) }
+  it { is_expected.to respond_to(:password_confirmation) }
+  it { is_expected.to respond_to(:remember_token) }
+  it { is_expected.to have_attributes(:remember_token => a_value) }
+  it { is_expected.to respond_to(:authenticate) }
+  it { is_expected.to respond_to(:admin) }
   
-  it { should be_valid }
-  it { should_not be_admin }
+  it { is_expected.to be_valid }
+  it { is_expected.not_to be_admin }
   
   describe "with admin attribute set to 'true'" do
     before do
@@ -20,13 +21,8 @@ describe User do
       user.toggle!(:admin)
     end
     
-    it { should be_admin }
+    it { is_expected.to be_admin }
   end  
-  
-  # describe "remember token" do
-  #   before { user.save }
-  #   expect(user.remember_token).not_to be_blank
-  # end
   
   describe "#send_password_reset" do
 

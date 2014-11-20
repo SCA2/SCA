@@ -16,25 +16,25 @@ class PasswordResetsController < ApplicationController
   def edit
     @user = User.find_by_password_reset_token!(params[:id])
   rescue
-    redirect_to root_url, notice: 'Sorry, no user by that token'
+    redirect_to root_url
   end
   
   def update
     @user = User.find_by_password_reset_token!(params[:id])
     if @user.password_reset_sent_at < 2.hours.ago
-      redirect_to new_password_reset_path, alert: 'Reset link has expired.'
+      redirect_to new_password_reset_path, alert: 'Reset link has expired!'
     elsif @user.update(password_params)
       redirect_to root_url, notice: 'Password reset!'
     else
       render :edit
     end
   rescue
-    redirect_to root_url, notice: 'Sorry, no user by that token'      
+    redirect_to root_url
   end
   
   private
   
     def password_params
-      params.require(:id).permit(:user)
+      params.require(:user).permit(:password)
     end
 end
