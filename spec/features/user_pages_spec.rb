@@ -4,87 +4,123 @@ describe "User pages" do
   
   subject { page }
   
-  describe "index" do
-    let(:user) { FactoryGirl.create(:user) }
+  describe "Admin" do
+
+    let(:admin) { create(:admin) }
     before(:each) do
-      sign_in user
+      test_sign_in admin
+      visit admin_path
+    end
+
+    it { is_expected.to have_title('Site Admin') }
+    it { is_expected.to have_content('View Users') }
+    it { is_expected.to have_content('View Orders') }
+
+  end
+
+  describe "All Users" do
+
+    let(:admin) { create(:admin) }
+
+    before(:each) do
+      test_sign_in admin
       visit users_path
     end
 
-    it { should have_title('All users') }
-    it { should have_content('All Users') }
+    before(:all) { 30.times { create(:user) } }
+    after(:all)  { User.delete_all }
+  
+    it { is_expected.to have_title('All Users') }
+    it { is_expected.to have_content('All Users') }
+    it { is_expected.to have_link('delete') }
 
-    describe "pagination" do
+  end
 
-      before(:all) { 30.times { FactoryGirl.create(:user) } }
-      after(:all)  { User.delete_all }
+  describe "pagination" do
 
-      it { should have_selector('div.pagination') }
+    let(:admin) { create(:admin) }
 
-      it "should list each user" do
-        User.paginate(page: 1).each do |user|
-          expect(page).to have_selector('li', text: user.name)
-        end
+    before(:each) do
+      test_sign_in admin
+      visit users_path
+    end
+
+    before(:all) { 30.times { create(:user) } }
+    after(:all)  { User.delete_all }
+
+    it { is_expected.to have_selector('div.pagination') }
+
+    it "should list each user" do
+      User.paginate(page: 1).each do |user|
+        expect(page).to have_selector('li', text: user.name)
       end
     end
+  end
     
-    describe "delete links" do
+  describe "delete" do
 
-      it { should_not have_link('delete') }
+    let(:admin) { create(:admin) }
 
-      describe "as an admin user" do
-        let(:admin) { FactoryGirl.create(:admin) }
-        before do
-          sign_in admin
-          visit users_path
-        end
+    before(:each) do
+      test_sign_in admin
+      visit users_path
+    end
 
-        it { should have_link('delete', href: user_path(User.first)) }
-        it "should be able to delete another user" do
-          expect do
-            click_link('delete', match: :first)
-          end.to change(User, :count).by(-1)
-        end
-        it { should_not have_link('delete', href: user_path(admin)) }
-        it "should not be able to delete itself" do
-          expect do
-            page.driver.submit :delete, user_path(admin), {}
-          end.not_to change(User, :count).by(-1)
-#          expect do
-#            page.driver.submit :delete, user_path(admin), {}
-#          end.to have_content("Can't delete yourself!")
-        end
-      end
+    before(:all) { 30.times { create(:user) } }
+    after(:all)  { User.delete_all }
+
+    it { is_expected.to have_link('delete', href: user_path(User.first)) }
+    it "should be able to delete a user" do
+      expect { click_link('delete', match: :first) }.to change(User, :count).by(-1)
+    end
+    it "does not have a link to delete admin" do
+      is_expected.not_to have_link('delete', href: user_path(admin))
     end
   end
   
   describe "user profile page" do
-    let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
+    
+    before(:all) do
+      @user = FactoryGirl.build(:user)
+      @user.addresses << build(:user_address, address_type: 'billing')
+      @user.addresses << build(:user_address, address_type: 'shipping')
+      @user.save!
+    end
 
-    it { should have_title(user.name) }
-    it { should have_content('User Details') }
-    it { should have_field("Name:", :with => user.name) }
-    it { should have_field("Email:", :with => user.email) }
+    after(:all) { DatabaseCleaner.clean_with(:truncation) }
+
+    before { visit user_path(@user) }
+
+    it { is_expected.to have_title(@user.name) }
+    it { is_expected.to have_text('User') }
+    it { is_expected.to have_text('Contact Preferences') }
+    it { is_expected.to have_text('Billing Address') }
+    it { is_expected.to have_text('Shipping Address') }
+    it { is_expected.to have_text(@user.name) }
+    it { is_expected.to have_text(@user.email) }
   end
   
   describe "signup page" do
+    
     before { visit signup_path }
     
-    it { should have_title('Sign up') }
-    it { should have_content('Sign up') }
-    it { should have_content('Name:') }
-    it { should have_content('Email:') }
-    it { should have_content('Password:') }
-    it { should have_content('Confirm:') }
-    it { should have_button('Sign up') }
+    it { is_expected.to have_title('Sign up') }
+    it { is_expected.to have_content('Sign up') }
+    it { is_expected.to have_content('Name') }
+    it { is_expected.to have_content('Email') }
+    it { is_expected.to have_content('Password') }
+    it { is_expected.to have_content('Password confirmation') }
+    it { is_expected.to have_content('Contact Preferences') }
+    it { is_expected.to have_content('Billing Address') }
+    it { is_expected.to have_content('Shipping Address') }
+    it { is_expected.to have_button('Create Account') }
   end
   
   describe "signup" do
 
     before { visit signup_path }
 
-    let(:submit) { 'Sign up' }
+    let(:submit) { 'Create Account' }
 
     describe "with invalid information" do
       it "should not create a user" do
@@ -94,8 +130,8 @@ describe "User pages" do
       describe "after submission" do
         before { click_button submit }
 
-        it { should have_title('Sign up') }
-        it { should have_content('error') }
+        it { is_expected.to have_title('Sign up') }
+        it { is_expected.to have_content('error') }
       end
     end
 
@@ -104,7 +140,7 @@ describe "User pages" do
         fill_in "Name",     with: "Example User"
         fill_in "Email",    with: "user@example.com"
         fill_in "Password", with: "foobar"
-        fill_in "Confirm",  with: "foobar"
+        fill_in "Password confirmation",  with: "foobar"
       end
 
       it "should create a user" do
@@ -115,59 +151,65 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_link('Sign out') }
-        it { should have_title(user.name) }
-        it { should have_selector('div.alert-box.success', text: 'Signed up!') }
+        it { is_expected.to have_link('Log Out') }
+        it { is_expected.to have_title(user.name) }
+        it { is_expected.to have_selector('div.alert-box.alert', text: 'Signed up!') }
       end
     end
   end
   
   describe "edit" do
-    let(:user) { FactoryGirl.create(:user) }
+    
+    let(:user) { create(:user) }
+    
     before do
-      sign_in user
+      test_sign_in user
       visit edit_user_path(user)
     end
 
     describe "page" do
-      it { should have_title("Update profile") }
-      it { should have_content("Update your profile") }
+      it { is_expected.to have_title("Update profile") }
+      it { is_expected.to have_content("Update your profile") }
+      it { is_expected.to have_content("Contact Preferences") }
+      it { is_expected.to have_content("Billing Address") }
+      it { is_expected.to have_content("Shipping Address") }
     end
 
-    describe "with invalid information" do
-      before { click_button "Save changes" }
+    describe "with valid data" do
 
-      it { should have_content('error') }
-    end
-    
-    describe "with valid information" do
-      let(:new_name)  { "New Name" }
-      let(:new_email) { "new@example.com" }
+      let(:new_user)  { build(:user) }
+
       before do
-        fill_in "Name:",      with: new_name
-        fill_in "Email:",     with: new_email
-        fill_in "Password:",  with: user.password
-        fill_in "Confirm:",   with: user.password
+        fill_in "Name",      with: new_user.name
+        fill_in "Email",     with: new_user.email
+        fill_in "Password",  with: user.password
+        fill_in "Password confirmation",   with: user.password
         click_button "Save changes"
       end
 
-      it { should have_title(new_name) }
-      it { should have_selector('div.alert-box') }
-      it { should have_link('Sign out', href: signout_path) }
-      specify { expect(user.reload.name).to  eq new_name }
-      specify { expect(user.reload.email).to eq new_email }
+      it { is_expected.to have_title(new_user.name) }
+      it { is_expected.to have_selector('div.alert-box.alert') }
+      it { is_expected.to have_link('Log Out', href: signout_path) }
+      it { expect(user.reload.name).to  eq new_user.name }
+      it { expect(user.reload.email).to eq new_user.email }
+
     end
     
-    describe "forbidden attributes", type: :request do
-      let(:params) do
-        { user: { admin: true, password: user.password,
-                  password_confirmation: user.password } }
-      end
+    describe "with invalid data" do
+
       before do
-        sign_in user, no_capybara: true
-        patch user_path(user), params
+        fill_in "Name",      with: 'a'
+        fill_in "Email",     with: 'a@.com'
+        fill_in "Password",  with: 'b'
+        fill_in "Password confirmation",   with: 'c'
+        click_button "Save changes"
       end
-      specify { expect(user.reload).not_to be_admin }
+
+      it { is_expected.to have_title('Update profile') }
+      it { is_expected.to have_content("Logged in as #{user.email}") }
+      it { is_expected.to have_link('Log Out', href: signout_path) }
+      it { is_expected.to have_content('There are 2 errors on the page:') }
+
     end
   end
 end

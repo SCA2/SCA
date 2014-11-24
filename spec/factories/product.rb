@@ -9,12 +9,12 @@ FactoryGirl.define do
     image_2 { Faker::Internet.url }
     category {['Microphone Preamp', 'DI', 'Compressor', 'Discrete Op-Amp', 'Chassis'].at(rand(0..4))}
     category_sort_order { rand(1..100) }
-    model_sort_order { rand(1..100) }
+    sequence(:model_sort_order)  { |n| "#{n}" }
     notes { Faker::Lorem.sentence.to_s }
     bom { Faker::Internet.url }
     schematic { Faker::Internet.url }
     assembly { Faker::Internet.url }
-    current_option { rand(1..100) }
+    current_option nil
     specifications { Faker::Internet.url }
   end
 end

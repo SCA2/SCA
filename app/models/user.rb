@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
   
   has_many :addresses, as: :addressable
-  accepts_nested_attributes_for :addresses
-  
+  accepts_nested_attributes_for :addresses, 
+                                :allow_destroy => true, 
+                                :reject_if => proc { |a| a[:first_name].blank? && a[:last_name].blank? && a[:address_1].blank? && a[:city].blank? }
+  # accepts_nested_attributes_for :addresses, :allow_destroy => true, :reject_if => :address_blank?
+
   before_save { self.email = email.downcase }
   before_create :create_remember_token
     
@@ -33,6 +36,8 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver
   end
 
+  # :address_blank? = proc { |a| a[:first_name].blank? && a[:last_name].blank? && a[:address_1].blank? && a[:city].blank? }
+
   private
 
     def create_remember_token
@@ -42,5 +47,5 @@ class User < ActiveRecord::Base
     def create_reset_token
       self.password_reset_token = User.encrypt(User.new_remember_token)
     end
-  
+
 end

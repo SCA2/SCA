@@ -32,12 +32,10 @@ class UsersController < ApplicationController
       redirect_to root_path, :notice => 'Already signed up!'
     else
       @user = User.new(user_params)
-      # @user.addresses << @billing
-      # @user.addresses << @shipping
       if @user.save
         sign_in @user
         UserMailer.signup_confirmation(@user).deliver
-        redirect_to @user, :notice => "Signed up!"
+        redirect_to @user, :flash => { :success => "Signed up!" }
       else
         render 'new'
       end
@@ -83,7 +81,7 @@ class UsersController < ApplicationController
     end
     
     def admin_user
-      redirect_to(root_url) unless current_user.admin?
+      redirect_to(root_url) unless signed_in_admin?
     end
 
 end

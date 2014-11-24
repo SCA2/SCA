@@ -5,27 +5,27 @@ require 'faker'
 FactoryGirl.define do
   factory :user_address, class: "Address" do
     association :addressable, :factory => :user
-    first_name "MyString"
-    last_name "MyString"
-    address_1 "MyString"
-    address_2 "MyString"
-    city "MyString"
-    state "MyString"
-    post_code "MyString"
-    country "MyString"
-    telephone "MyString"
+    first_name Faker::Name.first_name
+    last_name Faker::Name.last_name
+    address_1 Faker::Address.street_address
+    address_2 Faker::Address.building_number
+    city Faker::Address.city
+    state_code Faker::Address.state_abbr
+    post_code Faker::Address.zip_code
+    country "USA"
+    telephone Faker::PhoneNumber.phone_number
   end
   
   factory :order_address, class: "Address" do
     association :addressable, :factory => :order
-    first_name "MyString"
-    last_name "MyString"
-    address_1 "MyString"
-    address_2 "MyString"
-    city "MyString"
-    state "MyString"
-    post_code "MyString"
-    country "MyString"
-    telephone "MyString"
+    first_name Faker::Name.first_name
+    last_name Faker::Name.last_name
+    address_1 Faker::Address.street_address
+    address_2 Faker::Address.building_number
+    city Faker::Address.city
+    state_code Faker::Address.state_abbr
+    post_code Faker::Address.zip_code
+    country "USA"
+    telephone Faker::PhoneNumber.phone_number
   end
 end

@@ -2,8 +2,11 @@
 
 FactoryGirl.define do
   factory :slider_image do
-    name "MyString"
-    caption "MyText"
-    url "MyString"
+    sequence(:name)         { |n| "Product #{n}" }
+    sequence(:caption)      { |n| "Caption #{n}" }
+    sequence(:image_url)    { |n| "/assets/image-#{n}.jpg"}
+    sequence(:product_url)  { |n| "/assets/product-#{n}.com"}
+    sequence(:sort_order)   { |n| "#{n}"}
   end
 end
+

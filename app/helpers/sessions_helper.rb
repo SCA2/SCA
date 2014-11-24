@@ -58,5 +58,5 @@ module SessionsHelper
   def signed_in_admin?
     signed_in? && current_user.admin?
   end
-  
+
 end

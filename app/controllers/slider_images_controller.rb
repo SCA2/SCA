@@ -17,7 +17,7 @@ class SliderImagesController < ApplicationController
   def create
     @slider_image = SliderImage.new(slider_image_params)
     if @slider_image.save
-      redirect_to @slider_image, notice: 'Slider image was successfully created.'
+      redirect_to slider_images_url, notice: 'Slider image ' + @slider_image.id.to_s + ' was successfully created.'
     else
       render 'new'
     end

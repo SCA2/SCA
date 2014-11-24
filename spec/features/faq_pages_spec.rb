@@ -14,7 +14,7 @@ describe "FAQ page" do
   context "faq page as user" do
     let(:user) { FactoryGirl.create(:user) }
 
-    before { sign_in user }
+    before { test_sign_in user }
     before { visit faqs_path }
 
     it { should have_title('FAQ') }
@@ -26,7 +26,7 @@ describe "FAQ page" do
   context "faq page as admin" do
     let(:admin) { FactoryGirl.create(:admin) }
 
-    before { sign_in admin }
+    before { test_sign_in admin }
     before { visit faqs_path }
 
     it { should have_title('FAQ') }

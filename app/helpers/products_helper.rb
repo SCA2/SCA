@@ -29,7 +29,7 @@ module ProductsHelper
   end
   
   def get_stock(product)
-    product.options.find(product.current_option).finished_stock.to_s
+    product.options.find(product.current_option).assembled_stock.to_s
   end
   
   def get_product_div_class(counter)

@@ -8,21 +8,13 @@ SCA::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  resources :slider_images, only: [:index, :new, :create, :update, :destroy]
+  resources :slider_images #, only: [:index, :new, :create, :update, :destroy]
 
-  resources :users do
-#    resources :addresses do    
-#      collection do
-#        get 'subregion_options'
-#      end
-#    end
-  end
-
-    resources :addresses do    
-      collection do
-        get 'subregion_options'
-      end
+  resources :addresses do    
+    collection do
+      get 'subregion_options'
     end
+  end
   
   resources :faqs do
     collection { post :import }
@@ -34,7 +26,6 @@ SCA::Application.routes.draw do
   end
   
   resources :orders do
-#    resources :addresses
     collection do
       get 'subregion_options'
       get 'express'
@@ -68,11 +59,10 @@ SCA::Application.routes.draw do
 
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
-  #get "signout", to: 'sessions#destroy', as: 'signout'
   delete "signout", to: 'sessions#destroy', as: 'signout'
   put "products_update_option", to: 'products#update_option', as: 'products_update_option'
   match "features", to: 'features#create', via: :post
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
