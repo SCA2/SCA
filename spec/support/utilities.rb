@@ -41,6 +41,13 @@ def fill_in_option(option)
   fill_in "Partial Stock:", with: option.partial_stock
 end
 
+def fill_in_feature(feature)
+  fill_in "Model:", with: feature.model
+  fill_in "Caption:", with: feature.caption
+  fill_in "Sort Order:", with: feature.sort_order
+  fill_in "Description:", with: feature.description
+end
+
 RSpec::Matchers.define :have_error_message do |message|
   match do |page|
     expect(page).to have_selector('div.alert-box.alert', text: message)

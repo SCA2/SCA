@@ -53,6 +53,7 @@ feature "Products" do
     before { test_sign_in admin }
 
     context "with no products" do
+    
       scenario 'add a product' do
         visit products_path
         expect(page).to have_selector(:link_or_button, 'New Product')
@@ -70,10 +71,6 @@ feature "Products" do
         expect(page).to have_content('Option was successfully created.')
       end
 
-      scenario 'add a product feature'
-      scenario 'add a product option'
-      scenario 'view large product page'
-      scenario 'delete a product'
     end
 
     context "with products" do
@@ -85,8 +82,16 @@ feature "Products" do
           create(:option, product: product)
         end
       end
-
+      
       after(:all) { DatabaseCleaner.clean_with(:truncation) }
+
+      let(:feature) { build(:feature) }
+      let(:option) { build(:option) }
+
+      before(:each) do
+        @first = Product.first
+        visit product_path(@first)
+      end
 
       scenario 'get products index' do
         visit home_path
@@ -97,9 +102,7 @@ feature "Products" do
         expect(page).to have_link('New Product')
       end
 
-      scenario 'large product page' do
-        @first = Product.first
-        visit product_path(@first)
+      scenario 'view large product page' do
         expect(page).to have_title(@first.model)
         expect(page).to have_content(@first.model)
         expect(page).to have_content(@first.features.first.caption)
@@ -107,35 +110,23 @@ feature "Products" do
         expect(page).to have_content(@first.options.first.model)
         expect(page).to have_content(@first.options.first.description)
       end
-    end
     
-    # describe 'add new feature to product' do
-    #   let(:product) { FactoryGirl.create(:product) }
-    #   before { visit product_path(product) }
-    #   subject { page }
+      scenario 'add a product feature' do
+        click_link 'New Feature'
+        fill_in_feature(feature)
+        expect { click_button 'Save' }.to change(Feature, :count).by(1)
+      end
+
+      scenario 'add a product option' do
+        click_link 'New Option'
+        fill_in_option(option)
+        expect { click_button 'Save' }.to change(Option, :count).by(1)
+      end
+
+      scenario 'delete a product' do
+        expect { click_link 'Delete' }.to change(Product, :count).by(-1)
+      end
       
-    #   context 'with invalid information' do
-    #     before { click_link 'New Feature' }
-        
-    #     it 'should not create a feature' do
-    #       expect { click_button 'Save' }.not_to change(Feature, :count)
-    #     end
-        
-    #     describe 'error messages' do
-    #       before { click_button 'Save' }
-    #       it { should have_content('error') }
-    #     end
-    #   end
-      
-    #   context 'with valid information' do
-    #     before { click_link 'New Feature' }
-    #     it 'should create a feature' do
-    #       fill_in 'Sort Order', with: 20
-    #       fill_in 'Caption', with: 'Caption text'
-    #       fill_in 'Description', with: 'Description text'
-    #       expect { click_button 'Save' }.to change(Feature, :count).by(1)
-    #     end
-    #   end
-    # end
+    end
   end
 end
