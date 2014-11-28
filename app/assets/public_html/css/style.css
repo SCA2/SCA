@@ -1,0 +1,252 @@
+/* CSS file */
+
+@import url(fonts.css);
+
+.fb-iframe-align {
+    margin: 0 0 0 10px !important;
+    text-align:center;
+}
+
+body {
+	background-color: #382E22;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	font-size: 1em;
+	text-align: left;
+	padding: 0;
+	margin:0;
+	height: 100%;
+}
+
+div.box_1 {
+	height: 100%;
+	width: 60em;
+	background: #FDF5E6;
+	text-align: left;
+	padding: 2em 0em 0em 0em;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.box_2 {
+	position: relative;
+	height: 75%;
+	width: 76em;
+	display: table;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	font-size: 75%;
+	text-align: left;
+	border: 1px solid #E7CAA5;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+}
+
+div.box_3 {
+	display: table-column;
+	float: left;
+	width: 17em;
+	border: 1px solid #382E22;
+	background: #EFDCC4;
+	margin: 2em 2em 2em 2em;
+	padding: 0;
+	text-align: center;
+}
+
+div.box_4 {
+	display: table-column;
+	float: left;
+	width: 48em;
+	text-align: left;
+	margin: 2em 2em 2em 2em;
+	padding: 1em 1em 1em 1em;
+}
+
+div.footer {
+	clear: both;
+	font-size: .6em;
+	text-align: center;
+	color: #A78A65;
+	margin-top: 4em;
+	margin-bottom: 2em;
+}
+
+div.popup {
+	height: 90%;
+/*	width: 90%;*/
+	background: #FDF5E6;
+	text-align: center;
+	padding: 5% 5% 5% 5%;
+	margin: 5% 5% 5% 5%;
+}
+
+div.popup2 {
+	height: 90%;
+	background: #FDF5E6;
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	font-size: 75%;
+	text-align: left;
+	padding: 5% 5% 5% 5%;
+	margin: 5% 5% 5% 5%;
+}
+
+img.prodphoto {
+	text-align: center;
+	width: 46em;
+	margin: 0 2em 2em 2em;
+	padding: 0;
+	border: 0;
+}
+
+img.opampphoto {
+	text-align: center;
+	width: 30em;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	padding: 0;
+	border: 0;
+}
+
+img.adobe {
+	text-align: center;
+	width: 10em;
+	margin: 2em 0em 2em 0em;
+	padding: 0;
+	border: 0;
+}
+
+p {
+	margin: 1em 2em 0 2em;
+}
+
+p.prodtext {
+	margin: 0em 0em 2em 0em;
+}
+
+p.asmtext {
+	margin: 1em 0em 0em 0em;
+}
+
+table.specs {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+	border-collapse: collapse;
+	width: 100%; 
+	margin: 0em 0em 2em 0em;
+}
+
+table.specs td {
+	border-width: 1px 1px 1px 1px;
+	padding: 2px 2px 2px 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+	border-color: #E7CAA5;
+}
+
+table.opamp {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+	border-collapse: collapse;
+	width: 100%; 
+	margin: 0em 0em 2em 0em;
+}
+
+table.opamp td {
+	border-width: 1px 1px 1px 1px;
+	padding: 2px 2px 2px 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+}
+	
+table.cart {
+	text-align: left;
+	font-size: .8em;
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+	border-collapse: collapse;
+	margin: 4em auto 4em auto;
+}
+
+table.cart td {
+	border-width: 1px 1px 1px 1px;
+	padding: 2px 2px 2px 2px;
+	border-style: solid solid solid solid;
+	border-color: #382E22;
+}
+
+tr.feature {
+	vertical-align: top;
+	margin: 0em 0em 2em 0em;
+/*	border: 1px solid #cc0000;*/
+}
+
+td.feature {
+	width: 10em;
+	padding: 0em 0em 2em 0em;
+/*	border: 1px solid #cc0000;*/
+}
+
+td.description {
+	padding: 0em 0em 2em 0em;
+/*	border: 1px solid #cc0000;*/
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	color: #CC0000;
+	background: #CC0000;
+}
+
+
+a {
+	color: #990000;
+	text-decoration: none
+}
+
+a:hover {
+	color: #CC0000;
+	text-decoration: underline
+}
+
+a:visited {
+	color: #660000;
+	text-decoration: none
+}
+
+a:visited:hover {
+	color: #660000;
+	text-decoration: underline
+}
+
+a.prodname
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 12px;
+    COLOR: #000000;
+    FONT-FAMILY: arial, sans-serif
+}
+
+
+.bg_1 {BACKGROUND-COLOR: #FDF5E6;}
+.bg_2 {BACKGROUND-COLOR: #F7EDE1;}
+.bg_3 {BACKGROUND-COLOR: #EFDCC4;}
+.bg_4 {BACKGROUND-COLOR: #E7CAA5;}
+.bg_5 {BACKGROUND-COLOR: #DEB887;}
+.bg_6 {BACKGROUND-COLOR: #BD9C73;}
+.bg_7 {BACKGROUND-COLOR: #A78A65;}
+.bg_8 {BACKGROUND-COLOR: #6F5C44;}
+.bg_9 {BACKGROUND-COLOR: #990000;}
+.bg_10 {BACKGROUND-COLOR: #16120E;}

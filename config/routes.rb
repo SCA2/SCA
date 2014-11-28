@@ -21,8 +21,8 @@ SCA::Application.routes.draw do
   end
 
   resources :products do
-    resources :features  
-    resources :options, except: :index
+    resources :features, except: [:index, :show]
+    resources :options, except: [:index, :show]
   end
   
   resources :orders do

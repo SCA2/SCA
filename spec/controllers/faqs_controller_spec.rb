@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe FaqsController do
 
+  include Capybara::DSL
+
   shared_examples('public access to faqs') do
     describe 'GET #index' do
       let(:faq) { create(:faq, group: 'General', priority: 1) }
@@ -16,8 +18,10 @@ describe FaqsController do
     end
   end
   
-  shared_examples('full access to faqs') do
+  shared_examples('admin access to faqs') do
+
     describe 'GET #show' do   
+
       let(:faq) { create(:faq) }
       
       it "assigns the requested faq to @faq" do
@@ -32,8 +36,10 @@ describe FaqsController do
     end
     
     describe 'GET #new' do
+
       let(:user) { create(:user, :admin => true) }
-      before { sign_in user, no_capybara: true }
+      before { test_sign_in(user, false) }
+
       it "assigns a new Faq to @faq" do
         get :new
         expect(assigns(:faq)).to be_a_new(Faq)
@@ -45,9 +51,11 @@ describe FaqsController do
     end
     
     describe 'GET #edit' do
+
       let(:user) { create(:user, :admin => true) }
       let(:faq) { create(:faq) }
-      before { sign_in user, no_capybara: true }
+      before { test_sign_in(user, false) }
+
       it "assigns the requested faq to @faq" do
         get :edit, id: faq
         expect(assigns(:faq)).to eq faq
@@ -61,7 +69,7 @@ describe FaqsController do
     describe "POST #create" do
       let(:user) { create(:user, :admin => true) }
       before { @faq = attributes_for(:faq) }
-      before { sign_in user, no_capybara: true }
+      before { test_sign_in(user, false) }
       context "with valid attributes" do
         it "saves the new faq in the database" do
           expect {post :create, faq: 
@@ -87,7 +95,7 @@ describe FaqsController do
     describe 'PATCH #update' do
       before { @faq = create(:faq, question: 'Why?', answer: 'Because I said so') }
       let(:user) { create(:user, :admin => true) }
-      before { sign_in user, no_capybara: true }
+      before { test_sign_in(user, false) }
       context "with valid attributes" do
         it "locates the requested @faq" do
           patch :update, id: @faq, faq: attributes_for(:faq)
@@ -121,88 +129,33 @@ describe FaqsController do
     describe 'DELETE #destroy' do
       before { @faq = create(:faq) }
       let(:user) { create(:user, :admin => true) }
-      before { sign_in user, no_capybara: true }
+      before { test_sign_in(user, false) }
       it "deletes the faq from the database" do
         expect { delete :destroy, id: @faq }.to change(Faq, :count).by(-1)
       end
-      it "redirects to users#index" do
+      it "redirects to faqs#index" do
         delete :destroy, id: @faq
-        expect(response).to redirect_to faqs_url
+        expect(response).to redirect_to faqs_path
       end
     end
   end
   
-  shared_examples('requires login') do
-    describe 'GET #show' do   
-      let(:faq) { create(:faq) }
-      it 'redirects to faqs#index' do
-        get :show, id: faq 
-        expect(response).to redirect_to :action => :index
-      end
-    end
-    
-    describe 'GET #new' do
-      it "redirects to faqs#index" do
-        get :new 
-        expect(response).to redirect_to :action => :index
-      end
-    end
-    
-    describe 'GET #edit' do
-      let(:faq) { create(:faq) }
-      it 'redirects to faqs#index' do
-        get :edit, id: faq
-        expect(response).to redirect_to :action => :index        
-      end
-    end
-    
-    describe "POST #create" do
-      before { @faq = attributes_for(:faq) }
-      it 'redirects to faqs#index' do
-        post :create, faq: attributes_for(:faq)
-        expect(response).to redirect_to :action => :index        
-      end
-    end
-    
-    describe 'PATCH #update' do
-      before { @faq = create(:faq) }
-      it 'redirects to faqs#index' do
-        patch :update, id: @faq, faq: attributes_for(:faq)
-        expect(response).to redirect_to :action => :index        
-      end
-    end
-    
-    describe 'DELETE #destroy' do
-      before { @faq = create(:faq) }
-      it 'redirects to faqs#index' do
-        delete :destroy, id: @faq
-        expect(response).to redirect_to :action => :index        
-      end
-    end
-  end
-
   describe 'admin access to faqs' do
-    before do
-      admin = create(:admin)
-      sign_in admin, no_capybara: true
-    end
+
+    let(:admin) { create(:admin) }
+    before { test_sign_in(admin, false) }
     it_behaves_like 'public access to faqs'
-    it_behaves_like 'full access to faqs'
+    it_behaves_like 'admin access to faqs'
   end
 
-  describe 'user access to faqs' do
+  describe 'public access to faqs' do
     before do
       user = create(:user)
-      sign_in user, no_capybara: true
+      test_sign_in(user, false)
     end
     it_behaves_like 'public access to faqs'
-    it_behaves_like 'requires login'
   end
 
-  describe 'admin access to faqs' do
-    it_behaves_like 'public access to faqs'
-    it_behaves_like 'requires login'
-  end
 end
 
 

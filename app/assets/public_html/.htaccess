@@ -1,0 +1,8 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ http://www.seventhcircleaudio.com/index.htm [R=301,L]
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} !^www.seventhcircleaudio\.com$ [NC]
+RewriteRule ^(.*)$ http://www.seventhcircleaudio.com/$1 [R=301,L]

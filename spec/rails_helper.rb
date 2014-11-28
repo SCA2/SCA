@@ -17,6 +17,9 @@ Dir[Rails.root.join("app/helpers/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
+  # Infer spec type from directory name
+  config.infer_spec_type_from_file_location!
+
   # Force expect syntax
   config.expect_with :rspec do |c| c.syntax = :expect end
 

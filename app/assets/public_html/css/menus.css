@@ -1,0 +1,172 @@
+/* CSS file */
+
+@import url(fonts.css);
+
+div.header {
+	z-index: 100;
+	position: relative;
+	text-align: center;
+	height: 7em;
+}
+
+img.title_1 {
+	position: absolute;
+	top: 0em;
+	left: 8em;
+	width: 30em;
+}
+
+img.logo_1 {
+	position: absolute;
+	top: 0.6em;
+	left: 39em;
+	width: 12em;
+}
+
+div.spacer {
+	position: absolute;
+	top: 4em;
+	left: 0em;
+	width: 100%;
+	line-height: 1.55em;
+	background: #DEB887;
+	border: solid #382E22;
+	border-width: 1px 0px 1px 0px;
+}
+
+div.navmenu {
+	position: absolute;
+	top: 4.1em;
+	left: 10em;
+	text-align: left;
+	background: #DEB887;
+	width: 40em;
+}
+
+#nav {	/*top level list*/
+	float: left;
+	list-style: none;
+	line-height: 1;
+	background: #DEB887;
+	padding: 0;
+	margin: 0;
+}
+
+#nav ul {
+	float: left;
+	list-style: none;
+	line-height: 1.6;
+	background: #E7CAA5;
+	padding: 0;
+	border: solid #382E22;
+	border-width: 1px 0;
+	margin: 0 0 1em 0;
+}
+
+#nav a {
+	display: block;
+	color: #16120E;
+	text-decoration: none;
+	padding: 0.24em 1em;
+}
+
+#nav a:hover {
+	color: #F7EDE1;
+}
+
+#nav a.parent {
+	background: url(../images/arrow.gif) center right no-repeat;
+}
+
+#nav li { /* top menu container */
+	float: left;
+	padding: 0;
+/*	width: 15em;*/
+}
+
+#nav li.top {
+	font-family: arial;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+#nav ul.sub {
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	font-size: 75%;
+}
+
+#nav li ul {	/* menu container */
+	position: absolute;
+	left: -999em;
+	height: auto;
+	width: 17em;
+	w\idth: 14em;
+	font-weight: normal;
+	border-width: 1px 1px 1px 1px;
+	margin: 0;
+}
+
+#nav li li {	/* menu item container */
+/*	padding-right: 1em;
+	width: 14em
+	border: solid;
+	border-top-color: #E7CAA5;
+	border-bottom-color: #A78A65;
+	border-width: 1px 0px 1px 0px;*/
+}
+
+#nav li ul a {	/* bottom menu item contents */
+	width: 16em;
+	w\idth: 12em;
+}
+
+#nav li ul ul { /*2nd level position */
+	margin: -2.20em 0 0 14em;
+}
+
+#nav li:hover ul ul, #nav li:hover ul ul ul, #nav li.sfhover ul ul, #nav li.sfhover ul ul ul {
+	left: -999em;
+}
+
+#nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li.sfhover ul, #nav li li.sfhover ul, #nav li li li.sfhover ul {
+	left: auto;
+}
+
+#nav li:hover, #nav li.sfhover {
+	background: #BD9C73;
+}
+
+#smallnav {
+	text-align: left;
+	list-style: none;
+	line-height: 1;
+	background: #DEB887;
+	border: solid #382E22;
+	border-width: 1px;
+	padding: 0;
+	margin: 1em 1em 1em 1em;
+	padding: 1em 1em 1em 1em;
+}
+
+#smallnav a {
+	color: #16120E;
+	text-decoration: none;
+	width: 14em;
+	w\idth: 12em;
+}
+
+#smallnav a:hover {
+	color: #F7EDE1;
+}
+
+#smallnav li { /* top menu container */
+	font-family: verdana, sans-serif;
+	font-weight: normal;
+	font-size: 1em;
+	padding: .25em;
+}
+
+#smallnav li:hover {
+/*	background: #BD9C73;*/
+}

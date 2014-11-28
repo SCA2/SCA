@@ -2,40 +2,23 @@ require 'rails_helper'
 
 describe FeaturesController do
 
-  let(:product) { FactoryGirl.create(:product) }
-  let(:valid_attributes) { FactoryGirl.attributes_for(:feature) }
+  let!(:product) { create(:product) }
+  let(:feature) { create(:feature, product: product) }
+  let(:valid_attributes) { build(:feature, product: product, model: "A12", caption: "Feature Caption", description: "Feature description", sort_order: 1).attributes }
+  let(:invalid_attributes) { build(:feature, product: product, sort_order: nil).attributes }
 
-  shared_examples('restricted access to features') do
-    describe "GET index" do
-      it "assigns all features as @features" do
-        feature = Feature.create! valid_attributes
-        get :index, {}
-        assigns(:features).should eq([feature])
-      end
-    end
-  end
-
-  shared_examples('unrestricted access to features') do
-    describe "GET show" do
-      it "assigns the requested feature as @feature" do
-        feature = Feature.create! valid_attributes
-        get :show, {:id => feature.to_param}
-        assigns(:feature).should eq(feature)
-      end
-    end
-  
+  shared_examples('admin access to features') do
     describe "GET new" do
       it "assigns a new feature as @feature" do
-        get :new, {}
-        assigns(:feature).should be_a_new(Feature)
+        get :new, id: feature, product_id: product.id
+        expect(assigns(:feature)).to be_a_new(Feature)
       end
     end
   
     describe "GET edit" do
       it "assigns the requested feature as @feature" do
-        feature = Feature.create! valid_attributes
-        get :edit, {:id => feature.to_param}
-        assigns(:feature).should eq(feature)
+        get :edit, id: feature, product_id: product.id
+        expect(assigns(:feature)).to eq(feature)
       end
     end
   
@@ -43,35 +26,31 @@ describe FeaturesController do
       describe "with valid params" do
         it "creates a new Feature" do
           expect {
-            post :create, {:feature => valid_attributes}
+            post :create, { feature: valid_attributes, product_id: product.id }
           }.to change(Feature, :count).by(1)
         end
   
         it "assigns a newly created feature as @feature" do
-          post :create, {:feature => valid_attributes}
-          assigns(:feature).should be_a(Feature)
-          assigns(:feature).should be_persisted
+          post :create, { feature: valid_attributes, product_id: product.id }
+          expect(assigns(:feature)).to be_a(Feature)
+          expect(assigns(:feature)).to be_persisted
         end
   
         it "redirects to the created feature" do
-          post :create, {:feature => valid_attributes}
-          response.should redirect_to(Feature.last)
+          post :create, { feature: valid_attributes, product_id: product.id }
+          expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
         it "assigns a newly created but unsaved feature as @feature" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Feature.any_instance.stub(:save).and_return(false)
-          post :create, {:feature => {  }}
-          assigns(:feature).should be_a_new(Feature)
+          post :create, { feature: invalid_attributes, product_id: product.id }
+          expect(assigns(:feature)).to be_a_new(Feature)
         end
   
         it "re-renders the 'new' template" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Feature.any_instance.stub(:save).and_return(false)
-          post :create, {:feature => {  }}
-          response.should render_template("new")
+          post :create, { feature: invalid_attributes, product_id: product.id }
+          expect(response).to render_template("new")
         end
       end
     end
@@ -79,73 +58,53 @@ describe FeaturesController do
     describe "PUT update" do
       describe "with valid params" do
         it "updates the requested feature" do
-          feature = Feature.create! valid_attributes
-          # Assuming there are no other features in the database, this
-          # specifies that the Feature created on the previous line
-          # receives the :update_attributes message with whatever params are
-          # submitted in the request.
-          Feature.any_instance.should_receive(:update).with({ "these" => "params" })
-          put :update, {:id => feature.to_param, :feature => { "these" => "params" }}
+          allow(feature).to receive(:update).with(valid_attributes)
+          put :update, { id: feature, feature: valid_attributes, product_id: product.id }
+          expect(feature).to have_received(:update)#.with(valid_attributes)
         end
   
         it "assigns the requested feature as @feature" do
-          feature = Feature.create! valid_attributes
-          put :update, {:id => feature.to_param, :feature => valid_attributes}
-          assigns(:feature).should eq(feature)
+          put :update, { id: feature.to_param, feature: valid_attributes, product_id: product.id }
+          expect(assigns(:feature)).to eq(feature)
         end
   
         it "redirects to the feature" do
-          feature = Feature.create! valid_attributes
-          put :update, {:id => feature.to_param, :feature => valid_attributes}
-          response.should redirect_to(feature)
+          put :update, { id: feature.to_param, feature: valid_attributes, product_id: product.id }
+          expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
         it "assigns the feature as @feature" do
-          feature = Feature.create! valid_attributes
-          # Trigger the behavior that occurs when invalid params are submitted
-          Feature.any_instance.stub(:save).and_return(false)
-          put :update, {:id => feature.to_param, :feature => {  }}
-          assigns(:feature).should eq(feature)
+          put :update, { id: feature.to_param, feature: invalid_attributes, product_id: product.id }
+          expect(assigns(:feature)).to eq(feature)
         end
   
         it "re-renders the 'edit' template" do
-          feature = Feature.create! valid_attributes
-          # Trigger the behavior that occurs when invalid params are submitted
-          Feature.any_instance.stub(:save).and_return(false)
-          put :update, {:id => feature.to_param, :feature => {  }}
-          response.should render_template("edit")
+          put :update, { id: feature.to_param, feature: invalid_attributes, product_id: product.id }
+          expect(response).to render_template("edit")
         end
       end
     end
   
     describe "DELETE destroy" do
       it "destroys the requested feature" do
-        feature = Feature.create! valid_attributes
+        feature.save!
         expect {
-          delete :destroy, {:id => feature.to_param}
+          delete :destroy, { id: feature, product_id: product.id }
         }.to change(Feature, :count).by(-1)
       end
   
       it "redirects to the features list" do
-        feature = Feature.create! valid_attributes
-        delete :destroy, {:id => feature.to_param}
-        response.should redirect_to(features_url)
+        delete :destroy, { id: feature, product_id: product.id }
+        expect(response).to redirect_to(product)
       end
     end
   end
 
   describe 'admin access to features' do
-    before do
-      admin = create(:admin)
-      sign_in admin, no_capybara: true
-    end
-    it_behaves_like 'restricted access to features'
-    it_behaves_like 'unrestricted access to features'
-  end
-
-  describe 'user access to features' do
-    it_behaves_like 'restricted access to features'
+    let(:admin) { create(:admin) }
+    before { test_sign_in(admin, false) }
+    it_behaves_like 'admin access to features'
   end
 end

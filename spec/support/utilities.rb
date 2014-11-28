@@ -1,11 +1,18 @@
 include ApplicationHelper
 
-def test_sign_in(user)
-  visit signin_path
-  fill_in "Email", with: user.email
-  fill_in "Password", with: user.password
-  fill_in "Password confirmation", with: user.password
-  click_button "Sign in"
+def test_sign_in(user, use_capybara = true)
+  if use_capybara
+    visit signin_path
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    fill_in "Password confirmation", with: user.password
+    click_button "Sign in"
+  else
+    remember_token = User.new_remember_token
+    cookies[:remember_token] = remember_token
+    user.update_attribute(:remember_token, User.encrypt(remember_token))
+    @current_user = user
+  end
 end
 
 def fill_in_product(product)
