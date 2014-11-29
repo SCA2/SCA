@@ -3,11 +3,8 @@ class OptionsController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
-  before_action :signed_in_admin, except: :show
-  before_action :set_option, only: [:show, :edit, :update, :destroy]
-
-  def show
-  end
+  before_action :signed_in_admin
+  before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
     @product = Product.find(params[:product_id])

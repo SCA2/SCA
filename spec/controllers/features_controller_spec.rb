@@ -3,7 +3,7 @@ require 'rails_helper'
 describe FeaturesController do
 
   let!(:product) { create(:product) }
-  let(:feature) { create(:feature, product: product) }
+  let!(:feature) { create(:feature, product: product) }
   let(:valid_attributes) { build(:feature, product: product, model: "A12", caption: "Feature Caption", description: "Feature description", sort_order: 1).attributes }
   let(:invalid_attributes) { build(:feature, product: product, sort_order: nil).attributes }
 
@@ -55,33 +55,34 @@ describe FeaturesController do
       end
     end
   
-    describe "PUT update" do
+    describe "PATCH #update" do
       describe "with valid params" do
-        it "updates the requested feature" do
-          allow(feature).to receive(:update).with(valid_attributes)
-          put :update, { id: feature, feature: valid_attributes, product_id: product.id }
-          expect(feature).to have_received(:update)#.with(valid_attributes)
-        end
-  
         it "assigns the requested feature as @feature" do
-          put :update, { id: feature.to_param, feature: valid_attributes, product_id: product.id }
+          patch :update, id: feature.to_param, feature: valid_attributes, product_id: product.id
           expect(assigns(:feature)).to eq(feature)
         end
   
+        it "changes feature's attributes" do
+          patch :update, id: feature, feature: { caption: 'New caption' }, product_id: product.id
+          feature.reload
+          expect(feature.caption).to eq('New caption')
+        end
+
         it "redirects to the feature" do
-          put :update, { id: feature.to_param, feature: valid_attributes, product_id: product.id }
+          patch :update, id: feature.to_param, feature: valid_attributes, product_id: product.id
           expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
-        it "assigns the feature as @feature" do
-          put :update, { id: feature.to_param, feature: invalid_attributes, product_id: product.id }
-          expect(assigns(:feature)).to eq(feature)
+        it "does not change feature's attributes" do
+          patch :update, id: feature, feature: { caption: nil }, product_id: product.id
+          feature.reload
+          expect(feature.caption).not_to eq('New caption')
         end
-  
+
         it "re-renders the 'edit' template" do
-          put :update, { id: feature.to_param, feature: invalid_attributes, product_id: product.id }
+          patch :update, id: feature.to_param, feature: invalid_attributes, product_id: product.id
           expect(response).to render_template("edit")
         end
       end
@@ -91,12 +92,12 @@ describe FeaturesController do
       it "destroys the requested feature" do
         feature.save!
         expect {
-          delete :destroy, { id: feature, product_id: product.id }
+          delete :destroy, id: feature, product_id: product.id
         }.to change(Feature, :count).by(-1)
       end
   
       it "redirects to the features list" do
-        delete :destroy, { id: feature, product_id: product.id }
+        delete :destroy, id: feature, product_id: product.id
         expect(response).to redirect_to(product)
       end
     end
