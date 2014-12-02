@@ -2,42 +2,139 @@ require 'rails_helper'
 
 describe UsersController do
 
-  describe "submitting to the update action" do
-    before { patch user_path(user) }
-    specify { expect(response).to redirect_to(signin_path) }
+  shared_examples 'public access' do
+    describe 'GET #index' do
+      it "requires login" do
+        get :index
+        expect(response).to redirect_to home_path
+      end
+    end
+    describe 'GET #show' do
+      it "requires login" do
+        expect { get :show }.to raise_error
+      end
+    end
+    describe 'GET #new' do
+      it "requires login" do
+        get :new
+        expect(response).to render_template(:new)
+      end
+    end
+    describe "POST #create" do
+      it "requires login" do
+        expect { post :create }.to raise_error
+      end
+    end
+    describe 'PATCH #update' do
+      it "requires login" do
+        expect { patch :update }.to raise_error
+      end
+    end
+    describe 'DELETE #destroy' do
+      it "requires login" do
+        expect { delete :destroy }.to raise_error
+      end
+    end
   end
-  
-  describe "as wrong user" do
 
+  shared_examples 'limited access' do
+    context 'user not signed in' do
+      describe 'GET #show' do
+        it "requires login" do
+          get :show, id: user
+          expect(response).to redirect_to signin_path
+        end
+      end
+      describe "POST #create" do
+        it "requires login" do
+          post :create, id: user, user: valid_attributes
+          expect(response).to redirect_to User.last
+        end
+      end
+      describe 'PATCH #update' do
+        it "requires login" do
+          patch :update, id: user, user: valid_attributes
+          expect(response).to redirect_to signin_path
+        end
+      end
+    end
+
+    context 'user signed in' do
+      before { test_sign_in(user, false) }
+      describe 'GET #show' do
+        it "requires login" do
+          get :show, id: user
+          expect(response).to render_template(:show)
+        end
+      end
+      describe 'GET #show admin' do
+        it "requires login" do
+          get :show, id: admin
+          expect(response).to redirect_to home_path
+        end
+      end
+      describe "POST #create" do
+        it "requires login" do
+          post :create, id: user, user: valid_attributes
+          expect(response).to redirect_to home_path
+          expect(flash[:notice]).to include("Already signed up!")
+        end
+      end
+      describe 'PATCH #update' do
+        it "requires login" do
+          patch :update, id: user, user: valid_attributes
+          expect(response).to redirect_to user
+        end
+      end
+    end
+
+    context 'either' do
+      describe 'DELETE #destroy' do
+        it "requires login" do
+          delete :destroy, id: user
+          expect(response).to redirect_to home_path
+        end
+      end
+    end
+  end
+
+  shared_examples 'full access' do
+    context 'admin signed in' do
+      before { test_sign_in(admin, false) }
+      describe 'GET #index' do
+        it "requires login" do
+          get :index
+          expect(response).to render_template(:index)
+        end
+      end
+      describe 'DELETE #destroy' do
+        it "requires login" do
+          delete :destroy, id: user
+          expect(response).to redirect_to users_path
+          expect(flash[:success]).to include("User deleted")
+        end
+      end
+    end
+  end
+
+  describe "admin access to contacts" do
+    let(:admin) { create(:admin) }
     let(:user) { create(:user) }
-    let(:wrong_user) { create(:user, email: "wrong@example.com") }
-
-    before { test_sign_in user }
-    
-    describe "submitting a GET request to the Users#edit action" do
-      before { get edit_user_path(wrong_user) }
-      specify { expect(response.body).not_to match('Edit user') }
-      specify { expect(response).to redirect_to(root_path) }
-    end
-    
-    describe "submitting a PUT request to the Users#update action" do
-      before { put user_path(wrong_user) }
-      specify { expect(response).to redirect_to(root_path) }
-    end
-
-  end
-  
-  describe "as non-admin user" do
-
-    let(:non_admin) { create(:user) }
-
-    before { test_sign_in non_admin }
-
-    describe "submitting a DELETE request to the Users#destroy action", :type => :controller do
-      before { delete user_path(non_admin) }
-      specify { expect(response).to redirect_to(root_path) }
-    end
+    let(:valid_attributes) { attributes_for(:user) }
+    it_behaves_like "public access"
+    it_behaves_like "limited access"
+    it_behaves_like "full access"
   end
 
+  describe "user access to users" do
+    let(:admin) { create(:admin) }
+    let(:user) { create(:user) }
+    let(:valid_attributes) { attributes_for(:user) }
+    it_behaves_like "public access"
+    it_behaves_like "limited access"
+  end
 
+  describe "guest access to users" do
+    it_behaves_like "public access"
+  end
 end

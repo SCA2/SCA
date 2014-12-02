@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  
+
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
 
-  before_action :signed_in_user, only: [:edit, :update]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :signed_in_user, only: [:show, :edit, :update]
+  before_action :correct_user, only: [:show, :edit, :update]
   before_action :admin_user, only: [:index, :destroy]
   
   def index
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def create
     if signed_in?
-      redirect_to root_path, :notice => 'Already signed up!'
+      redirect_to home_path, :notice => 'Already signed up!'
     else
       @user = User.new(user_params)
       if @user.save
@@ -42,7 +42,6 @@ class UsersController < ApplicationController
     end
   end
   
-  # PATCH /users/:id
   def edit
     @billing = @user.addresses.find_or_create_by(:address_type => 'billing')
     @shipping = @user.addresses.find_or_create_by(:address_type => 'shipping')
@@ -56,32 +55,34 @@ class UsersController < ApplicationController
     end
   end
   
-  # DELETE /users/:id
   def destroy
     target = User.find(params[:id])
     if (current_user == target) && (current_user.admin?)
-      redirect_to users_url, :notice => "Can't delete yourself!"
+      redirect_to users_path, :notice => "Can't delete yourself!"
     else
       User.find(params[:id]).destroy
       flash[:success] = "User deleted."
-      redirect_to users_url
+      redirect_to users_path
     end
   end
   
   private
 
     def user_params
-      params.require(:user).permit( :name, :email, :password, :password_confirmation, :contact_news, :contact_updates, :contact_sales,
-                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
+      params.require(:user).permit( :name, :email, :password, :password_confirmation,
+        :contact_news, :contact_updates, :contact_sales, 
+        :addresses_attributes => [:id, :address_type,
+          :first_name, :last_name, :address_1, :address_2,
+          :city, :state_code, :post_code, :country, :telephone])
     end
     
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
+      redirect_to(home_path) unless current_user?(@user)
     end
     
     def admin_user
-      redirect_to(root_url) unless signed_in_admin?
+      redirect_to(home_path) unless signed_in_admin?
     end
 
 end

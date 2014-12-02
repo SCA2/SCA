@@ -66,3 +66,19 @@ RSpec::Matchers.define :not_have_error_message do
     expect(page).to_not have_selector('div.alert-box.alert')
   end
 end
+
+RSpec::Matchers.define :require_signin do |expected|
+  match do |actual|
+    # expect(actual).to redirect_to Rails.application.routes.url_helpers.signin_path
+    expect(actual).to redirect_to signin_path
+  end
+  failure_message do |actual|
+    "expected to require signin to access the method"
+  end
+  failure_message_when_negated do |actual|
+    "expected not to require signin to access the method"
+  end
+  description do
+    "redirect to the signin form"
+  end
+end

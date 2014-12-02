@@ -2,40 +2,40 @@ require 'rails_helper'
 
 describe ProductsController do
   
-  let(:valid_attributes) { FactoryGirl.attributes_for(:product) }
+  let(:product) { create(:product) }
+  let(:option) { create(:option, product: product) }
+  let(:valid_attributes) { build(:product).attributes }
   
-  shared_examples('restricted access to products') do
+  shared_examples('guest access to products') do
     describe "GET index" do
       it "assigns all products as @products" do
         product = Product.create! valid_attributes
         get :index, {}
-        assigns(:products).should eq([product])
+        expect(assigns(:products)).to eq([product])
       end
     end
   end  
 
-  shared_examples('unrestricted access to products') do
+  shared_examples('admin access to products') do
   
     describe "GET show" do
       it "assigns the requested product as @product" do
-        product = Product.create! valid_attributes
-        get :show, {:id => product.to_param}
-        assigns(:product).should eq(product)
+        get :show, id: product.to_param
+        expect(assigns(:product)).to eq(product)
       end
     end
   
     describe "GET new" do
       it "assigns a new product as @product" do
         get :new, {}
-        assigns(:product).should be_a_new(Product)
+        expect(assigns(:product)).to be_a_new(Product)
       end
     end
   
     describe "GET edit" do
       it "assigns the requested product as @product" do
-        product = Product.create! valid_attributes
-        get :edit, {:id => product.to_param}
-        assigns(:product).should eq(product)
+        get :edit, id: product
+        expect(assigns(:product)).to eq(product)
       end
     end
   
@@ -43,106 +43,98 @@ describe ProductsController do
       describe "with valid params" do
         it "creates a new Product" do
           expect {
-            post :create, {:product => valid_attributes}
+            post :create, product: valid_attributes
           }.to change(Product, :count).by(1)
         end
   
         it "assigns a newly created product as @product" do
-          post :create, {:product => valid_attributes}
-          assigns(:product).should be_a(Product)
-          assigns(:product).should be_persisted
+          post :create, product: valid_attributes
+          expect(assigns(:product)).to be_a(Product)
+          expect(assigns(:product)).to be_persisted
         end
   
         it "redirects to the created product" do
-          post :create, {:product => valid_attributes}
-          response.should redirect_to(Product.last)
+          post :create, product: valid_attributes
+          expect(response).to redirect_to(Product.last)
         end
       end
   
       describe "with invalid params" do
         it "assigns a newly created but unsaved product as @product" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Product.any_instance.stub(:save).and_return(false)
-          post :create, {:product => {:model_weight => 0}}
-          assigns(:product).should be_a_new(Product)
+          allow(product).to receive(:save).and_return(false)
+          post :create, product: { model_weight: 0 }
+          expect(assigns(:product)).to be_a_new(Product)
         end
   
         it "re-renders the 'new' template" do
-          # Trigger the behavior that occurs when invalid params are submitted
-          Product.any_instance.stub(:save).and_return(false)
-          post :create, {:product => {:model_weight => 0}}
-          response.should render_template("new")
+          allow(product).to receive(:save).and_return(false)
+          post :create, product: { model_weight: 0 }
+          expect(response).to render_template("new")
         end
       end
     end
   
-    describe "PUT update" do
+    describe "PATCH #update" do
+      
+      before { product.options << option }
+      
       describe "with valid params" do
         it "updates the requested product" do
-          product = Product.create! valid_attributes
-          # Assuming there are no other products in the database, this
-          # specifies that the Product created on the previous line
-          # receives the :update_attributes message with whatever params are
-          # submitted in the request.
-          Product.any_instance.should_receive(:update).with({'model' => 'A12KF'})
-          put :update, {:id => product.to_param, :product => {'model' => 'A12KF'} }
+          expect_any_instance_of(Product).to receive(:update).with( { model: 'A12KF'} )
+          patch :update, id: product, product: { model: 'A12KF' }
         end
   
         it "assigns the requested product as @product" do
-          product = Product.create! valid_attributes
-          put :update, {:id => product.to_param, :product => valid_attributes}
-          assigns(:product).should eq(product)
+          patch :update, id: product, product: valid_attributes
+          expect(assigns(:product)).to eq(product)
         end
   
         it "redirects to the product" do
-          product = Product.create! valid_attributes
-          put :update, {:id => product.to_param, :product => valid_attributes}
-          response.should redirect_to(product)
+          patch :update, id: product, product: valid_attributes
+          expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
         it "assigns the product as @product" do
-          product = Product.create! valid_attributes
-          # Trigger the behavior that occurs when invalid params are submitted
-          Product.any_instance.stub(:save).and_return(false)
-          put :update, {:id => product.to_param, :product => { 'model_weight' => 0 }}
-          assigns(:product).should eq(product)
+          allow(product).to receive(:save).and_return(false)
+          patch :update, id: product, product: { model: nil }
+          expect(assigns(:product)).to eq(product)
         end
   
         it "re-renders the 'edit' template" do
-          product = Product.create! valid_attributes
-          # Trigger the behavior that occurs when invalid params are submitted
-          Product.any_instance.stub(:save).and_return(false)
-          put :update, {:id => product.to_param, :product => { 'model_weight' => 0 }}
-          response.should render_template("edit")
+          allow(product).to receive(:save).and_return(false)
+          patch :update, id: product.to_param, product: { model: nil }
+          expect(response).to render_template("edit")
         end
       end
     end
   
     describe "DELETE destroy" do
+      
+      before do
+        product.options << option
+        product.save!
+      end
+      
       it "destroys the requested product" do
-        product = Product.create! valid_attributes
         expect {
-          delete :destroy, {:id => product.to_param}
+          delete :destroy, id: product
         }.to change(Product, :count).by(-1)
       end
   
       it "redirects to the products list" do
-        product = Product.create! valid_attributes
-        delete :destroy, {:id => product.to_param}
-        response.should redirect_to(products_url)
+        delete :destroy, id: product
+        expect(response).to redirect_to(products_path)
       end
     end
   end
 
   describe 'admin access to products' do
-    before do
-      admin = create(:admin)
-      sign_in admin, no_capybara: true
-    end
-    it_behaves_like 'unrestricted access to products'
-    it_behaves_like 'restricted access to products'
+    let(:admin) { create(:admin) }
+    before { test_sign_in(admin, false) }
+    it_behaves_like 'admin access to products'
+    it_behaves_like 'guest access to products'
   end
 
 end
