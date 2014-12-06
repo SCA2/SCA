@@ -26,7 +26,8 @@ class AddressesController < ApplicationController
   def update
     @address = @addressable.addresses.find(params[:address_id])   
     if @address.update(address_params)
-      redirect_to [@addressable, @address], notice: 'Address updated'
+      flash[:notice] = "Address updated!"
+      redirect_to [@addressable, @address]
     else
       render 'new', notice: 'Sorry, address could not be saved'
     end
@@ -39,12 +40,10 @@ class AddressesController < ApplicationController
       @addressable = resource.singularize.classify.constantize.find(id)
     end
     
-    # Use callbacks to share common setup or constraints between actions.
     def set_address
       @address = Address.find(params[:id])
     end
     
-    # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       params.require(:address).permit(:order_id, :user_id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone)
     end

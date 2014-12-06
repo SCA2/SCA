@@ -5,10 +5,5 @@ FactoryGirl.define do
     association :cart
     association :product
     association :option
-    # after(:build) do |line_item|
-    #   line_item.cart = build(:cart)
-    #   line_item.product = build(:product)
-    #   line_item.option = build(:option)
-    # end
   end
 end

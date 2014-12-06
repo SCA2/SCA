@@ -80,24 +80,22 @@ describe "User pages" do
   
   describe "user profile page" do
     
-    before(:all) do
-      @user = FactoryGirl.build(:user)
-      @user.addresses << build(:user_address, address_type: 'billing')
-      @user.addresses << build(:user_address, address_type: 'shipping')
-      @user.save!
+    let(:user) { build(:user) }
+    before(:each) do
+      user.addresses << build(:user_address, address_type: 'billing')
+      user.addresses << build(:user_address, address_type: 'shipping')
+      user.save!
+      test_sign_in user
+      visit user_path(user)
     end
 
-    after(:all) { DatabaseCleaner.clean_with(:truncation) }
-
-    before { visit user_path(@user) }
-
-    it { is_expected.to have_title(@user.name) }
+    it { is_expected.to have_title(user.name) }
     it { is_expected.to have_text('User') }
     it { is_expected.to have_text('Contact Preferences') }
     it { is_expected.to have_text('Billing Address') }
     it { is_expected.to have_text('Shipping Address') }
-    it { is_expected.to have_text(@user.name) }
-    it { is_expected.to have_text(@user.email) }
+    it { is_expected.to have_text(user.name) }
+    it { is_expected.to have_text(user.email) }
   end
   
   describe "signup page" do

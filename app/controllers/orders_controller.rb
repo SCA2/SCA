@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
   
+  before_action :admin_user, only: [:index]
   before_action :set_order, except: [:index, :subregion_options, :create, :express, :create_express]
 
   def index
@@ -10,7 +11,6 @@ class OrdersController < ApplicationController
   end
   
   def show
-
     @billing = @order.addresses.find_by(:address_type => 'billing')
     @shipping = @order.addresses.find_by(:address_type => 'shipping')
     @cart = @order.cart
@@ -19,12 +19,12 @@ class OrdersController < ApplicationController
       redirect_to orders_path, alert: "Invalid record"
       return
     end
-
   end
   
   def create
     if @cart.line_items.empty?
-      redirect_to products_url, notice: "Your cart is empty"
+      flash[:notice] = 'Your cart is empty'
+      redirect_to products_path
       return
     else
       @order = Order.create(:cart_id => @cart.id)
@@ -34,13 +34,14 @@ class OrdersController < ApplicationController
   
   def express
     if @cart.line_items.empty?
-      redirect_to products_url, notice: "Your cart is empty"
+      flash[:notice] = 'Your cart is empty'
+      redirect_to products_path
       return
     else
       response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
         :ip                   => request.remote_ip,
         :return_url           => create_express_orders_url,
-        :cancel_return_url    => products_url,
+        :cancel_return_url    => products_path,
         :currency             => 'USD',
         :brand_name           => 'Seventh Circle Audio',
         :allow_guest_checkout => 'true'
@@ -79,6 +80,7 @@ class OrdersController < ApplicationController
   def create_addresses
     @order.update(order_params)
     if @order.save
+      flash[:success] = 'Addresses saved!'
       redirect_to shipping_order_path(@order)
     else
       render 'addresses'
@@ -107,7 +109,8 @@ class OrdersController < ApplicationController
       @billing = @order.addresses.find_by(:address_type => 'billing')
       @shipping = @order.addresses.find_by(:address_type => 'shipping')
     else
-      redirect_to shipping_order_path(@order), alert: 'Addresses not saved!'
+      flash[:alert] = 'Addresses are missing!'
+      redirect_to shipping_order_path(@order)
     end
   end
   
@@ -116,7 +119,8 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       redirect_to payment_order_path @order
     else
-      redirect_to confirm_order_path, alert: 'You must accept terms to proceed'
+      flash[:alert] = 'You must accept terms to proceed'
+      redirect_to confirm_order_path(@order)
     end 
   end
 
@@ -130,7 +134,8 @@ class OrdersController < ApplicationController
     if @order.express_token.to_s.length > 1
       @order.validate_terms = true
       unless @order.update(order_params)
-        redirect_to confirm_order_path, alert: 'You must accept terms to proceed'
+        flash[:alert] = 'You must accept terms to proceed'
+        redirect_to confirm_order_path
         return
       end 
     end
@@ -164,16 +169,19 @@ class OrdersController < ApplicationController
 
   private
     
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token, :accept_terms,
+      params.require(:order).permit(:id, :cart_id, :email, :card_type, :card_expires_on, :card_number, :card_verification, :ip_address, :express_token, :accept_terms,
                                     :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
                                     :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
+    end
+
+    def admin_user
+      flash[:alert] = 'Sorry, admins only'
+      redirect_to(home_path) unless signed_in_admin?
+    end
+
+    def set_order
+      @order = Order.find(params[:id])
     end
 
 end

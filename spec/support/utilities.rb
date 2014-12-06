@@ -69,7 +69,6 @@ end
 
 RSpec::Matchers.define :require_signin do |expected|
   match do |actual|
-    # expect(actual).to redirect_to Rails.application.routes.url_helpers.signin_path
     expect(actual).to redirect_to signin_path
   end
   failure_message do |actual|

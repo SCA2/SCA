@@ -13,7 +13,8 @@ class UsersController < ApplicationController
   
   def new
     if signed_in?
-      redirect_to root_path, :notice => 'Already signed up!'
+      flash[:notice] = "Already signed up!"
+      redirect_to root_path
     else
       @user = User.new
       @user.addresses.build(address_type: 'billing')
@@ -29,13 +30,15 @@ class UsersController < ApplicationController
 
   def create
     if signed_in?
-      redirect_to home_path, :notice => 'Already signed up!'
+      flash[:notice] = "Already signed up!"
+      redirect_to home_path
     else
       @user = User.new(user_params)
       if @user.save
         sign_in @user
         UserMailer.signup_confirmation(@user).deliver
-        redirect_to @user, :flash => { :success => "Signed up!" }
+        flash[:success] = "Signed up!"
+        redirect_to @user
       else
         render 'new'
       end
@@ -49,7 +52,8 @@ class UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to @user, :notice => "Profile updated!"
+      flash[:success] = "Profile updated!"
+      redirect_to @user
     else
       render 'edit'
     end
@@ -58,7 +62,8 @@ class UsersController < ApplicationController
   def destroy
     target = User.find(params[:id])
     if (current_user == target) && (current_user.admin?)
-      redirect_to users_path, :notice => "Can't delete yourself!"
+      flash[:alert] = "Can't delete yourself!"
+      redirect_to users_path
     else
       User.find(params[:id]).destroy
       flash[:success] = "User deleted."
@@ -82,6 +87,7 @@ class UsersController < ApplicationController
     end
     
     def admin_user
+      flash[:alert] = 'Sorry, admins only'
       redirect_to(home_path) unless signed_in_admin?
     end
 
