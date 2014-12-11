@@ -75,9 +75,9 @@ describe FaqsController do
           expect {post :create, faq: 
             attributes_for(:faq)}.to change(Faq, :count).by(1)
         end
-        it "redirects to faqs#show" do
+        it "renders :new template" do
           post :create, faq: attributes_for(:faq)
-          expect(response).to redirect_to faq_path(assigns[:faq])
+          expect(response).to render_template :new
         end
       end
       context "with invalid attributes" do

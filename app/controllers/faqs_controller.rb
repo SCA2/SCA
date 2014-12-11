@@ -9,12 +9,8 @@ class FaqsController < ApplicationController
   # GET /faqs
   def index
     @category = Faq.select(:category).distinct
-    @category.order(:category_weight)
-    @faqs = Faq.order(:question_weight)
-    respond_to do |format|
-      format.html
-      format.csv { render text: @faqs.to_csv }
-    end
+    @category.order(category_weight: :asc)
+    @faqs = Faq.order(question_weight: :asc)
   end
 
   # GET /faqs/1
@@ -23,7 +19,7 @@ class FaqsController < ApplicationController
 
   # GET /faqs/new
   def new
-    @faq = Faq.new
+    @faq = Faq.next_faq
   end
 
   # GET /faqs/1/edit
@@ -34,18 +30,20 @@ class FaqsController < ApplicationController
   def create
     @faq = Faq.new(faq_params)
     if @faq.save
-      redirect_to @faq, notice: 'Faq was successfully created.'
+      flash[:success] = "Success! Faq #{@faq.question_weight} created."
+      redirect_to new_faq_path
     else
-      render action: 'new'
+      render 'new'
     end
   end
 
   # PATCH/PUT /faqs/1
   def update
     if @faq.update(faq_params)
-      redirect_to @faq, notice: 'Faq was successfully updated.'
+      flash[:success] = "Success! Faq #{@faq.question_weight} updated."
+      redirect_to @faq
     else
-      render action: 'edit'
+      render 'edit'
     end
   end
 
@@ -55,10 +53,10 @@ class FaqsController < ApplicationController
     redirect_to faqs_url
   end
 
-  def import
-    Faq.import(params[:file])
-    redirect_to faqs_url, notice: "FAQs imported."
-  end
+  # def import
+  #   Faq.import(params[:file])
+  #   redirect_to faqs_url, notice: "FAQs imported."
+  # end
   
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -3,23 +3,23 @@
 	<div class="field" style="display:inline-block; width: 32%">
 		<%= f.label :category, 'Category:' %>
 		<%= f.select :category, 
-			options_for_select(	[['General'], ['Ordering'],	['Assembly'], ['Support']]) %>
+			options_for_select(	['General', 'Ordering',	'Assembly', 'Support'], @faq.category) %>
 	</div>
 	<div class="field" style="display: inline-block; width: 33%">
 		<%= f.label :category_weight, 'Category Weight:' %>
- 		<%= f.number_field :category_weight, in: 1...100 %>
+ 		<%= f.number_field :category_weight, in: 1..100 %>
 	</div>
 	<div class="field" style="display: inline-block; width: 32%">
 		<%= f.label :question_weight, 'Question Weight:' %>
- 		<%= f.number_field :question_weight, in: 1...100 %>
+ 		<%= f.number_field :question_weight, in: 1..500 %>
 	</div>
 	<div class="field" style="width: 100%">
 		<%= f.label :question, 'Question:' %>
-    <%= f.text_area :question %>
+    <%= f.text_area :question, cols: 20, rows: 5 %>
 	</div>
 	<div class="field" style="width: 100%">
 		<%= f.label :answer, 'Answer:' %>
-    <%= f.text_area :answer %>
+    <%= f.text_area :answer, cols: 20, rows: 15 %>
 	</div>
 	<div class="actions">
 		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
