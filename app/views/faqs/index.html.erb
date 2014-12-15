@@ -6,12 +6,12 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<% @category.each do |cat| %>
-				<%= render partial: "accordion", locals: {title: cat.category, faqs: @faqs.where(category: cat.category)} %>
+			<% @categories.each do |cat| %>
+				<%= render partial: "accordion", locals: {title: cat.category_name, faqs: cat.faqs} %>
 			<% end %>
 		 	<% if signed_in_admin? %>
 				<%= link_to 'New Faq', new_faq_path, label: 'New Faq', class: "button" %>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>

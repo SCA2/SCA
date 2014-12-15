@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923195242) do
+ActiveRecord::Schema.define(version: 20141214030409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,13 +42,19 @@ ActiveRecord::Schema.define(version: 20140923195242) do
   end
 
   create_table "faqs", force: true do |t|
-    t.string   "category"
     t.text     "question"
     t.text     "answer"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "question_weight"
-    t.integer  "category_weight"
+    t.integer  "faqs_category_id"
+  end
+
+  add_index "faqs", ["faqs_category_id"], name: "index_faqs_on_faqs_category_id", using: :btree
+
+  create_table "faqs_categories", force: true do |t|
+    t.string  "category_name"
+    t.integer "category_weight"
   end
 
   create_table "features", force: true do |t|

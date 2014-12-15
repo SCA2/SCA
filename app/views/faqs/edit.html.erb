@@ -6,17 +6,17 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<%= form_for(@faq) do |f| %>
-				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', 	:locals => { 
-																				:f => f, 
-																				:legend => 'Update FAQ ' << @faq.id.to_s, 
-																				:submit => 'Save',
-																				:edit => nil,
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+			<%= form_for(@faq) do |faq| %>
+				<%= render 'shared/errors', object: faq.object %>
+				<%= render 'form', f: faq, legend: 'Edit FAQ ' << @faq.id.to_s %>
+				<div class="actions">
+					<div class="button-box">
+						<%= faq.submit 'Update', class: 'button' %>
+						<%= link_to 'Quit', faqs_path, class: 'button' %>
+					</div>
+				</div>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>
 

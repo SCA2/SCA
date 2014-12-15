@@ -1,0 +1,13 @@
+<fieldset>
+	<legend><%= legend %></legend>
+	<div class="field" style="display:inline-block; width: 32%">
+		<%= f.label :category_name, 'Category Name:' %>
+		<%= f.text_field :category_name %>
+	</div>
+	<div class="field" style="display: inline-block; width: 33%">
+		<%= f.label :category_weight, 'Category Weight:' %>
+ 		<%= f.number_field :category_weight, in: 1..100 %>
+	</div>
+</fieldset>
+
+

@@ -1,31 +1,20 @@
 <fieldset>
 	<legend><%= legend %></legend>
-	<div class="field" style="display:inline-block; width: 32%">
-		<%= f.label :category, 'Category:' %>
-		<%= f.select :category, 
-			options_for_select(	['General', 'Ordering',	'Assembly', 'Support'], @faq.category) %>
+	<div class="field">
+		<%= f.label :faqs_category, 'FAQ Category' %>
+ 		<%= f.collection_select :faqs_category_id, @categories.all, :id, :category_name %>
 	</div>
-	<div class="field" style="display: inline-block; width: 33%">
-		<%= f.label :category_weight, 'Category Weight:' %>
- 		<%= f.number_field :category_weight, in: 1..100 %>
-	</div>
-	<div class="field" style="display: inline-block; width: 32%">
-		<%= f.label :question_weight, 'Question Weight:' %>
+	<div class="field">
+		<%= f.label :question_weight, 'Question Weight' %>
  		<%= f.number_field :question_weight, in: 1..500 %>
 	</div>
-	<div class="field" style="width: 100%">
-		<%= f.label :question, 'Question:' %>
-    <%= f.text_area :question, cols: 20, rows: 5 %>
+	<div class="field">
+		<%= f.label :question, 'Question' %>
+		<%= f.text_area :question, cols: 40, rows: 3 %>
 	</div>
-	<div class="field" style="width: 100%">
-		<%= f.label :answer, 'Answer:' %>
-    <%= f.text_area :answer, cols: 20, rows: 15 %>
-	</div>
-	<div class="actions">
-		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if edit then link_to edit, edit_faq_path(@faq), :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if quit then link_to quit, faqs_path, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if delete then link_to delete, @faq, :class => :button, :method => :delete, :style => "float: left; width: 33%", :data => {confirm: 'Are you sure?'} end %>
+	<div class="field">
+		<%= f.label :answer, 'Answer' %>
+		<%= f.text_area :answer, cols: 40, rows: 15 %>
 	</div>
 </fieldset>
 

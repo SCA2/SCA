@@ -4,7 +4,7 @@ SCA::Application.routes.draw do
   get "password_resets/new"
   resources :carts, except: [:index, :edit, :new]
   
-  resources :line_items, :users, :faqs
+  resources :line_items, :users
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -15,6 +15,9 @@ SCA::Application.routes.draw do
       get 'subregion_options'
     end
   end
+
+  resources :faqs_categories, except: [:show]
+  resources :faqs, except: [:show]
   
   resources :products do
     resources :features, except: [:index, :show]

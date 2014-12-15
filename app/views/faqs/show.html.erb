@@ -6,15 +6,16 @@
 			<%= render 'layouts/sidebar_left' %>
 		</div>
 		<div class="small-9 columns">
-			<%= form_for(@faq) do |f| %>
-				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', 	:locals => { 
-																				:f => f, 
-																				:legend => 'FAQ ' << @faq.id.to_s,
-																				:submit => nil,
-																				:edit => 'Edit',
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+			<%= form_for(@faq) do |faq| %>
+				<%= render 'shared/errors', object: faq.object %>
+				<%= render 'form', f: faq, legend: 'FAQ ' << @faq.id.to_s %>
+				<div class="actions">
+					<div class="button-box">
+						<%= link_to 'Edit', edit_faq_path(@faq), class: 'button' %>
+						<%= link_to 'Delete', faq_path, class: 'button', method: :delete, data: {confirm: 'Are you sure?'} %>
+						<%= link_to 'Quit', faqs_path, class: 'button' %>
+					</div>
+				</div>
 			<% end %>
 		</div>
 	</div>	

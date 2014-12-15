@@ -8,7 +8,8 @@
 		<div class="small-9 columns">
 			<% if signed_in? %>
 				<p><%= link_to "View Users", users_path %></br>
-			  <%= link_to "View Orders", orders_path %></p>
+			  <%= link_to "View Orders", orders_path %></br>
+				<%= link_to "View FAQs Categories", faqs_categories_path %></p>
 			<% else %>
 		    <p><%= link_to "Please log in", signin_path %></p>
 			<% end %>
