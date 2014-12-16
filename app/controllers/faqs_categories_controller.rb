@@ -37,7 +37,7 @@ class FaqsCategoriesController < ApplicationController
   end
 
   def destroy
-    @faqs_category.destroy
+    flash[:error] = @faqs_category.errors.full_messages.join('\n') unless @faqs_category.destroy
     redirect_to faqs_categories_path
   end
 
