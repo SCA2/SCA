@@ -6,7 +6,8 @@ describe FaqsController do
 
   shared_examples('public access to faqs') do
     describe 'GET #index' do
-      let(:faq) { create(:faq, group: 'General', priority: 1) }
+      let(:faqs_category) { create(:faqs_category) }
+      let(:faq) { create(:faq, faqs_category: faqs_category) }
       it "populates a sorted array of faqs" do
         get :index
         expect(assigns(:faq)).to eq(@faqs)
@@ -20,21 +21,6 @@ describe FaqsController do
   
   shared_examples('admin access to faqs') do
 
-    describe 'GET #show' do   
-
-      let(:faq) { create(:faq) }
-      
-      it "assigns the requested faq to @faq" do
-        get :show, id: faq
-        expect(assigns(:faq)).to eq faq
-      end
-      
-      it "renders the :show template" do
-        get :show, id: faq 
-        expect(response).to render_template :show 
-      end
-    end
-    
     describe 'GET #new' do
 
       let(:user) { create(:user, :admin => true) }
@@ -67,13 +53,13 @@ describe FaqsController do
     end
     
     describe "POST #create" do
-      let(:user) { create(:user, :admin => true) }
-      before { @faq = attributes_for(:faq) }
+      let(:faqs_category) { create(:faqs_category) }
+      let(:user) { create(:user, admin: true) }
       before { test_sign_in(user, false) }
       context "with valid attributes" do
         it "saves the new faq in the database" do
           expect {post :create, faq: 
-            attributes_for(:faq)}.to change(Faq, :count).by(1)
+            attributes_for(:faq, faqs_category_id: faqs_category.id)}.to change(Faq, :count).by(1)
         end
         it "renders :new template" do
           post :create, faq: attributes_for(:faq)
@@ -93,7 +79,7 @@ describe FaqsController do
     end
     
     describe 'PATCH #update' do
-      before { @faq = create(:faq, question: 'Why?', answer: 'Because I said so') }
+      before { @faq = create(:faq, question: 'Why?', answer: 'Because I said') }
       let(:user) { create(:user, :admin => true) }
       before { test_sign_in(user, false) }
       context "with valid attributes" do
@@ -107,9 +93,9 @@ describe FaqsController do
           expect(@faq.question).to eq('Why?')
           expect(@faq.answer).to eq('Because')
         end
-        it "redirects to the faq" do
+        it "redirects to the index" do
           patch :update, id: @faq, faq: attributes_for(:faq)
-          expect(response).to redirect_to @faq
+          expect(response).to redirect_to faqs_path
         end
       end
       context "with invalid attributes" do
