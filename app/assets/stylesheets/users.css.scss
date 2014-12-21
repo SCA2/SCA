@@ -1,6 +1,6 @@
 
 @import "colors";
-@import "foundation/components/buttons";
+// @import "foundation/components/buttons";
 
 
 div.edit-profile {
@@ -31,12 +31,6 @@ div.edit-profile {
     div.button-box {
       width: 50%;
       margin: 0 auto 0 auto;
-      .button {
-        @include button();
-        width: 46%;
-        padding: 0.5em 0.5em 0.5em 0.5em;
-        margin: 0 0.5em 0 0.5em;
-      }
     }
   }
 
@@ -46,12 +40,6 @@ div.edit-profile {
     div.button-box {
       width: 60%;
       margin: 0 auto 0 auto;
-      .button {
-        @include button();
-        width: 43%;
-        padding: 0.5em 0.5em 0.5em 0.5em;
-        margin: 0 0.5em 0 0.5em;
-      }
     }
   }
 
@@ -98,12 +86,6 @@ div.show-profile {
     div.button-box {
       width: 50%;
       margin: 0 auto 0 auto;
-      .button {
-        @include button();
-        width: 43%;
-        padding: 0.5em 0.5em 0.5em 0.5em;
-        margin: 0 0.5em 0 0.5em;
-      }
     }
   }
 

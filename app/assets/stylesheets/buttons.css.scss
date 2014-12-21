@@ -1,0 +1,145 @@
+
+@import "foundation/components/buttons";
+@import "colors";
+
+// 05. Buttons
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// $include-html-button-classes: $include-html-classes;
+
+// We use these to build padding for buttons.
+// $button-tny: rem-calc(10);
+// $button-sml: rem-calc(14);
+// $button-med: rem-calc(16);
+// $button-lrg: rem-calc(18);
+
+// We use this to control the display property.
+// $button-display: inline-block;
+// $button-margin-bottom: rem-calc(20);
+
+// We use these to control button text styles.
+// $button-font-family: $body-font-family;
+// $button-font-color: $white;
+// $button-font-color-alt: $oil;
+// $button-font-tny: rem-calc(11);
+// $button-font-sml: rem-calc(13);
+// $button-font-med: rem-calc(16);
+// $button-font-lrg: rem-calc(20);
+// $button-font-weight: $font-weight-normal;
+// $button-font-align: center;
+
+// We use these to control various hover effects.
+// $button-function-factor: -20%;
+
+// We use these to control button border and hover styles.
+// $button-border-width: 0px;
+// $button-border-style: solid;
+// $button-bg-color: $primary-color;
+// $button-bg-hover: scale-color($button-bg-color, $lightness: $button-function-factor);
+// $button-border-color: $button-bg-hover;
+// $secondary-button-bg-hover: scale-color($secondary-color, $lightness: $button-function-factor);
+// $secondary-button-border-color: $secondary-button-bg-hover;
+// $success-button-bg-hover: scale-color($success-color, $lightness: $button-function-factor);
+// $success-button-border-color: $success-button-bg-hover;
+// $alert-button-bg-hover: scale-color($alert-color, $lightness: $button-function-factor);
+// $alert-button-border-color: $alert-button-bg-hover;
+
+// We use this to set the default radius used throughout the core.
+// $button-radius: $global-radius;
+// $button-round: $global-rounded;
+
+// We use this to set default opacity and cursor for disabled buttons.
+// $button-disabled-opacity: 0.7;
+// $button-disabled-cursor: $cursor-default-value;
+
+.button {
+  @include button();
+  margin: 0;
+  border: none;
+  background-color: $brown-20;
+  &:hover {
+    background-color: $red-30;
+  }
+
+  &.add {
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    font-weight: bold;
+    background-color: $brown-10;
+    &:hover {
+      background-color: $red-50;
+    }
+  }
+  
+  &.admin {
+    // display: inline-block;
+    // display: table-cell;
+    padding: 0.1em 1em 0.1em 1em;
+    margin: 0 0.5em 0 0.5em;
+  }
+}
+
+  // div.login-buttons {
+  //   display: inline-block;
+  //   width: 36%;
+  //   .form-button {
+  //     display: block;
+  //     margin: 1em 0 1em 0;
+  //     padding: 1em 0 1em 0;
+  //     width: 100%;
+  //     .button {
+  //       @include button();
+  //       width: 100%;
+  //       margin: 0;
+  //       padding: 0.25em;
+  //     }
+  //   }
+  // }
+
+// .checkout-buttons {
+//   margin: 1em 0 0 0;
+//   width: 100%;
+//   .form-button {
+//     display: inline-block;
+//     margin: 0;
+//     padding: 0;
+//     width: 32.5%;
+//     .button {
+//       display: block;
+//       @include button();
+//       width: 100%;
+//       margin: 0;
+//       padding: 0.25em;
+//     }
+//     .paypal-button {
+//       display: block;
+//       text-align: center;
+//       width: 100%;
+//       margin: 0 0.5em 0 0.5em;
+//       a img {
+//         margin: 0 auto 0 auto;
+//       } 
+//     }
+//   }
+// }
+
+// div.actions {
+//   width: 100%;
+//   margin: 1em 0 0 0;
+//   div.button-box {
+//     width: 65%;
+//     margin: 0 auto 0 auto;
+//     .button {
+//       @include button();
+//       width: 46%;
+//       padding: 0.5em 0.5em 0.5em 0.5em;
+//       margin: 0 0.5em 0 0.5em;
+//     }
+//   }
+// }
+
+      // .button {
+      //   @include button();
+      //   width: 100%;
+      //   margin: 0;
+      //   padding: 0.25em;
+      // }

@@ -1,5 +1,4 @@
 @import "foundation/components/orbit";
-@import "foundation/components/buttons";
 @import url(fonts.css.scss);
 @import "colors";
 
@@ -31,13 +30,6 @@ div.slider-image-index {
     div.action-buttons {
       display: inline-block;
       width: 80%;
-      .button {
-        @include button();
-        display: inline-block;
-        width: 49%;
-        margin: 0;
-        padding: 0;
-      }
     }
   }
 }
@@ -47,12 +39,5 @@ div.slider-admin-box {
   div.action-buttons {
     margin: 0 auto 0 auto;
     width: 50%;
-    .admin-button {
-      @include button();
-      display: inline-block;
-      width: 49.5%;
-      margin: 0;
-      padding: 0;
-    }
   }
 }

@@ -8,12 +8,11 @@
 </div>
 <% if signed_in_admin? %>
 	<div class="admin-box">
-		<%= link_to "edit", edit_product_feature_path(p, f),
-												title: f.caption %>
+		<%= link_to "edit", edit_product_feature_path(p, f), class: 'button admin' %>
 		
     <%= link_to "delete", product_feature_path(p, f), 
     											method: :delete,
                          	data: { confirm: "You sure?" },
-                          title: f.caption %>
+                          class: 'button admin' %>
 	</div>
 <% end %>

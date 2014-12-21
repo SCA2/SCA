@@ -1,13 +1,23 @@
 <% if @product.options.any? %>
-	<% @product.current_option ||= @product.options.first.id.to_i %>
-	<% option = @product.options.find(@product.current_option) %>
-	<%= form_for :product, url: products_update_option_path(id: @product), method: :put, remote: true do |f| %>
-		<%= f.select :current_option, (options_for_select get_extended_models(@product), @product.current_option), {}, class: 'select-option', id: 'select-' + @product.id.to_s %>
-<!--		<%= f.submit 'Update Price', id: 'update-button' %>-->
-	<% end %>
-	<%= button_to 'Add to Cart', line_items_path(product_id: @product, option_id: option), id: 'add-button', remote: :true %>
-	<div class="price" <%= "id=price-" + @product.id.to_s %>><%= number_to_currency(option.price, precision: 0) %></div>
-	<div class="stock" <%= "id=stock-" + @product.id.to_s %>>
-		<%= get_stock(@product) + ' can ship today' %><br>
+	<div class="options-box" <%= "id=options-box-" + @product.id.to_s %>>
+		<% @product.current_option = get_current_option(@product) %>
+		<% option = @product.options.find(@product.current_option) %>
+		<%= form_for :product, url: update_option_product_path(@product), method: :put, remote: true do |f| %>
+			<%= f.select :current_option,
+				(options_for_select get_extended_models(@product), @product.current_option),
+				{}, class: 'select-option', id: 'select-' + @product.id.to_s %>
+	<!--		<%= f.submit 'Update Price', id: 'update-button' %>-->
+		<% end %>
+		<div class='actions-box'>
+			<div class="add" <%= "id=add-" + @product.id.to_s %>>
+				<%= button_to 'Add to Cart', line_items_path(product_id: @product, option_id: option), class: 'button add', remote: :true %>
+			</div>
+			<div class="price" <%= "id=price-" + @product.id.to_s %>>
+				<%= number_to_currency(option.price, precision: 0) %>
+			</div>
+			<div class="stock" <%= "id=stock-" + @product.id.to_s %>>
+				<%= get_stock(@product) + ' can ship today' %><br>
+			</div>
+		</div>
 	</div>
 <% end %>

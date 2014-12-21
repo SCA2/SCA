@@ -8,7 +8,6 @@ class FaqsController < ApplicationController
   before_action :set_faq, only: [:show, :edit, :update, :destroy]
 
   def index
-    @faqs = Faq.order(:question_weight)
   end
 
   def show

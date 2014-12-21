@@ -3,10 +3,8 @@
 @import "foundation/components/side-nav";
 @import "foundation/components/panels";
 @import "foundation/components/alert-boxes";
-@import "foundation/components/pagination";
-@import "foundation/components/buttons";
-@import "foundation/components/tabs";
 @import url(fonts.css.scss);
+@import "buttons";
 @import "colors";
 
 div.jump-up {
@@ -63,6 +61,35 @@ header {
     display: inline-block;
     width: 100%;
   }
+}
+
+.section-header {
+  font-weight: bold;
+  font-size: 1.25em;
+  padding: 0 0 0.25em 0;
+  margin: 1em 0 0 0;
+  border-bottom: solid $red-60;
+  border-width: 2px;
+}
+
+div.footer {
+  background-color: $brown-10;
+  clear: both;
+  font-size: 0.6em;
+  text-align: center;
+  color: $brown-30;
+  padding: 2em 0 2em 0;
+  p {
+    margin: 1em 0 1em 0;
+    padding: 0;
+    font-size: 1em;
+    a {
+      color: $brown-20;
+    }
+    a:visited {
+      color: $brown-20;
+    }
+  }    
 }
 
 
@@ -161,235 +188,46 @@ div.box_3 {
   }
 }
 
+// accordion
+
 $accordion-border: lighten($brown-50, 15%);
 
 .accordion {
-  margin-bottom: 0;
-  border-left: solid $accordion-border;
-  border-right: solid $accordion-border;
-  border-bottom: solid $accordion-border;
-  border-width: 1px;
-}
-.accordion:before, .accordion:after {
-  content: " ";
-  display: table; }
-.accordion:after {
-  clear: both; }
-.accordion dd {
-  display: block;
-  margin-bottom: 0 !important;
-}
-.accordion dd.active a {
-  background: darken($brown-60, 6%); 
-}
-.accordion dd > a {
-  background: $brown-60;
-  color: $brown-00;
-  border-top: solid $accordion-border;
-  border-width: 1px;
-  padding: 0.30rem;
-  display: block;
-//  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-//  font-size: 1rem; 
-}
-.accordion dd > a:hover {
-  background: darken($brown-60, 6%);
-}
-.accordion .content {
-  display: none;
-  padding: 0.85rem; }
-.accordion .content.active {
-  display: block;
-  background: lighten($brown-85, 3%); 
-  border-top: solid $accordion-border;
-  border-width: 1px;
-}
+  margin-bottom: 1rem;
+  border: solid 1px $accordion-border;
 
+  dt {
+    color: $red-30;
+    background: $brown-60;
+    margin: 0;
+    padding: 0.30rem;    
+  }
 
-div.box_4 {
-}
+  dd {
 
-div.box_5 {
-  margin: 1em 6em 1em 6em;
-  padding: 0;
-}
-
-div.section-header {
-  font-weight: bold;
-  margin: 1em 0 1em 0;
-  border-bottom: solid $red-30;
-  border-width: 2px;
-}
-
-div.footer {
-  background-color: $brown-10;
-  clear: both;
-  font-size: 0.6em;
-  text-align: center;
-  color: $brown-30;
-  padding: 2em 0 2em 0;
-  p {
-    margin: 1em 0 1em 0;
-    padding: 0;
-    font-size: 1em;
-    a {
-      color: $brown-20;
+    & > .content {
+      &.active {
+        padding: 0.85rem;
+        background: darken($brown-85, 2%);
+      }
     }
-    a:visited {
-      color: $brown-20;
+
+    &.active > a {
+      background: darken($brown-60, 6%); 
     }
-  }    
-}
 
-div.popup {
-  height: 90%;
-/*  width: 90%;*/
-  background: $brown-85;
-  text-align: center;
-  padding: 5% 5% 5% 5%;
-  margin: 5% 5% 5% 5%;
-}
+    & > a {
+      background: $brown-60;
+      color: $brown-00;
+      border-top: solid 1px $accordion-border;
+      padding: 0.30rem;
 
-div.popup2 {
-  height: 90%;
-  background: $brown-85;
-  font-family: verdana, sans-serif;
-  font-weight: normal;
-  font-size: 75%;
-  text-align: left;
-  padding: 5% 5% 5% 5%;
-  margin: 5% 5% 5% 5%;
-}
-
-img.prodphoto {
-  text-align: center;
-  width: 46em;
-  margin: 0 2em 2em 2em;
-  padding: 0;
-  border: 0;
-}
-
-img.opampphoto {
-  text-align: center;
-  width: 30em;
-  margin-top: 2em;
-  margin-bottom: 2em;
-  padding: 0;
-  border: 0;
-}
-
-p.prodtext {
-  margin: 0em 0em 2em 0em;
-}
-
-p.asmtext {
-  margin: 1em 0em 0em 0em;
-}
-
-table.specs {
-  border-width: 1px 1px 1px 1px;
-  border-spacing: 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-  border-collapse: collapse;
-  width: 100%; 
-  margin: 0em 0em 2em 0em;
-}
-
-table.specs td {
-  border-width: 1px 1px 1px 1px;
-  padding: 2px 2px 2px 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-  border-color: #E7CAA5;
-}
-
-table.opamp {
-  border-width: 1px 1px 1px 1px;
-  border-spacing: 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-  border-collapse: collapse;
-  width: 100%; 
-  margin: 0em 0em 2em 0em;
-}
-
-table.opamp td {
-  border-width: 1px 1px 1px 1px;
-  padding: 2px 2px 2px 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-}
-  
-table.cart {
-  text-align: left;
-  font-size: .8em;
-  border-width: 1px 1px 1px 1px;
-  border-spacing: 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-  border-collapse: collapse;
-  margin: 4em auto 4em auto;
-}
-
-table.cart td {
-  border-width: 1px 1px 1px 1px;
-  padding: 2px 2px 2px 2px;
-  border-style: solid solid solid solid;
-  border-color: #382E22;
-}
-
-tr.feature {
-  vertical-align: top;
-  margin: 0em 0em 2em 0em;
-/*  border: 1px solid #cc0000;*/
-}
-
-td.feature {
-  width: 10em;
-  padding: 0em 0em 2em 0em;
-/*  border: 1px solid #cc0000;*/
-}
-
-td.description {
-  padding: 0em 0em 2em 0em;
-/*  border: 1px solid #cc0000;*/
-}
-
-hr {
-  border: 0;
-  height: 2px;
-  color: #CC0000;
-  background: #CC0000;
-}
-
-
-a {
-  color: #990000;
-  text-decoration: none
-}
-
-a:hover {
-  color: #CC0000;
-  text-decoration: underline
-}
-
-a:visited {
-  color: #660000;
-  text-decoration: none
-}
-
-a:visited:hover {
-  color: #660000;
-  text-decoration: underline
-}
-
-a.prodname
-{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 12px;
-    COLOR: #000000;
-    FONT-FAMILY: arial, sans-serif
+      &:hover {
+        background: darken($brown-60, 6%);
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 // Product index
@@ -400,275 +238,118 @@ div.category-box {
     padding: 0.2em 0.5em 0.2em 0.5em;
     margin: 0 0 0 0;
     background-color: $brown-60;
-    border: 0;
-  }
-  .actions {
-    margin: 1em 0 0 0;
-//    border: 1px solid #000000;
-    .admin-button {
-      @include button();
-      width: 33%; 
-      padding: 0.1em;
-      margin: 0 auto 0 auto;
-    }  
   }
 }
 
-div.small-product {
-  display: inline-block;
-  font-family: Arial, sans-serif;
-  font-weight: normal;
+div.admin-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
+div.product {
+  display: table;
+  table-layout: fixed;
   font-size: 0.85em;
   line-height: 1.3em;
-  margin: 0 0 0 0;
-  padding: 1em 1em 1em 2em;
-//  border: 1px solid #000000;
-  &.even {
-    background-color: darken($brown-85, 2%);
-  }
-  &.odd {
-    background-color: lighten($brown-85, 2%);
-  }
-
-
-  .text-box {
-    float: left;
-    width: 45%;
-//    border: 1px solid #000000;
-    .model {
-      font-weight: bold;
-      font-size: 1.35em;
-      color: #382E22;
-    }
-    .short-description {
-      margin-top: 1em;
-    }
-    .notes {
-      font-weight: bold;
-      margin-top: 1em;
+  .options-box {
+    margin: 1em 0 1em 0;
+    .select-option {
+      width: 100%;
+      height: 1.6em;
+      margin: 0;
+      padding: 0;
+      font-size: 95%;
+      background-color: inherit;
+      &:focus {
+        outline: $brown-30 auto 5px;
+        outline-color: $brown-30;
+      }
     }
     .actions-box {
-      margin: 0.5em 0 0 0;
-      .admin-button {
-        @include button();
-        width: 32.5%; 
-        padding: 0.1em;
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 1em;
+      .add {
+        & > .button_to {
+          display: inherit;
+          & > div {
+            display: inherit;
+          }
+        }
+      }
+      .price {
+        text-align: left;
+        font-size: 1.75em;
+        font-weight: bold;
+        color: $red-50;
+        margin: auto auto auto 0.5em;
+      }        
+      .stock {
+        color: $brown-10;
+        font-size: 1.35em;
+        font-weight: bold;      
+        margin: auto 0 auto auto;
       }
     }  
   }
-  .options-box {
-    overflow: hidden;
-    margin: 1em 0 0 0;
-//    border: 1px solid #000000;
-
-    .select-option {
-//      float: left;
-      clear: both;
-      width: 27em;
-      height: 1.6em;
-      margin: 0 0 0 0;
-      padding: 0 1em 0 0;
-      font-size: 95%;
-      background-color: inherit;
-    }
-    .price {
-      color: #A00;
-      display: inline-block;
-      float: left;
-      margin: 1em 0 0 1.5em;
-      font-size: 1.35em;
-      font-weight: bold;
-    }
-    .stock {
-      color: $brown-10;
-      display: inline-block;
-      float: left;
-      margin: 1em 0 0 1.5em;
-      font-size: 1.35em;
-      font-weight: bold;      
-    }
-    #update-button {
-      float: left;
-    }
-    #add-button {
-      display: inline-block;
-      float: left;
-      height: 2em;
-      margin: 1em 0 0 0;
-      font-size: 100%;
-      font-weight: bold;
-    }
-    #edit-link {
-      display: inline-block;
-      margin-left: 1em;
-      float: left;
-    }
-    #delete-link {
-      display: inline-block;
-      margin-left: 1em;
-      float: left;
-    }
-  } 
-  div.image-box {
-    float: right;
-    border: 1px solid #A00;
-    img {
-      width: 36em;
-    }
-  }
-  .actions {
-    clear: both;
-    margin: 0.5em 0 0 0;
-//    border: 1px solid #000000;
-    .admin-button {
-      @include button();
-      width: 33%; 
-      padding: 0.1em;
-      margin: 0 auto 0 auto;
-    }  
-  }
-}
-
-#index-actions {
-  margin: 1em 0 0 0;
-  .admin-button {
-    @include button();
-    width: 100%; 
-    padding: 0.1em;
-  }  
-}
-
-// Product show
-
-div.large-product {
-  display: inline-block;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  font-size: 0.85em;
-  line-height: 1.3em;
-  margin: 0;
-//  border: 1px solid #000000;
-
-  .section-header {
-    font-weight: bold;
-    font-size: 1.25em;
-    padding: 0 0 0.25em 0;
-    margin: 1em 0 0 0;
-    border-bottom: solid $red-30;
-    border-width: 2px;
-  }
-
-  .product-image {
-    width: 100%;
-    margin: 0 0 1em 0;
-  }
-
-  .model {
-    font-weight: bold;
-    font-size: 1.0em;
-    color: #382E22;
-  }
-  .long-description {
+  .description {
     margin-top: 1em;
   }
   .notes {
     margin-top: 1em;
     font-weight: bold;
   }
-  .options-box {
-    overflow: hidden;
-    margin: 1em 0 0 0;
-    
-    .select-option {
-      height: 2em;
-      width: 27em;
-      float: left;
-      margin: 0.1em 0 0 0;
-      padding: 0 1em 0 0;
-      font-size: 95%;
-      background-color: darken($brown-85, 2%);
+  &.small {    
+    padding: 0.5em 0 0.5em 0;
+    &.even {
+      background-color: darken($brown-85, 3%);
     }
-    .price {
-      color: #A00;
-      float: left;
-      margin: 0.25em 0 0 1em;
-      font-size: 2em;
-      font-weight: bold;
+    .text-box {
+      display: table-cell;
+      vertical-align: top;
+      padding: 0 0.5em 0 0.5em;
+      width: 45%;
+      .model {
+        font-weight: bold;
+        font-size: 1.35em;
+        color: $brown-10;
+      }
     }
-    .stock {
-      color: $brown-10;
+    .image-box {
+      display: table-cell;
+      vertical-align: top;
+      border: 1px solid $red-50;
+      &.top {
+        width: 100%;
+      }
+    }
+  }
+  &.large {
+    .product-image {
+      margin: 0 0 1em 0;
+    }
+    .feature-box {
       display: inline-block;
-      float: right;
-      margin: 0.75em 4.5em 0 0;
-      font-size: 1.35em;
-      font-weight: bold;
-    }      
-    #update-button {
-      height: 1.75em;
-      margin: 0 0 0 0.5em;
-      float: left;
+      width: 100%;
+      margin: 1em 0 1em 0;
+      .caption-box {
+        font-weight: bold;
+        float: left;
+        width: 30%;
+      }
+      .description-box {
+        float: left;
+        width: 70%;
+      }
+      .admin-box {
+        text-align: center;
+        width: 100%
+      }
     }
-    #add-button {
-      display: inline-block;
-      float: left;
-      height: 2em;
-      margin: 0 0 0 3em;
-      font-size: 100%;
-      font-weight: bold;
+    .actions {
+      margin: 1em 0 0 0;
     }
-  }
-  
-  .actions-box {
-    margin: 1em 0 0 0;
-    .admin-button {
-      @include button();
-      width: 32.5%; 
-      padding: 0.1em;
-    }
-  }  
-
-  .feature-box {
-    display: inline-block;
-    width: 100%;
-    margin: 1em 0 0 0;
-//    border: 1px solid #000000;
-
-    .caption-box {
-      font-weight: bold;
-      float: left;
-      width: 30%;
-    }
-
-    .description-box {
-      float: left;
-      width: 70%;
-    }
-
-    .admin-box {
-      text-align: center;
-      width: 100%
-    }
-
-  }
-
-  .actions {
-    margin: 1em 0 0 0;
-//    border: 1px solid #000000;
-
-    .admin-button {
-      @include button();
-      width: 100%; 
-      padding: 0.1em;
-      margin: 0 auto 0 auto;
-    }  
-  }
-
-  .top-image-box { width: 100% }
-
-  .bottom-image-box {
-    width: 100%;
-    margin: 1em 0 0 0
   }
 }
 
@@ -753,33 +434,3 @@ div[class^='alert-box'], div[class*=' alert-box'] {
     }
   }
 }
-
-// Foundation buttons
-
-.admin-button {
-  @include button();
-  width: 32.75%; 
-  padding: 0.1em;
-  margin: 0 auto 0 auto;
-}
-
-// Foundation tabs
-
-.tabs {
-
-  .section-container.tabs section.active .title, .section-container.tabs .section.active .title   {
-    background-color: #65c8c6;
-    color: #ffffff;
-  }
-
-  .section-container.tabs section .title, .section-container.tabs .section .title {
-    background-color: #46166b;
-    color: #ffffff;
-  }
-}
-
-// Pagination
-
-//.pagination {
-//  @include pagination;
-//}

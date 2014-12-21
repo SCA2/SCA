@@ -22,6 +22,9 @@ SCA::Application.routes.draw do
   resources :products do
     resources :features, except: [:index, :show]
     resources :options, except: [:index, :show]
+    member do
+      put 'update_option'
+    end
   end
   
   resources :orders do
@@ -59,7 +62,6 @@ SCA::Application.routes.draw do
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'
-  put "products_update_option", to: 'products#update_option', as: 'products_update_option'
   match "features", to: 'features#create', via: :post
 
   # The priority is based upon order of creation: first created -> highest priority.

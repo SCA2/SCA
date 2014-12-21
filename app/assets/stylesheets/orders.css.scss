@@ -4,7 +4,6 @@
 
 @import "colors";
 @import "foundation/components/breadcrumbs";
-@import "foundation/components/buttons";
 
 div.user {
   width: 100%;
@@ -40,46 +39,34 @@ div#login {
   div.login-buttons {
     display: inline-block;
     width: 36%;
-    .form-button {
-      display: block;
-      margin: 1em 0 1em 0;
-      padding: 1em 0 1em 0;
-      width: 100%;
-      .button {
-        @include button();
-        width: 100%;
-        margin: 0;
-        padding: 0.25em;
-      }
-    }
   }
 }
 
 .checkout-buttons {
   margin: 1em 0 0 0;
   width: 100%;
-  .form-button {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 32.5%;
-    .button {
-      display: block;
-      @include button();
-      width: 100%;
-      margin: 0;
-      padding: 0.25em;
-    }
-    .paypal-button {
-      display: block;
-      text-align: center;
-      width: 100%;
-      margin: 0 0.5em 0 0.5em;
-      a img {
-        margin: 0 auto 0 auto;
-      } 
-    }
-  }
+  // .form-button {
+  //   display: inline-block;
+  //   margin: 0;
+  //   padding: 0;
+  //   width: 32.5%;
+  //   .button {
+  //     display: block;
+  //     @include button();
+  //     width: 100%;
+  //     margin: 0;
+  //     padding: 0.25em;
+  //   }
+  //   .paypal-button {
+  //     display: block;
+  //     text-align: center;
+  //     width: 100%;
+  //     margin: 0 0.5em 0 0.5em;
+  //     a img {
+  //       margin: 0 auto 0 auto;
+  //     } 
+  //   }
+  // }
 }
 
 div.actions {
@@ -88,12 +75,12 @@ div.actions {
   div.button-box {
     width: 65%;
     margin: 0 auto 0 auto;
-    .button {
-      @include button();
-      width: 46%;
-      padding: 0.5em 0.5em 0.5em 0.5em;
-      margin: 0 0.5em 0 0.5em;
-    }
+    // .button {
+    //   @include button();
+    //   width: 46%;
+    //   padding: 0.5em 0.5em 0.5em 0.5em;
+    //   margin: 0 0.5em 0 0.5em;
+    // }
   }
 }
 
@@ -324,12 +311,12 @@ div.main-cart {
       margin: 0;
       padding: 0;
       width: 24.5%;
-      .button {
-        @include button();
-        width: 100%;
-        margin: 0;
-        padding: 0.25em;
-      }
+      // .button {
+      //   @include button();
+      //   width: 100%;
+      //   margin: 0;
+      //   padding: 0.25em;
+      // }
     }
     .paypal-button {
       margin: 1em 0 0 0;
@@ -408,11 +395,3 @@ table.main-cart {
     height: 0.5em;
   }
 }
-
-.button {
-  background-color: $brown-20 !important;
-  &:hover {
-    background-color: $red-30 !important;
-  }
-}
-

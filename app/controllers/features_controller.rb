@@ -19,7 +19,8 @@ class FeaturesController < ApplicationController
 
   # POST /features
   def create
-    @product = Product.find(params[:feature][:product_id])
+    byebug
+    @product = Product.find(params[:product_id])
     @feature = @product.features.build(feature_params)
 
     if @feature.save

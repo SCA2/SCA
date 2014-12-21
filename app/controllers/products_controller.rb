@@ -39,11 +39,11 @@ class ProductsController < ApplicationController
   end
 
   def update_option
-    if @product.update(product_option_params)
-      respond_to do |format|
-        format.html { redirect_to :back }
-        format.js
-      end
+    session[params[:id]] = product_option_params
+    @product.current_option = view_context.get_current_option(@product)
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
     end
   end
 
@@ -54,17 +54,16 @@ class ProductsController < ApplicationController
 
   private
     
-    # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
       if @product.options.any?
-        @product.options.first.id.to_i
+        @product.current_option = view_context.get_current_option(@product)
       else
+        flash[:notice] = 'Product must have at least one option!'
         redirect_to new_product_option_path(@product)
       end
     end
     
-    # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(:model, :model_sort_order,
       :category, :category_sort_order, :current_option,

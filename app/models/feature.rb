@@ -4,6 +4,6 @@ class Feature < ActiveRecord::Base
   
   default_scope -> { order('sort_order ASC') }
   
-  validates :product_id, :model, :caption, :sort_order, :description, presence: true
+  validates :product_id, :caption, :sort_order, :description, presence: true
   
 end

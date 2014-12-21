@@ -13,7 +13,7 @@ class Product < ActiveRecord::Base
   validates :model, :model_sort_order, :category, :category_sort_order,
             :short_description, :long_description, :image_1, presence: true 
             
-  
+  attr_accessor :current_option
   
   private
   

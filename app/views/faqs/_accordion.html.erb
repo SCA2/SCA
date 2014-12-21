@@ -1,5 +1,5 @@
-<div class="section_header"><%= title %></div>
 <dl class="accordion" data-accordion>
+	<dt><%= title %></dt>
   <% faqs.each do |faq| %>
 	  <dd>
 	  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
@@ -17,4 +17,3 @@
 	  </dd>
   <% end %>
 </dl>
-<div>&nbsp;</div>
