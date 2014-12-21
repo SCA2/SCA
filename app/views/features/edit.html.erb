@@ -1,19 +1,22 @@
-<% provide(:title, 'Edit Feature ' + @feature.id.to_s) %>
+<% provide(:title, "Edit Feature #{ @feature.id.to_s }") %>
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-12 columns">
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+		<div class="small-9 columns">
 			<%= form_for [@product, @feature] do |f| %>
+			 	<% legend = "Edit #{ @product.model } Feature #{ @feature.sort_order.to_s }" %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', :locals => { 
-																				:f => f,
-																				:p => @product,
-																				:legend => 'Edit Feature ' + @feature.id.to_s, 
-																				:submit => 'Save',
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+				<%= render partial: 'form', locals: { f: f, p: @product, legend: legend } %>
+				<div class="admin-box">
+					<%= f.submit 'Update', class: 'button admin' %>
+					<%= link_to 'Quit', product_path(@product), class: 'button admin' %>
+					<%= link_to 'Delete', product_feature_path(@product, @feature), class: 'button admin', method: :delete, data: {confirm: 'Are you sure?'} %>
+				</div>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>
 

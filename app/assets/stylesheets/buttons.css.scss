@@ -60,6 +60,14 @@
   &:hover {
     background-color: $red-30;
   }
+  &:visited {
+    background-color: $brown-20;
+  }
+  &:focus {
+    background-color: $brown-30;
+    outline: $brown-30 auto 5px;
+    outline-color: $brown-30;
+  }
 
   &.add {
     padding: 0.25em 0.5em 0.25em 0.5em;

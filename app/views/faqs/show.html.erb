@@ -8,7 +8,7 @@
 		<div class="small-9 columns">
 			<%= form_for(@faq) do |faq| %>
 				<%= render 'shared/errors', object: faq.object %>
-				<%= render 'form', f: faq, legend: 'FAQ ' << @faq.id.to_s %>
+				<%= render 'form', f: faq, legend: "FAQ #{ @faq.id.to_s }" %>
 				<div class="actions">
 					<div class="button-box">
 						<%= link_to 'Edit', edit_faq_path(@faq), class: 'button' %>

@@ -6,23 +6,17 @@ class FeaturesController < ApplicationController
   before_action :signed_in_admin
   before_action :set_feature, only: [:edit, :update, :destroy]
 
-  # GET /features/new
   def new
     @product = Product.find(params[:product_id])
-    @feature = @product.features.build
+    @feature = Feature.next_feature
   end
 
-
-  # GET /features/1/edit
   def edit
   end
 
-  # POST /features
   def create
-    byebug
     @product = Product.find(params[:product_id])
     @feature = @product.features.build(feature_params)
-
     if @feature.save
       redirect_to @product, notice: 'Feature was successfully created.'
     else
@@ -30,7 +24,6 @@ class FeaturesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /features/1
   def update
     if @feature.update(feature_params)
       redirect_to @product, notice: 'Feature was successfully updated.'
@@ -39,20 +32,17 @@ class FeaturesController < ApplicationController
     end
   end
 
-  # DELETE /features/1
   def destroy
     @feature.destroy
     redirect_to @product
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_feature
       @product = Product.find(params[:product_id])
       @feature = @product.features.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def feature_params
       params.require(:feature).permit(:model, :caption, :sort_order, :description)
     end
