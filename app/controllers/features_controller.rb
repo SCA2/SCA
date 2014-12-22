@@ -18,7 +18,8 @@ class FeaturesController < ApplicationController
     @product = Product.find(params[:product_id])
     @feature = @product.features.build(feature_params)
     if @feature.save
-      redirect_to @product, notice: 'Feature was successfully created.'
+      flash[:success] = "Success! Feature #{ @feature.sort_order } created."
+      redirect_to @product
     else
       render action: 'new'
     end
@@ -26,14 +27,17 @@ class FeaturesController < ApplicationController
 
   def update
     if @feature.update(feature_params)
-      redirect_to @product, notice: 'Feature was successfully updated.'
+      flash[:success] = "Success! Feature #{ @feature.sort_order } updated."
+      redirect_to @product
     else
       render action: 'edit'
     end
   end
 
   def destroy
+    id = @feature.id
     @feature.destroy
+    flash[:success] = "Success! Feature #{ id } deleted."
     redirect_to @product
   end
 

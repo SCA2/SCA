@@ -63,6 +63,9 @@
   &:visited {
     background-color: $brown-20;
   }
+  &:visited:hover {
+    background-color: $red-30;
+  }
   &:focus {
     background-color: $brown-30;
     outline: $brown-30 auto 5px;

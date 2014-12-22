@@ -3,7 +3,7 @@
   <% faqs.each do |faq| %>
 	  <dd>
 	  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
-	    <div id="<%= "FAQ" << faq.id.to_s %>" class="content">
+	    <div id='<%= "FAQ #{ faq.id.to_s }" %>' class="content">
 			  <div class="clearfix">
 			  		<%= faq.answer.html_safe %>
 			  </div>
