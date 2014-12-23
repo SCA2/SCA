@@ -20,7 +20,8 @@ class OptionsController < ApplicationController
     @option = @product.options.build(option_params)
 
     if @option.save
-      redirect_to @product, notice: 'Option was successfully created.'
+      flash[:notice] = "Success! Option #{ @option.model } created."
+      redirect_to @product
     else
       render action: 'new'
     end
@@ -28,7 +29,8 @@ class OptionsController < ApplicationController
 
   def update
     if @option.update(option_params)
-      redirect_to @product, notice: 'Option was successfully updated.'
+      flash[:notice] = "Success! Option #{ @option.model } updated."
+      redirect_to @product
     else
       render action: 'edit'
     end
@@ -42,18 +44,20 @@ class OptionsController < ApplicationController
   end
 
   private
+
     def set_option
+      # byebug
       @product = Product.find(params[:product_id])
       if @product.options.any?
-        @option = Option.find(get_current_option(@product))
+        @option = view_context.get_current_option(@product)
       else
-        flash[:notice] = 'Product must have at least one option!'
+        flash[:alert] = 'Product must have at least one option!'
         redirect_to new_product_option_path(@product)
       end
     end
 
     def option_params
-      params.require(:option).permit( :model, :current_option, :description, :price, :discount, :upc,
+      params.require(:option).permit( :model, :options, :description, :price, :discount, :upc,
                                       :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
                                       :assembled_stock, :partial_stock, :kit_stock, :part_stock, :sort_order)
     end

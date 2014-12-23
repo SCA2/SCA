@@ -1,8 +1,11 @@
 class Feature < ActiveRecord::Base
   
   belongs_to :product, inverse_of: :features
-  validates :product_id, :caption, :sort_order, :description, presence: true
-  
+
+  validates :product_id, :sort_order, :caption, :description, presence: true
+  validates :sort_order, numericality: {only_integer: true, greater_than: 0, less_than: 501}
+  validates :caption, uniqueness: { scope: :product_id }
+
   def self.next_feature
     feature = Feature.new
     if Feature.count > 0

@@ -19,7 +19,7 @@ class FeaturesController < ApplicationController
     @feature = @product.features.build(feature_params)
     if @feature.save
       flash[:success] = "Success! Feature #{ @feature.sort_order } created."
-      redirect_to @product
+      redirect_to new_product_feature_path
     else
       render action: 'new'
     end

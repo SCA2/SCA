@@ -1,8 +1,7 @@
 <% @product = product %>
+<% @option = get_current_option(product) %>
 <% if first_in_category?(@products, product) %>
-	<div class="category-box">
-		<div class="section-header"><%= product.category %></div>
-	</div>
+	<div class="category-box"><%= product.category %></div>
 <% end %>
 <%= render 'small_product', index: product_counter %> 
     

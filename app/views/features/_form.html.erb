@@ -2,15 +2,15 @@
 	<legend><%= legend %></legend>
 	<div class="field">
 		<%= f.label :sort_order, 'Sort Order:' %>
-		<%= f.number_field :sort_order, in: 1..100 %>
+		<%= f.number_field :sort_order, in: 1..500 %>
 	</div>
 	<div class="field">
 		<%= f.label :caption, 'Caption:' %>
-		<%= f.text_field :caption, style: "height: 5em" %>
+		<%= f.text_area :caption, cols: 40, rows: 3 %>
 	</div>
 	<div class="field">
 		<%= f.label :description, 'Description:' %>
- 		<%= f.text_area :description, style: "height: 5em" %>
+ 		<%= f.text_area :description, cols: 40, rows: 10 %>
 	</div>
 </fieldset>
 
