@@ -1,4 +1,4 @@
-<fieldset style="margin: 1em 0em 0em 0em; border: none">
+<fieldset>
 	<legend><%= legend %></legend>
 	<div class="field" style = "float: left; width: 15%">
 		<%= f.label :model, 'Option:' %>
@@ -55,10 +55,5 @@
 	<div class="field" style = "float: left; width: 25%">
 		<%= f.label :part_stock, 'Part Stock:' %>
 		<%= f.number_field :part_stock %>
-	</div>
-	<div class="actions">
-		<%= if submit then f.submit submit, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if quit then link_to quit, p, :class => :button, :style => "float: left; width: 33%" end %>
-		<%= if delete then link_to delete, product_option_path(p, f), method: :delete, :class => :button, :style => "float: left; width: 33%", data: { :confirm => 'Are you sure?' } end %>
 	</div>
 </fieldset>

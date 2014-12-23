@@ -11,8 +11,8 @@
 		 	<% if signed_in_admin? %>
 				<div class="admin-box">
 					<%= link_to 'New Product', new_product_path, class: "button admin" %>
-					<%= link_to 'Edit', edit_product_path(@product), class: "button admin" %>
-					<%= link_to 'Delete', @product, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' } %>
+					<%= link_to 'Edit Product', edit_product_path(@product), class: "button admin" %>
+					<%= link_to 'Delete Product', @product, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' } %>
 				</div>
 			<% end %>
 		</div>

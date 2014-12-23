@@ -1,17 +1,16 @@
-<% provide(:title, @product) %>
+<% provide(:title, "Edit #{ @product.id }") %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns">
 			<%= form_for(@product) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', :locals => { 
-																				:f => f, 
-																				:legend => 'Update Product ' << @product.id.to_s, 
-																				:submit => 'Save',
-																				:edit => nil,
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+				<%= render partial: 'form', locals: { f: f, legend: "Edit #{ @product.model }"} %>
+				<div class="admin-box">
+					<%= f.submit "Update", class: "button admin" %>
+					<%= link_to "Quit", product_path(@product), class: "button admin" %>
+					<%= link_to "Delete", product_path(@product), method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' } %>
+				</div>
 			<% end %>
 		</div>
 	</div>	

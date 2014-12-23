@@ -35,18 +35,23 @@ class OptionsController < ApplicationController
   end
 
   def destroy
+    id = @option.id
     @option.destroy
+    flash[:notice] = "Success! Option #{id} deleted."
     redirect_to @product
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_option
       @product = Product.find(params[:product_id])
-      @option = @product.options.find(params[:id])
+      if @product.options.any?
+        @option = Option.find(get_current_option(@product))
+      else
+        flash[:notice] = 'Product must have at least one option!'
+        redirect_to new_product_option_path(@product)
+      end
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def option_params
       params.require(:option).permit( :model, :current_option, :description, :price, :discount, :upc,
                                       :shipping_weight, :shipping_length, :shipping_width, :shipping_height,

@@ -22,9 +22,9 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
     if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
+      flash[:notice] = "Success! Product #{@product.id} created."
+      redirect_to @product
     else
       render action: 'new'
     end
@@ -32,15 +32,16 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to @product, notice: 'Product was successfully updated.'
+      flash[:notice] = "Success! Product #{@product.id} updated."
+      redirect_to @product
     else
       render action: 'edit'
     end
   end
 
   def update_option
-    session[params[:id]] = product_option_params
-    @product.current_option = view_context.get_current_option(@product)
+    # byebug
+    set_current_option
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
@@ -48,16 +49,37 @@ class ProductsController < ApplicationController
   end
 
   def destroy
+    id = @product.id
     @product.destroy
+    flash[:notice] = "Success! Product #{id} deleted."
     redirect_to products_path
   end
 
   private
-    
+
+    def set_current_option
+      session[@product.id][:current_option] = product_params[:current_option]
+      @product.current_option = session[@product.id][:current_option].to_i
+    end
+  
+    def get_current_option(product)
+      option = 0
+      begin
+        option = session[product.id][:current_option].to_i
+      rescue
+        session[product.id][:current_option] = 0
+        option = session[product.id][:current_option].to_i
+      end
+      option = product.options.first.id.to_i unless product.options.exists?(option)
+      option
+    end
+
     def set_product
       @product = Product.find(params[:id])
       if @product.options.any?
-        @product.current_option = view_context.get_current_option(@product)
+        @product.current_option = get_current_option(@product)
+        @option = @product.options.find(@product.current_option)
+        session[params[:id]][:current_option] = @option.id
       else
         flash[:notice] = 'Product must have at least one option!'
         redirect_to new_product_option_path(@product)
@@ -70,10 +92,6 @@ class ProductsController < ApplicationController
       :short_description, :long_description, :notes,
       :image_1, :image_2, 
       :specifications, :bom, :schematic, :assembly)
-    end
-
-    def product_option_params
-      params.require(:product).permit(:current_option)
     end
 
 end

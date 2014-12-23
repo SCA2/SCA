@@ -1,17 +1,16 @@
-<% provide(:title, 'Option ' + @option.model) %>
+<% provide(:title, "Edit #{@product.model} option #{@option.id}") %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns">
 			<%= form_for [@product, @option] do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', 	:locals => { 
-																				:f => f,
-																				:p => @product,
-																				:legend => 'Edit Option', 
-																				:submit => 'Save',
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+				<%= render partial: 'form', locals: { f: f, p: @product, legend: "Edit #{@product.model} option #{@option.sort_order}"} %>
+				<div class="admin-box">
+					<%= f.submit "Update", class: "button admin" %>
+					<%= link_to "Quit", product_path(@product), class: "button admin" %>
+					<%= link_to "Delete", product_option_path(@product, @option), method: :delete, class: "button admin", data: { confirm: 'Are you sure?' } %>
+				</div>
 			<% end %>
 		</div>
 	</div>	

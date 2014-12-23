@@ -410,7 +410,7 @@ div.product {
 div[class^='alert-box'], div[class*=' alert-box'] {
   @include alert(
     // Adjust the background of the alert
-    $bg: $red-30
+    // $bg: $red-30
   );
   .close {
     color: $brown-00;

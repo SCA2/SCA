@@ -42,16 +42,4 @@ module ProductsHelper
     return ("class=" << "'" << div_class << "'").html_safe
   end
 
-  def get_current_option(product)
-    option = 0
-    if product.options.any?
-      if session[product.id].nil?
-        option = product.options.first.id.to_i
-      else
-        option = session[product.id][:current_option].to_i
-      end
-    end
-    option
-  end
-
 end

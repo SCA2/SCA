@@ -1,9 +1,7 @@
 <% if signed_in_admin? %>
   <div class="admin-box" <%= "id=admin-box-" + @product.id.to_s %>>
-  	<% @product.current_option = get_current_option(@product) %>
-  	<% option = @product.options.find(@product.current_option) %>
   	<%= link_to 'New Option', new_product_option_path(@product), class: "button admin", id: 'new-link'  %>
-  	<%= link_to "Edit Option", edit_product_option_path(@product, option), class: "button admin", id: 'edit-link' %>
-    <%= link_to "Delete Option", product_option_path(@product, option), class: "button admin", method: :delete, data: { confirm: "You sure?" }, id: 'delete-link' %>
+  	<%= link_to "Edit Option", edit_product_option_path(@product, @option), class: "button admin", id: 'edit-link' %>
+    <%= link_to "Delete Option", product_option_path(@product, @option), class: "button admin", method: :delete, data: { confirm: "You sure?" }, id: 'delete-link' %>
   </div>
 <% end %>
