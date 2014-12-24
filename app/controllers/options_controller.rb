@@ -21,7 +21,7 @@ class OptionsController < ApplicationController
 
     if @option.save
       flash[:notice] = "Success! Option #{ @option.model } created."
-      redirect_to @product
+      redirect_to new_product_option_path(@product)
     else
       render action: 'new'
     end

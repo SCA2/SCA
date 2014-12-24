@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
-      flash[:notice] = "Success! Product #{@product.id} created."
+      flash[:notice] = "Success! Product #{@product.model} created."
       redirect_to @product
     else
       render action: 'new'
@@ -32,7 +32,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      flash[:notice] = "Success! Product #{@product.id} updated."
+      flash[:notice] = "Success! Product #{@product.model} updated."
       redirect_to @product
     else
       render action: 'edit'

@@ -5,15 +5,13 @@
 		<div class="small-12 columns">
 			<%= form_for(@product) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render :partial => 'form', :locals => { 
-																				:f => f, 
-																				:legend => 'Create Product', 
-																				:submit => 'Save',
-																				:edit => nil,
-																				:quit => 'Quit',
-																				:delete => 'Delete' } %>
+				<%= render partial: 'form', locals: { f: f, legend: 'New Product' } %> 
+				<div class="admin-box">
+					<%= f.submit "Create", class: "button admin" %>
+					<%= link_to "Quit", products_path, class: "button admin" %>
+				</div>
 			<% end %>
 		</div>
 	</div>	
-</div> <!-- box_2 -->
+</div>
 
