@@ -10,10 +10,8 @@
 				<%= render partial: "accordion", locals: {title: cat.category_name, faqs: cat.faqs.order(:question_weight)} %>
 			<% end %>
 		 	<% if signed_in_admin? %>
-				<div class="actions">
-					<div class="button-box">
-					<%= link_to 'New Faq', new_faq_path, label: 'New Faq', class: "button" %>
-					</div>
+				<div class="admin-box">
+					<%= link_to 'New Faq', new_faq_path, label: 'New Faq', class: 'button admin' %>
 				</div>
 			<% end %>
 		</div>

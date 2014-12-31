@@ -4,7 +4,7 @@
 			<%= f.select :options,
 				(options_for_select get_extended_models(@product), @option.id),
 				{}, class: 'select-option', id: 'select-' + @product.id.to_s %>
-	<!--		<%= f.submit 'Update Price', id: 'update-button' %>-->
+		<!-- <%= f.submit 'Update Price', id: 'update-button' %> -->
 		<% end %>
 		<div class='actions-box'>
 			<div class="add" <%= "id=add-" + @product.id.to_s %>>

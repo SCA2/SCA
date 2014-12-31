@@ -2,119 +2,36 @@
 
 @import "colors";
 
-
-h1 {
-  font-weight: bold;
-  font-size: 1.5em;
-  font-family: arial, sans-serif;
-  color: $brown-10;  
-//  margin-bottom: 0;
-//  padding-bottom: 0;  
+span.red-60 {
+  color: $red-60;
 }
 
-hr.divider {
-  color: $red-20;
-  margin: 0 0 1em 0;
-  padding: 0;    
-}
+// .text
+// {
+//     FONT-SIZE: 12px;
+//     COLOR: #000000;
+//     FONT-FAMILY: Verdana, sans-serif
+// }
 
-h4 {
-  font-weight: bold;
-  font-size: 1.15em;
-  font-family: arial, sans-serif;
-  color: $brown-10;
-}
+// .small
+// {
+//     FONT-SIZE: 10px;
+//     COLOR: #000000;
+//     FONT-FAMILY: Verdana, sans-serif
+// }
 
-h5 {
-  font-weight: bold;
-  font-size: 0.95em;
-  font-family: arial, sans-serif;
-  color: $brown-10;
-}
+// .aH6B
+// {
+//     FONT-WEIGHT: bold;
+//     FONT-SIZE: 1.1em;
+//     COLOR: $brown-17;
+//     FONT-FAMILY: arial, sans-serif
+// }
 
-.aH1{
-  font-weight: bold;
-  font-size: 0.90em;
-  font-family: arial, sans-serif;
-  color: $brown-10;
-  margin-bottom: 0.3em;
-}
-
-.aH2{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 15px;
-    COLOR: $brown-10 ;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH3{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 16px;
-    COLOR: $brown-10 ;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH1B{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 14px;
-    COLOR: $brown-10 ;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH2B{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 15px;
-    COLOR: $brown-10 ;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH3B{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 16px;
-    COLOR: $brown-10 ;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH4B{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 20px;
-    COLOR: $brown-17;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.aH5B{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 20px;
-    COLOR: #CC0000;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.text
-{
-    FONT-SIZE: 12px;
-    COLOR: #000000;
-    FONT-FAMILY: Verdana, sans-serif
-}
-
-.small
-{
-    FONT-SIZE: 10px;
-    COLOR: #000000;
-    FONT-FAMILY: Verdana, sans-serif
-}
-
-.aH6B
-{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 1.1em;
-    COLOR: $brown-17;
-    FONT-FAMILY: arial, sans-serif
-}
-
-.prices1, .prices2, .prices3
-{
-    FONT-WEIGHT: bold;
-    FONT-SIZE: 1.1em;
-    COLOR: #CC0000;
-    FONT-FAMILY: arial, sans-serif
-}
+// .prices1, .prices2, .prices3
+// {
+//     FONT-WEIGHT: bold;
+//     FONT-SIZE: 1.1em;
+//     COLOR: #CC0000;
+//     FONT-FAMILY: arial, sans-serif
+// }

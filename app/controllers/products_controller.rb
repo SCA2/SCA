@@ -40,7 +40,6 @@ class ProductsController < ApplicationController
   end
 
   def update_option
-    # byebug
     @option = view_context.set_current_option(@product, product_params)
     respond_to do |format|
       format.html { redirect_to :back }

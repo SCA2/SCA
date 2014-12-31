@@ -5,12 +5,9 @@ class FaqsController < ApplicationController
 
   before_action :signed_in_admin, except: :index
   before_action :set_categories
-  before_action :set_faq, only: [:show, :edit, :update, :destroy]
+  before_action :set_faq, only: [:edit, :update, :destroy]
 
   def index
-  end
-
-  def show
   end
 
   def new

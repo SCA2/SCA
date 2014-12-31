@@ -1,12 +1,14 @@
 <%# navigation styled for Zurb Foundation 5 %>
-<nav class="top-bar" data-topbar>
+<nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    <li class="name"></li>
   </ul>
-  <div class="top-bar-section">
-    <ul>
+  <section class="top-bar-section">
+    <ul class="left">
       <%= render 'layouts/navigation_links' %>
+    </ul>
+    <ul class="right">
       <%= render 'layouts/cart_peek' %>
     </ul>
-  </div>
+  </section>
 </nav>

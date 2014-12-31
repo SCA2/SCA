@@ -45,19 +45,11 @@
 			</tr>
 		</table>
 		<div class="actions">
-			<div>
-				<div class="form-button">
-					<%= button_to 'Update cart', cart, class: "button" %>
-				</div>
-				<div class="form-button">
-					<%= link_to 'Empty cart', cart, method: :delete, class: "button", data: { confirm: 'Are you sure?' } %>
-				</div>
-				<div class="form-button">
-					<%= link_to 'Keep shopping', products_path, method: :get, class: "button" %>
-				</div>
-				<div class="form-button">
-					<%= link_to 'Checkout', orders_path, method: :post, class: "button" %>
-				</div>
+			<div class="admin-box">
+				<%= link_to 'Update cart', cart, class: "button checkout" %>
+				<%= link_to 'Empty cart', cart, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' } %>
+				<%= link_to 'Keep shopping', products_path, method: :get, class: "button checkout" %>
+				<%= link_to 'Checkout', orders_path, method: :post, class: "button checkout" %>
 			</div>
 			<div class="paypal-button">
 				<%= link_to image_tag("https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"),	express_orders_path, class: 'paypal-button' %>

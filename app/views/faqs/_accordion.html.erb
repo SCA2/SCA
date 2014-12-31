@@ -1,12 +1,10 @@
 <dl class="accordion" data-accordion>
 	<dt><%= title %></dt>
   <% faqs.each do |faq| %>
-	  <dd>
-	  	<%= link_to faq.question, "#FAQ" << faq.id.to_s %>
-	    <div id='<%= "FAQ #{ faq.id.to_s }" %>' class="content">
-			  <div class="clearfix">
-			  		<%= faq.answer.html_safe %>
-			  </div>
+	  <dd class="accordion-navigation">
+	  	<%= link_to faq.question, "#FAQ#{ faq.id }" %>
+	    <div id='<%="FAQ#{ faq.id }"%>' class="content">
+	  		<%= faq.answer.html_safe %>
 			  <div>
  			 	<% if signed_in_admin? %>
 	        <%= link_to 'Edit', edit_faq_path(faq) %>

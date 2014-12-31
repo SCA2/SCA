@@ -3,6 +3,7 @@
 @import "foundation/components/side-nav";
 @import "foundation/components/panels";
 @import "foundation/components/alert-boxes";
+@import "foundation/components/forms";
 @import url(fonts.css.scss);
 @import "buttons";
 @import "colors";
@@ -18,58 +19,43 @@ header {
   margin: 0;
   border: none;
   
-  div.logo {
-    display: inline-block;
-    float: left;
-    width: 75%;
-    margin: 1em 0 0 1em;
-//    border: 1px #000 solid;
+  div.banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 1em;
   }
   
   img.title_1 {
-    top: 0em;
-    left: 18em;
-    width: 30em;
   }
   
   img.logo_1 {
-    top: 0.6em;
-    left: 49em;
-    width: 12em;
+    margin: 0 0 0 0.5em;
   }
   
   div.user-login {
-    display: inline-block;
-    float: right;
-    margin: 1em 1em 1em 0;
-//    border: 1px #000 solid;
+    margin: 0 0 0 auto;
   }
   
   table.login {
+    margin: 0;
+    padding: 0;
     border: none;
-    tr {
-      td {
-        padding: 0;
-        margin: 0;
-        line-height: 1.2em;
-        text-align: right;
-      }
+    td {
+      margin: 0;
+      padding: 0;
+      line-height: 1.3em;
+      text-align: right;
     }
-  }
-  
-  div.navbar {
-    display: inline-block;
-    width: 100%;
   }
 }
 
 .section-header {
-  font-weight: bold;
-  font-size: 1.25em;
-  padding: 0 0 0.25em 0;
-  margin: 1em 0 0 0;
+  padding: 0 0 0.125em 0;
+  margin: 0.5em 0 0.5em 0;
   border-bottom: solid $red-60;
-  border-width: 2px;
+  border-width: 1px;
 }
 
 div.footer {
@@ -130,6 +116,12 @@ div.slider-box {
   width: 100%;
 }
 
+div.orbit-container {
+  .img {
+    height: 28em;
+  }
+}
+
 div.box_2 {
   margin: 0em 1em 0em 1em;
   padding: 1em 0 1.5em 0;
@@ -142,6 +134,18 @@ div.box_3 {
   text-align: center;
   a img {
       margin: 1em 0em 2em 0em;
+  }
+}
+
+// fieldset
+
+fieldset {
+  border: none;
+  margin: 0 0 1em 0;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+
+  legend {
+    background-color: inherit;
   }
 }
 
@@ -182,48 +186,6 @@ div.box_3 {
         text-decoration: none;
       }
       :visited {
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-// accordion
-
-$accordion-border: lighten($brown-50, 15%);
-
-.accordion {
-  margin-bottom: 1rem;
-  border: solid 1px $accordion-border;
-
-  dt {
-    color: $red-30;
-    background: $brown-60;
-    margin: 0;
-    padding: 0.30rem;    
-  }
-
-  dd {
-
-    & > .content {
-      &.active {
-        padding: 0.85rem;
-        background: darken($brown-85, 2%);
-      }
-    }
-
-    &.active > a {
-      background: darken($brown-60, 6%); 
-    }
-
-    & > a {
-      background: $brown-60;
-      color: $brown-00;
-      border-top: solid 1px $accordion-border;
-      padding: 0.30rem;
-
-      &:hover {
-        background: darken($brown-60, 6%);
         text-decoration: none;
       }
     }
@@ -316,10 +278,12 @@ div.product {
     }
     .image-box {
       display: table-cell;
-      vertical-align: top;
-      border: 1px solid $red-50;
-      &.top {
-        width: 100%;
+      vertical-align: middle;
+      // &.top {
+      //   width: 100%;
+      // }
+      & img {
+        border: 1px solid $brown-60;
       }
     }
   }
@@ -396,7 +360,6 @@ div.product {
   border-style: none;
   border-width: 1px;
   border-color: $brown-20;
-  border-radius: 10px;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
   background: $brown-70;

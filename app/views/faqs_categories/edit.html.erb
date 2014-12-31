@@ -14,11 +14,9 @@
 							<%= render 'form', f: faqs_category, legend: 'Edit FAQ Category' %>
 						</div>
 					</div>
-					<div class="actions">
-						<div class="button-box">
-							<%= faqs_category.submit 'Update', class: 'button' %>
-							<%= link_to 'Quit', faqs_categories_path, class: 'button' %>
-						</div>
+					<div class="admin-box">
+						<%= faqs_category.submit 'Update', class: 'button admin' %>
+						<%= link_to 'Quit', faqs_categories_path, class: 'button admin' %>
 					</div>
 				<% end %>
 			</div>

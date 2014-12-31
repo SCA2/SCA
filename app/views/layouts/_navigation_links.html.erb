@@ -1,16 +1,21 @@
-<!-- add navigation links to this file -->
-
-<li style="margin-left: 0.75em"><%= link_to "Home", home_path %></li>
-<li><a href="/products" data-dropdown="drop3" data-options="is_hover:true">Products</a><b class="caret"></b>
-	<ul id="drop3" class="f-dropdown" data-dropdown-content>
-		<% @products.each do |p| %>
-			<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>
+<li><%= link_to "Home", home_path %></li>
+<li class="has-dropdown"><%= link_to "Products", products_path %>
+  <ul class="dropdown">
+    <% @product_categories.each do |k, v| %>
+      <li class="has-dropdown"><%= link_to v, '#' %>
+        <ul class="dropdown">
+          <% @products.where("category = ?", k).each do |p| %>
+      			<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>
+          <% end %>
+        </ul>
+      </li>
 		<% end %>
 	</ul>
+</li>
 <li><%= link_to "FAQ",			faqs_path %></li>
 <li><%= link_to "Forums",		forums_path %></li>
-<li><a href="/support" data-dropdown="drop1" data-options="is_hover:true">Support <b class="caret"></b></a>
-	<ul id="drop1" class="f-dropdown" data-dropdown-content>
+<li class="has-dropdown"><%= link_to "Support", support_path %>
+	<ul class="dropdown">
     <li><%= link_to "Assembly Tips",		tips_path %></li>
     <li><%= link_to "Troubleshooting",	troubleshooting_path %></li>
     <li><%= link_to "Repairs",					repairs_path %></li>

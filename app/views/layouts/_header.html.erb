@@ -1,12 +1,12 @@
 <header>
-	<div class="logo">
-		<%= image_tag "title3.gif", :class => 'title_1' %>
-		<%= image_tag("logo4.gif", class: "logo_1") %>
+	<div class="banner">
+		<%= image_tag "title3.gif", class: 'title_1' %>
+		<%= image_tag "logo4.gif", class: 'logo_1' %>
+		<div class="user-login">
+			<%= render 'layouts/login' %>
+		</div>
 	</div>
-	<div class="user-login">
-		<%= render 'layouts/login' %>
-	</div>
-	<div class="navbar">
+	<div class="contain-to-grid">
 	  <%= render 'layouts/navigation' %>
-	 </div>
+	</div>
 </header>

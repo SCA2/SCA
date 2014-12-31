@@ -17,6 +17,7 @@ class StaticPagesController < ApplicationController
   end
 
   def support
+    render "static_pages/tips"
   end
 
   def contact

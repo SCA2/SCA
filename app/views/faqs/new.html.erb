@@ -9,11 +9,9 @@
 			<%= form_for(@faq) do |faq| %>
 				<%= render 'shared/errors', object: faq.object %>
 				<%= render 'form', f: faq, legend: 'New FAQ' %>
-				<div class="actions">
-					<div class="button-box">
-						<%= faq.submit 'Create', class: 'button' %>
-						<%= link_to 'Quit', faqs_path, class: 'button' %>
-					</div>
+				<div class="admin-box">
+					<%= faq.submit 'Create', class: 'button admin' %>
+					<%= link_to 'Quit', faqs_path, class: 'button admin' %>
 				</div>
 			<% end %>
 		</div>

@@ -46,7 +46,6 @@ class OptionsController < ApplicationController
   private
 
     def set_option
-      # byebug
       @product = Product.find(params[:product_id])
       if @product.options.any?
         @option = view_context.get_current_option(@product)

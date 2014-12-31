@@ -42,45 +42,12 @@ div#login {
   }
 }
 
-.checkout-buttons {
-  margin: 1em 0 0 0;
-  width: 100%;
-  // .form-button {
-  //   display: inline-block;
-  //   margin: 0;
-  //   padding: 0;
-  //   width: 32.5%;
-  //   .button {
-  //     display: block;
-  //     @include button();
-  //     width: 100%;
-  //     margin: 0;
-  //     padding: 0.25em;
-  //   }
-  //   .paypal-button {
-  //     display: block;
-  //     text-align: center;
-  //     width: 100%;
-  //     margin: 0 0.5em 0 0.5em;
-  //     a img {
-  //       margin: 0 auto 0 auto;
-  //     } 
-  //   }
-  // }
-}
-
 div.actions {
   width: 100%;
   margin: 1em 0 0 0;
   div.button-box {
     width: 65%;
     margin: 0 auto 0 auto;
-    // .button {
-    //   @include button();
-    //   width: 46%;
-    //   padding: 0.5em 0.5em 0.5em 0.5em;
-    //   margin: 0 0.5em 0 0.5em;
-    // }
   }
 }
 
@@ -89,16 +56,16 @@ div.review-box {
 }
 
 fieldset {
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  border: none;
-//  border: 1px solid #000;
-  margin: 0 0 1em 0;
-  padding: 0.5em 0.5em 0.5em 0.5em;
+//   font-family: Arial, sans-serif;
+//   font-weight: normal;
+//   border: none;
+// //  border: 1px solid #000;
+//   margin: 0 0 1em 0;
+//   padding: 0.5em 0.5em 0.5em 0.5em;
 
-  legend {
-    background-color: inherit;
-  }
+//   legend {
+//     background-color: inherit;
+//   }
   &.confirm-address, &.confirm-payment, &.confirm-shipper {
     display: inline-block;
     width: 33%;
@@ -306,18 +273,12 @@ div.main-cart {
   .actions {
     width: 100%;
     margin: 1em 0 0 0;
-    .form-button {
-      display: inline-block;
-      margin: 0;
-      padding: 0;
-      width: 24.5%;
-      // .button {
-      //   @include button();
-      //   width: 100%;
-      //   margin: 0;
-      //   padding: 0.25em;
-      // }
-    }
+    // .form-button {
+    //   display: inline-block;
+    //   margin: 0;
+    //   padding: 0;
+    //   width: 24.5%;
+    // }
     .paypal-button {
       margin: 1em 0 0 0;
       width: 100%;
