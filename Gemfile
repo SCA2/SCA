@@ -15,6 +15,8 @@ group :development, :test do
   gem 'autotest-rails', '~> 4.2.1'
   gem 'cucumber-rails', '~> 1.4.1', :require => false
   gem 'rails_layout'
+  gem 'capistrano-rails'
+  gem 'capistrano-rbenv', '~> 2.0', require: false
   gem 'byebug'
 end
 
