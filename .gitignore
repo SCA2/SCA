@@ -17,6 +17,7 @@
 
 # Ignore environment variables
 /config/local_env.yml
+/config/initializers/secret_token.rb
 
 # Ignore sublime text workspace
 sca.sublime-workspace

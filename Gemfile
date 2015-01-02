@@ -6,7 +6,10 @@ gem 'foundation-rails'
 gem 'bcrypt-ruby'
 gem 'will_paginate'
 gem 'will_paginate-foundation'
-
+gem 'capistrano', '~> 3.3.5'
+gem 'capistrano-bundler', '~> 1.1.3'
+gem 'capistrano-rails', '~> 1.1.2'
+gem 'capistrano-rbenv', '~> 2.0.2', require: false
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
@@ -15,8 +18,6 @@ group :development, :test do
   gem 'autotest-rails', '~> 4.2.1'
   gem 'cucumber-rails', '~> 1.4.1', :require => false
   gem 'rails_layout'
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv', '~> 2.0', require: false
   gem 'byebug'
 end
 
