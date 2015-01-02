@@ -14,11 +14,9 @@
 				</div>
 				<%= render 'confirm_cart' %>
 				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
-				<div class="actions">
-					<div class="button-box">
-						<%= link_to 'Back to Shipping', shipping_order_path, class: 'button' %>
-						<%= form.submit 'Continue Checkout', class: 'button' %>
-					</div>
+				<div class="button-box">
+					<%= link_to 'Back to Shipping', shipping_order_path, class: 'button user' %>
+					<%= form.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>
 		</div>

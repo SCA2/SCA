@@ -13,23 +13,23 @@
 		</div>
 		<div class="login-buttons">
 			<div class="form-button">
-				<%= f.button 'Login', class: 'button' %>
+				<%= f.button 'Login', class: 'button user' %>
 			</div>
 			<div class="form-button">
-				<%= f.button 'Create Account', class: 'button' %>
+				<%= f.button 'Create Account', class: 'button user' %>
 			</div>
 		</div>
 	</div>
 	<h5>Otherwise, checkout as a guest or use your PayPal account:</h5>
 	<div class="checkout-buttons">
 		<div class="form-button">
-			<%= link_to 'Back to Cart', :back, class: 'button', id: 'back' %>
+			<%= link_to 'Back to Cart', :back, class: 'button user', id: 'back' %>
 		</div>
 		<div class="form-button">
 			<%= link_to image_tag("https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"),	express_orders_path, class: 'paypal-button' %>
 		</div>
 		<div class="form-button">
-			<%= f.button 'Checkout as Guest', class: 'button' %>
+			<%= f.button 'Checkout as Guest', class: 'button user' %>
 		</div>
 	</div>
 </fieldset>

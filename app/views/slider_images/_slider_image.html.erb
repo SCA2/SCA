@@ -1,11 +1,8 @@
 <%= form_for slider_image do |f| %>
 	<%= render 'form', f: f %>
-	<div class="actions">
-		<div class="action-spacer"></div>
-		<div class="action-buttons">
-			<%= f.submit 'Update', class: :button %>
-			<%= link_to 'Delete', slider_image, method: :delete, class: :button, data: { :confirm => 'Are you sure?' } %>
-		</div>
+	<div class="admin-box">
+		<%= f.submit 'Update', class: "button admin" %>
+		<%= link_to 'Delete', slider_image, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' } %>
 	</div>
 <% end %>
 

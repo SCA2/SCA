@@ -2,9 +2,6 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns">
-			<%= render 'layouts/sidebar_left' %>
-		</div>
 		<div class="small-9 columns">
 			<div class="show-profile">				
 				<%= form_for @faqs_category do |faqs_category| %>
@@ -20,6 +17,9 @@
 					</div>
 				<% end %>
 			</div>
+		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
 		</div>
 	</div>	
 </div>

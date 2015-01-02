@@ -26,11 +26,9 @@
 							<% end %>
 						</div>
 					</div>
-					<div class="actions">
-						<div class="button-box">
-							<%= user.submit 'Save changes', class: 'button' %>
-							<%= link_to 'Quit', user_path, class: 'button' %>
-						</div>
+					<div class="button-box">
+						<%= user.submit 'Save changes', class: 'button user' %>
+						<%= link_to 'Quit', user_path, class: 'button user' %>
 					</div>
 				<% end %>
 			</div>

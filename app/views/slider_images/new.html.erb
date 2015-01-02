@@ -1,10 +1,6 @@
 <% provide(:title, 'New Slider Image') %>
-
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns">
-			<%= render 'layouts/sidebar_left' %>
-		</div>
 		<div class="small-9 columns">
 			<div class="slider-image-index">
 				<%= form_for @slider_image do |f| %>
@@ -12,16 +8,16 @@
 					<fieldset>
 						<legend> New Slider Image </legend>
 						<%= render 'form', f: f %>
-						<div class="actions">
-						<div class="action-spacer"></div>
-							<div class="action-buttons">
-								<%= f.submit 'Submit', class: :button %>
-								<%= link_to 'Quit', home_path, class: :button %>
-							</div>
+						<div class="admin-box">
+							<%= f.submit 'Submit', class: 'button admin' %>
+							<%= link_to 'Quit', home_path, class: 'button admin' %>
 						</div>
 					</fieldset>
 				<% end %>
 			</div>
+		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
 		</div>
 	</div>	
 </div>

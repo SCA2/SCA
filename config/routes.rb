@@ -27,7 +27,7 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :orders do
+  resources :orders, except: [:edit] do
     collection do
       get 'subregion_options'
       get 'express'

@@ -2,40 +2,36 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns">
-			<%= render 'layouts/sidebar_left' %>
-		</div>
 		<div class="small-9 columns">
-			<h1>Terms of Service</h1>
-			<hr class="divider" />
+			<h4 class="section-header">Terms of Service</h4>
 			
-			<h4>Payment Method</h4>
+			<h5>Payment Method</h5>
 			<p>Seventh Circle Audio accepts payment by company check, money order, bank draft, PayPal or VISA/Master Card/Discover/American Express. We cannot accept international credit cards or checks drawn on foreign banks. We do not accept bank or wire transfers, but we do accept PayPal transfers. Checks may delay shipment until funds clear.  We do not offer credit terms or accept open POs.  We do not accept orders that require us to register with your state's tax agency.</p>
 
-			<h4>Payment Processing</h4>
+			<h5>Payment Processing</h5>
 			<p>Orders must be paid in full at the time the order is placed. Credit card payments are processed immediately, not when an order ships.</p>
 			
-			<h4>Lead Times and Backorders</h4>
+			<h5>Lead Times and Backorders</h5>
 			<p>Please note the lead time associated with each item. This is our best estimate, not a guarantee. We work hard to ship all orders as quickly as possible, but we <b>do not</b> guarantee delivery dates. Orders ship complete when all items are available. However, we will ship partial orders by special request and for additional cost. Orders ship on a first-come, first-served basis. We do not expedite orders or ship out of turn. Backorders may be cancelled at any time prior to shipment via written request.</p>
 
-			<h4>Refunds</h4>
+			<h5>Refunds</h5>
 			<p>Cancelled backorders will be refunded within 10 days of written request, only for cancelled and unshipped merchandise.</p>
 
-			<h4>Product Pricing</h4>
+			<h5>Product Pricing</h5>
 			<p>Prices are subject to change without notice.  Seventh Circle Audio will not be liable for typographical errors or faulty shopping cart calculations. It is the customer's responsibility to verify selling prices.</p>
 
-			<h4>Product Images, Descriptions, and Specifications</h4>
+			<h5>Product Images, Descriptions, and Specifications</h5>
 			<p>We do our best to provide complete product information, but specifications may change without notice. If you would like additional information about a product, please contact us.</p>
 
-			<h4>Warranty</h4>
+			<h5>Warranty</h5>
 			<p>All products <b>manufactured or assembled by Seventh Circle Audio</b> are warranted against defects in materials and workmanship for a period of three years from the date of shipment.  Seventh Circle Audio will, at our discretion, repair or replace product under this warranty only if factory inspection reveals evidence of such defects.  Products must be returned to Seventh Circle Audio in original packaging materials for inspection, shipped prepaid.  This warranty is non-transferrable, and no other warranty is expressed and / or implied.</p>
 			<p>All products <b>shipped as kits</b> to be assembled by the customer carry <b>no warranty whatsoever</b>. If you have problems with a kit, please see our <%= link_to 'repair policy.', repairs_url %></p>
 			<p>SEVENTH CIRCLE AUDIO SHALL NOT BE LIABLE FOR ANY INCIDENTAL, SPECIAL OR CONSEQUENTIAL LOSSES, COSTS OR DAMAGES INCURRED BY BUYER OR OTHERS, DIRECTLY OR INDIRECTLY ARISING FROM THE SALE, HANDLING, ASSEMBLY, OR USE OF THE PRODUCTS, OR FROM ANY OTHER CAUSE WITH RESPECT TO THE PRODUCTS OR THE FOREGOING WARRANTY, WHETHER SUCH CLAIM IS BASED UPON BREACH OF CONTRACT, BREACH OF WARRANTY, STRICT LIABILITY IN TORT, NEGLIGENCE OR ANY OTHER LEGAL THEORY (INCLUDING WITHOUT LIMITATION, LOST PROFITS, REVENUES, ANTICIPATED SALES, BUSINESS OPPORTUNITIES, GOODWILL, OR INTERRUPTION OF BUSINESS OR OTHER INJURY OR DAMAGE).</p>
 
-			<h4>Satisfaction Policy</h4>
+			<h5>Satisfaction Policy</h5>
 			<p>Merchandise may be returned within 10 business days of receipt, without restocking charge, if the original packaging is unopened and undamaged. If the package has been opened, a MINIMUM restocking charge of 15% or $10.00, whichever is greater, will be charged. Evidence of use or damage, or missing components, accessories, or packaging will increase the restocking fee to cover our costs. The customer is responsible for all return shipping costs. Returns are not allowed on special-order/non-stock, closeout, used or discontinued merchandise. We <b>do not</b> accept returns of kits or components that have been wholly or partially assembled. If you touch it with a soldering iron, it's yours.</p>
 
-			<h4>Return Procedures</h4>
+			<h5>Return Procedures</h5>
 			<p>Print a <%= link_to 'repair authorization form', repairs_path %>. Please describe the symptoms you're experiencing as clearly as possible. We must have a complete return shipping address (no P.O. boxes) and a working e-mail address. It is not necessary to e-mail for authorization, but we will decline to work on any items returned without an authorization form.</p>
 			<p>Ship your well-packed module to:</p> 
 
@@ -44,8 +40,11 @@
 
 			<p>Upon completion, we'll send a PayPal invoice to the e-mail address included on the authorization form.</p>
 
-		  <h4>International Orders</h4>
+		  <h5>International Orders</h5>
 			<p>We do not accept orders on our web site for shipment outside of the US. This includes orders shipped to Puerto Rico or APO/FPO boxes. We strongly suggest using a forwarding service such as <%= link_to 'ShipIto', 'http://www.shipito.com/' %> or <%= link_to 'Bongo', 'https://bongous.com/' %>.  However, if you would prefer us to ship directly, please <%= mail_to 'sales@seventhcircleaudio.com', 'e-mail sales' %> to request a quote for your international order.</p>
+		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
 		</div>
 	</div>	
 </div>

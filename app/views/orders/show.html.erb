@@ -14,14 +14,10 @@
 				</div>
 				<%= render 'confirm_cart' %>
 				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
-				<div class="actions">
-					<div style="width: 20%; margin: 0 auto 0 auto">
-						<%= link_to 'Quit', orders_path %>
-						&nbsp; &nbsp; | &nbsp; &nbsp;
-						<%= link_to 'Ship', @order %>
-						&nbsp; &nbsp; | &nbsp; &nbsp;
-						<%= link_to 'Delete', @order, method: :delete, data: { confirm: "Are you sure?" } %>
-					</div>
+				<div class="button-box">
+					<%= link_to 'Quit', orders_path, class: 'button user' %>
+					<%= link_to 'Ship', @order, class: 'button user' %>
+					<%= link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" } %>
 				</div>
 			<% end %>
 		</div>

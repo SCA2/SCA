@@ -17,11 +17,9 @@
 							<%= render 'addresses/address_form', f: shipping %>
 						<% end %>
 					</div>
-					<div class="actions">
-						<div class="button-box">
-							<%= link_to 'Back to Cart', cart_path, class: 'button' %>
-							<%= order.submit 'Continue Checkout', class: 'button' %>
-						</div>
+					<div class="button-box">
+						<%= link_to 'Back to Cart', cart_path, class: 'button user' %>
+						<%= order.submit 'Continue Checkout', class: 'button user' %>
 					</div>
 				<% end %>
 			</div>

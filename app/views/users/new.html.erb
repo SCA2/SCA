@@ -26,11 +26,9 @@
 							<% end %>
 						</div>
 					</div>
-					<div class="actions">
-						<div class="button-box">
-							<%= user.submit 'Create Account', class: 'button' %>
-							<%= link_to 'Quit', products_path, class: 'button' %>
-						</div>
+					<div class="button-box">
+						<%= user.submit 'Create Account', class: 'button user' %>
+						<%= link_to 'Quit', products_path, class: 'button user' %>
 					</div>
 				<% end %>
 			</div>

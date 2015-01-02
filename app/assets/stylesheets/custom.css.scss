@@ -55,6 +55,17 @@ header {
   }
 }
 
+// orbit
+
+.orbit-container {
+  .img {
+    height: 28em;
+  }
+  .orbit-slides-container {
+    border-bottom: 1px solid $brown-70;
+  }
+}
+
 .section-header {
   padding: 0 0 0.125em 0;
   margin: 0.5em 0 0.5em 0;
@@ -120,11 +131,6 @@ div.slider-box {
   width: 100%;
 }
 
-div.orbit-container {
-  .img {
-    height: 28em;
-  }
-}
 
 div.box_2 {
   margin: 0em 1em 0em 1em;
@@ -211,6 +217,12 @@ div.admin-box {
   margin: 0.5em 0 0.5em 0;
 }
 
+div.button-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
 div.product {
   display: table;
   table-layout: fixed;
@@ -283,9 +295,6 @@ div.product {
     .image-box {
       display: table-cell;
       vertical-align: middle;
-      // &.top {
-      //   width: 100%;
-      // }
       & img {
         border: 1px solid $brown-60;
       }

@@ -2,9 +2,6 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns">
-			<%= render 'layouts/sidebar_left' %>
-		</div>	
 		<div class="small-9 columns">
 			<h4 class="section-header">Testing and Troubleshooting Tips</h4>
 			<p>Electronics troubleshooting combines circuit theory, careful measurement, common sense observation, and a bit of deductive reasoning.  Knowledge and experience can certainly help, but it's possible to be an effective troubleshooter with only a basic understanding of circuit behavior as long as you can apply some basic principles in a systematic way.  So don't worry if you only have a hazy idea of how the circuit is supposed to behave.  Troubleshooting is more about asking the right questions than knowing all the answers.  A healthy dose of patience and determination doesn't hurt, either.</p>
@@ -45,5 +42,8 @@
 			<p>Unless explicitly stated otherwise in the assembly instructions, voltage measurements are always made with respect to "PGND", short for "power ground" as opposed to "chassis ground" (CGND) or "audio ground" (AGND).  That means your black meter probe connects to a convenient PGND location and the red probe connects to the point in the circuit being measured.  For example, if the instructions say to measure the voltage at U1, pin 4, place the red probe on the specified pin and the black probe anywhere in the circuit that connects to PGND.  Usually, the power supply connector is the best place to find PGND, but it's not the only place.</p>
 			<p>Resistors need to be measured out of the circuit.  Trying to measure resistors in-circuit will give values that are off by a little or a lot depending on what the resistor is connected to.</p>
 		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
+		</div>	
 	</div>	
 </div>

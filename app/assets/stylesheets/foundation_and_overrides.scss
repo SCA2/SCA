@@ -54,7 +54,6 @@
 @import "colors";
 @import "top-bar";
 @import "accordion";
-@import "custom";
 
 // a. Base
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1459,3 +1458,4 @@ $glowing-effect-color: $brown-70;
 // $include-accessibility-classes: true;
 
 @import "foundation";
+@import "custom";
