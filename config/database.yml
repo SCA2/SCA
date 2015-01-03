@@ -15,3 +15,5 @@ production:
   encoding: utf8
   database: sca_production
   pool: 5
+  username: deploy
+  password: dr0pl3t_1138
