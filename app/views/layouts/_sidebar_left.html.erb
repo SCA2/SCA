@@ -2,10 +2,10 @@
 	<% if @product %>
 		<ul class="custom-side-nav">
 			<h6><b><%= @product.model %> Documents</b></h6>
-			<li><%= link_to 'Specifications', @product.specifications %></li>
-			<li><%= link_to 'Schematic', @product.schematic %></li>
-			<li><%= link_to 'Bill of Material', @product.bom %></li>
-			<li><%= link_to 'Assembly Instructions', @product.assembly %></li>
+			<li><%= link_to 'Specifications', asset_path(@product.specifications) %></li>
+			<li><%= link_to 'Schematic', asset_path(@product.schematic) %></li>
+			<li><%= link_to 'Bill of Material', asset_path(@product.bom) %></li>
+			<li><%= link_to 'Assembly Instructions', asset_path(@product.assembly) %></li>
 		</ul>
 	<% end %>
 
