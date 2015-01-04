@@ -24,6 +24,8 @@ module SCA
     
     # For bootstrap
     # config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    config.assets.paths << Rails.root.join("products")
     
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')

@@ -2,9 +2,6 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-3 columns">
-			<%= render 'layouts/sidebar_left' %>
-		</div>
 		<div class="small-9 columns">
 			<div class="edit-profile">
 				<%= form_for(:session, url: sessions_path) do |f| %>
@@ -17,6 +14,9 @@
 					</div>
 				<% end %>
 			</div>
+		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
 		</div>
 	</div>	
 </div>
