@@ -22,5 +22,4 @@
 
 # Ignore sublime text workspace
 sca.sublime-workspace
-*.sublime-workspace
-*.sublime-project
+sca.sublime-project
