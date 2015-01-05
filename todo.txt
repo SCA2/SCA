@@ -1,0 +1,10 @@
+To do:
+
+new photos for op-amps
+new photos for sub-panels
+expand model number for sub-panels
+750px photos for oneshot
+add image border on large product page
+fix styling on sidebar
+docs for oneshot and subpanels
+specs for all
