@@ -1,10 +1,24 @@
 To do:
 
-new photos for op-amps
-new photos for sub-panels
-expand model number for sub-panels
-750px photos for oneshot
-add image border on large product page
-fix styling on sidebar
-docs for oneshot and subpanels
-specs for all
+layout:
+  fix styling on sidebar
+  add social icons/links
+  products page font size, color
+
+content:
+  docs for oneshot and subpanels
+  new photos for op-amps
+  new photos for sub-panels
+  1000px 4x OneShot photo
+  750px photos for oneshot
+  specs for all
+
+features:
+  expand model number for sub-panels
+  ssl certificate
+
+testing:
+  discount
+  mailer
+  checkout
+  inventory
