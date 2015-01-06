@@ -1,7 +1,6 @@
 To do:
 
 layout:
-  fix styling on sidebar
   add social icons/links
   products page font size, color
 
@@ -12,6 +11,7 @@ content:
   1000px 4x OneShot photo
   750px photos for oneshot
   specs for all
+  revise support links
 
 features:
   expand model number for sub-panels

@@ -1,6 +1,5 @@
 /* CSS file */
 
-@import "foundation/components/side-nav";
 @import "foundation/components/panels";
 @import "foundation/components/alert-boxes";
 @import "foundation/components/forms";
@@ -144,76 +143,6 @@ fieldset {
 
   legend {
     background-color: inherit;
-  }
-}
-
-// sidebar
-
-.custom-side-nav {
-  @include side-nav(
-    $link-color: $brown-00,
-    $font-size: 0.9em
-  );
-  font-weight: normal;
-  text-align: left;
-  line-height: 0.9em;
-  background: $brown-50;
-  margin: 1em 1em 1em 1em;
-  padding: 0.5em 0 0 0;
-
-  h6 {
-    margin: 0 0 0.25em 0.5em;
-  }
-
-  li {
-    margin: 0;
-    padding: 0;
-
-    a {
-      text-decoration: none;
-      color: $red-10;
-      background: $brown-50;
-      &:visited {
-        color: $red-10;
-        background: $brown-50;
-      }
-      &:not(.button) {
-        &:hover {
-          color: $red-20;
-          background: lighten( $brown-50, 5% );
-        }
-        &:visited {
-          color: $red-10;
-          // background: lighten( $brown-50, 5% );
-        }
-      }
-    }
-    ul {
-      background: $brown-60;
-      li {
-        a {
-          text-decoration: none;
-          color: $red-10;
-          background: $brown-60;
-          // :hover {
-          //   background: $brown-70;
-          // }
-          &:visited {
-            color: $red-10;
-            background: $brown-60;
-          }
-          &:not(.button) {
-            &:hover {
-              background: lighten( $brown-60, 5% );
-              color: $red-20;
-            }
-            &:visited {
-              color: $red-10;
-            }
-          }
-        }
-      }
-    }
   }
 }
 
