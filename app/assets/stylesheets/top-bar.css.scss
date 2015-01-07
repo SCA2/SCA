@@ -16,21 +16,11 @@ $topbar-height: 1.8em;
 // $topbar-title-weight: $font-weight-normal;
 // $topbar-title-font-size: rem-calc(17);
 
-// Style the top bar dropdown elements
-$topbar-dropdown-bg: $brown-60;
-$topbar-dropdown-link-color: $brown-10;
-$topbar-dropdown-link-bg: $brown-60;
-// $topbar-dropdown-link-weight: $font-weight-normal;
-$topbar-dropdown-link-font-size: 0.9em;  //rem-calc(13);
-$topbar-dropdown-toggle-size: 5px;
-$topbar-dropdown-toggle-color: $brown-50;
-// $topbar-dropdown-toggle-alpha: 0.4;
-
 // Set the link colors and styles for top-level nav
 $topbar-link-color: $brown-00;
 $topbar-link-color-hover: $brown-00;
-// $topbar-link-color-active: $white;
-// $topbar-link-color-active-hover: $white;
+$topbar-link-color-active: $brown-00;
+$topbar-link-color-active-hover: $brown-00;
 
 // $topbar-link-weight: $font-weight-normal;
 $topbar-link-weight: bold;
@@ -39,15 +29,16 @@ $topbar-link-weight: bold;
 // $topbar-link-font-size: rem-calc(13);
 $topbar-link-font-size: 1em;
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
-$topbar-link-hover-lightness: -10%; // Darken by 10%
+$topbar-link-hover-lightness: 5%; // Darken by 10%
 
 // $topbar-link-bg: $topbar-bg;
 // $topbar-link-bg-color-hover: $charcoal;
+$topbar-link-bg-color-hover: lighten( $brown-50, 5% );
 // $topbar-link-bg-hover: #272727;
-$topbar-link-bg-hover: scale-color($brown-50, $lightness: -8%);
+$topbar-link-bg-hover: lighten( $brown-50, 5% );
 // $topbar-link-bg-active: $primary-color;
 $topbar-link-bg-active: $brown-50;
-$topbar-link-bg-active-hover: scale-color($brown-50, $lightness: -8%);
+$topbar-link-bg-active-hover: lighten( $brown-50, 5%);
 
 // $topbar-link-font-family: $body-font-family;
 // $topbar-link-text-transform: none;
@@ -58,12 +49,22 @@ $topbar-link-bg-active-hover: scale-color($brown-50, $lightness: -8%);
 // $topbar-button-font-size: 0.75rem;
 // $topbar-button-top: 7px;
 
+// Style the top bar dropdown elements
+// $topbar-dropdown-bg: #0F0;  //$brown-60;
+$topbar-dropdown-link-color: $brown-00;
+$topbar-dropdown-link-bg: $brown-60;
+// $topbar-dropdown-link-weight: $font-weight-normal;
+$topbar-dropdown-link-font-size: 0.9em;  //rem-calc(13);
+// $topbar-dropdown-toggle-size: 15px;
+// $topbar-dropdown-toggle-color: $brown-60;
+// $topbar-dropdown-toggle-alpha: 0.4;
+
 // $topbar-dropdown-label-color: $monsoon;
 // $topbar-dropdown-label-text-transform: uppercase;
 // $topbar-dropdown-label-font-weight: $font-weight-bold;
-$topbar-dropdown-label-font-size: 0.9em;  //rem-calc(10);
+// $topbar-dropdown-label-font-size: 0.9em;  //rem-calc(10);
 // $topbar-dropdown-label-bg: $oil;
-$topbar-dropdown-label-bg: $brown-50;
+// $topbar-dropdown-label-bg: $brown-50;
 
 // Top menu icon styles
 // $topbar-menu-link-transform: uppercase;
@@ -89,14 +90,6 @@ $topbar-dropdown-label-bg: $brown-50;
 // $topbar-arrows: true; //Set false to remove the triangle icon from the menu item
 $topbar-arrows: false;
 
-.top-bar {
-    // display: inline;
-    // height: 18px;
-    // margin-right: 10px;
-    // position: relative;
-    // width: 18px;
-}
-
 .top-bar-section .has-dropdown {
   .dropdown {
     border: 1px solid scale-color($brown-60, $lightness: -5%);
@@ -116,6 +109,10 @@ $topbar-arrows: false;
       }
     }
   }
+}
+
+.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
+  background-color: lighten( $brown-60, 5%) !important;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button) {

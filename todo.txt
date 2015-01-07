@@ -9,7 +9,6 @@ content:
   new photos for op-amps
   new photos for sub-panels
   1000px 4x OneShot photo
-  750px photos for oneshot
   specs for all
   revise support links
 
