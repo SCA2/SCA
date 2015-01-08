@@ -273,33 +273,18 @@ div.main-cart {
   .actions {
     width: 100%;
     margin: 1em 0 0 0;
-    // .form-button {
-    //   display: inline-block;
-    //   margin: 0;
-    //   padding: 0;
-    //   width: 24.5%;
-    // }
-    .paypal-button {
-      margin: 1em 0 0 0;
-      width: 100%;
-      a img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      } 
-    }
   }  
 }
 
 table.main-cart {
   width: 100%;
   border: none;
+  border-collapse: collapse;
   background-color: darken($brown-85, 5%);
-  tr#discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
+  tr#divider-line, #discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
     background-color: darken($brown-85, 5%);
   }
   tr#divider-line {
-    background-color: $brown-85;
     line-height: 0.5em;
   }
   th {
@@ -307,7 +292,8 @@ table.main-cart {
     padding: 0.5em 0.1em 0.5em 0.1em;
   }
   th#remove, #item, #description, #quantity {
-    text-align: center;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    text-align: left;
   }
   th#price, #ext, #weight {
     padding: 0.5em 1em 0.5em 0.1em;
@@ -317,7 +303,7 @@ table.main-cart {
     padding: 0.5em 0.1em 0.5em 1em;
     text-align: left;
   }
-  th#remove, #quantity {
+  th#quantity {
     text-align: center;
   }
   td {

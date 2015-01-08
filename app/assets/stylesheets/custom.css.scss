@@ -167,6 +167,12 @@ div.button-box {
   margin: 0.5em 0 0.5em 0;
 }
 
+div.checkout-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0 0.5em 0;
+}
+
 div.product {
   display: table;
   table-layout: fixed;

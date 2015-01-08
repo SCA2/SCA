@@ -92,8 +92,14 @@
   }
   
   &.checkout {
-    width: 25%;
-    padding: 0.25em 1em 0.25em 1em;
-    margin: 0 0.5em 0 0.5em;
+    width: 22%;
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0 0 0 0;
   }
+
+}
+
+.paypal-button {
+  width: 145px;
+  margin: 1em auto 1em auto;
 }
