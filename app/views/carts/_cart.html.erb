@@ -30,7 +30,7 @@
 					</td>
 				</tr>
 			<% end %>
-			<tr id="divider-line"><td class="divider-cell" colspan="6"></td></tr>
+			<tr><td class="divider-cell" colspan="6"></td></tr>
 			<tr id="discount-line">
 				<td class="total-cell" colspan="5">Discount</td>
 				<td class="total-price-cell">
@@ -46,8 +46,8 @@
 		</table>
 		<div class="actions">
 			<div class="checkout-box">
-				<%= link_to 'Update cart', cart, class: "button checkout" %>
-				<%= link_to 'Empty cart', cart, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' } %>
+				<%= cart_form.submit 'Update cart', method: :patch, class: "button checkout" %>
+				<%= link_to 'Empty cart', cart_path, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' } %>
 				<%= link_to 'Keep shopping', products_path, method: :get, class: "button checkout" %>
 				<%= link_to 'Checkout', orders_path, method: :post, class: "button checkout" %>
 			</div>

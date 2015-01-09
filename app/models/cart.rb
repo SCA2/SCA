@@ -19,23 +19,23 @@ class Cart < ActiveRecord::Base
   end
   
   def discount
-    subpanelable = ['A12', 'C84', 'J99', 'N72', 'T15', 'B16', 'D11']
-    comboable = ['A12', 'C84', 'J99', 'N72', 'T15']
-    opampable = ['A12', 'J99']
-    a12opamps = ['SC10', 'SC25']
-    j99opamps = ['SC99']
+    subpanel_set = ['A12', 'C84', 'J99', 'N72', 'T15', 'B16', 'D11']
+    chassis_set = ['A12', 'C84', 'J99', 'N72', 'T15']
+    opamp_set = ['A12', 'J99']
+    a12_opamps = ['SC10', 'SC25']
+    j99_opamps = ['SC99']
 
     total_discount = 0    
     #check combos
-    total_discount += combo_discount('A12', a12opamps, 'KA')      
-    total_discount += combo_discount('J99', j99opamps, 'KA')      
-    total_discount += combo_discount(comboable, 'CH02', '-CH')      
-    total_discount += combo_discount(comboable, 'PC01', '-CH')      
+    total_discount += combo_discount('A12', a12_opamps, 'KA')      
+    total_discount += combo_discount('J99', j99_opamps, 'KA')      
+    total_discount += combo_discount(chassis_set, 'CH02', 'KF')      
+    total_discount += combo_discount(chassis_set, 'PC01', 'KF')      
 
     #check for subpanel combos
     line_items.each do |line_item|
       model = line_item.product.model
-      if subpanelable.include? model
+      if subpanel_set.include? model
         total_discount += combo_discount(model, 'CH02', '-SP-' + model)      
       end
     end
@@ -49,9 +49,9 @@ class Cart < ActiveRecord::Base
       b_lines = line_items.joins(:product, :option).where(products: { model: b_product }, options: { model: b_option })
       if b_lines.any?
         b_count = b_lines.to_a.sum { |b| b.quantity }
-        combo = [a_count, b_count].min
+        combos = [a_count, b_count].min
         discount = b_lines.first.option.discount
-        return combo_discount = combo * discount        
+        return combo_discount = combos * discount        
       end
     end
     combo_discount = 0              

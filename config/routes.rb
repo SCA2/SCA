@@ -1,23 +1,20 @@
 SCA::Application.routes.draw do
   
-  
-  get "password_resets/new"
-  resources :carts, except: [:index, :edit, :new]
-  
-  resources :line_items, :users
+  resources :slider_images, :line_items, :users
+
+  resources :faqs_categories, except: [:show]
+  resources :faqs, except: [:show]
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  resources :slider_images
 
   resources :addresses do    
     collection do
       get 'subregion_options'
     end
   end
-
-  resources :faqs_categories, except: [:show]
-  resources :faqs, except: [:show]
+  
+  resources :carts, except: [:index, :edit, :new]
   
   resources :products do
     resources :features, except: [:index, :show]
@@ -59,6 +56,7 @@ SCA::Application.routes.draw do
   get "conditions", to: "static_pages#conditions", as: 'conditions'
   get "admin", to: "static_pages#admin", as: "admin"
 
+  get "password_resets/new"
   get "signup", to: 'users#new', as: 'signup'
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'
