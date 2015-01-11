@@ -67,6 +67,19 @@ SCA::Application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.logger.development
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'] }
+  config.action_mailer.smtp_settings = {
+    address:              ENV['MAILER_ADDRESS'],
+    port:                 ENV['MAILER_PORT'],
+    domain:               ENV['MAILER_DOMAIN'],
+    user_name:            ENV['GMAIL_USERNAME'],
+    password:             ENV['GMAIL_PASSWORD'],
+    authentication:       'plain',
+    enable_starttls_auto: true  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -81,21 +94,21 @@ SCA::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
   
-#Paypal
-config.after_initialize do
-  # ActiveMerchant::Billing::Base.mode = :production
-  # paypal_options = {
-  #   login:      ENV['PAYPAL_PRO_LOGIN'],
-  #   password:   ENV['PAYPAL_PRO_PASSWORD'],
-  #   signature:  ENV['PAYPAL_PRO_SIGNATURE']
-  # }
-  ActiveMerchant::Billing::Base.mode = :test
-  paypal_options = {
-    login:      ENV['PAYPAL_DEV_LOGIN'],
-    password:   ENV['PAYPAL_DEV_PASSWORD'],
-    signature:  ENV['PAYPAL_DEV_SIGNATURE']
-  }
-  ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
-  ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-end
+  #Paypal
+  config.after_initialize do
+    # ActiveMerchant::Billing::Base.mode = :production
+    # paypal_options = {
+    #   login:      ENV['PAYPAL_PRO_LOGIN'],
+    #   password:   ENV['PAYPAL_PRO_PASSWORD'],
+    #   signature:  ENV['PAYPAL_PRO_SIGNATURE']
+    # }
+    ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      login:      ENV['PAYPAL_DEV_LOGIN'],
+      password:   ENV['PAYPAL_DEV_PASSWORD'],
+      signature:  ENV['PAYPAL_DEV_SIGNATURE']
+    }
+    ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  end
 end
