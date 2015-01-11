@@ -8,7 +8,7 @@
 				<%= render 'shared/errors', object: f.object %>
 				<fieldset id="shipper">
 					<legend><%= 'UPS Options' %></legend>
-					<table class="shipper">
+					<table class="confirm-table">
 						<% @order.ups_rates.each_with_index do |rate, index| %>
 							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 							<tr>
@@ -31,7 +31,7 @@
 				<%if @cart.max_dimension < 12 %> 
 					<fieldset id="shipper">
 						<legend><%= 'USPS Options' %></legend>
-						<table class="shipper">
+						<table class="confirm-table">
 							<% @order.usps_rates.each_with_index do |rate, index| %>
 								<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 								<tr>

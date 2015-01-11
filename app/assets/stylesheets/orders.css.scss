@@ -5,6 +5,20 @@
 @import "colors";
 @import "foundation/components/breadcrumbs";
 
+// breadcrumbs
+
+.checkout-breadcrumbs {
+  @include crumb-container;
+  border: 1px solid $brown-60;
+  background-color: darken($brown-85, 5%);
+  li {
+    @include crumbs;
+    a { color: $brown-00; }
+    &.unavailable a { color: $brown-50; }
+    &.unavailable:hover a { color: $brown-50, 25%; }
+  }
+}
+
 div.user {
   width: 100%;
   margin: 0;
@@ -52,23 +66,13 @@ div.actions {
 }
 
 div.review-box {
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 fieldset {
-//   font-family: Arial, sans-serif;
-//   font-weight: normal;
-//   border: none;
-// //  border: 1px solid #000;
-//   margin: 0 0 1em 0;
-//   padding: 0.5em 0.5em 0.5em 0.5em;
-
-//   legend {
-//     background-color: inherit;
-//   }
   &.confirm-address, &.confirm-payment, &.confirm-shipper {
-    display: inline-block;
-    width: 33%;
+    flex: 1 1 auto;
   }
 }
 
@@ -85,7 +89,7 @@ table.user-table {
     font-size: 1em;
     color: $brown-00;
     &:nth-child(odd) {
-      background-color: darken($brown-85, 5%)
+      background-color: darken($brown-85, 5%);
     }
   }
   td.label {
@@ -110,40 +114,78 @@ table.user-table {
   }
 }
 
-table.address-table {
-  border: none;
-  background-color: $brown-85;
+table.confirm-table {
   width: 100%;
-  margin: 0 auto 0 auto;
+  border: none;
+  border-collapse: collapse;
+  background-color: $brown-85;
+  font-size: 1em;
+  line-height: 1.75em;
   
-  tr.field {
-    line-height: 2em;
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    font-size: 1em;
+  tr {
     color: $brown-00;
     &:nth-child(odd) {
-      background-color: darken($brown-85, 5%)
+      background-color: darken($brown-85, 5%);
+    }
+    td {
+      line-height: inherit;
+      vertical-align: center;
+      margin: 0;
+      padding: 0 1em 0 1em;
+      text-align: left;
+      &.checkbox-cell {
+        width: 50%;
+        text-align: left;
+      }
+      & input {
+        &[type="checkbox"] {
+          padding: 0;
+          margin: 0.5em 0 0.5em 0;
+        }
+        &[type="radio"] {
+          padding: 0;
+          margin: 0;
+        }
+      }
     }
   }
-  td.label {
-    margin: 0 0 0 0;
-    padding: 0 1em 0 1em;
-    background-color: inherit;
-    text-align: left;
-    label {
+}
+
+table.address-table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+  background-color: $brown-85;
+  font-size: 1em;
+  
+  tr.field {
+    color: $brown-00;
+    &:nth-child(odd) {
+      line-height: 2em;
+      background-color: darken($brown-85, 5%);
+    }
+    &:nth-child(even) {
+      line-height: 3em;
+    }
+    td.label {
+      line-height: inherit;
+      background-color: inherit;
       margin: 0 0 0 0;
-      padding: 0 0 0 0;  
+      padding: 0 1em 0 1em;
+      text-align: left;
+      label {
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;  
+      }
     }
   }
   td.input {
     margin: 0 0 0 0;
-    padding: 0 0.5em 0 0.5em;
+    padding: 0 0 0 0;
     width: 70%;
     input {
       margin: 0 0 0 0;
-      padding: 0 0 0 0.2em;  
-      height: 1.8em;
+      padding: 0 0 0 0.25em;  
       &[type="checkbox"] {
         margin: 0;
         padding: 0;
@@ -152,7 +194,6 @@ table.address-table {
     select {
       margin: 0 0 0 0;
       padding: 0 0 0 0;  
-      height: 1.8em;
       &.cc-date-select {
         padding-left: 0.2em;  
         width: 49.25%;
@@ -161,69 +202,31 @@ table.address-table {
   }
 }
 
-table.shipper {
-  display: inline-block;
-  border: solid 1px $brown-60;
-  background-color: inherit;
-  width: 50%;
-  margin: 0 auto 0 auto;
-  
-  tr {
-    line-height: 1em;
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
-    font-size: 1em;
-    color: $brown-00;
-    &:nth-child(odd) {
-      background-color: darken($brown-85, 5%)
-    }
-  }
-  td {
+// Main cart
+
+div.main-cart {
+  width: 100%;
+  .actions {
     width: 100%;
-    margin: 0 0 0 0;
-    padding: 0.1em 0.5em 0.1em 0.5em;
-    background-color: inherit;
-    text-align: left;
-    vertical-align: center;
-    input {
-      margin: 0;
-      padding: 0;
-    }
-  }
+    margin: 1em 0 0 0;
+  }  
 }
 
-// breadcrumbs
-
-.checkout-breadcrumbs {
-  @include crumb-container;
-  border: 1px solid $brown-60;
-  background-color: darken($brown-85, 5%);
-  li {
-    @include crumbs;
-    a { color: $brown-00; }
-    &.unavailable a { color: $brown-50; }
-    &.unavailable:hover a { color: $brown-50, 25%; }
-  }
-}
-
-// confirm cart
-
-table.confirm-cart {
-  margin: 0;
+table.main-cart {
+  width: 100%;
   border: none;
+  border-collapse: collapse;
   background-color: darken($brown-85, 5%);
-  tr#discount-line, #subtotal-line, #shipping-line, #salestax-line, #total-line {
+  tr #discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
     background-color: darken($brown-85, 5%);
-  }
-  tr#divider-line {
-    background-color: $brown-85;
   }
   th {
     background-color: darken($brown-85, 5%);
     padding: 0.5em 0.1em 0.5em 0.1em;
   }
-  th#line, #item, #description, #quantity {
-    text-align: center;
+  th#remove, #item, #description, #quantity {
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    text-align: left;
   }
   th#price, #ext, #weight {
     padding: 0.5em 1em 0.5em 0.1em;
@@ -243,73 +246,6 @@ table.confirm-cart {
   }
   .line-cell {
     text-align: center;
-  }
-  .item-cell, .description-cell {
-    text-align: left;
-    padding-left: 1em;
-  }
-  .quantity-cell {
-    width: 1em;
-    text-align: center;
-  }
-  .price-cell, .ext-cell {
-    padding-right: 1em;
-    text-align: right;
-  }
-  .total-cell, .total-price-cell {
-    padding-right: 1em;
-    font-weight: bold;
-    text-align: right;
-  }
-  .divider-cell {
-    height: 2em;
-  }
-}
-
-// Main cart
-
-div.main-cart {
-  width: 100%;
-  .actions {
-    width: 100%;
-    margin: 1em 0 0 0;
-  }  
-}
-
-table.main-cart {
-  width: 100%;
-  border: none;
-  border-collapse: collapse;
-  background-color: darken($brown-85, 5%);
-  tr#divider-line, #discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
-    background-color: darken($brown-85, 5%);
-  }
-  tr#divider-line {
-    line-height: 0.5em;
-  }
-  th {
-    background-color: darken($brown-85, 5%);
-    padding: 0.5em 0.1em 0.5em 0.1em;
-  }
-  th#remove, #item, #description, #quantity {
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    text-align: left;
-  }
-  th#price, #ext, #weight {
-    padding: 0.5em 1em 0.5em 0.1em;
-    text-align: right;
-  }
-  th#item, #description {
-    padding: 0.5em 0.1em 0.5em 1em;
-    text-align: left;
-  }
-  th#quantity {
-    text-align: center;
-  }
-  td {
-    line-height: 1.8em;
-    vertical-align: middle;
-    padding: 0 0.1em 0 0.1em;
   }
   .remove-cell {
     width: 1em;
