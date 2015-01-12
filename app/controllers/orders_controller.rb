@@ -180,8 +180,10 @@ class OrdersController < ApplicationController
     end
 
     def admin_user
-      flash[:alert] = 'Sorry, admins only'
-      redirect_to(home_path) unless signed_in_admin?
+      unless signed_in_admin?
+        flash[:alert] = 'Sorry, admins only'
+        redirect_to(home_path)
+      end
     end
 
     def set_order

@@ -55,7 +55,6 @@ class LineItemsController < ApplicationController
       @line_item = LineItem.find(params[:id])
     end
     
-    # Never trust parameters from the scary internet, only allow the white list through.
     def line_item_params
       params.require(:cart_id).permit(:line_item, :product_id, :option_id, :quantity, :extended_price, :extended_weight)
     end
