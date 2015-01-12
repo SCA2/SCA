@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
       response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
         :ip                   => request.remote_ip,
         :return_url           => create_express_orders_url,
-        :cancel_return_url    => products_path,
+        :cancel_return_url    => products_url,
         :currency             => 'USD',
         :brand_name           => 'Seventh Circle Audio',
         :allow_guest_checkout => 'true'
