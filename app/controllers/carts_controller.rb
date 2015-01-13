@@ -8,7 +8,8 @@ class CartsController < ApplicationController
   before_action :set_cart, only: [:show, :update, :destroy]   # method in CurrentCart
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   
-  def show   
+  def show
+    redirect_to products_url, notice: 'Your cart is currently empty' if @cart.line_items.empty?
   end
 
   def create
