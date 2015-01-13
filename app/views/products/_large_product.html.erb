@@ -7,7 +7,7 @@
 	</h5>
 	<div class="text-box">
 		<div class="description">
-			<%= @product.long_description %>
+			<%= @product.long_description.html_safe %>
 		</div>
 		<div class="notes">
 			<%= @product.notes.html_safe %>

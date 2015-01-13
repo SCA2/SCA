@@ -2,7 +2,7 @@
 	<div class="text-box" <%= "id=text-box-" + @product.id.to_s %>>
 		<%= link_to @product.model, product_path(@product), class: :model %>
 		<div class="description" <%= "id=short-description-" + @product.id.to_s %>>
-			<%= @product.short_description %>
+			<%= @product.short_description.html_safe %>
 		</div>
 		<div class="notes" <%= "id=notes-" + @product.id.to_s %>>
 			<%= @product.notes.html_safe %>
