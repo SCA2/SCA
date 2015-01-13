@@ -217,7 +217,7 @@ table.main-cart {
   border: none;
   border-collapse: collapse;
   background-color: darken($brown-85, 5%);
-  tr #discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
+  #discount-line, #subtotal-line, #salestax-line, #shipping-line, #total-line {
     background-color: darken($brown-85, 5%);
   }
   th {

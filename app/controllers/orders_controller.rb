@@ -171,12 +171,13 @@ class OrdersController < ApplicationController
   private
     
     def order_params
-      params.require(:order).permit(:id, :cart_id, :email,
-                                    :card_type, :card_expires_on, :card_number, :card_verification,
-                                    :ip_address, :express_token, :accept_terms,
-                                    :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
-                                    :addresses_attributes => [:id, :address_type, :first_name, :last_name, :address_1,
-                                    :address_2, :city, :state_code, :post_code, :country, :telephone])
+      params.require(:order)
+            .permit(:id, :cart_id, :email,
+                    :card_type, :card_expires_on, :card_number, :card_verification,
+                    :ip_address, :express_token, :accept_terms,
+                    :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
+                    :addresses_attributes => [:id, :address_type, :first_name, :last_name,
+                    :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
     end
 
     def admin_user

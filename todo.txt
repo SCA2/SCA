@@ -1,10 +1,14 @@
 To do:
 
+bugs:
+
 layout:
   add social icons/links
   products page font size, color
 
 content:
+  add prices to option dropdowns
+  add op-amp, subpanel notes
   docs for oneshot and subpanels
   new photos for op-amps
   new photos for sub-panels
@@ -13,8 +17,10 @@ content:
   revise support links
 
 features:
-  expand model number for sub-panels
-  ssl certificate
+  add static page for ordering instructions?
+  pluralize products page
+  activate checkout breadcrumbs
+  expand model number for sub-panels?
 
 testing:
   discount
