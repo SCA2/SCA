@@ -5,7 +5,7 @@
 			<%= @product.short_description %>
 		</div>
 		<div class="notes" <%= "id=notes-" + @product.id.to_s %>>
-			<%= @product.notes %>
+			<%= @product.notes.html_safe %>
 		</div>
 		<%= render 'options/option' %>
 		<%= render 'options/admin' %>

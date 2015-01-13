@@ -10,7 +10,7 @@
 			<%= @product.long_description %>
 		</div>
 		<div class="notes">
-			<%= @product.notes %>
+			<%= @product.notes.html_safe %>
 		</div>
 		<%= render 'options/option' %>
 		<%= render 'options/admin' %>

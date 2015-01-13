@@ -13,6 +13,7 @@ content:
   1000px 4x OneShot photo
   specs for all
   revise support links
+  assign UPC codes
 
 features:
   activate checkout breadcrumbs
