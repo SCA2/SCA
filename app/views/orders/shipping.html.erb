@@ -9,7 +9,7 @@
 				<fieldset id="shipper">
 					<legend><%= 'UPS Options' %></legend>
 					<table class="confirm-table">
-						<% @order.ups_rates.each_with_index do |rate, index| %>
+						<% @rates.each_with_index do |rate, index| %>
 							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 							<tr>
 								<td>
