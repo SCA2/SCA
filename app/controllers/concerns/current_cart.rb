@@ -12,6 +12,7 @@ module CurrentCart
     rescue ActiveRecord::RecordNotFound
       @cart = Cart.create
       session[:cart_id] = @cart.id
+      session[:progress] = cart_path(@cart)
     end
 
 end

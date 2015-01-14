@@ -5,7 +5,7 @@ class CartsController < ApplicationController
   
   before_action :set_products
   before_action :signed_in_admin, except: [:show, :update, :destroy]
-  before_action :set_cart, only: [:show, :update, :destroy]   # method in CurrentCart
+  before_action :set_cart, only: [:show, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   
   def show
@@ -16,8 +16,10 @@ class CartsController < ApplicationController
     @cart = Cart.new(cart_params)
     
     if @cart.save
+      session[:progress] = cart_path(@cart)
       redirect_to @cart, notice: 'Cart was successfully created.'
     else
+      session[:progress] = nil
       redirect_to products_url, notice: 'Cart could not be saved'
     end
   end
@@ -35,6 +37,7 @@ class CartsController < ApplicationController
   def destroy
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
+    session[:progress] = nil
     redirect_to products_url, notice: 'Your cart is currently empty'
   end
   

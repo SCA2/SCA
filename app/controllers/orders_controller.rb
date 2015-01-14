@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
+  before_action :save_progress, except: [:express, :create_express]
   
   before_action :admin_user, only: [:index]
   before_action :set_order, except: [:index, :subregion_options, :create, :express, :create_express]
@@ -193,6 +194,11 @@ class OrdersController < ApplicationController
 
     def set_order
       @order = Order.find(params[:id])
+    end
+
+    def save_progress
+      session[:progress] ||= []
+      session[:progress] << request.path
     end
 
 end

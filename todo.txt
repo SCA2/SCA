@@ -1,14 +1,11 @@
 To do:
 
 bugs:
-  hangs on bad address?
-  only CA sales tax
 
 layout:
   add social icons/links
 
 content:
-  750px CH02 photos
   add op-amp, subpanel notes
   docs for oneshot and subpanels
   new photos for op-amps
@@ -28,7 +25,7 @@ testing:
   inventory
 
 future:
-  style static error pages
   billing address same as shipping checkbox
+  style static error pages
   add static page for ordering instructions?
   expand model number for sub-panels?
