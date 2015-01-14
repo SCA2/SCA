@@ -90,8 +90,8 @@ class OrdersController < ApplicationController
   
   def shipping
     @rates = @order.ups_rates
-  rescue ActiveMerchant::Shipping::ResponseError: error
-    flash[:error] = error.message
+  rescue ActiveMerchant::Shipping::ResponseError => e
+    flash[:error] = e.message
     redirect_to addresses_order_path(@order)
   end
   
