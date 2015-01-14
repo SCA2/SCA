@@ -137,7 +137,7 @@ class Order < ActiveRecord::Base
   SALES_TAX = HashWithIndifferentAccess.new(CA: 900)
     
   def sales_tax
-    state = 'CA' #addresses.find_by(address_type: 'shipping').state_code
+    state = addresses.find_by(address_type: 'shipping').state_code
     if SALES_TAX[state]
       (cart.subtotal * SALES_TAX[state]).to_f / 10000
     else
