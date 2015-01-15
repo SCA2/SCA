@@ -1,7 +1,17 @@
 <ul class="checkout-breadcrumbs">
-  <li <%= crumb_class(cart_path(@order.cart)) %>><%= crumb_link 'Cart', cart_path(@order.cart) %></li>
-  <li <%= crumb_class(addresses_order_path(@order)) %>><%= crumb_link 'Addresses', addresses_order_path(@order) %></li>
-  <li <%= crumb_class(shipping_order_path(@order)) %>><%= crumb_link 'Shipping Method', shipping_order_path(@order) %></li>
-  <li <%= crumb_class(confirm_order_path(@order)) %>><%= crumb_link 'Confirm', confirm_order_path(@order) %></li>
-  <li <%= crumb_class(payment_order_path(@order)) %>><%= crumb_link 'Payment', payment_order_path(@order) %></li>
+  <li <%= crumb_class(cart_path(@order.cart)) %>>
+    <%= crumb_link 'Cart', cart_path(@order.cart) %>
+  </li>
+  <li <%= crumb_class(addresses_order_path(@order)) %>>
+    <%= crumb_link 'Addresses', addresses_order_path(@order) %>
+  </li>
+  <li <%= crumb_class(shipping_order_path(@order)) %>>
+    <%= crumb_link 'Shipping Method', shipping_order_path(@order) %>
+  </li>
+  <li <%= crumb_class(confirm_order_path(@order)) %>>
+    <%= link_to 'Confirm', '#' %>
+  </li>
+  <li <%= crumb_class(payment_order_path(@order)) %>>
+    <%= link_to 'Payment', '#' %>
+  </li>
 </ul>

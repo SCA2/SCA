@@ -69,16 +69,10 @@ class OrdersController < ApplicationController
   end
   
   def addresses
-    @order.addresses.clear
-    if signed_in? && current_user.addresses.any?
-      @order.addresses << current_user.addresses.find_by(address_type: 'billing').dup
-      @order.addresses << current_user.addresses.find_by(address_type: 'shipping').dup
-    else
-      @order.addresses.build(address_type: 'billing')
-      @order.addresses.build(address_type: 'shipping')
-    end
+    assign_address('billing')
+    assign_address('shipping')
   end
-  
+
   def create_addresses
     @order.update(order_params)
     if @order.save
@@ -97,12 +91,17 @@ class OrdersController < ApplicationController
   end
   
   def update_shipping
+    # byebug
     if @order.update(order_params)
       @order.get_rates_from_params
       redirect_to confirm_order_path(@order)
     else
+      flash[:alert] = 'Please select a shipping method!'
       render 'shipping'
     end
+  rescue ActionController::ParameterMissing
+    flash[:alert] = 'Please select a shipping method!'
+    redirect_to shipping_order_path(@order)
   end
 
   def confirm
@@ -201,4 +200,19 @@ class OrdersController < ApplicationController
       session[:progress] << request.path
     end
 
+    def assign_address(type)
+      unless @order.addresses.exists?(address_type: type)
+        if signed_in?
+          address = current_user.addresses.find_by(address_type: type)
+          if address
+            @order.addresses << address.dup
+          else
+            @order.addresses.build(address_type: type)
+          end
+        else
+          @order.addresses.build(address_type: type)
+        end
+      end
+    end
+    
 end

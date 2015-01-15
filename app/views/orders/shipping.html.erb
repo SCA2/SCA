@@ -13,7 +13,7 @@
 							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 							<tr>
 								<td>
-									<% if index == 0 %> 
+									<% if rate.service_name == @order.shipping_method %> 
 										<%= f.radio_button :shipping_method, ship_method, :checked => true %>
 									<% else %>
 										<%= f.radio_button :shipping_method, ship_method, :checked => false %>
@@ -36,7 +36,7 @@
 								<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 								<tr>
 									<td>
-										<% if index == 0 %> 
+										<% if rate.service_name == @order.shipping_method %> 
 											<%= f.radio_button :shipping_method, ship_method, :checked => true %>
 										<% else %>
 											<%= f.radio_button :shipping_method, ship_method, :checked => false %>

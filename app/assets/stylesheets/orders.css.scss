@@ -3,21 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 @import "colors";
-@import "foundation/components/breadcrumbs";
-
-// breadcrumbs
-
-.checkout-breadcrumbs {
-  @include crumb-container;
-  border: 1px solid $brown-60;
-  background-color: darken($brown-85, 5%);
-  li {
-    @include crumbs;
-    a { color: $red-30; }
-    &.unavailable a { color: $brown-50; }
-    &.unavailable:hover a { color: $brown-50, 25%; }
-  }
-}
 
 div.user {
   width: 100%;
