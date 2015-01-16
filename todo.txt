@@ -16,7 +16,6 @@ content:
   assign UPC codes
 
 features:
-  billing address same as shipping checkbox
 
 testing:
   discount

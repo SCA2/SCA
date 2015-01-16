@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
   
   accepts_nested_attributes_for :addresses
   
-  attr_accessor :card_number, :card_verification, :ip_address, :validate_order, :validate_terms, :accept_terms, :use_billing
+  attr_accessor :card_number, :card_verification, :ip_address, :validate_order, :validate_terms, :accept_terms
   
   validate :validate_card, if: :validate_order?
 

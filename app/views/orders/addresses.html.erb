@@ -13,8 +13,10 @@
 						<% end %>
 					</div>
 					<div class="address">
-						<%= order.check_box :use_billing, { checked: false }, 'yes', 'no' %>
-						<%= order.label :use_billing, 'Billing address same as shipping?' %>
+						<div id="use-billing">
+							<%= order.check_box :use_billing, { id: 'use-billing' }, 'yes', 'no' %>
+							<%= order.label :use_billing, 'Shipping address same as billing?' %>
+						</div>
 						<%= order.fields_for :addresses, @order.addresses.second do |shipping| %>
 							<%= render 'addresses/address_form', f: shipping %>
 						<% end %>

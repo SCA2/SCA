@@ -67,14 +67,9 @@ class OrdersController < ApplicationController
   end
 
   def create_addresses
-    byebug
-    if order_params[:use_billing] == 'yes'
-      temp_id = order_params[:addresses_attributes]['1'][:id].dup
-      params[:order][:addresses_attributes]['1'] = params[:order][:addresses_attributes]['0'].dup
-      params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
-      params[:order][:addresses_attributes]['1'][:id] = temp_id
-      params[:order][:addresses_attributes]['1'][:address_type] = 'shipping'
-    end
+
+    assign_shipping if use_billing_for_shipping?
+
     @order.update(order_params)
     if @order.save
       flash[:success] = 'Addresses saved!'
@@ -241,4 +236,17 @@ class OrdersController < ApplicationController
 
       return options
     end
+
+    def use_billing_for_shipping?
+      order_params[:use_billing] == 'yes'
+    end
+
+    def assign_shipping
+      temp_id = order_params[:addresses_attributes]['1'][:id].dup
+      params[:order][:addresses_attributes]['1'] = params[:order][:addresses_attributes]['0'].dup
+      params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
+      params[:order][:addresses_attributes]['1'][:id] = temp_id
+      params[:order][:addresses_attributes]['1'][:address_type] = 'shipping'
+    end
+
 end
