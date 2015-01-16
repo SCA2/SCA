@@ -242,11 +242,12 @@ class OrdersController < ApplicationController
     end
 
     def assign_shipping
-      temp_id = order_params[:addresses_attributes]['1'][:id].dup
+      # byebug
+      id = params[:order][:addresses_attributes]['1'][:id]
       params[:order][:addresses_attributes]['1'] = params[:order][:addresses_attributes]['0'].dup
       params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
-      params[:order][:addresses_attributes]['1'][:id] = temp_id
       params[:order][:addresses_attributes]['1'][:address_type] = 'shipping'
+      params[:order][:addresses_attributes]['1'][:id] = id if id
     end
 
 end
