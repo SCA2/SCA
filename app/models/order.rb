@@ -24,10 +24,8 @@ class Order < ActiveRecord::Base
   
   def purchase
     response = process_purchase
-    transactions.create!(:action => "purchase", :amount => total_in_cents, :response => response)
-    if response.success?
-      cart.update(:purchased_at => Time.now) 
-    end
+    transactions.create!(action: "purchase", amount: total_in_cents, response: response)
+    cart.update(purchased_at: Time.zone.now) if response.success?
     response.success?
   end
   
