@@ -4,13 +4,7 @@
 	<div class="row">
 		<div class="small-12 columns">
       <%= render 'shared/errors', object: @cart %>
-      <ul class="checkout-breadcrumbs">
-        <li class="current"><%= link_to 'Cart', '#' %></li>
-        <li class="unavailable"><%= link_to 'Addresses', '#' %></li>
-        <li class="unavailable"><%= link_to 'Shipping Method', '#' %></li>
-        <li class="unavailable"><%= link_to 'Confirm', '#' %></li>
-        <li class="unavailable"><%= link_to 'Payment', '#' %></li>
-      </ul>
+      <%= render 'shared/cart_progress_bar' %>
 			<%= render 'cart', cart: @cart %>
 		</div>
 	</div>	

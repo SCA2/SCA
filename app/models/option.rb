@@ -22,6 +22,10 @@ class Option < ActiveRecord::Base
   def init
     self.discount ||= 0
   end
+
+  def price_in_cents
+    price * 100
+  end
   
   def shipping_volume
     self.shipping_length * self.shipping_width * self.shipping_height

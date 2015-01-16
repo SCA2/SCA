@@ -3,11 +3,13 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-9 columns">
+			<%= render 'shared/errors', object: @order %>
+			<%= render 'shared/success_progress_bar' %>
 			<h6><b>Thank you for your order, we appreciate your business!</b></h6>
 			<p><b>Transaction ID: <%= @transaction.params['transaction_id'].to_s %><br>
 			Total Amount: <%= number_to_currency(@transaction.amount.to_f / 100) %></b></p>
 			<p>We'll send a confirmation to <b><%= @order.email %></b> shortly. We'll send a tracking number when your order ships. If you have spam blocking enabled, be sure to allow email from <b>sales@seventhcircleaudio.com</b> so that we can keep you updated on your order.  If you have questions about the status of your order, please direct them to sales@seventhcircleaudio.com.  Be sure to include the email address and the transaction ID above.</p>
-			<p>If you've ordered a kit, please find links to assembly instructions and other pdf documents on the module product pages.  We do not include printed copies of the assembly instructions.</p>
+			<p>If you've ordered a kit, please find links to assembly instructions and other pdf documents on the product pages.  Kits do not include printed assembly instructions.</p>
 		</div>
 		<div class="small-3 columns">
 			<%= render 'layouts/sidebar_left' %>

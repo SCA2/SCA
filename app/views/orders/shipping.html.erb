@@ -13,11 +13,7 @@
 							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 							<tr>
 								<td>
-									<% if rate.service_name == @order.shipping_method %> 
-										<%= f.radio_button :shipping_method, ship_method, :checked => true %>
-									<% else %>
-										<%= f.radio_button :shipping_method, ship_method, :checked => false %>
-									<% end %>
+									<%= eval(make_radio_button(rate, index)) %>
 									<%= f.label :shipping_method, rate.service_name %>
 								</td>
 								<td>
@@ -36,11 +32,7 @@
 								<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
 								<tr>
 									<td>
-										<% if rate.service_name == @order.shipping_method %> 
-											<%= f.radio_button :shipping_method, ship_method, :checked => true %>
-										<% else %>
-											<%= f.radio_button :shipping_method, ship_method, :checked => false %>
-										<% end %>
+										<%= eval(make_radio_button(rate, index)) %>
 										<%= f.label :shipping_method, rate.service_name %>
 									</td>
 									<td>
@@ -53,7 +45,7 @@
 					</fieldset>
 				<% end %> 
 				<div class="button-box">
-					<%= link_to 'Back to Addresses', addresses_order_path, class: 'button user' %>
+					<%= link_to 'Back to Addresses', :back, class: 'button user' %>
 					<%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>

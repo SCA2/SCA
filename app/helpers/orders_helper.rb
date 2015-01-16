@@ -1,7 +1,7 @@
 module OrdersHelper
 
   def get_crumb_class(path)
-    if session[:progress].last == path
+    if current_page?(path)
       "current"
     elsif session[:progress].include?(path)
       "available"
@@ -24,6 +24,20 @@ module OrdersHelper
     else
       return link_to(label, path)
     end
+  end
+
+  def make_radio_button(rate, index)
+    erb_string = "f.radio_button :shipping_method, ship_method, checked: false"
+    if @order.shipping_method
+      if (rate.service_name == @order.shipping_method)
+        erb_string = "f.radio_button :shipping_method, ship_method, checked: true"
+      end
+    else
+      if (index == 0)
+        erb_string = "f.radio_button :shipping_method, ship_method, checked: true"
+      end
+    end
+    erb_string.html_safe
   end
 
 end

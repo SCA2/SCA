@@ -14,7 +14,7 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :carts, except: [:index, :edit, :new]
+  resources :carts, only: [:show, :update, :destroy]
   
   resources :products do
     resources :features, except: [:index, :show]

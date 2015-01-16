@@ -16,7 +16,7 @@ content:
   assign UPC codes
 
 features:
-  activate checkout breadcrumbs
+  billing address same as shipping checkbox
 
 testing:
   discount
@@ -25,7 +25,6 @@ testing:
   inventory
 
 future:
-  billing address same as shipping checkbox
   style static error pages
   add static page for ordering instructions?
   expand model number for sub-panels?

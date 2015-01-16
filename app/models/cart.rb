@@ -60,6 +60,14 @@ class Cart < ActiveRecord::Base
   def subtotal
     line_items.to_a.sum { |item| item.extended_price } - discount
   end
+
+  def subtotal_in_cents
+    line_items.to_a.sum { |item| item.extended_price } * 100 - discount * 100
+  end
+
+  def discount_in_cents
+    discount * 100
+  end
   
   def total_volume
     line_items.to_a.sum { |item| item.quantity * item.option.shipping_volume }
@@ -80,7 +88,7 @@ class Cart < ActiveRecord::Base
   
   def inventory
     line_items.each do |item|
-      logger.debug "item.quantity: " + item.quantity.inspect
+      # logger.debug "item.quantity: " + item.quantity.inspect
       item.option.subtract_stock(item.quantity)
     end
   end

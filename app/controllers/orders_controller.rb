@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
 
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
-  before_action :save_progress, except: [:express, :create_express]
+  before_action :save_progress, except: [:express, :create_express, :payment]
   
   before_action :admin_user, only: [:index]
   before_action :set_order, except: [:index, :subregion_options, :create, :express, :create_express]
@@ -39,14 +39,7 @@ class OrdersController < ApplicationController
       redirect_to products_path
       return
     else
-      response = EXPRESS_GATEWAY.setup_purchase(@cart.build_order.subtotal_in_cents,
-        :ip                   => request.remote_ip,
-        :return_url           => create_express_orders_url,
-        :cancel_return_url    => products_url,
-        :currency             => 'USD',
-        :brand_name           => 'Seventh Circle Audio',
-        :allow_guest_checkout => 'true'
-      )
+      response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal_in_cents, express_options)
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
     end
   end
@@ -74,6 +67,14 @@ class OrdersController < ApplicationController
   end
 
   def create_addresses
+    byebug
+    if order_params[:use_billing] == 'yes'
+      temp_id = order_params[:addresses_attributes]['1'][:id].dup
+      params[:order][:addresses_attributes]['1'] = params[:order][:addresses_attributes]['0'].dup
+      params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
+      params[:order][:addresses_attributes]['1'][:id] = temp_id
+      params[:order][:addresses_attributes]['1'][:address_type] = 'shipping'
+    end
     @order.update(order_params)
     if @order.save
       flash[:success] = 'Addresses saved!'
@@ -91,7 +92,6 @@ class OrdersController < ApplicationController
   end
   
   def update_shipping
-    # byebug
     if @order.update(order_params)
       @order.get_rates_from_params
       redirect_to confirm_order_path(@order)
@@ -136,6 +136,11 @@ class OrdersController < ApplicationController
   end
   
   def update
+
+    unless @order.cart
+      redirect_to products_path and return
+    end
+
     if @order.express_token.to_s.length > 1
       @order.validate_terms = true
       unless @order.update(order_params)
@@ -151,12 +156,10 @@ class OrdersController < ApplicationController
       if @order.purchase
         @transaction = @order.transactions.last
         @order.cart.inventory
-        @order.cart = @cart
-        @order.save
         @cart.save
         UserMailer.order_received(@order).deliver
-#        Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
+        session[:progress] = nil
         render 'success'
       else
         @transaction = @order.transactions.last
@@ -178,10 +181,10 @@ class OrdersController < ApplicationController
       params.require(:order)
             .permit(:id, :cart_id, :email,
                     :card_type, :card_expires_on, :card_number, :card_verification,
-                    :ip_address, :express_token, :accept_terms,
+                    :ip_address, :express_token, :accept_terms, :use_billing,
                     :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
-                    :addresses_attributes => [:id, :address_type, :first_name, :last_name,
-                    :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone])
+                    addresses_attributes: [:id, [:address_type, :first_name, :last_name,
+                    :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone]])
     end
 
     def admin_user
@@ -215,4 +218,27 @@ class OrdersController < ApplicationController
       end
     end
     
+    def express_options
+      options = {}
+      options[:ip] = request.remote_ip,
+      options[:return_url] = create_express_orders_url,
+      options[:cancel_return_url] = products_url,
+      options[:currency] = 'USD',
+      options[:brand_name] = 'Seventh Circle Audio',
+      options[:allow_guest_checkout] = 'true'
+      options[:subtotal] = @cart.subtotal_in_cents
+      options[:items] = @cart.line_items.map do |line_item|
+        {
+          name: line_item.full_model,
+          quantity: line_item.quantity,
+          amount: line_item.option.price_in_cents
+        }
+      end
+
+      if (discount = @cart.discount_in_cents) > 0
+        options[:items] << { name: 'Discount', quantity: 1, amount: -discount }
+      end
+
+      return options
+    end
 end
