@@ -6,25 +6,27 @@
 			<%= render 'shared/progress_bar' %>
 			<%= form_for @order, url: update_shipping_order_path(@order) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<fieldset id="shipper">
-					<legend><%= 'UPS Options' %></legend>
-					<table class="confirm-table">
-						<% @rates.each_with_index do |rate, index| %>
-							<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
-							<tr>
-								<td>
-									<%= eval(make_radio_button(rate, index)) %>
-									<%= f.label :shipping_method, rate.service_name %>
-								</td>
-								<td>
-									<%= number_to_currency(rate.price.to_f / 100) %>
-								</td>
-								
-							</tr>
-						<% end %>
-					</table>
-				</fieldset>
-				<%if @cart.max_dimension < 12 %> 
+				<%if @order.ups_rates %> 
+					<fieldset id="shipper">
+						<legend><%= 'UPS Options' %></legend>
+						<table class="confirm-table">
+							<% @order.ups_rates.each_with_index do |rate, index| %>
+								<% ship_method = rate.service_name + ', ' + rate.price.to_s %>
+								<tr>
+									<td>
+										<%= eval(make_radio_button(rate, index)) %>
+										<%= f.label :shipping_method, rate.service_name %>
+									</td>
+									<td>
+										<%= number_to_currency(rate.price.to_f / 100) %>
+									</td>
+									
+								</tr>
+							<% end %>
+						</table>
+					</fieldset>
+				<% end %>
+				<%if @order.usps_rates %> 
 					<fieldset id="shipper">
 						<legend><%= 'USPS Options' %></legend>
 						<table class="confirm-table">
@@ -45,7 +47,7 @@
 					</fieldset>
 				<% end %> 
 				<div class="button-box">
-					<%= link_to 'Back to Addresses', :back, class: 'button user' %>
+					<%= link_to 'Back to Addresses', addresses_order_path(@order), class: 'button user' %>
 					<%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>

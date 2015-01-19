@@ -35,6 +35,14 @@ class Order < ActiveRecord::Base
     cart.update(purchased_at: Time.zone.now) if response.success?
     response.success?
   end
+
+  def purchased?
+    if cart
+      cart.purchased?
+    else
+      false
+    end
+  end
   
   def express_token=(token)
     write_attribute(:express_token, token)

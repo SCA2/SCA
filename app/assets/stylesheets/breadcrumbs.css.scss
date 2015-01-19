@@ -36,7 +36,7 @@ $crumb-slash: "/";
 .checkout-breadcrumbs {
   @include crumb-container;
   background-color: darken($brown-85, 5%);
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
   border: none;
   border-radius: 0px;
   & > *.unavailable {

@@ -12,18 +12,6 @@ class CartsController < ApplicationController
     redirect_to products_url, notice: 'Your cart is currently empty' if @cart.line_items.empty?
   end
 
-  # def create
-  #   @cart = Cart.new(cart_params)
-    
-  #   if @cart.save
-  #     session[:progress] = cart_path(@cart)
-  #     redirect_to @cart, notice: 'Cart was successfully created.'
-  #   else
-  #     session[:progress] = nil
-  #     redirect_to products_url, notice: 'Cart could not be saved'
-  #   end
-  # end
-  
   def update
     if @cart.id == session[:cart_id]
       if @cart.update(cart_params)

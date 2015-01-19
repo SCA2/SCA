@@ -27,26 +27,29 @@ class Cart < ActiveRecord::Base
 
     total_discount = 0    
     #check combos
-    total_discount += combo_discount('A12', a12_opamps, 'KA')      
-    total_discount += combo_discount('J99', j99_opamps, 'KA')      
-    total_discount += combo_discount(chassis_set, 'CH02', 'KF')      
-    total_discount += combo_discount(chassis_set, 'PC01', 'KF')      
+    total_discount += combo_discount('A12', a12_opamps)      
+    total_discount += combo_discount('J99', j99_opamps)      
+    total_discount += combo_discount(chassis_set, 'CH02')      
+    total_discount += combo_discount(chassis_set, 'PC01')      
 
     #check for subpanel combos
-    line_items.each do |line_item|
+    lines = line_items.includes(:product, :option)
+    lines.each do |line_item|
       model = line_item.product.model
+      model = 'A12' if model == 'A12B' 
+      model = 'J99' if model == 'J99B' 
       if subpanel_set.include? model
-        total_discount += combo_discount(model, 'CH02', '-SP-' + model)      
+        total_discount += combo_discount(model, 'CH02-SP-' + model)      
       end
     end
     total_discount
   end
   
-  def combo_discount(a_product, b_product, b_option)
+  def combo_discount(a_product, b_product)
     a_lines = line_items.joins(:product).where(products: { model: a_product })
     if a_lines.any?
       a_count = a_lines.to_a.sum { |a| a.quantity }
-      b_lines = line_items.joins(:product, :option).where(products: { model: b_product }, options: { model: b_option })
+      b_lines = line_items.joins(:product).where(products: { model: b_product }).includes(:option)
       if b_lines.any?
         b_count = b_lines.to_a.sum { |b| b.quantity }
         combos = [a_count, b_count].min
@@ -91,6 +94,10 @@ class Cart < ActiveRecord::Base
       # logger.debug "item.quantity: " + item.quantity.inspect
       item.option.subtract_stock(item.quantity)
     end
+  end
+
+  def purchased?
+    purchased_at && purchased_at < Time.zone.now
   end
 
 end

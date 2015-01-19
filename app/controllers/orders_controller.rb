@@ -12,29 +12,25 @@ class OrdersController < ApplicationController
   end
   
   def show
-    @billing = @order.addresses.find_by(:address_type => 'billing')
-    @shipping = @order.addresses.find_by(:address_type => 'shipping')
+    @billing = @order.addresses.find_by(address_type: 'billing')
+    @shipping = @order.addresses.find_by(address_type: 'shipping')
     @cart = @order.cart
     
     if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
-      redirect_to orders_path, alert: "Invalid record"
-      return
+      redirect_to orders_path, alert: "Invalid record" and return
     end
   end
   
   def create
     if @cart.line_items.empty?
       flash[:notice] = 'Your cart is empty'
-      redirect_to products_path
-      return
+      redirect_to products_path and return
     elsif @cart.order
-      @cart.order.update(state: Order::STATES.first)
       @order = @cart.order
-      redirect_to addresses_order_path(@order)
+      bad_state_redirect
     else
-      @order = Order.create(:cart_id => @cart.id)
-      @order.update(state: Order::STATES.first)
-      redirect_to addresses_order_path(@order)
+      @order = Order.create(cart_id: @cart.id)
+      bad_state_redirect
     end
   end
   
@@ -78,8 +74,7 @@ class OrdersController < ApplicationController
       assign_address('shipping')
     else
       flash[:alert] = 'Sorry, there was a problem creating your order.'
-      @order.update(state: Order::STATES.first)
-      redirect_to cart_path(@cart)
+      bad_state_redirect
     end
   end
 
@@ -97,10 +92,8 @@ class OrdersController < ApplicationController
   end
   
   def shipping
-    if @order.viewable?
-      @rates = @order.ups_rates
-    else
-      flash[:alert] = 'Sorry, there was a problem creating your order addresses.'
+    unless @order.viewable?
+      flash[:alert] = 'Sorry, there was a problem creating your addresses.'
       @order.update(state: Order::STATES.first)
       redirect_to cart_path(@cart)
     end
@@ -136,8 +129,7 @@ class OrdersController < ApplicationController
       end
     else
       flash[:alert] = 'Sorry, there was a problem creating your shipping method.'
-      @order.update(state: Order::STATES.first)
-      redirect_to cart_path(@cart)
+      bad_state_redirect
     end
   end
   
@@ -166,8 +158,7 @@ class OrdersController < ApplicationController
       @order.email = current_user.email if signed_in?
     else
       flash[:alert] = 'Sorry, there was a problem confirming your order.'
-      @order.update(:state => Order::STATES.first)
-      redirect_to cart_path(@cart)
+      bad_state_redirect
     end
   end
   
@@ -196,8 +187,7 @@ class OrdersController < ApplicationController
       end
     else
       flash[:alert] = 'Sorry, there was a problem submitting your payment details.'
-      @order.update(:state => Order::STATES.first)
-      redirect_to cart_path(@cart)
+      bad_state_redirect
     end
   end
     
@@ -233,6 +223,15 @@ class OrdersController < ApplicationController
       session[:progress] ||= []
       if !session[:progress].include?(request.path)
         session[:progress] << request.path
+      end
+    end
+
+    def bad_state_redirect
+      if @order.purchased?
+        redirect_to products_path and return
+      else
+        @order.update(state: Order::STATES.first)
+        redirect_to addresses_order_path(@order) and return
       end
     end
 
