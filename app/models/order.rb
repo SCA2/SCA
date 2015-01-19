@@ -2,26 +2,33 @@ class Order < ActiveRecord::Base
 
   include ActiveMerchant::Shipping
 
+  CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
+  STATES = %w[order_started order_addressed shipping_method_selected order_confirmed payment_submitted transaction_succeeded transaction_failed order_canceled order_shipped]
+  
+  VIEWABLE_STATES = %w[order_started order_addressed shipping_method_selected order_confirmed]
+
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 900)
+
   belongs_to :cart, inverse_of: :order
   has_many :addresses, as: :addressable
   has_many :transactions
-  
+
   accepts_nested_attributes_for :addresses
-  
+
   attr_accessor :card_number, :card_verification, :ip_address, :validate_order, :validate_terms, :accept_terms
   
   validate :validate_card, if: :validate_order?
+  validates :accept_terms, acceptance: true, if: :validate_terms?
+  # validates_inclusion_of :state, in: STATES
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, 
                     format: { with: VALID_EMAIL_REGEX },
                     if: :validate_order?
-                      
-  validates :accept_terms, acceptance: true, if: :validate_terms?
 
 
-  CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
-  
   def purchase
     response = process_purchase
     transactions.create!(action: "purchase", amount: total_in_cents, response: response)
@@ -39,29 +46,61 @@ class Order < ActiveRecord::Base
 
   def get_express_address(token)
     details = EXPRESS_GATEWAY.details_for(token)
-    self.update(email: details.params["payer"])
-    self.addresses.create!(:address_type => 'billing',
-      :first_name => details.params["first_name"],
-      :last_name => details.params["last_name"],
-      :address_1 => details.params["street1"],
-      :address_2 => details.params["street2"],
-      :city => details.params["city_name"],
-      :state_code => details.params["state_or_province"],
-      :country => details.params["country"],
-      :post_code => details.params["postal_code"],
-      :telephone => details.params["phone"]
-    )
-    self.addresses.create!(:address_type => 'shipping',
-      :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
-      :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
-      :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
-      :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
-      :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
-      :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
-      :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
-      :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
-      :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"],
-    )
+    update(email: details.params["payer"])
+    if addresses.where(address_type: 'billing').exists?
+      addresses.first.update(
+        :address_type => 'billing',
+        :first_name => details.params["first_name"],
+        :last_name => details.params["last_name"],
+        :address_1 => details.params["street1"],
+        :address_2 => details.params["street2"],
+        :city => details.params["city_name"],
+        :state_code => details.params["state_or_province"],
+        :country => details.params["country"],
+        :post_code => details.params["postal_code"],
+        :telephone => details.params["phone"]
+      )
+    else
+      addresses.create!(
+        :address_type => 'billing',
+        :first_name => details.params["first_name"],
+        :last_name => details.params["last_name"],
+        :address_1 => details.params["street1"],
+        :address_2 => details.params["street2"],
+        :city => details.params["city_name"],
+        :state_code => details.params["state_or_province"],
+        :country => details.params["country"],
+        :post_code => details.params["postal_code"],
+        :telephone => details.params["phone"]
+      )
+    end
+    if addresses.where(address_type: 'shipping').exists?
+      addresses.last.update(
+        :address_type => 'shipping',
+        :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
+        :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
+        :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
+        :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
+        :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
+        :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
+        :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
+        :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
+        :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
+      )
+    else
+      addresses.create!(
+        :address_type => 'shipping',
+        :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
+        :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
+        :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
+        :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
+        :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
+        :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
+        :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
+        :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
+        :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
+      )
+    end
   end
 
   def total(cart)
@@ -132,8 +171,6 @@ class Order < ActiveRecord::Base
     get_rates_from_shipper(usps)
   end
 
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 900)
-    
   def sales_tax
     state = addresses.find_by(address_type: 'shipping').state_code
     if SALES_TAX[state]
@@ -174,6 +211,33 @@ class Order < ActiveRecord::Base
     return [length, width, height]  
   end
   
+  delegate :order_started?, :order_addressed?, :shipping_method_selected?, :order_confirmed?, :payment_submitted?, :transaction_succeeded?, :transaction_failed?, :order_canceled?, :order_shipped?, to: :current_state
+  
+  def self.open_orders
+    joins(:events).merge OrderEvent.with_last_state("open")
+  end
+
+  def current_state
+    (state || STATES.first).inquiry
+  end
+
+  # [order_started order_addressed shipping_method_selected order_confirmed payment_submitted transaction_succeeded order_shipped token_received transaction_failed order_canceled]
+
+  def next_state(event = nil)
+    case current_state
+    when 'payment_submitted'
+      event == :success ? 'transaction_succeeded' : 'transaction_failed'
+    when 'transaction_succeeded'
+      event == :ship ? 'order_shipped' : current_state
+    else
+      STATES[STATES.index(current_state) + 1]
+    end
+  end
+
+  def viewable?
+    VIEWABLE_STATES.include?(current_state)
+  end
+
   private
   
   def process_purchase

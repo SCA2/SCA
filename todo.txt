@@ -1,11 +1,13 @@
 To do:
 
 bugs:
+  no combo disc w/ A12B
 
 layout:
   add social icons/links
 
 content:
+  revise FAQs w/ ordering instructions
   add op-amp, subpanel notes
   docs for oneshot and subpanels
   new photos for op-amps

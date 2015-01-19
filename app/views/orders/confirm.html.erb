@@ -5,7 +5,7 @@
 		<div class="small-12 columns main">
 			<%= render 'shared/errors', object: @order %>
 			<%= render 'shared/progress_bar' %>
-			<%= form_for @order, url: @redirect, method: :patch do |form| %>
+			<%= form_for @order, url: @form_url, method: :patch do |form| %>
 				<%= form.hidden_field :express_token %>
 				<div class='review-box'>
 					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>

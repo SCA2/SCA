@@ -19,8 +19,8 @@ class Cart < ActiveRecord::Base
   end
   
   def discount
-    subpanel_set = ['A12', 'C84', 'J99', 'N72', 'T15', 'B16', 'D11']
-    chassis_set = ['A12', 'C84', 'J99', 'N72', 'T15']
+    subpanel_set = ['A12B', 'A12', 'C84', 'J99B', 'J99', 'N72', 'T15', 'B16', 'D11']
+    chassis_set = ['A12B', 'A12', 'C84', 'J99B', 'J99', 'N72', 'T15']
     opamp_set = ['A12', 'J99']
     a12_opamps = ['SC10', 'SC25']
     j99_opamps = ['SC99']
