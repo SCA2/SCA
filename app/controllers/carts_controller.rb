@@ -9,13 +9,14 @@ class CartsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   
   def show
-    redirect_to products_url, notice: 'Your cart is currently empty' if @cart.line_items.empty?
+    redirect_to products_url, notice: 'Your cart is empty!' if @cart.line_items.empty?
+    # byebug
   end
 
   def update
     if @cart.id == session[:cart_id]
       if @cart.update(cart_params)
-        redirect_to @cart, notice: 'Cart was successfully updated.'
+        redirect_to @cart, notice: 'Cart updated!'
       else
         redirect_to products_url
       end
@@ -26,7 +27,7 @@ class CartsController < ApplicationController
     @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
     session[:progress] = nil
-    redirect_to products_url, notice: 'Your cart is currently empty'
+    redirect_to products_url, notice: 'Your cart is empty!'
   end
   
   private
@@ -37,6 +38,6 @@ class CartsController < ApplicationController
     
     def invalid_cart
       logger.error "Attempt to access invalid cart #{params[:id]}"
-      redirect_to products_url, notice: 'Invalid cart'
+      redirect_to products_url, notice: 'Invalid cart!'
     end
 end

@@ -1,7 +1,9 @@
 To do:
 
 bugs:
-  no combo disc w/ A12B
+  cart items not sorting by :created_at
+  breadcrumb links unavailable at first step
+  mail header columns centered - should be left justified
 
 layout:
   add social icons/links

@@ -18,38 +18,39 @@ class Cart < ActiveRecord::Base
     current_item
   end
   
+  MODULES = %w[A12 C84 J99 N72 T15 B16 D11]
+  PREAMPS = %w[A12 C84 J99 N72 T15]
+  OPTIONS_1 = %w[B]
+  OPTIONS_2 = %w[KF KA KF-2S KF-2L KF-2H KA-2S KA-2L KA-2H]
+
   def discount
-    subpanel_set = ['A12B', 'A12', 'C84', 'J99B', 'J99', 'N72', 'T15', 'B16', 'D11']
-    chassis_set = ['A12B', 'A12', 'C84', 'J99B', 'J99', 'N72', 'T15']
-    opamp_set = ['A12', 'J99']
-    a12_opamps = ['SC10', 'SC25']
-    j99_opamps = ['SC99']
+    subpanel_set = %w[A12 A12B C84 J99 J99B N72 T15 B16 D11]
+    chassis_set = %w[A12 A12B C84 J99 J99B N72 T15]
+    opamp_set = %w[A12 J99]
+    a12_opamps = %w[SC10 SC25]
+    j99_opamps = %w[SC99]
 
     total_discount = 0    
     #check combos
-    total_discount += combo_discount('A12', a12_opamps)      
-    total_discount += combo_discount('J99', j99_opamps)      
-    total_discount += combo_discount(chassis_set, 'CH02')      
-    total_discount += combo_discount(chassis_set, 'PC01')      
+    total_discount += combo_discount('A12', a12_opamps, 'KA')
+    total_discount += combo_discount(chassis_set, 'CH02', 'KF')      
 
     #check for subpanel combos
     lines = line_items.includes(:product, :option)
     lines.each do |line_item|
-      model = line_item.product.model
-      model = 'A12' if model == 'A12B' 
-      model = 'J99' if model == 'J99B' 
-      if subpanel_set.include? model
-        total_discount += combo_discount(model, 'CH02-SP-' + model)      
-      end
+      a_model = b_model = line_item.product.model
+      b_model = 'A12' if b_model == 'A12B' 
+      b_model = 'J99' if b_model == 'J99B' 
+      total_discount += combo_discount(a_model, 'CH02', '-SP-' + b_model)      
     end
     total_discount
   end
   
-  def combo_discount(a_product, b_product)
+  def combo_discount(a_product, b_product, b_option)
     a_lines = line_items.joins(:product).where(products: { model: a_product })
     if a_lines.any?
       a_count = a_lines.to_a.sum { |a| a.quantity }
-      b_lines = line_items.joins(:product).where(products: { model: b_product }).includes(:option)
+      b_lines = line_items.joins(:product, :option).where(products: { model: b_product }, options: { model: b_option })
       if b_lines.any?
         b_count = b_lines.to_a.sum { |b| b.quantity }
         combos = [a_count, b_count].min

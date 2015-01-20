@@ -6,6 +6,7 @@ module CurrentCart
 
     def set_cart
       @cart = Cart.find(session[:cart_id])
+      @cart.line_items = @cart.line_items.sort_by { |a| a.id }
       if @cart.purchased_at
         raise ActiveRecord::RecordNotFound
       end
