@@ -25,7 +25,8 @@ class Cart < ActiveRecord::Base
 
   def discount
     subpanel_set = %w[A12 A12B C84 J99 J99B N72 T15 B16 D11]
-    chassis_set = %w[A12 A12B C84 J99 J99B N72 T15]
+    preamp_set = %w[A12 A12B C84 J99 J99B N72 T15]
+    ch02_set = %w[KF KA-2 KA-4 KA-6 KA-8]
     opamp_set = %w[A12 J99]
     a12_opamps = %w[SC10 SC25]
     j99_opamps = %w[SC99]
@@ -33,7 +34,7 @@ class Cart < ActiveRecord::Base
     total_discount = 0    
     #check combos
     total_discount += combo_discount('A12', a12_opamps, 'KA')
-    total_discount += combo_discount(chassis_set, 'CH02', 'KF')      
+    total_discount += combo_discount(preamp_set, 'CH02', ch02_set)      
 
     #check for subpanel combos
     lines = line_items.includes(:product, :option)
