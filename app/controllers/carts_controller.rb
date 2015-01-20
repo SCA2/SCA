@@ -10,7 +10,6 @@ class CartsController < ApplicationController
   
   def show
     redirect_to products_url, notice: 'Your cart is empty!' if @cart.line_items.empty?
-    # byebug
   end
 
   def update

@@ -62,8 +62,8 @@ class OrdersController < ApplicationController
   
   def subregion_options
     if @order.addresses.any?
-      @billing = @order.addresses.find_by(:address_type => 'billing')
-      @shipping = @order.addresses.find_by(:address_type => 'shipping')      
+      @billing = @order.addresses.find_by(address_type: 'billing')
+      @shipping = @order.addresses.find_by(address_type: 'shipping')      
     end
     render partial: 'subregion_select'
   end
@@ -79,9 +79,7 @@ class OrdersController < ApplicationController
   end
 
   def create_addresses
-
-    assign_shipping if use_billing_for_shipping?
-
+    copy_billing_to_shipping if use_billing_for_shipping?
     if @order.update(order_params)
       flash[:success] = 'Addresses saved!'
       @order.update(state: 'order_addressed')
@@ -94,8 +92,7 @@ class OrdersController < ApplicationController
   def shipping
     unless @order.viewable?
       flash[:alert] = 'Sorry, there was a problem creating your addresses.'
-      @order.update(state: Order::STATES.first)
-      redirect_to cart_path(@cart)
+      bad_state_redirect
     end
   rescue ActiveMerchant::Shipping::ResponseError => e
     flash[:error] = e.message
@@ -121,8 +118,8 @@ class OrdersController < ApplicationController
     if @order.viewable?
       @form_url = update_confirm_order_path(@order)
       if @order.addresses.any?
-        @billing = @order.addresses.find_by(:address_type => 'billing')
-        @shipping = @order.addresses.find_by(:address_type => 'shipping')
+        @billing = @order.addresses.find_by(address_type: 'billing')
+        @shipping = @order.addresses.find_by(address_type: 'shipping')
       else
         flash[:alert] = 'Addresses are missing!'
         redirect_to shipping_order_path(@order)
@@ -279,12 +276,24 @@ class OrdersController < ApplicationController
       order_params[:use_billing] == 'yes'
     end
 
-    def assign_shipping
-      id = params[:order][:addresses_attributes]['1'][:id]
-      params[:order][:addresses_attributes]['1'] = params[:order][:addresses_attributes]['0'].dup
+    def copy_billing_to_shipping
+      shipping = {}
+
+      id_1 = params[:order][:addresses_attributes]['1'][:id]
+      shipping = params[:order][:addresses_attributes]['0'].dup
       params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
-      params[:order][:addresses_attributes]['1'][:address_type] = 'shipping'
-      params[:order][:addresses_attributes]['1'][:id] = id if id
+      shipping[:address_type] = 'shipping'
+
+      if id_1
+        shipping[:id] = id_1
+      else
+        shipping[:id] = nil
+        @order.addresses.create(shipping.permit!)
+        id_1 = @order.addresses.find_by(address_type: 'shipping').id
+        shipping[:id] = id_1
+      end
+
+      params[:order][:addresses_attributes]['1'] = shipping
     end
 
     def set_no_cache
