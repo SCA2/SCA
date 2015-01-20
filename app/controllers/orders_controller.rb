@@ -195,14 +195,17 @@ class OrdersController < ApplicationController
 
   private
     
+    ADDRESS_ATTRIBUTES = [:id, [:address_type, :first_name, :last_name,
+      :address_1, :address_2, :city, :state_code, :post_code, :country,
+      :telephone]]
+
     def order_params
       params.require(:order)
             .permit(:id, :cart_id, :state, :email,
                     :card_type, :card_expires_on, :card_number, :card_verification,
                     :ip_address, :express_token, :accept_terms, :use_billing,
                     :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
-                    addresses_attributes: [:id, [:address_type, :first_name, :last_name,
-                    :address_1, :address_2, :city, :state_code, :post_code, :country, :telephone]])
+                    addresses_attributes: ADDRESS_ATTRIBUTES)
     end
 
     def admin_user
@@ -276,23 +279,53 @@ class OrdersController < ApplicationController
       order_params[:use_billing] == 'yes'
     end
 
+    def billing_address_id?
+      params[:order][:addresses_attributes]['0'][:id] ? true : false
+    end
+
+    def shipping_address_id?
+      params[:order][:addresses_attributes]['1'][:id] ? true : false
+    end
+
+    def billing_address_record?
+      @order.addresses.exists?(address_type: 'billing')
+    end
+
+    def shipping_address_record?
+      @order.addresses.exists?(address_type: 'shipping')
+    end
+
     def copy_billing_to_shipping
+      billing = {}
       shipping = {}
 
-      id_1 = params[:order][:addresses_attributes]['1'][:id]
-      shipping = params[:order][:addresses_attributes]['0'].dup
-      params[:order][:addresses_attributes]['0'][:address_type] = 'billing'
-      shipping[:address_type] = 'shipping'
-
-      if id_1
-        shipping[:id] = id_1
+      if billing_address_record?
+        billing_id = @order.addresses.find_by(address_type: 'billing').id
+        billing = params[:order][:addresses_attributes]['0'].dup
+        billing[:address_type] = 'billing'
+        billing[:id] = billing_id
       else
-        shipping[:id] = nil
-        @order.addresses.create(shipping.permit!)
-        id_1 = @order.addresses.find_by(address_type: 'shipping').id
-        shipping[:id] = id_1
+        billing = params[:order][:addresses_attributes]['0'].dup
+        billing[:address_type] = 'billing'
       end
 
+      if shipping_address_record?
+        shipping_id = @order.addresses.find_by(address_type: 'shipping').id
+        shipping = billing.dup
+        shipping[:address_type] = 'shipping'
+        shipping[:id] = shipping_id
+      elsif shipping_address_id?
+        shipping_id = shipping[:id]
+        shipping = billing.dup
+        shipping[:address_type] = 'shipping'
+        shipping[:id] = shipping_id
+      else
+        shipping = billing.dup
+        shipping[:address_type] = 'shipping'
+        shipping[:id] = nil
+      end
+
+      params[:order][:addresses_attributes]['0'] = billing
       params[:order][:addresses_attributes]['1'] = shipping
     end
 

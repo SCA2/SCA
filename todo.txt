@@ -3,6 +3,9 @@ To do:
 bugs:
   cart items not sorting by :created_at
   breadcrumb links unavailable at first step
+  Shipping prices column not aligned
+  Default shipping not getting selected
+  Non-US states not saving?
   mail header columns centered - should be left justified
 
 layout:
