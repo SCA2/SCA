@@ -32,12 +32,10 @@ module OrdersHelper
       if (rate.service_name == @order.shipping_method)
         erb_string = "f.radio_button :shipping_method, ship_method, checked: true"
       end
-    else
-      if (index == 0)
+    elsif (index == 0)
         erb_string = "f.radio_button :shipping_method, ship_method, checked: true"
-      end
     end
-    erb_string.html_safe
+    erb_string
   end
 
 end

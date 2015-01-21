@@ -1,14 +1,14 @@
 To do:
 
 bugs:
-  cart items not sorting by :created_at
+  cart items not re-sorting by :created_at
   breadcrumb links unavailable at first step
-  Shipping prices column not aligned
-  Default shipping not getting selected
+  Default shipping not always getting selected?
   Non-US states not saving?
-  mail header columns centered - should be left justified
 
 layout:
+  Shipping prices column not aligned
+  mail header columns centered - should be left justified
   add social icons/links
   resources page - foundationize
 

@@ -279,14 +279,6 @@ class OrdersController < ApplicationController
       order_params[:use_billing] == 'yes'
     end
 
-    def billing_address_id?
-      params[:order][:addresses_attributes]['0'][:id] ? true : false
-    end
-
-    def shipping_address_id?
-      params[:order][:addresses_attributes]['1'][:id] ? true : false
-    end
-
     def billing_address_record?
       @order.addresses.exists?(address_type: 'billing')
     end
@@ -296,32 +288,19 @@ class OrdersController < ApplicationController
     end
 
     def copy_billing_to_shipping
-      billing = {}
-      shipping = {}
-
+      billing = params[:order][:addresses_attributes]['0'].dup
+      billing[:address_type] = 'billing'
       if billing_address_record?
-        billing_id = @order.addresses.find_by(address_type: 'billing').id
-        billing = params[:order][:addresses_attributes]['0'].dup
-        billing[:address_type] = 'billing'
-        billing[:id] = billing_id
+        billing[:id] = @order.addresses.find_by(address_type: 'billing').id
       else
-        billing = params[:order][:addresses_attributes]['0'].dup
-        billing[:address_type] = 'billing'
+        billing[:id] = nil
       end
 
+      shipping = billing.dup
+      shipping[:address_type] = 'shipping'
       if shipping_address_record?
-        shipping_id = @order.addresses.find_by(address_type: 'shipping').id
-        shipping = billing.dup
-        shipping[:address_type] = 'shipping'
-        shipping[:id] = shipping_id
-      elsif shipping_address_id?
-        shipping_id = shipping[:id]
-        shipping = billing.dup
-        shipping[:address_type] = 'shipping'
-        shipping[:id] = shipping_id
+        shipping[:id] = @order.addresses.find_by(address_type: 'shipping').id
       else
-        shipping = billing.dup
-        shipping[:address_type] = 'shipping'
         shipping[:id] = nil
       end
 

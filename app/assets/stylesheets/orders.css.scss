@@ -129,10 +129,10 @@ table.confirm-table {
     }
     td {
       line-height: inherit;
-      vertical-align: center;
       margin: 0;
       padding: 0 1em 0 1em;
       text-align: left;
+      width: 80%;
       &.checkbox-cell {
         width: 50%;
         text-align: left;

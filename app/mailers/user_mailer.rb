@@ -29,8 +29,14 @@ class UserMailer < ActionMailer::Base
           subject: "Thank you for your order"
   end
 
-  def order_shipped(user)
-    @user = user
-    mail to: user.email, subject: "Your Seventh Circle Audio order has shipped!"
+  def order_shipped(order)
+    @transaction = order.transactions.first
+    @cart = order.cart
+    @order = order
+    @billing = order.addresses.find_by(address_type: 'billing')
+    @shipping = order.addresses.find_by(address_type: 'shipping')
+    mail  to: order.email, 
+          bcc: "orders@seventhcircleaudio.com",
+          subject: "Your Seventh Circle Audio order has shipped!"
   end
 end
