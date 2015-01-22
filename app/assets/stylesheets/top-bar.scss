@@ -9,7 +9,7 @@ $topbar-bg: $topbar-bg-color;
 
 // Height and margin
 // $topbar-height: 45px;
-$topbar-height: 1.8em;
+$topbar-height: 1.8rem;
 // $topbar-margin-bottom: 0;
 
 // Controlling the styles for the title in the top bar
@@ -27,7 +27,7 @@ $topbar-link-weight: bold;
 // $topbar-link-weight: $font-weight-bold;
 $topbar-link-weight: bold;
 // $topbar-link-font-size: rem-calc(13);
-$topbar-link-font-size: 1em;
+$topbar-link-font-size: 1rem;
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 $topbar-link-hover-lightness: 5%; // Darken by 10%
 
@@ -54,7 +54,7 @@ $topbar-link-bg-active-hover: lighten( $brown-50, 5%);
 $topbar-dropdown-link-color: $brown-00;
 $topbar-dropdown-link-bg: $brown-60;
 // $topbar-dropdown-link-weight: $font-weight-normal;
-$topbar-dropdown-link-font-size: 0.9em;  //rem-calc(13);
+$topbar-dropdown-link-font-size: 0.9rem;  //rem-calc(13);
 // $topbar-dropdown-toggle-size: 15px;
 // $topbar-dropdown-toggle-color: $brown-60;
 // $topbar-dropdown-toggle-alpha: 0.4;
@@ -95,8 +95,8 @@ $topbar-arrows: false;
     border: 1px solid scale-color($brown-60, $lightness: -5%);
   
     li > a {
-      font-size: 0.9em;
-      min-width: 12em;
+      font-size: 0.9rem;
+      min-width: 12rem;
     }
     
     li.has-dropdown > a {
@@ -111,12 +111,15 @@ $topbar-arrows: false;
   }
 }
 
-.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button):hover {
-  background-color: lighten( $brown-60, 5%) !important;
+.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
+  &:link { background-color: $brown-60 !important; }
+  &:visited { background-color: $brown-60 !important; }
+  &:hover { background-color: lighten( $brown-60, 5%) !important; }
+  &:active { background-color: lighten( $brown-60, 5%) !important; }
 }
 
 .top-bar-section li:not(.has-form) a:not(.button) {
-  line-height: 1.8em !important;
+  line-height: 1.8rem !important;
 }
  
 .top-bar-section li a:not(.button):hover {

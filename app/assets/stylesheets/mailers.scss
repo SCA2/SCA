@@ -1,0 +1,68 @@
+
+@import "colors";
+
+$dark-contrast: darken($brown-85, 5%);
+
+.bold { font-weight: bold; }
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+.divider-sml { height: 0.5em; }
+.divider-lrg { height: 3em; }
+
+table {
+  font-family: Arial, sans-serif;
+  color: $brown-00;
+  font-weight: normal;
+  background-color: $brown-85;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  td {
+    line-height: 1.5em;
+  }
+
+  &.email {
+    border: 1px solid $brown-60;
+    border-collapse: collapse;
+    td {
+      vertical-align: top;
+      margin: 0;
+      padding: 0;
+      &.text {
+        vertical-align: text-bottom;
+        padding: 0 1em 0 1em;
+      }
+      &.footer {
+        height: 4em;
+        vertical-align: middle;
+        text-align: center;
+      }
+    }
+  }  
+
+  &.confirm-cart {
+    border:none;
+    border-collapse: collapse;
+  }  
+  
+  &.address-table {
+    border:none;
+    border-collapse: collapse;
+  }
+
+  tr.field {
+    &:nth-child(odd) {
+      background-color: $dark-contrast
+    }
+  }
+  tr.contrast {
+    background-color: $dark-contrast;
+  }
+  th {
+    background-color: $dark-contrast;
+    padding: 0.5em 1em 0.5em 1em;
+  }
+}
+

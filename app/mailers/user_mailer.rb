@@ -1,8 +1,8 @@
 class UserMailer < ActionMailer::Base
 
-  # include Roadie::Rails::Automatic
+  include Roadie::Rails::Automatic
 
-  default css: "mailers.css.scss"
+  default css: "mailers.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"
   default date: Time.now.asctime

@@ -5,10 +5,9 @@ bugs:
   breadcrumb links unavailable at first step
   Default shipping not always getting selected?
   Non-US states not saving?
+  Cart quantity does not increment with same-product add
 
 layout:
-  Shipping prices column not aligned
-  mail header columns centered - should be left justified
   add social icons/links
   resources page - foundationize
 
@@ -24,6 +23,9 @@ content:
   assign UPC codes
 
 features:
+  send 'shipped' email
+  enable users to view orders
+  
 
 testing:
   discount
