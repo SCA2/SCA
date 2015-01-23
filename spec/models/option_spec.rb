@@ -10,15 +10,14 @@ describe Option do
 							  price: 249,
 							  upc: 123456789,
 							  shipping_weight: 3,
-							  kit_stock: 8,
-							  part_stock: 100,
-							  sort_order: 10,
-							  discount: 20,
-							  shipping_length: 8,
-							  shipping_width: 3,
-							  shipping_height: 2,
-							  assembled_stock: 8,
-							  partial_stock: 8)
+                sort_order: 10,
+                discount: 20,
+                shipping_length: 8,
+                shipping_width: 3,
+                shipping_height: 2,
+                assembled_stock: 8,
+                partial_stock: 8)
+							  component_stock: 100,
 	end
   
   subject { @option }
@@ -31,8 +30,6 @@ describe Option do
   it { should respond_to(:price) }
   it { should respond_to(:upc) }
   it { should respond_to(:shipping_weight) }
-  it { should respond_to(:kit_stock) }
-  it { should respond_to(:part_stock) }
   it { should respond_to(:sort_order) }
   it { should respond_to(:discount) }
   it { should respond_to(:shipping_length) }
@@ -40,6 +37,7 @@ describe Option do
   it { should respond_to(:shipping_height) }
   it { should respond_to(:assembled_stock) }
   it { should respond_to(:partial_stock) }
+  it { should respond_to(:component_stock) }
   
   it { expect(@option.product).to eql product }
   
@@ -71,16 +69,6 @@ describe Option do
 
   describe 'with no shipping weight' do
     before { @option.shipping_weight = nil }
-    it { should_not be_valid }
-  end
-
-  describe 'with no kit_stock' do
-    before { @option.kit_stock = nil }
-    it { should_not be_valid }
-  end
-
-  describe 'with no part_stock' do
-    before { @option.part_stock = nil }
     it { should_not be_valid }
   end
 
@@ -119,9 +107,14 @@ describe Option do
     it { should_not be_valid }
   end
 
+  describe 'with no component_stock' do
+    before { @option.component_stock = nil }
+    it { should_not be_valid }
+  end
+
   it 'complains if shipping_length not an integer' do
-  	@option.shipping_length = 0.5
-  	expect(@option).to have(1).errors_on(:shipping_length)
+    @option.shipping_length = 0.5
+    expect(@option).to have(1).errors_on(:shipping_length)
   end
 
   it 'complains if shipping_length too small' do
@@ -172,59 +165,30 @@ describe Option do
   end
 
   it 'recalculates stock' do
-		@option.part_stock = 100
-		@option.kit_stock = 0
-		@option.partial_stock = 0
-		@option.assembled_stock = 0
+    @option.assembled_stock = 0
+    @option.partial_stock = 0
+		@option.component_stock = 100
 		@option.subtract_stock(1)
-  	expect(@option.part_stock).to eq(99)
+  	expect(@option.component_stock).to eq(99)
   end
 
-  it 'sells an in-stock kit' do
-		@option.assembled_stock = 8
-		@option.partial_stock = 8
-		@option.kit_stock = 8
-		@option.part_stock = 25
-		@option.sell_kit(1)
-  	expect(@option.assembled_stock).to eq(8)
-  	expect(@option.partial_stock).to eq(8)
-  	expect(@option.kit_stock).to eq(7)  	
-  	expect(@option.part_stock).to eq(25)
-  end
+  # it 'sells an in-stock item' do
+		# @option.assembled_stock = 8
+		# @option.partial_stock = 8
+		# @option.component_stock = 25
+		# @option.sell(1)
+  # 	expect(@option.assembled_stock).to eq(7)
+  # 	expect(@option.partial_stock).to eq(8)
+  # 	expect(@option.component_stock).to eq(25)
+  # end
 
-  it 'sells an out-of-stock kit' do
-		@option.assembled_stock = 8
-		@option.partial_stock = 8
-		@option.kit_stock = 1
-		@option.part_stock = 25
-		@option.sell_kit(2)
-  	expect(@option.assembled_stock).to eq(8)
-  	expect(@option.partial_stock).to eq(8)
-  	expect(@option.kit_stock).to eq(0)  	
-  	expect(@option.part_stock).to eq(24)
-  end
-
-  it 'sells an in-stock module' do
-		@option.assembled_stock = 8
-		@option.partial_stock = 8
-		@option.kit_stock = 8
-		@option.part_stock = 25
-		@option.sell_assembled(1)
-  	expect(@option.assembled_stock).to eq(7)
-  	expect(@option.partial_stock).to eq(8)
-  	expect(@option.kit_stock).to eq(8)  	
-  	expect(@option.part_stock).to eq(25)
-  end
-
-  it 'sells an out-of-stock module' do
-		@option.assembled_stock = 1
-		@option.partial_stock = 1
-		@option.kit_stock = 8
-		@option.part_stock = 25
-		@option.sell_assembled(4)
-  	expect(@option.assembled_stock).to eq(0)
-  	expect(@option.partial_stock).to eq(0)
-  	expect(@option.kit_stock).to eq(8)  	
-  	expect(@option.part_stock).to eq(23)
-  end
+  # it 'sells an out-of-stock item' do
+		# @option.assembled_stock = 1
+		# @option.partial_stock = 1
+		# @option.component_stock = 25
+		# @option.sell(4)
+  # 	expect(@option.assembled_stock).to eq(0)
+  # 	expect(@option.partial_stock).to eq(0)
+  # 	expect(@option.part_stock).to eq(23)
+  # end
 end

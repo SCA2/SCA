@@ -7,8 +7,6 @@ FactoryGirl.define do
     price {[79, 99, 149, 199, 249, 329, 269, 289, 349, 479, 499].at(rand(0..10))}
     upc { Faker::Number.number(12) }
     shipping_weight { rand(2..12) }
-    kit_stock { rand (0..250) }
-    part_stock { rand (0..250) }
     sequence(:sort_order)  { |n| "#{n}" }
     discount { price - 20 }
     shipping_length { [6, 12, 24].at(rand(0..2)) }
@@ -16,5 +14,6 @@ FactoryGirl.define do
     shipping_height { [3, 6].at(rand(0..1)) }
     assembled_stock { rand(0..250) }
     partial_stock { rand(0..250) }
+    component_stock { rand (0..250) }
   end
 end

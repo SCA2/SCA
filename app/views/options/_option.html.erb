@@ -14,7 +14,7 @@
 				<%= get_price(@option) %>
 			</div>
 			<div class="stock" <%= "id=stock-" + @product.id.to_s %>>
-				<%= get_stock(@option) + ' can ship today' %><br>
+				<%= @option.stock_message %><br>
 			</div>
 		</div>
 	</div>

@@ -37,8 +37,6 @@ def fill_in_option(option)
   fill_in "Price:", with: option.price
   fill_in "UPC:", with: option.upc
   fill_in "Shipping Weight:", with: option.shipping_weight
-  fill_in "Kit Stock:", with: option.kit_stock
-  fill_in "Part Stock:", with: option.part_stock
   fill_in "Sort Order:", with: option.sort_order
   fill_in "Discount:", with: option.discount
   fill_in "Shipping Length:", with: option.shipping_length
@@ -46,6 +44,7 @@ def fill_in_option(option)
   fill_in "Shipping Height:", with: option.shipping_height
   fill_in "Assembled Stock:", with: option.assembled_stock
   fill_in "Partial Stock:", with: option.partial_stock
+  fill_in "Component Stock:", with: option.component_stock
 end
 
 def fill_in_feature(feature)

@@ -58,7 +58,7 @@ class OptionsController < ApplicationController
     def option_params
       params.require(:option).permit( :model, :options, :description, :price, :discount, :upc,
                                       :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
-                                      :assembled_stock, :partial_stock, :kit_stock, :part_stock, :sort_order)
+                                      :assembled_stock, :partial_stock, :component_stock, :sort_order)
     end
     
 end

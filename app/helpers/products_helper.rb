@@ -28,10 +28,6 @@ module ProductsHelper
     end
   end
   
-  def get_stock(option)
-    option.assembled_stock.to_s
-  end
-
   def get_price(option)
     number_to_currency(option.price, precision: 0)
   end

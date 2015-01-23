@@ -11,37 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150118051120) do
+ActiveRecord::Schema.define(version: 20150123001358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "addresses", force: true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "address_1"
-    t.string   "address_2"
-    t.string   "city"
-    t.string   "state_code"
-    t.string   "post_code"
-    t.string   "country"
-    t.string   "telephone"
+  create_table "addresses", force: :cascade do |t|
+    t.string   "first_name",       limit: 255
+    t.string   "last_name",        limit: 255
+    t.string   "address_1",        limit: 255
+    t.string   "address_2",        limit: 255
+    t.string   "city",             limit: 255
+    t.string   "state_code",       limit: 255
+    t.string   "post_code",        limit: 255
+    t.string   "country",          limit: 255
+    t.string   "telephone",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "addressable_id"
-    t.string   "addressable_type"
-    t.string   "address_type"
+    t.string   "addressable_type", limit: 255
+    t.string   "address_type",     limit: 255
   end
 
   add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
 
-  create_table "carts", force: true do |t|
+  create_table "carts", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "purchased_at"
   end
 
-  create_table "faqs", force: true do |t|
+  create_table "faqs", force: :cascade do |t|
     t.text     "question"
     t.text     "answer"
     t.datetime "created_at"
@@ -52,13 +52,13 @@ ActiveRecord::Schema.define(version: 20150118051120) do
 
   add_index "faqs", ["faqs_category_id"], name: "index_faqs_on_faqs_category_id", using: :btree
 
-  create_table "faqs_categories", force: true do |t|
-    t.string  "category_name"
+  create_table "faqs_categories", force: :cascade do |t|
+    t.string  "category_name",   limit: 255
     t.integer "category_weight"
   end
 
-  create_table "features", force: true do |t|
-    t.string   "caption"
+  create_table "features", force: :cascade do |t|
+    t.string   "caption",     limit: 255
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20150118051120) do
 
   add_index "features", ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order", using: :btree
 
-  create_table "line_items", force: true do |t|
+  create_table "line_items", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
     t.datetime "created_at"
@@ -82,14 +82,12 @@ ActiveRecord::Schema.define(version: 20150118051120) do
   add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
   add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
-  create_table "options", force: true do |t|
-    t.string   "model"
-    t.string   "description"
+  create_table "options", force: :cascade do |t|
+    t.string   "model",           limit: 255
+    t.string   "description",     limit: 255
     t.integer  "price"
-    t.string   "upc"
+    t.string   "upc",             limit: 255
     t.integer  "shipping_weight"
-    t.integer  "kit_stock"
-    t.integer  "part_stock"
     t.integer  "sort_order"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -101,73 +99,74 @@ ActiveRecord::Schema.define(version: 20150118051120) do
     t.integer  "shipping_height"
     t.integer  "assembled_stock"
     t.integer  "partial_stock"
+    t.integer  "component_stock"
   end
 
-  create_table "orders", force: true do |t|
+  create_table "orders", force: :cascade do |t|
     t.integer  "cart_id"
-    t.string   "email"
-    t.string   "card_type"
+    t.string   "email",            limit: 255
+    t.string   "card_type",        limit: 255
     t.date     "card_expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "express_token"
-    t.string   "express_payer_id"
-    t.string   "shipping_method"
+    t.string   "express_token",    limit: 255
+    t.string   "express_payer_id", limit: 255
+    t.string   "shipping_method",  limit: 255
     t.integer  "shipping_cost"
     t.integer  "sales_tax"
-    t.string   "use_billing"
-    t.string   "state"
+    t.string   "use_billing",      limit: 255
+    t.string   "state",            limit: 255
   end
 
-  create_table "products", force: true do |t|
-    t.string   "model"
+  create_table "products", force: :cascade do |t|
+    t.string   "model",               limit: 255
     t.text     "short_description"
     t.text     "long_description"
-    t.string   "image_1"
-    t.string   "image_2"
+    t.string   "image_1",             limit: 255
+    t.string   "image_2",             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "category"
+    t.string   "category",            limit: 255
     t.integer  "category_sort_order"
     t.integer  "model_sort_order"
     t.text     "notes"
-    t.string   "bom"
-    t.string   "schematic"
-    t.string   "assembly"
-    t.string   "specifications"
+    t.string   "bom",                 limit: 255
+    t.string   "schematic",           limit: 255
+    t.string   "assembly",            limit: 255
+    t.string   "specifications",      limit: 255
   end
 
-  create_table "slider_images", force: true do |t|
-    t.string   "name"
+  create_table "slider_images", force: :cascade do |t|
+    t.string   "name",        limit: 255
     t.text     "caption"
-    t.string   "image_url"
+    t.string   "image_url",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "product_url"
+    t.string   "product_url", limit: 255
     t.integer  "sort_order"
   end
 
-  create_table "transactions", force: true do |t|
+  create_table "transactions", force: :cascade do |t|
     t.integer  "order_id"
-    t.string   "action"
+    t.string   "action",        limit: 255
     t.integer  "amount"
     t.boolean  "success"
-    t.string   "authorization"
-    t.string   "message"
+    t.string   "authorization", limit: 255
+    t.string   "message",       limit: 255
     t.text     "params"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "name"
-    t.string   "email"
+  create_table "users", force: :cascade do |t|
+    t.string   "name",                   limit: 255
+    t.string   "email",                  limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "password_digest"
-    t.string   "remember_token"
-    t.boolean  "admin",                  default: false
-    t.string   "password_reset_token"
+    t.string   "password_digest",        limit: 255
+    t.string   "remember_token",         limit: 255
+    t.boolean  "admin",                              default: false
+    t.string   "password_reset_token",   limit: 255
     t.datetime "password_reset_sent_at"
     t.boolean  "contact_sales"
     t.boolean  "contact_news"
