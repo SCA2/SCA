@@ -1,20 +1,25 @@
 <ul class="checkout-breadcrumbs">
-  <li <%= crumb_class(cart_path(@order.cart)) %>>
-    <%= crumb_link 'Cart', cart_path(@order.cart) %>
+  <li <%= crumb_class(cart_path(@cart)) %>>
+    <%= crumb_link 'Cart', cart_path(@cart) %>
   </li>
-  <li <%= crumb_class(addresses_order_path(@order)) %>>
-    <%= crumb_link 'Billing & Shipping Addresses', addresses_order_path(@order) %>
-  </li>
-  <li <%= crumb_class(shipping_order_path(@order)) %>>
-    <%= crumb_link 'Shipping Method', shipping_order_path(@order) %>
-  </li>
-  <li <%= crumb_class(confirm_order_path(@order)) %>>
-    <%= crumb_link 'Confirm', confirm_order_path(@order) %>
-  </li>
-  <li <%= crumb_class(payment_order_path(@order)) %>>
-    <%= link_to 'Payment', '#' %>
-  </li>
-  <li class="unavailable">
-    <%= link_to 'Order Complete', '#' %>
-  </li>
+  <% if @cart.order %>
+    <li <%= crumb_class(addresses_order_path(@cart.order)) %>>
+      <%= crumb_link 'Billing & Shipping Addresses', addresses_order_path(@cart.order) %>
+    </li>
+    <li <%= crumb_class(shipping_order_path(@cart.order)) %>>
+      <%= crumb_link 'Shipping Method', shipping_order_path(@cart.order) %>
+    </li>
+    <li <%= crumb_class(confirm_order_path(@cart.order)) %>>
+      <%= crumb_link 'Confirm', confirm_order_path(@cart.order) %>
+    </li>
+    <li <%= crumb_class(payment_order_path(@cart.order)) %>>
+      <%= link_to 'Payment', '#' %>
+    </li>
+  <% else %>
+    <li class="unavailable"><%= link_to 'Billing & Shipping Addresses', '#' %></li>
+    <li class="unavailable"><%= link_to 'Shipping Method', '#' %></li>
+    <li class="unavailable"><%= link_to 'Confirm', '#' %></li>
+    <li class="unavailable"><%= link_to 'Payment', '#' %></li>
+  <% end %>
+  <li class="unavailable"><%= link_to 'Order Complete', '#' %></li>
 </ul>

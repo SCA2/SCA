@@ -28,7 +28,7 @@ class Option < ActiveRecord::Base
   end
 
   def price_in_cents
-    price * 100
+    self.price * 100
   end
   
   def shipping_volume
@@ -48,20 +48,20 @@ class Option < ActiveRecord::Base
   end
   
   def subtract_stock(quantity)
-    assembled_stock -= quantity
-    if assembled_stock < 0
-      partial_stock += assembled_stock
-      assembled_stock = 0
+    self.assembled_stock -= quantity
+    if self.assembled_stock < 0
+      self.partial_stock += self.assembled_stock
+      self.assembled_stock = 0
     end
-    if partial_stock < 0
-      component_stock += partial_stock
-      partial_stock = 0
+    if self.partial_stock < 0
+      self.component_stock += self.partial_stock
+      self.partial_stock = 0
     end
     self.save
   end
 
   def reorder?
-    component_stock < REORDER_LIMIT
+    self.component_stock < REORDER_LIMIT
   end
 
 end
