@@ -9,6 +9,7 @@ class CartsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   
   def show
+    @line_items = @cart.line_items.sort_by { |a| a.id }
     redirect_to products_url, notice: 'Your cart is empty!' if @cart.line_items.empty?
   end
 

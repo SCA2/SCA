@@ -2,7 +2,7 @@ class LineItemsController < ApplicationController
   
   include CurrentCart
   
-  before_action :set_cart, only: [:create]
+  # before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
   
   def index
@@ -20,12 +20,14 @@ class LineItemsController < ApplicationController
   end
 
   def create
+    set_cart
     product = Product.find(params[:product_id])
     option = Option.find(params[:option_id])
     @line_item = @cart.add_product(product, option)
     
     respond_to do |format|
       if @line_item.save
+        set_cart
         format.html { redirect_to :back }
         format.js
       else
@@ -35,6 +37,7 @@ class LineItemsController < ApplicationController
   end
   
   def update
+    byebug
     if @line_item.update(line_item_params)
       redirect_to @line_item, notice: 'Line item was successfully updated.'
     else
@@ -43,7 +46,7 @@ class LineItemsController < ApplicationController
   end
 
   def destroy
-    @cart = set_cart
+    set_cart
     @line_item = @cart.line_items.find(params[:id])
     @line_item.destroy
     redirect_to @cart

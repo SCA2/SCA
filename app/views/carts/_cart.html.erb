@@ -10,7 +10,7 @@
 				<th id="ext">Ext</th>
 			</tr>
 			<%= cart_form.fields_for :line_items do |line_form| %>
-				<% line_item = cart.line_items[line_form.index] %>
+				<% line_item = @line_items[line_form.index] %>
 				<tr>
 					<% model = line_item.product.model + line_item.option.model %>
 					<% item = line_item.product.category + ', ' + line_item.option.description %>

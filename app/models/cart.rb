@@ -84,6 +84,7 @@ class Cart < ActiveRecord::Base
   end
   
   def total_items
+    # byebug
     line_items.to_a.sum { |item| item.quantity }
   end
   

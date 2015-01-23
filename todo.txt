@@ -1,15 +1,14 @@
 To do:
 
 bugs:
-  cart items not re-sorting by :created_at
   breadcrumb links unavailable at first step
   Default shipping not always getting selected?
   Non-US states not saving?
-  Cart quantity does not increment with same-product add
 
 layout:
   add social icons/links
   resources page - foundationize
+  style static error pages
 
 content:
   revise FAQs w/ ordering instructions
@@ -34,8 +33,3 @@ testing:
   mailer
   checkout
   inventory
-
-future:
-  style static error pages
-  add static page for ordering instructions?
-  expand model number for sub-panels?

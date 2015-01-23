@@ -57,10 +57,11 @@ class Option < ActiveRecord::Base
       component_stock += partial_stock
       partial_stock = 0
     end
-    if component_stock < REORDER_LIMIT
-      #send email notification
-    end
     self.save
+  end
+
+  def reorder?
+    component_stock < REORDER_LIMIT
   end
 
 end
