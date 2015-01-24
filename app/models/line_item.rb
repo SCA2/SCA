@@ -3,9 +3,10 @@ class LineItem < ActiveRecord::Base
   belongs_to :product, inverse_of: :line_items
   belongs_to :option, inverse_of: :line_items
   belongs_to :cart, inverse_of: :line_items
-  
   validates :cart, :product, :option, presence: true
   
+  default_scope { order('created_at ASC') }
+
   def product_model
     product.model
   end
