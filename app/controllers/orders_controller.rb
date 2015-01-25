@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   before_action :set_no_cache
   before_action :save_progress, except: [:express, :create_express, :payment]
   before_action :admin_user, only: [:index]
-  before_action :set_order, except: [:index, :subregion_options, :create, :express, :create_express]
+  before_action :set_order, except: [:index, :create, :express, :create_express]
 
   def index
     @orders = Order.order(:created_at)    
@@ -63,9 +63,11 @@ class OrdersController < ApplicationController
   def subregion_options
     if @order.addresses.any?
       @billing = @order.addresses.find_by(address_type: 'billing')
-      @shipping = @order.addresses.find_by(address_type: 'shipping')      
+      # render partial: 'subregion_select', locals: { select_name: "order[addresses_attributes][0]", subregion: @shipping.state_code, parent_region: @shipping.country }
+      @shipping = @order.addresses.find_by(address_type: 'shipping')
+      # render partial: 'subregion_select', locals: { select_name: "order[addresses_attributes][1]", subregion: @shipping.state_code, parent_region: @shipping.country }
+      render partial: 'subregion_select'
     end
-    render partial: 'subregion_select'
   end
   
   def addresses
@@ -79,6 +81,7 @@ class OrdersController < ApplicationController
   end
 
   def create_addresses
+    # byebug
     copy_billing_to_shipping if use_billing_for_shipping?
     if @order.update(order_params)
       flash[:success] = 'Addresses saved!'

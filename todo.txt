@@ -2,7 +2,6 @@ To do:
 
 bugs:
   Default shipping not always getting selected?
-  Non-US states not saving?
 
 layout:
   add social icons/links

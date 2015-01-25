@@ -5,7 +5,7 @@ class LineItem < ActiveRecord::Base
   belongs_to :cart, inverse_of: :line_items
   validates :cart, :product, :option, presence: true
   
-  default_scope { order('created_at ASC') }
+  default_scope { order(created_at: :asc) }
 
   def product_model
     product.model

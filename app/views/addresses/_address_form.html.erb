@@ -31,7 +31,7 @@
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :country, 'Country' %></td>
-			<td class="input"><%= f.country_select :country, priority: %w{ US }, selected: 'US' %></td>
+			<td class="input"><%= f.country_select :country, priority: %w{ US }, selected: f.object.country %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :post_code, 'Post Code' %></td>

@@ -8,7 +8,7 @@ $ ->
     target = '[addresses_attributes]'
     target_index = $(this).attr('name').indexOf(target) + target.length + 1
     index = $(this).attr('name').charAt(target_index)
-    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=[addresses_attributes][" + index + "]"
+    url = "/addresses/subregion_options?parent_region=#{country_code}&select_name=order[addresses_attributes][" + index + "]"
     select_wrapper = $("[id*='addresses_attributes'][id*=" + index + "][id*='state_code']")
     select_wrapper.parent('.input').load(url)
 
