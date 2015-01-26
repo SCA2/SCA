@@ -21,8 +21,8 @@ class Cart < ActiveRecord::Base
   def discount
     subpanels = %w[A12 C84 J99 N72 T15 B16 D11]
     preamps_KF = %w[A12 C84 J99 N72 T15]
-    preamps_KA = %w[A12 A12B C84 J99 J99B N72 T15]
-    ch02_KA_options = %w[KA-2 KA-4 KA-6 KA-8]
+    preamps_KA = preamps_KF + %w[A12B J99B]
+    ch02_KA_options = %w[KA-1 KA-2 KA-3 KA-4 KA-5 KA-6 KA-7 KA-8]
     module_KF_options = %w[KF KF-2S KF-2L KF-2H]
     module_KA_options = %w[KA KA-2S KA-2L KA-2H]
     module_options = module_KA_options + module_KF_options
@@ -95,7 +95,6 @@ class Cart < ActiveRecord::Base
   end
   
   def total_items
-    # byebug
     line_items.to_a.sum { |item| item.quantity }
   end
   
@@ -105,7 +104,6 @@ class Cart < ActiveRecord::Base
   
   def inventory
     line_items.each do |item|
-      # logger.debug "item.quantity: " + item.quantity.inspect
       item.option.subtract_stock(item.quantity)
     end
   end

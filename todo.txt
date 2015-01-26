@@ -8,7 +8,6 @@ layout:
   style static error pages
 
 content:
-  prices
   revise FAQs w/ ordering instructions
   add op-amp, subpanel notes
   docs for oneshot and subpanels
@@ -20,11 +19,10 @@ content:
   assign UPC codes
 
 features:
-  provide title on product pages
   send 'shipped' email
-  send 'reorder limit' email
   enable users to view orders
   component table
+  send 'reorder limit' email
 
 
 testing:
