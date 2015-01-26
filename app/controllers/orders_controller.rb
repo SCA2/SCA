@@ -63,11 +63,9 @@ class OrdersController < ApplicationController
   def subregion_options
     if @order.addresses.any?
       @billing = @order.addresses.find_by(address_type: 'billing')
-      # render partial: 'subregion_select', locals: { select_name: "order[addresses_attributes][0]", subregion: @shipping.state_code, parent_region: @shipping.country }
       @shipping = @order.addresses.find_by(address_type: 'shipping')
-      # render partial: 'subregion_select', locals: { select_name: "order[addresses_attributes][1]", subregion: @shipping.state_code, parent_region: @shipping.country }
-      render partial: 'subregion_select'
     end
+    render partial: 'subregion_select'
   end
   
   def addresses
@@ -81,7 +79,6 @@ class OrdersController < ApplicationController
   end
 
   def create_addresses
-    # byebug
     copy_billing_to_shipping if use_billing_for_shipping?
     if @order.update(order_params)
       flash[:success] = 'Addresses saved!'

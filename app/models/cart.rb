@@ -18,48 +18,59 @@ class Cart < ActiveRecord::Base
     current_item
   end
   
-  MODULES = %w[A12 C84 J99 N72 T15 B16 D11]
-  PREAMPS = %w[A12 C84 J99 N72 T15]
-  OPTIONS_1 = %w[B]
-  OPTIONS_2 = %w[KF KA KF-2S KF-2L KF-2H KA-2S KA-2L KA-2H]
-
   def discount
-    subpanel_set = %w[A12 A12B C84 J99 J99B N72 T15 B16 D11]
-    preamp_set = %w[A12 A12B C84 J99 J99B N72 T15]
-    ch02_set = %w[KF KA-2 KA-4 KA-6 KA-8]
-    opamp_set = %w[A12 J99]
+    subpanels = %w[A12 C84 J99 N72 T15 B16 D11]
+    preamps_KF = %w[A12 C84 J99 N72 T15]
+    preamps_KA = %w[A12 A12B C84 J99 J99B N72 T15]
+    ch02_KA_options = %w[KA-2 KA-4 KA-6 KA-8]
+    module_KF_options = %w[KF KF-2S KF-2L KF-2H]
+    module_KA_options = %w[KA KA-2S KA-2L KA-2H]
+    module_options = module_KA_options + module_KF_options
     a12_opamps = %w[SC10 SC25]
-    j99_opamps = %w[SC99]
 
     total_discount = 0    
-    #check combos
-    total_discount += combo_discount('A12', a12_opamps, 'KA')
-    total_discount += combo_discount(preamp_set, 'CH02', ch02_set)      
+    total_discount += combo_discount('A12', module_options, a12_opamps, 'KA')
+    total_discount += combo_discount(preamps_KF, 'KF', 'CH02', 'KF')      
 
-    #check for subpanel combos
-    lines = line_items.includes(:product, :option)
-    lines.each do |line_item|
-      a_model = b_model = line_item.product.model
-      b_model = 'A12' if b_model == 'A12B' 
-      b_model = 'J99' if b_model == 'J99B' 
-      total_discount += combo_discount(a_model, 'CH02', '-SP-' + b_model)      
+    ch02_KA_options.each do |option|
+      min_quantity = option.split('').last.to_i
+      total_discount += combo_discount(preamps_KA, module_KA_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
     end
+
+    subpanels.each do |a_model|
+      b_options = '-SP-' + a_model
+      a_model = [a_model, a_model + 'B'] 
+      total_discount += combo_discount(a_model, module_options, 'CH02', b_options)      
+    end
+
     total_discount
   end
-  
-  def combo_discount(a_product, b_product, b_option)
-    a_lines = line_items.joins(:product).where(products: { model: a_product })
+
+  def find_in_cart(product, option)
+    line_items.joins(:product, :option).where(products: { model: product }, options: { model: option })
+  end
+
+  def discount_amount(line_items, combos)
+    combos * line_items.first.option.discount
+  end
+
+  def combo_discount(a_product, a_option, b_product, b_option)
+    combo_discount = 0              
+    a_lines = find_in_cart(a_product, a_option)
     if a_lines.any?
-      a_count = a_lines.to_a.sum { |a| a.quantity }
-      b_lines = line_items.joins(:product, :option).where(products: { model: b_product }, options: { model: b_option })
+      a_quantity = a_lines.to_a.sum { |a| a.quantity }
+      b_lines = find_in_cart(b_product, b_option)
       if b_lines.any?
-        b_count = b_lines.to_a.sum { |b| b.quantity }
-        combos = [a_count, b_count].min
-        discount = b_lines.first.option.discount
-        return combo_discount = combos * discount        
+        b_quantity = b_lines.to_a.sum { |b| b.quantity }
+        if block_given?
+          combos = yield(a_quantity, b_quantity)
+        else
+          combos = [a_quantity, b_quantity].min
+        end
+        combo_discount = discount_amount(b_lines, combos)        
       end
     end
-    combo_discount = 0              
+    combo_discount
   end
 
   def subtotal

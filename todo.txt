@@ -21,6 +21,7 @@ content:
   assign UPC codes
 
 features:
+  provide title on product pages
   send 'shipped' email
   send 'reorder limit' email
   enable users to view orders
