@@ -13,7 +13,7 @@ SCA::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  #  config.action_mailer.logger.development
+  # config.action_mailer.logger.development
   # config.action_mailer.preview_path = 'spec/mailers/previews'
   config.action_mailer.delivery_method = :letter_opener
   # config.action_mailer.delivery_method = :smtp
@@ -47,6 +47,12 @@ SCA::Application.configure do
   
   #Paypal
   config.after_initialize do
+    # ActiveMerchant::Billing::Base.mode = :production
+    # paypal_options = {
+    #   login:      ENV['PAYPAL_PRO_LOGIN'],
+    #   password:   ENV['PAYPAL_PRO_PASSWORD'],
+    #   signature:  ENV['PAYPAL_PRO_SIGNATURE']
+    # }
     ActiveMerchant::Billing::Base.mode = :test
     paypal_options = {
       login:      ENV['PAYPAL_DEV_LOGIN'],

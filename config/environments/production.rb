@@ -99,7 +99,7 @@ SCA::Application.configure do
     ActiveMerchant::Billing::Base.mode = :production
     paypal_options = {
       login:      ENV['PAYPAL_PRO_LOGIN'],
-      password:   ENV['PAYPAL_PRO_PASSWORD'],
+      password:   ENV['PAYPAL_PRO_PASSWORD']
       signature:  ENV['PAYPAL_PRO_SIGNATURE']
     }
     # ActiveMerchant::Billing::Base.mode = :test
