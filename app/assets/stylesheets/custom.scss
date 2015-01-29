@@ -90,7 +90,9 @@ body {
 main[role=main] {
   margin: 0;
   padding: 0;
-  background-color: $brown-85;
+  background: none;
+  background-color: $brown-85 !important;
+  color: $brown-00;
   div.box_2 {
     background-color: inherit;
     margin: 0em 1em 0em 1em;
