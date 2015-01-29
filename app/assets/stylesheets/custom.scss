@@ -88,10 +88,11 @@ body {
 
 
 main[role=main] {
+  display: block;
   margin: 0;
   padding: 0;
   background: none;
-  background-color: $brown-85 !important;
+  background-color: $brown-85;
   color: $brown-00;
   div.box_2 {
     background-color: inherit;
