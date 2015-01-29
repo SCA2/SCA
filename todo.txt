@@ -19,6 +19,7 @@ content:
   assign UPC codes
 
 features:
+  generate packing slip
   send 'shipped' email
   enable users to view orders
   component table
@@ -30,3 +31,4 @@ testing:
   mailer
   checkout
   inventory
+
