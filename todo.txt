@@ -6,11 +6,13 @@ bugs:
   missing rma doc
   dead links in order summary
   can't back up to paypal
+  can't view individual user
 
 layout:
   add social icons/links
   resources page - foundationize
   style static error pages
+  make embedded table class (for repairs, etc)
 
 content:
   revise FAQs w/ ordering instructions
