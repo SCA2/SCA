@@ -1,6 +1,11 @@
 To do:
 
 bugs:
+  no package discount w/ A12KF
+  missing oneshot docs
+  missing rma doc
+  dead links in order summary
+  can't back up to paypal
 
 layout:
   add social icons/links
@@ -19,6 +24,7 @@ content:
   assign UPC codes
 
 features:
+  add transaction info to order display
   generate packing slip
   send 'shipped' email
   enable users to view orders
