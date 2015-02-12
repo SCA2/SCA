@@ -1,10 +1,11 @@
 To do:
 
 bugs:
-  no package discount w/ A12KF
-  missing oneshot docs
-  missing rma doc
-  dead links in order summary
+  x no package discount w/ A12KF
+  x missing oneshot docs
+  x missing rma doc
+  X cart allows negative quantities
+  dead links in order email summary
   can't back up to paypal
   can't view individual user
 

@@ -17,7 +17,7 @@ class CartsController < ApplicationController
       if @cart.update(cart_params)
         redirect_to @cart, notice: 'Cart updated!'
       else
-        redirect_to products_url
+        redirect_to @cart, alert: 'Cart not updated!'
       end
     end
   end

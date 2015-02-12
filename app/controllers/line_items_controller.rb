@@ -37,7 +37,6 @@ class LineItemsController < ApplicationController
   end
   
   def update
-    byebug
     if @line_item.update(line_item_params)
       redirect_to @line_item, notice: 'Line item was successfully updated.'
     else

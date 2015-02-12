@@ -21,8 +21,8 @@ class Cart < ActiveRecord::Base
   def discount
     subpanels = %w[A12 C84 J99 N72 T15 B16 D11]
     preamps_KF = %w[A12 C84 J99 N72 T15]
-    preamps_KA = preamps_KF + %w[A12B J99B]
-    ch02_KA_options = %w[KA-1 KA-2 KA-3 KA-4 KA-5 KA-6 KA-7 KA-8]
+    preamps_KFKA = preamps_KF + %w[A12B J99B]
+    ch02_options = %w[KF KA-1 KA-2 KA-3 KA-4 KA-5 KA-6 KA-7 KA-8]
     module_KF_options = %w[KF KF-2S KF-2L KF-2H]
     module_KA_options = %w[KA KA-2S KA-2L KA-2H]
     module_options = module_KA_options + module_KF_options
@@ -30,11 +30,15 @@ class Cart < ActiveRecord::Base
 
     total_discount = 0    
     total_discount += combo_discount('A12', module_options, a12_opamps, 'KA')
-    total_discount += combo_discount(preamps_KF, 'KF', 'CH02', 'KF')      
 
-    ch02_KA_options.each do |option|
-      min_quantity = option.split('').last.to_i
-      total_discount += combo_discount(preamps_KA, module_KA_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
+    ch02_options.each do |option|
+      if option == 'KF'
+        min_quantity = 1
+        total_discount += combo_discount(preamps_KFKA, module_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
+      else
+        min_quantity = option.split('').last.to_i
+        total_discount += combo_discount(preamps_KFKA, module_KA_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
+      end
     end
 
     subpanels.each do |a_model|
