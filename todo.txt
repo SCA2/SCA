@@ -1,13 +1,13 @@
 To do:
 
 bugs:
+  x can't back up to paypal
   x no package discount w/ A12KF
   x missing oneshot docs
   x missing rma doc
-  X cart allows negative quantities
-  dead links in order email summary
-  can't back up to paypal
-  can't view individual user
+  x cart allows negative quantities
+  x can't view individual user
+  x dead links in order email summary
 
 layout:
   add social icons/links

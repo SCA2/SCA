@@ -74,8 +74,8 @@
 						<% model = line_item.product.model + line_item.option.model %>
 						<% item = line_item.product.category + ', ' + line_item.option.description %>
 						<td class="text align-left"><%= index + 1 %></td>
-						<td class="text align-left"><%= link_to model, line_item.product %></td>
-						<td class="text align-left"><%= link_to item, line_item.product %></td>
+						<td class="text align-left"><%= model %></td>
+						<td class="text align-left"><%= item %></td>
 						<td class="text align-center"><%= line_item.quantity %></td>
 						<td class="text align-right">
 							<%= number_to_currency(line_item.option.price, precision: 0) %>

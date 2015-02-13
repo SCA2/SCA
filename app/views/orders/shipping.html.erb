@@ -45,7 +45,11 @@
 					</fieldset>
 				<% end %> 
 				<div class="button-box">
+					<% if @order.express_token %>
+					<%= link_to 'Back to PayPal', express_orders_path(@order), class: 'button user' %>
+					<% else %>
 					<%= link_to 'Back to Addresses', addresses_order_path(@order), class: 'button user' %>
+					<% end %>
 					<%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>

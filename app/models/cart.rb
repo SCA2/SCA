@@ -29,6 +29,7 @@ class Cart < ActiveRecord::Base
     a12_opamps = %w[SC10 SC25]
 
     total_discount = 0    
+
     total_discount += combo_discount('A12', module_options, a12_opamps, 'KA')
 
     ch02_options.each do |option|
@@ -48,6 +49,7 @@ class Cart < ActiveRecord::Base
     end
 
     total_discount
+
   end
 
   def find_in_cart(product, option)

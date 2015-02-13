@@ -37,8 +37,7 @@ class OrdersController < ApplicationController
   def express
     if @cart.line_items.empty?
       flash[:notice] = 'Your cart is empty'
-      redirect_to products_path
-      return
+      redirect_to products_path and return
     else
       response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal_in_cents, express_options)
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
@@ -255,6 +254,7 @@ class OrdersController < ApplicationController
       options[:ip] = request.remote_ip,
       options[:return_url] = create_express_orders_url,
       options[:cancel_return_url] = cart_url(@cart),
+      options[:payment_action] = 'sale',
       options[:currency] = 'USD',
       options[:brand_name] = 'Seventh Circle Audio',
       options[:allow_guest_checkout] = 'true'
