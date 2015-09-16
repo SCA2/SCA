@@ -1,5 +1,3 @@
-include ApplicationHelper
-
 def test_sign_in(user, use_capybara = true)
   if use_capybara
     visit signin_path

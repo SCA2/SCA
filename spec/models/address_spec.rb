@@ -1,75 +1,52 @@
 require 'rails_helper'
 
 describe Address do
-	it "is valid with a first_name, last_name, address_1, city, state_code and country" do
-		address = Address.new(
-			first_name: 'Joe',
-			last_name: 'Blow',
-			address_1: '123 Main Street',
-			city: 'Topeka',
-			state_code: 'KS',
-			country: 'US')
-		expect(address).to be_valid
+	it "has a valid factory" do
+		expect(create(:address)).to be_valid
 	end
 
 	it "is invalid without a first_name" do
-		expect(Address.new(first_name: nil)).to have(1).errors_on(:first_name)
+		address = build(:address, first_name: nil)
+		expect(address).not_to be_valid
 	end
 
 	it "is invalid without a last_name" do
-		expect(Address.new(last_name: nil)).to have(1).errors_on(:last_name)
+		address = build(:address, last_name: nil)
+		expect(address).not_to be_valid
 	end
 
 	it "is invalid without an address" do
-		expect(Address.new(address_1: nil)).to have(1).errors_on(:address_1)
+		address = build(:address, address_1: nil)
+		expect(address).not_to be_valid
 	end
 
 	it "is invalid without a city" do
-		expect(Address.new(city: nil)).to have(1).errors_on(:city)
+		address = build(:address, city: nil)
+		expect(address).not_to be_valid
 	end
 
 	it "is invalid without a state" do
-		expect(Address.new(state_code: nil)).to have(1).errors_on(:state_code)
+		address = build(:address, state_code: nil)
+		expect(address).not_to be_valid
 	end
 
 	it "does not allow duplicate addresses per user" do
-		user = User.create(name: 'Joe', email: 'joetester@example.com', password: 'password')
-		address_1 = user.addresses.create(
-			first_name: 'Joe',
-			last_name: 'Blow',
-			address_1: '123 Main Street',
-			city: 'Topeka',
-			state_code: 'KS',
-			country: 'US',
-			addressable_id: 1,
-			addressable_type: 'home')
-		address_2 = user.addresses.create(
-			first_name: 'Joe',
-			last_name: 'Blow',
-			address_1: '123 Main Street',
-			city: 'Topeka',
-			state_code: 'KS',
-			country: 'US',
-			addressable_id: 1,
-			addressable_type: 'home')
+		user = create(:user)
+		address = attributes_for(:address)
+		address_1 = user.addresses.create(address)
+		address_2 = user.addresses.create(address)
+		expect(address_1).to have(0).errors
 		expect(address_2).to have(6).errors
 	end
 
 	it "allows two users to share an address" do
-		user_1 = User.create(name: 'Test_1', email: 'tester1@example.com', password: 'password')
-		user_2 = User.create(name: 'Test_2', email: 'tester2@example.com', password: 'password')
-		address = Address.create(
-			first_name: 'Joe',
-			last_name: 'Blow',
-			address_1: '123 Main Street',
-			city: 'Topeka',
-			state_code: 'KS',
-			country: 'US',
-			addressable_id: 1,
-			addressable_type: 'home')
-		user_1.addresses << address
-		user_2.addresses << address
-		expect(user_1.addresses).to have(0).errors
+		user_1 = create(:user)
+		user_2 = create(:user)
+		address = attributes_for(:address)
+		user_1.addresses.create(address)
+		user_2.addresses.create(address)
+		expect(user_1.addresses.last).to have_attributes(address)
+		expect(user_2.addresses.last).to have_attributes(address)
 	end
 
 end

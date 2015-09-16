@@ -16,8 +16,8 @@ describe Option do
                 shipping_width: 3,
                 shipping_height: 2,
                 assembled_stock: 8,
-                partial_stock: 8)
-							  component_stock: 100,
+                partial_stock: 8,
+							  component_stock: 100)
 	end
   
   subject { @option }
