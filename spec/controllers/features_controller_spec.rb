@@ -4,8 +4,8 @@ describe FeaturesController do
 
   let!(:product) { create(:product) }
   let!(:feature) { create(:feature, product: product) }
-  let(:valid_attributes) { build(:feature, product: product, model: "A12", caption: "Feature Caption", description: "Feature description", sort_order: 1).attributes }
-  let(:invalid_attributes) { build(:feature, product: product, sort_order: nil).attributes }
+  let(:valid_attributes) { attributes_for(:feature, product: product, caption: "Caption", description: "Description", sort_order: 1) }
+  let(:invalid_attributes) { attributes_for(:feature, product: product, sort_order: nil) }
 
   shared_examples('admin access to features') do
     describe "GET new" do
@@ -36,9 +36,9 @@ describe FeaturesController do
           expect(assigns(:feature)).to be_persisted
         end
   
-        it "redirects to the created feature" do
+        it "redirects to new feature path" do
           post :create, { feature: valid_attributes, product_id: product.id }
-          expect(response).to redirect_to(product)
+          expect(response).to redirect_to(new_product_feature_path(product.id))
         end
       end
   

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Faq do
 
-  let(:faqs_category) { create(:faqs_category, category_weight: 1) }
-  let(:faqs_category_2) { create(:faqs_category, category_weight: 2) }
+  let(:category_1) { create(:faqs_category, category_name: 'General', category_weight: 1) }
+  let(:category_2) { create(:faqs_category, category_name: 'Ordering', category_weight: 2) }
 
   it "has a valid factory" do
     faq = create(:faq)
@@ -20,15 +20,15 @@ describe Faq do
     expect(faq).not_to be_valid
   end
   
-  it "is invalid with a duplicate question in a group" do
-    faq1 = create(:faq, faqs_category: faqs_category, question: 'abc')
-    faq2 = build(:faq, faqs_category: faqs_category, question: 'abc')
+  it "is invalid with a duplicate question in a category" do
+    faq1 = create(:faq, faqs_category: category_1, question: 'abc')
+    faq2 = build(:faq, faqs_category: category_1, question: 'abc')
     expect(faq2).not_to be_valid
   end
   
-  it "is valid with a duplicate question in a different group" do
-    faq1 = create(:faq, faqs_category: faqs_category, question: 'abc')
-    faq2 = build(:faq, faqs_category: faqs_category_2, question: 'abc')
+  it "is valid with a duplicate question in a different category" do
+    faq1 = create(:faq, faqs_category: category_1, question: 'abc')
+    faq2 = build(:faq, faqs_category: category_2, question: 'abc')
     expect(faq2).to be_valid
   end
   
@@ -62,19 +62,19 @@ describe Faq do
     expect(faq).not_to be_valid
   end
     
-  it "returns an array sorted by category_weight and priority_weight" do
-    create(:faq, faqs_category: faqs_category, question: 'abc', question_weight: 1)
-    create(:faq, faqs_category: faqs_category, question: 'def', question_weight: 2)
-    create(:faq, faqs_category: faqs_category_2, question: 'ghi', question_weight: 3)
-    create(:faq, faqs_category: faqs_category_2, question: 'jkl', question_weight: 4)
+  it "returns an array sorted by category_weight and question_weight" do
+    create(:faq, faqs_category: category_1, question: 'abc', question_weight: 1)
+    create(:faq, faqs_category: category_1, question: 'def', question_weight: 2)
+    create(:faq, faqs_category: category_2, question: 'ghi', question_weight: 3)
+    create(:faq, faqs_category: category_2, question: 'jkl', question_weight: 4)
     expect(Faq.order(:question_weight, :faqs_category_id).first.question).to eq 'abc'
   end
 
-  it "returns an array sorted by category_weight and priority_weight" do
-    create(:faq, faqs_category: faqs_category, question: 'abc', question_weight: 1)
-    create(:faq, faqs_category: faqs_category, question: 'def', question_weight: 2)
-    create(:faq, faqs_category: faqs_category_2, question: 'ghi', question_weight: 3)
-    create(:faq, faqs_category: faqs_category_2, question: 'jkl', question_weight: 4)
+  it "returns an array sorted by category_weight and question_weight" do
+    create(:faq, faqs_category: category_1, question: 'abc', question_weight: 1)
+    create(:faq, faqs_category: category_1, question: 'def', question_weight: 2)
+    create(:faq, faqs_category: category_2, question: 'ghi', question_weight: 3)
+    create(:faq, faqs_category: category_2, question: 'jkl', question_weight: 4)
     expect(Faq.order(:question_weight, :faqs_category_id).first.question).not_to eq 'def'
   end
 end

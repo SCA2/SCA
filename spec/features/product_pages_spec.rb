@@ -47,9 +47,10 @@ feature "Products" do
 
   context "as an admin" do
 
-    let(:admin) { create(:admin) }
+    let(:admin)   { create(:admin) }
     let(:product) { build(:product) }
-    let(:option) { build(:option) }
+    let(:option)  { build(:option) }
+    
     before { test_sign_in admin }
 
     context "with no products" do
@@ -58,17 +59,14 @@ feature "Products" do
         visit products_path
         expect(page).to have_selector(:link_or_button, 'New Product')
         first(:link_or_button, 'New Product').click
-        expect(page).to have_content('Create Product')
+        expect(page).to have_content('New Product')
         fill_in_product(product)
-        find(:link_or_button, 'Save').click
-        expect(page).to have_selector('div.alert-box')
-        expect(page).to have_content('Product was successfully created.')
+        find(:link_or_button, 'Create').click
+        expect(page).to have_content('Product must have at least one option!')
         fill_in_option(option)
-        find(:link_or_button, 'Save').click
-        # save_and_open_page
+        find(:link_or_button, 'Create').click
         expect(page).to have_title(product.model)
-        expect(page).to have_selector('div.alert-box')
-        expect(page).to have_content('Option was successfully created.')
+        expect(page).to have_content('Success!')
       end
 
     end
@@ -114,17 +112,17 @@ feature "Products" do
       scenario 'add a product feature' do
         click_link 'New Feature'
         fill_in_feature(feature)
-        expect { click_button 'Save' }.to change(Feature, :count).by(1)
+        expect { click_button 'Create' }.to change(Feature, :count).by(1)
       end
 
       scenario 'add a product option' do
         click_link 'New Option'
         fill_in_option(option)
-        expect { click_button 'Save' }.to change(Option, :count).by(1)
+        expect { click_button 'Create' }.to change(Option, :count).by(1)
       end
 
       scenario 'delete a product' do
-        expect { click_link 'Delete' }.to change(Product, :count).by(-1)
+        expect { click_link 'Delete Product' }.to change(Product, :count).by(-1)
       end
       
     end

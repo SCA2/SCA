@@ -229,8 +229,6 @@ class Order < ActiveRecord::Base
     (state || STATES.first).inquiry
   end
 
-  # [order_started order_addressed shipping_method_selected order_confirmed payment_submitted transaction_succeeded order_shipped token_received transaction_failed order_canceled]
-
   def next_state(event = nil)
     case current_state
     when 'payment_submitted'

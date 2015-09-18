@@ -35,7 +35,6 @@ feature 'home page slider' do
       fill_in 'Sort Order:', with: '10'
       find(:link_or_button, 'Submit').click
       expect(current_path).to eq slider_images_path
-      expect(page).to have_selector('div.alert-box.alert')
       expect(page).to have_content("Slider image")
       expect(page).to have_content("was successfully created")
     end
@@ -45,7 +44,6 @@ feature 'home page slider' do
       fill_in 'Name:', with: 'New name'
       find(:link_or_button, 'Update').click
       expect(current_path).to eq slider_images_path
-      expect(page).to have_selector('div.alert-box.alert')
       expect(page).to have_content("Slider image")
       expect(page).to have_content("was successfully updated")
     end

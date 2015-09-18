@@ -44,7 +44,7 @@ describe OrdersController do
     end
 
     describe "GET #addresses" do
-      let(:address) { create(:user_address) }
+      let(:address) { create(:address) }
       let(:order) { Order.new }
       it "renders address template" do
         order.save!
@@ -54,9 +54,9 @@ describe OrdersController do
     end
 
     describe "POST #create_addresses" do
-      let(:address) { create(:user_address) }
-      let(:valid_address) { attributes_for(:user_address) }
-      let(:invalid_address) { attributes_for(:user_address, first_name: nil) }
+      let(:address) { create(:address) }
+      let(:valid_address) { attributes_for(:address) }
+      let(:invalid_address) { attributes_for(:address, first_name: nil) }
       let(:order) { Order.new }
       context "valid addresses" do
         it "redirects to shipping path" do

@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :addresses, 
                                 :allow_destroy => true, 
                                 :reject_if => proc { |a| a[:first_name].blank? && a[:last_name].blank? && a[:address_1].blank? && a[:city].blank? }
-  # accepts_nested_attributes_for :addresses, :allow_destroy => true, :reject_if => :address_blank?
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token
@@ -33,10 +32,8 @@ class User < ActiveRecord::Base
   def send_password_reset
     create_reset_token
     self.update!(password_reset_sent_at: Time.now)
-    UserMailer.password_reset(self).deliver
+    UserMailer.password_reset(self).deliver_now
   end
-
-  # :address_blank? = proc { |a| a[:first_name].blank? && a[:last_name].blank? && a[:address_1].blank? && a[:city].blank? }
 
   private
 

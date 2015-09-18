@@ -24,7 +24,6 @@ describe Product do
   it { should respond_to(:bom) }
   it { should respond_to(:schematic) }
   it { should respond_to(:assembly) }
-  it { should respond_to(:current_option) }
   it { should respond_to(:specifications ) }
 
   it "is invalid without a model" do
@@ -62,12 +61,12 @@ describe Product do
   describe 'feature associations' do
 
     let(:first_feature) { FactoryGirl.create(:feature, sort_order: 10) }
-    let(:last_feature) { FactoryGirl.create(:feature, sort_order: 100) }
+    let(:last_feature)  { FactoryGirl.create(:feature, sort_order: 100) }
 
     before do
-      product.save
       product.features << first_feature
       product.features << last_feature
+      product.save
     end
 
     it 'should have two features' do

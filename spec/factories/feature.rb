@@ -1,11 +1,10 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :feature, class: 'Feature' do
+  factory :feature do
     association :product
-    model {['A12', 'C84', 'J99', 'N72', 'T15', 'D11', 'B16', 'CH02', 'PC01'].at(rand(0..8))}
-    caption "Feature Caption"
+    caption { "Caption: " + Faker::Lorem.sentence.to_s }
     sequence(:sort_order)  { |n| "#{n}" }
-    description { Faker::Lorem.sentence.to_s }
+    description { "Description: " + Faker::Lorem.sentence.to_s }
   end
 end

@@ -2,15 +2,11 @@ require 'rails_helper'
 
 describe Order do
 
-  let(:order) { FactoryGirl.build(:order) }
-
   it "has a valid factory" do
     expect(FactoryGirl.build(:order)).to be_valid
   end
 
-  let(:cart) { FactoryGirl.build_stubbed(:cart) }
-  let(:address) { FactoryGirl.build_stubbed(:address) }
-  let(:transaction) { FactoryGirl.build_stubbed(:transaction) }
+  let(:order) { FactoryGirl.build(:order) }
 
   it { should respond_to(:cart) }
   it { should respond_to(:addresses) }
@@ -48,9 +44,5 @@ describe Order do
   it { should respond_to(:validate_order) }
   it { should respond_to(:validate_terms) }
   it { should respond_to(:accept_terms) }
-
-  # it "is valid with a cart, address and transaction" do
-  #   expect(@order).to be_valid
-  # end
 
 end

@@ -14,7 +14,6 @@ FactoryGirl.define do
     bom { Faker::Internet.url }
     schematic { Faker::Internet.url }
     assembly { Faker::Internet.url }
-    current_option nil
     specifications { Faker::Internet.url }
   end
 end

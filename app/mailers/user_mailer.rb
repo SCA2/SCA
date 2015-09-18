@@ -19,9 +19,9 @@ class UserMailer < ActionMailer::Base
   end
   
   def order_received(order)
-    @transaction = order.transactions.first
-    @cart = order.cart
     @order = order
+    @cart = order.cart
+    @transaction = order.transactions.first
     @billing = order.addresses.find_by(address_type: 'billing')
     @shipping = order.addresses.find_by(address_type: 'shipping')
     mail  to: order.email, 
@@ -30,9 +30,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def order_shipped(order)
-    @transaction = order.transactions.first
-    @cart = order.cart
     @order = order
+    @cart = order.cart
+    @transaction = order.transactions.first
     @billing = order.addresses.find_by(address_type: 'billing')
     @shipping = order.addresses.find_by(address_type: 'shipping')
     mail  to: order.email, 

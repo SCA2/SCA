@@ -48,7 +48,7 @@ class FeaturesController < ApplicationController
     end
 
     def feature_params
-      params.require(:feature).permit(:model, :caption, :sort_order, :description)
+      params.require(:feature).permit(:caption, :sort_order, :description)
     end
     
 end

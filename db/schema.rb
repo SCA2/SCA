@@ -114,8 +114,8 @@ ActiveRecord::Schema.define(version: 20150123001358) do
     t.string   "shipping_method",  limit: 255
     t.integer  "shipping_cost"
     t.integer  "sales_tax"
-    t.string   "use_billing"
-    t.string   "state"
+    t.string   "use_billing",      limit: 255
+    t.string   "state",            limit: 255
   end
 
   create_table "products", force: :cascade do |t|

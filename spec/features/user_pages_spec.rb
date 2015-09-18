@@ -82,8 +82,8 @@ describe "User pages" do
     
     let(:user) { build(:user) }
     before(:each) do
-      user.addresses << build(:user_address, address_type: 'billing')
-      user.addresses << build(:user_address, address_type: 'shipping')
+      user.addresses << build(:address, address_type: 'billing')
+      user.addresses << build(:address, address_type: 'shipping')
       user.save!
       test_sign_in user
       visit user_path(user)
@@ -151,7 +151,7 @@ describe "User pages" do
 
         it { is_expected.to have_link('Log Out') }
         it { is_expected.to have_title(user.name) }
-        it { is_expected.to have_selector('div.alert-box.alert', text: 'Signed up!') }
+        it { is_expected.to have_content('Signed up!') }
       end
     end
   end
@@ -186,7 +186,7 @@ describe "User pages" do
       end
 
       it { is_expected.to have_title(new_user.name) }
-      it { is_expected.to have_selector('div.alert-box.alert') }
+      it { is_expected.to have_content('Profile updated!') }
       it { is_expected.to have_link('Log Out', href: signout_path) }
       it { expect(user.reload.name).to  eq new_user.name }
       it { expect(user.reload.email).to eq new_user.email }

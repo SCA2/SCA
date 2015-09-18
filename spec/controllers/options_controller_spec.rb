@@ -4,8 +4,8 @@ describe OptionsController do
 
   let!(:product) { create(:product) }
   let!(:option) { create(:option, product: product) }
-  let(:valid_attributes) { build(:option, product: product, model: "KA-2H", description: "Option description", sort_order: 1).attributes }
-  let(:invalid_attributes) { build(:option, product: product, sort_order: nil).attributes }
+  let(:valid_attributes) { attributes_for(:option, product: product, model: "KA-2H", description: "Option description", sort_order: 1) }
+  let(:invalid_attributes) { attributes_for(:option, product: product, sort_order: nil) }
 
   shared_examples('admin access to options') do
     describe "GET #new" do
@@ -36,9 +36,9 @@ describe OptionsController do
           expect(assigns(:option)).to be_persisted
         end
   
-        it "redirects to the created option" do
+        it "redirects to new option path" do
           post :create, { option: valid_attributes, product_id: product.id }
-          expect(response).to redirect_to(product)
+          expect(response).to redirect_to(new_product_option_path(product.id))
         end
       end
   

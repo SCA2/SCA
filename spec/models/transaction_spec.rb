@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 describe Transaction do
-  before do
-    @transaction = build(:transaction)
-  end
   
-  subject { @transaction }
+  let(:transaction) { create(:transaction) }
 
   it { should respond_to(:response=) }
 
