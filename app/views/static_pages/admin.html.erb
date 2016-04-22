@@ -3,7 +3,7 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-9 columns">
-			<% if signed_in? %>
+			<% if signed_in_admin? %>
 				<p><%= link_to "View Users", users_path %></br>
 			  <%= link_to "View Orders", orders_path %></br>
 				<%= link_to "View FAQs Categories", faqs_categories_path %></p>
