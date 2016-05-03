@@ -29,7 +29,7 @@ module ProductsHelper
   end
   
   def get_price(option)
-    number_to_currency(option.price, precision: 0)
+    cents_to_dollars(option.price_in_cents, precision: 0)
   end
   
   def get_product_div_class(counter)

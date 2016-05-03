@@ -3,10 +3,10 @@ require 'rails_helper'
 describe Order do
 
   it "has a valid factory" do
-    expect(FactoryGirl.build(:order)).to be_valid
+    expect(build(:order)).to be_valid
   end
 
-  let(:order) { FactoryGirl.build(:order) }
+  let(:order) {build(:order) }
 
   it { should respond_to(:cart) }
   it { should respond_to(:addresses) }
@@ -24,9 +24,8 @@ describe Order do
   it { should respond_to(:express_token) }
   it { should respond_to(:get_express_address) }
   it { should respond_to(:total) }
-  it { should respond_to(:total_in_cents) }
   it { should respond_to(:subtotal) }
-  it { should respond_to(:subtotal_in_cents) }
+  # it { should respond_to(:subtotal_in_cents) }
   it { should respond_to(:origin) }
   it { should respond_to(:destination) }
   it { should respond_to(:packages) }
@@ -44,5 +43,51 @@ describe Order do
   it { should respond_to(:validate_order) }
   it { should respond_to(:validate_terms) }
   it { should respond_to(:accept_terms) }
+
+  describe 'subtotal' do
+    let(:price)     { 100 } # price in dollars
+    let(:quantity)  { 3 }
+    let(:product)   { build_stubbed(:product) }
+    let(:option)    { build_stubbed(:option, price: price, product: product) }
+    let(:line_item) do
+      build_stubbed(:line_item,
+        product: product,
+        option: option,
+        quantity: quantity
+      )
+    end
+    let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
+    let(:order)     { build_stubbed(:order, cart: cart) }
+
+    it 'calculates the correct value' do
+      expect(order.subtotal).to eql price * quantity * 100
+    end
+
+  end
+
+  describe 'sales_tax' do
+    let(:price)     { 100 } # price in dollars
+    let(:quantity)  { 3 }
+    let(:rate)      { 0.09 }
+    let(:product)   { build_stubbed(:product) }
+    let(:option)    { build_stubbed(:option, price: price, product: product) }
+    let(:line_item) { build_stubbed(:line_item,
+      product: product,
+      option: option,
+      quantity: quantity)
+    }
+    let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
+    let(:order)     { build_stubbed(:order, cart: cart) }
+
+    it 'calculates the correct value for CA' do
+      shipping = create(:shipping, state_code: 'CA', address_type: 'shipping', addressable: order)
+      expect(order.sales_tax).to eql (price * 100 * quantity * rate).round
+    end
+
+    it 'calculates value of 0 for other states' do
+      shipping = create(:shipping, state_code: 'PA', address_type: 'shipping', addressable: order)
+      expect(order.sales_tax).to eql 0
+    end
+  end
 
 end

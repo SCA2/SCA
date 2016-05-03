@@ -2,6 +2,8 @@ class UserMailer < ActionMailer::Base
 
   include Roadie::Rails::Automatic
 
+  helper :orders  # for cents_to_dollars()
+
   default css: "mailers.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"

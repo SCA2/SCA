@@ -1,0 +1,33 @@
+<% provide(:title, 'Sales Tax') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns">
+      <%= render 'taxes' %>
+      <div class="sales-tax">
+        <table>
+          <tr>
+            <td>Total Gross Sales</td>
+            <td><%= cents_to_dollars(@tax[:gross_sales]) %></td>
+          </tr>
+          <tr>
+            <td>Interstate Sales</td>
+            <td><%= cents_to_dollars(@tax[:excluded_sales]) %></td>
+          </tr>
+          <tr>
+            <td>Total Taxable Transactions</td>
+            <td><%= cents_to_dollars(@tax[:taxable_sales]) %></td>
+          </tr>
+          <tr>
+            <td>Excluded Shipping</td>
+            <td><%= cents_to_dollars(@tax[:shipping]) %></td>
+          </tr>
+          <tr>
+            <td>Tax Included in Gross Sales</td>
+            <td><%= cents_to_dollars(@tax[:tax_withheld]) %></td>
+          </tr>
+        </table>
+      </div>
+		</div>
+	</div>	
+</div>

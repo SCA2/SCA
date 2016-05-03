@@ -5,9 +5,20 @@
 		<div class="small-9 columns">
 			<% if signed_in_admin? %>
 				<p><%= link_to "View Users", users_path %></br>
-			  <%= link_to "View Orders", orders_path %></br>
-				<%= link_to "View FAQs Categories", faqs_categories_path %></p>
-			<% else %>
+        <%= link_to "View Orders", orders_path %></br>
+        <%= link_to "View FAQs Categories", faqs_categories_path %></p>
+  			<%= form_tag(sales_tax_orders_path(@orders), method: "get") do %>
+          <fieldset>
+            <%= label_tag(:from, "From:") %>
+            <%= date_field_tag :from, Date.current %>
+          </fieldset>
+          <fieldset>
+            <%= label_tag(:to, "To:") %>
+            <%= date_field_tag :to, Date.current %>
+          </fieldset>
+          <%= submit_tag("Calculate Sales Tax") %>
+        <% end %>
+      <% else %>
 		    <p><%= link_to "Please log in", signin_path %></p>
 			<% end %>
 		</div>

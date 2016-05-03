@@ -70,17 +70,16 @@
         </tr>
         <% @cart.line_items.each_with_index do |line_item, index| %>
           <tr class="field">
-            <% model = line_item.product.model + line_item.option.model %>
-            <% item = line_item.product.category + ', ' + line_item.option.description %>
+            <% item = line_item.category + ', ' + line_item.description %>
             <td class="text align-left"><%= index + 1 %></td>
-            <td class="text align-left"><%= link_to model, line_item.product %></td>
+            <td class="text align-left"><%= link_to line_item.model, line_item.product %></td>
             <td class="text align-left"><%= link_to item, line_item.product %></td>
             <td class="text align-center"><%= line_item.quantity %></td>
             <td class="text align-right">
-              <%= number_to_currency(line_item.option.price, precision: 0) %>
+              <%= cents_to_dollars(line_item.price, precision: 0) %>
             </td>
             <td class="text align-right">
-              <%= number_to_currency(line_item.extended_price, precision: 2) %>
+              <%= cents_to_dollars(line_item.extended_price, precision: 2) %>
             </td>
           </tr>
         <% end %>
@@ -88,31 +87,31 @@
         <tr class="contrast">
           <td class="text bold align-right" colspan="5">Package Discount</td>
           <td class="text bold align-right">
-            <%= number_to_currency(@cart.discount, precision: 2) %>
+            <%= cents_to_dollars(@cart.discount, precision: 2) %>
           </td>
         </tr>
         <tr class="contrast">
           <td class="text bold align-right" colspan="5">Subtotal</td>
           <td class="text bold align-right">
-            <%= number_to_currency(@cart.subtotal, precision: 2) %>
+            <%= cents_to_dollars(@cart.subtotal, precision: 2) %>
           </td>
         </tr>
         <tr class="contrast">
           <td class="text bold align-right" colspan="5">Sales Tax</td>
           <td class="text bold align-right">
-            <%= number_to_currency(@order.sales_tax, precision: 2) %>
+            <%= cents_to_dollars(@order.sales_tax, precision: 2) %>
           </td>
         </tr>
         <tr class="contrast">
           <td class="text bold align-right" colspan="5">Shipping</td>
           <td class="text bold align-right">
-            <%= number_to_currency(@order.shipping_cost.to_f / 100, precision: 2) %>
+            <%= cents_to_dollars(@order.shipping_cost, precision: 2) %>
           </td>
         </tr>
         <tr class="contrast">
           <td class="text bold align-right" colspan="5">Total</td>
           <td class="text bold align-right">
-            <%= number_to_currency(@order.total(@cart), precision: 2) %>
+            <%= cents_to_dollars(@order.total, precision: 2) %>
           </td>
         </tr>
       </table>

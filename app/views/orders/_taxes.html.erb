@@ -1,0 +1,22 @@
+<table class="confirm-cart" style="width: 100%">
+	<tr id="header">
+		<th id="line">Order ID</th>
+		<th id="item">Email</th>
+		<th id="item">Purchased</th>
+    <th id="item">Subtotal</th>
+		<th id="item">Sales Tax</th>		
+    <th id="item">Shipping</th>
+    <th id="item">Total</th>
+	</tr>
+	<% @tax[:orders].each do |order| %>
+		<tr>
+			<td class="item-cell"><%= link_to order.id, order %></td>
+			<td class="item-cell"><%= order.email %></td>
+			<td class="item-cell"><%= order.purchased_at.to_formatted_s(:default) %></td>
+      <td class="item-cell"><%= cents_to_dollars(order.subtotal) %></td>
+			<td class="item-cell"><%= cents_to_dollars(order.sales_tax) %></td>
+      <td class="item-cell"><%= cents_to_dollars(order.shipping_cost) %></td>
+      <td class="item-cell"><%= cents_to_dollars(order.total) %></td>
+		</tr>
+	<% end %>
+</table>

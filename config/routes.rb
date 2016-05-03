@@ -29,6 +29,9 @@ SCA::Application.routes.draw do
       get 'subregion_options'
       get 'express'
       get 'create_express'
+      get 'search'
+      get 'sales_tax'
+      delete 'delete_abandoned'
     end
     member do
       get 'addresses'

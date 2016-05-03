@@ -18,7 +18,7 @@
 										<%= f.label :shipping_method, rate.service_name %>
 									</td>
 									<td>
-										<%= number_to_currency(rate.price.to_f / 100) %>
+										<%= cents_to_dollars(rate.price, precision: 2) %>
 									</td>
 								</tr>
 							<% end %>
@@ -37,7 +37,7 @@
 										<%= f.label :shipping_method, rate.service_name %>
 									</td>
 									<td>
-										<%= number_to_currency(rate.price.to_f / 100) %>
+										<%= cents_to_dollars(rate.price, precision: 2) %>
 									</td>
 								</tr>
 							<% end %>

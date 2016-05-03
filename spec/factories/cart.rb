@@ -3,7 +3,5 @@
 FactoryGirl.define do
   factory :cart do
     purchased_at { nil }
-    # order
-    # line_item
   end
 end

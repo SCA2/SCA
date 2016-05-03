@@ -30,6 +30,10 @@ class Option < ActiveRecord::Base
   def price_in_cents
     self.price * 100
   end
+
+  def discount_in_cents
+    discount * 100
+  end
   
   def shipping_volume
     self.shipping_length * self.shipping_width * self.shipping_height

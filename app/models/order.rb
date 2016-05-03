@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
   
   VIEWABLE_STATES = %w[order_started order_addressed shipping_method_selected order_confirmed]
 
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 900)
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 9) # as percent
 
   belongs_to :cart, inverse_of: :order
   has_many :addresses, as: :addressable
@@ -37,11 +37,11 @@ class Order < ActiveRecord::Base
   end
 
   def purchased?
-    if cart
-      cart.purchased?
-    else
-      false
-    end
+    cart && cart.purchased?
+  end
+
+  def purchased_at
+    cart.purchased_at
   end
   
   def express_token=(token)
@@ -111,20 +111,12 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def total(cart)
-    cart.subtotal + sales_tax + shipping_cost.to_f / 100
+  def total
+    subtotal + sales_tax + shipping_cost
   end
   
-  def total_in_cents
-    (total(cart) * 100).round
-  end
-  
-  def subtotal(cart)
+  def subtotal
     cart.subtotal
-  end
-  
-  def subtotal_in_cents
-    (subtotal(cart) * 100).round
   end
   
   def origin
@@ -137,22 +129,24 @@ class Order < ActiveRecord::Base
   end
  
   def packages
-    package = Package.new(self.cart.weight,
-                          dimensions,
-                          :cylinder => false,
-                          :units => :imperial,
-                          :currency => 'USD',
-                          :value => cart.subtotal * 100)        
+    package = Package.new(
+      self.cart.weight,
+      dimensions,
+      cylinder: false,
+      units: :imperial,
+      currency: 'USD',
+      value: subtotal
+    )
   end
   
   def prune_response(response)
-    usps = response.rates.select do |str|
-      (str.service_name.to_s.include? "USPS") && 
-      (str.service_name.to_s.include? "Priority") &&
-      !(str.service_name.to_s.include? "Hold")
+    usps = response.rates.select do |rate|
+      (rate.service_name.to_s.include? "USPS") && 
+      (rate.service_name.to_s.include? "Priority") &&
+      !(rate.service_name.to_s.include? "Hold")
     end
-    ups = response.rates.select do |str|
-      str.service_name.to_s.include? "UPS"
+    ups = response.rates.select do |rate|
+      rate.service_name.to_s.include? "UPS"
     end
     return ups + usps
   end
@@ -165,7 +159,8 @@ class Order < ActiveRecord::Base
   
   def get_rates_from_params
     method = shipping_method.split(',')[0].strip  
-    cost = shipping_method.split(',')[1].strip.to_i
+    cost = shipping_method.split(',')[1].strip.to_f
+    cost = cost.round
     self.update(shipping_method: method, shipping_cost: cost)
   end
   
@@ -179,13 +174,14 @@ class Order < ActiveRecord::Base
     get_rates_from_shipper(usps)
   end
 
-  def sales_tax
+  def sales_tax_rate
     state = addresses.find_by(address_type: 'shipping').state_code
-    if SALES_TAX[state]
-      (cart.subtotal * SALES_TAX[state]).to_f / 10000
-    else
-      0
-    end
+    rate = SALES_TAX[state] ? SALES_TAX[state] : 0
+    rate.to_f / 100
+  end
+
+  def sales_tax
+    (subtotal * sales_tax_rate).round
   end
   
   def dimensions
@@ -299,19 +295,11 @@ class Order < ActiveRecord::Base
   end
   
   def validate_order?
-    if validate_order == true
-      return true
-    else
-      return false
-    end
+    validate_order
   end
 
   def validate_terms?
-    if validate_terms == true
-      return true
-    else
-      return false
-    end
+    validate_terms
   end
 
 end

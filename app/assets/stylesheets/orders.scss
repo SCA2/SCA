@@ -278,3 +278,36 @@ table.main-cart {
     height: 0.5em;
   }
 }
+
+// admin orders page
+
+div.date-search {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0.5rem 0;
+  
+  form {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+  }
+  
+  input {
+    display: inline-block;
+    height: 1.5rem;
+    margin: 0 1rem 0 0.2rem;
+    padding: 0 0.2rem 0 0.2rem;
+    width: 8.5rem;
+  }
+
+  label {
+    display: inline-block;
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+}

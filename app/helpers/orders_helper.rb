@@ -38,4 +38,8 @@ module OrdersHelper
     erb_string
   end
 
+  def cents_to_dollars(cents, options = {precisioin: 0})
+    number_to_currency(cents.to_f / 100, options) 
+  end
+
 end

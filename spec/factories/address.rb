@@ -3,7 +3,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :address do
+  factory :address, aliases: [:billing, :shipping] do
     association :addressable, factory: :user
     first_name Faker::Name.first_name
     last_name Faker::Name.last_name
@@ -14,5 +14,6 @@ FactoryGirl.define do
     post_code Faker::Address.zip_code
     country "USA"
     telephone Faker::PhoneNumber.phone_number
+    address_type "billing"
   end
 end

@@ -7,20 +7,24 @@ class LineItem < ActiveRecord::Base
   
   default_scope { order(created_at: :asc) }
 
-  def product_model
-    product.model
-  end
-
-  def option_model
-    option.model
-  end
-
-  def full_model
+  def model
     product.model + option.model
   end
 
+  def category
+    product.category
+  end
+
+  def description
+    option.description
+  end
+
+  def price
+    option.price_in_cents
+  end
+
   def extended_price
-    option.price * quantity
+    option.price_in_cents * quantity
   end
   
   def extended_weight

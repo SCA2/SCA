@@ -3,7 +3,7 @@
 	<table class="confirm-table">
 		<tr>
 			<td><%= f.shipping_method %></td>
-			<td><%= number_to_currency(f.shipping_cost.to_f / 100) %></td>
+			<td><%= cents_to_dollars(f.shipping_cost, precision: 2) %></td>
 		</tr>
 	</table>
 </fieldset>

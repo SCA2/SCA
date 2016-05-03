@@ -12,8 +12,8 @@
 			<%= cart_form.fields_for :line_items do |line_form| %>
 				<% line_item = cart.line_items[line_form.index] %>
 				<tr>
-					<% model = line_item.product.model + line_item.option.model %>
-					<% item = line_item.product.category + ', ' + line_item.option.description %>
+					<% model = line_item.model %>
+					<% item = line_item.category + ', ' + line_item.description %>
 					<td class="remove-cell">
 						<%= line_form.check_box :_destroy  %>
 					</td>
@@ -23,10 +23,10 @@
 						<%= line_form.number_field :quantity, value: line_item.quantity %>
 					</td>
 					<td class="price-cell">
-						<%= number_to_currency(line_item.option.price, precision: 0) %>
+						<%= cents_to_dollars(line_item.price, precision: 0) %>
 					</td>
 					<td class="price-cell">
-						<%= number_to_currency(line_item.extended_price, precision: 0) %>
+						<%= cents_to_dollars(line_item.extended_price, precision: 0) %>
 					</td>
 				</tr>
 			<% end %>
@@ -34,13 +34,13 @@
 			<tr id="discount-line">
 				<td class="total-cell" colspan="5">Discount</td>
 				<td class="total-price-cell">
-					<%= number_to_currency(cart.discount, precision: 0) %>
+					<%= cents_to_dollars(cart.discount, precision: 0) %>
 				</td>
 			</tr>
 			<tr id="total-line">
 				<td class="total-cell" colspan="5">Subtotal</td>
 				<td class="total-price-cell">
-					<%= number_to_currency(cart.subtotal, precision: 0) %>
+					<%= cents_to_dollars(cart.subtotal, precision: 0) %>
 				</td>
 			</tr>
 		</table>

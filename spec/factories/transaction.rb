@@ -2,12 +2,12 @@
 
 FactoryGirl.define do
   factory :transaction do
-    # order_id 1
-    action "MyString"
-    amount 1
-    success false
-    authorization "MyString"
-    message "MyString"
-    params "MyText"
+    association :order
+    action "action"
+    amount 123
+    success true
+    authorization "authorization"
+    message "message"
+    params "params"
   end
 end

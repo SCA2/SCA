@@ -3,7 +3,24 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns">
-			<%= render 'orders' %>
+      <div class="date-search">
+        <%= form_tag(search_orders_path(@orders), method: "get") do %>
+          <fieldset>
+            <%= label_tag(:from, "From:") %>
+            <%= date_field_tag :from, Date.current %>
+          </fieldset>
+          <fieldset>
+            <%= label_tag(:to, "To:") %>
+            <%= date_field_tag :to, Date.current %>
+          </fieldset>
+          <%= submit_tag("Search") %>
+        <% end %>
+        <%= link_to "Delete abandoned orders",
+          delete_abandoned_orders_path(@orders),
+          method: :delete, data: { confirm: "Are you sure?" }
+        %>
+      </div>
+      <%= render 'orders' %>
 		</div>
 	</div>	
 </div>

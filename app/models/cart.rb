@@ -57,7 +57,7 @@ class Cart < ActiveRecord::Base
   end
 
   def discount_amount(line_items, combos)
-    combos * line_items.first.option.discount
+    combos * line_items.first.option.discount_in_cents
   end
 
   def combo_discount(a_product, a_option, b_product, b_option)
@@ -83,14 +83,6 @@ class Cart < ActiveRecord::Base
     line_items.to_a.sum { |item| item.extended_price } - discount
   end
 
-  def subtotal_in_cents
-    line_items.to_a.sum { |item| item.extended_price } * 100 - discount * 100
-  end
-
-  def discount_in_cents
-    discount * 100
-  end
-  
   def total_volume
     line_items.to_a.sum { |item| item.quantity * item.option.shipping_volume }
   end
