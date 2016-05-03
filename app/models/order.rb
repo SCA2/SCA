@@ -112,7 +112,7 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    subtotal + sales_tax #+ shipping_cost
+    subtotal + sales_tax + shipping_cost
   end
   
   def subtotal
@@ -159,8 +159,7 @@ class Order < ActiveRecord::Base
   
   def get_rates_from_params
     method = shipping_method.split(',')[0].strip  
-    cost = shipping_method.split(',')[1].strip.to_f
-    cost = cost.round
+    cost = shipping_method.split(',')[1].strip.to_i
     self.update(shipping_method: method, shipping_cost: cost)
   end
   
