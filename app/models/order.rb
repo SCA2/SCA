@@ -112,9 +112,7 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    subtotal +
-#    sales_tax +
-    shipping_cost
+    subtotal + sales_tax # + shipping_cost
   end
   
   def subtotal
