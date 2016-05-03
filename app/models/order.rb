@@ -118,7 +118,7 @@ class Order < ActiveRecord::Base
 
     t = subtotal
     t += sales_tax
-    t += shipping_cost
+    t += Integer(shipping_cost)
     t
   end
 
