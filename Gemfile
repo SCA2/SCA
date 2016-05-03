@@ -20,10 +20,10 @@ gem 'active_utils'
 gem 'active_shipping'
 gem 'roadie-rails', '~> 1.0.4'
 gem 'carmen-rails'
-gem 'capistrano', '~> 3.3.5'
-gem 'capistrano-bundler', '~> 1.1.3'
-gem 'capistrano-rails', '~> 1.1.2'
-gem 'capistrano-rbenv', '~> 2.0.2', require: false
+gem 'capistrano', '~> 3.5.0'
+gem 'capistrano-bundler', '~> 1.1.4'
+gem 'capistrano-rails', '~> 1.1.6'
+gem 'capistrano-rbenv', '~> 2.0.4', require: false
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
