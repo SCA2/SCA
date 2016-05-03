@@ -24,7 +24,7 @@ class Order < ActiveRecord::Base
   validates :accept_terms, acceptance: true, if: :validate_terms?
   # validates_inclusion_of :state, in: STATES
 
-  validates :email, presence: true, 
+  validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },
                     if: :validate_order?
 
@@ -43,7 +43,7 @@ class Order < ActiveRecord::Base
   def purchased_at
     cart.purchased_at
   end
-  
+ 
   def express_token=(token)
     write_attribute(:express_token, token)
     if new_record? && !token.blank?
@@ -112,26 +112,29 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    logger.error "subtotal: #{subtotal}"
-    logger.error "sales_tax: #{sales_tax}"
-    logger.error "shipping_cost: #{shipping_cost}"
+    logger.error "subtotal: #{subtotal}, #{subtotal.class}"
+    logger.error "sales_tax: #{sales_tax}, #{sales_tax.class}"
+    logger.error "shipping_cost: #{shipping_cost}, #{shipping_cost.class}"
 
-    subtotal + sales_tax + shipping_cost
+    t = subtotal
+    t += sales_tax
+    t += shipping_cost
+    t
   end
-  
+
   def subtotal
     cart.subtotal
   end
-  
+
   def origin
     Location.new(country: "US", state: "CA", city: "Oakland", postal_code: "94612")
   end
- 
+
   def destination
     shipping = self.addresses.find_by(:address_type => 'shipping')
     Location.new(country: shipping.country, state: shipping.state_code, city: shipping.city, postal_code: shipping.post_code)
   end
- 
+
   def packages
     package = Package.new(
       self.cart.weight,
@@ -142,7 +145,7 @@ class Order < ActiveRecord::Base
       value: subtotal
     )
   end
-  
+
   def prune_response(response)
     usps = response.rates.select do |rate|
       (rate.service_name.to_s.include? "USPS") && 
@@ -154,24 +157,24 @@ class Order < ActiveRecord::Base
     end
     return ups + usps
   end
- 
+
   def get_rates_from_shipper(shipper)
     response = shipper.find_rates(origin, destination, packages)
     response.rates.sort_by(&:price)
     prune_response(response)    
   end
-  
+
   def get_rates_from_params
     method = shipping_method.split(',')[0].strip  
     cost = shipping_method.split(',')[1].strip.to_i
     self.update(shipping_method: method, shipping_cost: cost)
   end
-  
+
   def ups_rates
     ups = UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
     get_rates_from_shipper(ups)
   end
- 
+
   def usps_rates
     usps = USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
     get_rates_from_shipper(usps)
@@ -186,7 +189,7 @@ class Order < ActiveRecord::Base
   def sales_tax
     (subtotal * sales_tax_rate).round
   end
-  
+ 
   def dimensions
     max_dimension = cart.max_dimension
     case cart.total_volume
