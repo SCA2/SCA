@@ -112,14 +112,7 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    logger.error "subtotal: #{subtotal}, #{subtotal.class}"
-    logger.error "sales_tax: #{sales_tax}, #{sales_tax.class}"
-    logger.error "shipping_cost: #{shipping_cost}, #{shipping_cost.class}"
-
-    t = subtotal
-    t += sales_tax
-    t += Integer(shipping_cost)
-    t
+    subtotal + sales_tax + Integer(shipping_cost)
   end
 
   def subtotal
