@@ -7,10 +7,12 @@ class Option < ActiveRecord::Base
   default_scope -> { order('sort_order ASC') }
   
   validates :product_id, :model, :description, :upc,
-            :price, :discount, :sort_order, :active,
+            :price, :discount, :sort_order,
             :assembled_stock, :partial_stock, :component_stock,
             :shipping_length, :shipping_width, :shipping_height, :shipping_weight,
             presence: true
+
+  validates_inclusion_of :active, in: [true, false]
 
   validates :shipping_length,
     numericality: { only_integer: true, greater_than: 0, less_than: 25 }
