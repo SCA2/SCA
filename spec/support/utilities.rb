@@ -43,6 +43,7 @@ def fill_in_option(option)
   fill_in "Assembled Stock:", with: option.assembled_stock
   fill_in "Partial Stock:", with: option.partial_stock
   fill_in "Component Stock:", with: option.component_stock
+  check "Active:"
 end
 
 def fill_in_feature(feature)
