@@ -306,7 +306,7 @@ class OrdersController < ApplicationController
           name: line_item.model,
           description: line_item.product.category + ', ' + line_item.option.description,
           quantity: line_item.quantity,
-          amount: line_item.option.price_in_cents
+          amount: line_item.price
         }
       end
 
