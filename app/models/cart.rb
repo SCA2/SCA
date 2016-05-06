@@ -57,7 +57,7 @@ class Cart < ActiveRecord::Base
   end
 
   def discount_amount(line_items, combos)
-    combos * line_items.first.option.discount_in_cents
+    combos * line_items.first.discount
   end
 
   def combo_discount(a_product, a_option, b_product, b_option)

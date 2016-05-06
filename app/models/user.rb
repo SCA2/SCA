@@ -3,7 +3,12 @@ class User < ActiveRecord::Base
   has_many :addresses, as: :addressable
   accepts_nested_attributes_for :addresses, 
                                 :allow_destroy => true, 
-                                :reject_if => proc { |a| a[:first_name].blank? && a[:last_name].blank? && a[:address_1].blank? && a[:city].blank? }
+                                :reject_if => proc { |a|
+                                  a[:first_name].blank? &&
+                                  a[:last_name].blank? &&
+                                  a[:address_1].blank? &&
+                                  a[:city].blank?
+                                }
 
   before_save { self.email = email.downcase }
   before_create :create_remember_token

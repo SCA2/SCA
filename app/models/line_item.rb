@@ -23,6 +23,10 @@ class LineItem < ActiveRecord::Base
     option.price_in_cents
   end
 
+  def discount
+    option.discount_in_cents
+  end
+
   def extended_price
     option.price_in_cents * quantity
   end

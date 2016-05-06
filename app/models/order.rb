@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
 
   SALES_TAX = HashWithIndifferentAccess.new(CA: 9) # as percent
 
-  belongs_to :cart, inverse_of: :order
+  belongs_to :cart, dependent: :destroy, inverse_of: :order
   has_many :addresses, as: :addressable
   has_many :transactions
 

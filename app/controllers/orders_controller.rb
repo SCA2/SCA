@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
       flash[:notice] = 'Your cart is empty'
       redirect_to products_path and return
     else
-      response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal_in_cents, express_options)
+      response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal, express_options)
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
     end
   end
@@ -300,7 +300,7 @@ class OrdersController < ApplicationController
       options[:currency] = 'USD',
       options[:brand_name] = 'Seventh Circle Audio',
       options[:allow_guest_checkout] = 'true'
-      options[:subtotal] = @cart.subtotal_in_cents
+      options[:subtotal] = @cart.subtotal
       options[:items] = @cart.line_items.map do |line_item|
         {
           name: line_item.model,
@@ -310,7 +310,7 @@ class OrdersController < ApplicationController
         }
       end
 
-      if (discount = @cart.discount_in_cents) > 0
+      if (discount = @cart.discount) > 0
         options[:items] << { name: 'Discount', quantity: 1, amount: -discount }
       end
 
