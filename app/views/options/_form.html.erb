@@ -4,7 +4,7 @@
 		<%= f.label :model, 'Option:' %>
 		<%= f.text_field :model %>
 	</div>
-	<div class="field" style = "float: left; width: 60%">
+	<div class="field" style = "float: left; width: 55%">
 		<%= f.label :description, 'Description:' %>
  		<%= f.text_field :description %>
 	</div>
@@ -12,9 +12,13 @@
 		<%= f.label :upc, 'UPC:' %>
 		<%= f.text_field :upc %>
 	</div>
-	<div class="field" style = "float: left; width: 10%">
-		<%= f.label :sort_order, 'Sort Order:' %>
-		<%= f.number_field :sort_order, in: 1..100 %>
+  <div class="field" style = "float: left; width: 10%">
+    <%= f.label :sort_order, 'Sort Order:' %>
+    <%= f.number_field :sort_order, in: 1..100 %>
+  </div>
+	<div class="field" style = "float: left; width: 5%">
+		<%= f.label :active, 'Active:' %>
+		<%= f.check_box :active %>
 	</div>
 	<div class="field" style = "float: left; width: 20%">
 		<%= f.label :price, 'Price:' %>

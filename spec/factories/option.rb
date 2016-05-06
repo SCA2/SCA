@@ -15,5 +15,6 @@ FactoryGirl.define do
     assembled_stock { rand(0..250) }
     partial_stock { rand(0..250) }
     component_stock { rand (0..250) }
+    active { true }
   end
 end

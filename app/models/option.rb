@@ -6,33 +6,30 @@ class Option < ActiveRecord::Base
   
   default_scope -> { order('sort_order ASC') }
   
-  validates :product_id, :model, :description, :upc, :price, :discount, :sort_order,
+  validates :product_id, :model, :description, :upc,
+            :price, :discount, :sort_order, :active,
             :assembled_stock, :partial_stock, :component_stock,
-            :shipping_length, :shipping_width, :shipping_height, :shipping_weight, presence: true
+            :shipping_length, :shipping_width, :shipping_height, :shipping_weight,
+            presence: true
 
-  validates :shipping_length, numericality: { only_integer: true, greater_than: 0, less_than: 25 }
-  validates :shipping_width, numericality: { only_integer: true, greater_than: 0, less_than: 13 }
-  validates :shipping_height, numericality: { only_integer: true, greater_than: 0, less_than: 7 }
+  validates :shipping_length,
+    numericality: { only_integer: true, greater_than: 0, less_than: 25 }
 
-  
-  after_initialize :init
+  validates :shipping_width,
+    numericality: { only_integer: true, greater_than: 0, less_than: 13 }
+
+  validates :shipping_height,
+    numericality: { only_integer: true, greater_than: 0, less_than: 7 }
+
 
   REORDER_LIMIT = 25
   
-  def init
-    self.price ||= 0
-    self.discount ||= 0
-    self.assembled_stock ||= 0
-    self.partial_stock ||= 0
-    self.component_stock ||= 0
-  end
-
   def price_in_cents
     self.price * 100
   end
 
   def discount_in_cents
-    discount * 100
+    self.discount * 100
   end
   
   def shipping_volume
@@ -66,6 +63,10 @@ class Option < ActiveRecord::Base
 
   def reorder?
     self.component_stock < REORDER_LIMIT
+  end
+
+  def active?
+    self.active
   end
 
 end

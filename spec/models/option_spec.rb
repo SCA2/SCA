@@ -2,19 +2,20 @@ require 'rails_helper'
 
 describe Option do
 
-  let(:product) { FactoryGirl.create(:product) }
+  let(:product) { create(:product) }
   before do
     @option = product.options.build(
 							  model: 'A12KF',
+                active: true,
 							  description: 'Description',
-							  price: 249,
-							  upc: 123456789,
-							  shipping_weight: 3,
+                upc: 123456789,
                 sort_order: 10,
+							  price: 249,
                 discount: 20,
                 shipping_length: 8,
                 shipping_width: 3,
                 shipping_height: 2,
+							  shipping_weight: 3,
                 assembled_stock: 8,
                 partial_stock: 8,
 							  component_stock: 100)
@@ -28,19 +29,22 @@ describe Option do
   it { should respond_to(:model) }
   it { should respond_to(:description) }
   it { should respond_to(:price) }
+  it { should respond_to(:price_in_cents) }
   it { should respond_to(:upc) }
   it { should respond_to(:shipping_weight) }
   it { should respond_to(:sort_order) }
   it { should respond_to(:discount) }
+  it { should respond_to(:discount_in_cents) }
   it { should respond_to(:shipping_length) }
   it { should respond_to(:shipping_width) }
   it { should respond_to(:shipping_height) }
   it { should respond_to(:assembled_stock) }
   it { should respond_to(:partial_stock) }
   it { should respond_to(:component_stock) }
+  it { should respond_to(:active) }
+  it { should respond_to(:active?) }
   
   it { expect(@option.product).to eql product }
-  
   
   describe 'when product_id is not present' do
     before { @option.product_id = nil }
@@ -54,6 +58,11 @@ describe Option do
 
   describe 'with no description' do
     before { @option.description = nil }
+    it { should_not be_valid }
+  end
+
+  describe 'with no active flag' do
+    before { @option.active = nil }
     it { should_not be_valid }
   end
 
@@ -172,23 +181,40 @@ describe Option do
   	expect(@option.component_stock).to eq(99)
   end
 
-  # it 'sells an in-stock item' do
-		# @option.assembled_stock = 8
-		# @option.partial_stock = 8
-		# @option.component_stock = 25
-		# @option.sell(1)
-  # 	expect(@option.assembled_stock).to eq(7)
-  # 	expect(@option.partial_stock).to eq(8)
-  # 	expect(@option.component_stock).to eq(25)
-  # end
+  it 'calculates price_in_cents' do
+    @option.price = 1
+    expect(@option.price_in_cents).to eq(100)
+  end
 
-  # it 'sells an out-of-stock item' do
-		# @option.assembled_stock = 1
-		# @option.partial_stock = 1
-		# @option.component_stock = 25
-		# @option.sell(4)
-  # 	expect(@option.assembled_stock).to eq(0)
-  # 	expect(@option.partial_stock).to eq(0)
-  # 	expect(@option.part_stock).to eq(23)
-  # end
+  it 'calculates discount_in_cents' do
+    @option.discount = 1
+    expect(@option.discount_in_cents).to eq(100)
+  end
+
+  it 'sells an in-stock item' do
+		@option.assembled_stock = 8
+		@option.partial_stock = 8
+		@option.component_stock = 25
+		@option.subtract_stock(1)
+  	expect(@option.assembled_stock).to eq(7)
+  	expect(@option.partial_stock).to eq(8)
+  	expect(@option.component_stock).to eq(25)
+  end
+
+  it 'sells an out-of-stock item' do
+		@option.assembled_stock = 1
+		@option.partial_stock = 1
+		@option.component_stock = 25
+		@option.subtract_stock(4)
+  	expect(@option.assembled_stock).to eq(0)
+  	expect(@option.partial_stock).to eq(0)
+  	expect(@option.component_stock).to eq(23)
+  end
+
+  it 'reports its active status' do
+    @option.active = false
+    expect(@option.active?).to be false
+    @option.active = true
+    expect(@option.active?).to be true
+  end
 end
