@@ -2,8 +2,10 @@ class Option < ActiveRecord::Base
   
   belongs_to :product, inverse_of: :options
   
-  has_many :line_items, inverse_of: :options
+  has_many :line_items, inverse_of: :options, dependent: :destroy
   
+  before_destroy :ensure_not_referenced_by_any_line_item
+
   default_scope -> { order('sort_order ASC') }
   
   validates :product_id, :model, :description, :upc,
@@ -22,7 +24,6 @@ class Option < ActiveRecord::Base
 
   validates :shipping_height,
     numericality: { only_integer: true, greater_than: 0, less_than: 7 }
-
 
   REORDER_LIMIT = 25
   
@@ -70,5 +71,16 @@ class Option < ActiveRecord::Base
   def active?
     self.active
   end
+
+  private
+  
+    def ensure_not_referenced_by_any_line_item
+      if line_items.empty?
+        return true
+      else
+        errors.add(:base, 'Line items present')
+        return false
+      end
+    end
 
 end

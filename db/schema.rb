@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506191103) do
+ActiveRecord::Schema.define(version: 20160507035218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,8 @@ ActiveRecord::Schema.define(version: 20160506191103) do
     t.string   "use_billing",      limit: 255
     t.string   "state",            limit: 255
   end
+
+  add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "model",               limit: 255
