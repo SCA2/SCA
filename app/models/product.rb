@@ -6,7 +6,7 @@ class Product < ActiveRecord::Base
   has_many :options, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :options
 
-  has_many :line_items, inverse_of: :product, dependent: :destroy
+  has_many :line_items, inverse_of: :product, dependent: :restrict_with_error
   
   before_destroy :ensure_not_referenced_by_any_line_item
 

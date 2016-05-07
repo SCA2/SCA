@@ -45,6 +45,57 @@ describe Option do
   it { should respond_to(:active?) }
   
   it { expect(@option.product).to eql product }
+
+  it 'does not constrain product delete' do
+    product = create(:product)
+    option = create(:option, product: product)
+    expect {product.destroy}.to change {Product.count}.by(-1)
+  end
+  
+  it 'is deleted along with product' do
+    product = create(:product)
+    option = create(:option, product: product)
+    expect {product.destroy}.to change {Option.count}.by(-1)
+  end
+  
+  it 'does not delete associated product when deleted' do
+    product = create(:product)
+    option = create(:option, product: product)
+    expect {option.destroy}.not_to change {Product.count}
+  end
+  
+  it 'does not constrain line_item delete' do
+    cart = build_stubbed(:cart)
+    product = build_stubbed(:product)
+    option = create(:option, product: product)
+    line_item = create(:line_item, cart: cart, product: product, option: option)
+    expect {line_item.destroy}.to change {LineItem.count}.by(-1)
+  end
+  
+  it 'is not deleted along with line_item' do
+    cart = build_stubbed(:cart)
+    product = build_stubbed(:product)
+    option = create(:option, product: product)
+    line_item = create(:line_item, cart: cart, product: product, option: option)
+    expect {line_item.destroy}.not_to change {Option.count}
+  end
+  
+  it 'cannot be deleted before associated line_item' do
+    cart = build_stubbed(:cart)
+    product = build_stubbed(:product)
+    option = create(:option, product: product)
+    line_item = create(:line_item, cart: cart, product: product, option: option)
+    expect {option.destroy}.not_to change {Option.count}
+  end
+  
+  it 'can be deleted after associated line_item' do
+    cart = build_stubbed(:cart)
+    product = build_stubbed(:product)
+    option = create(:option, product: product)
+    line_item = create(:line_item, cart: cart, product: product, option: option)
+    line_item.destroy
+    expect {option.destroy}.to change {Option.count}.by(-1)
+  end
   
   describe 'when product_id is not present' do
     before { @option.product_id = nil }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507035218) do
+ActiveRecord::Schema.define(version: 20160507181838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20160507035218) do
     t.integer  "assembled_stock"
     t.integer  "partial_stock"
     t.integer  "component_stock"
-    t.boolean  "active",                      null: false
+    t.boolean  "active",                      default: true, null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20160507035218) do
     t.string   "schematic",           limit: 255
     t.string   "assembly",            limit: 255
     t.string   "specifications",      limit: 255
+    t.boolean  "active",                          default: true, null: false
   end
 
   create_table "slider_images", force: :cascade do |t|
