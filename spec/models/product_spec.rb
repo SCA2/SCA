@@ -88,58 +88,76 @@ describe Product do
   end
 
   describe 'option associations' do
-
-    let(:first_option) { FactoryGirl.create(:option, product: product, sort_order: 10) }
-    let(:last_option) { FactoryGirl.create(:option, product: product, sort_order: 100) }
-
-    before do
-      product.save
-      product.options << first_option
-      product.options << last_option
-    end
-
-    it 'should have two options' do
+    it 'can have multiple options' do
+      product = create(:product)
+      create(:option, product: product, sort_order: 10)
+      create(:option, product: product, sort_order: 20)
       expect(product.options.count).to eq 2
     end
 
     it 'should have the options sorted by sort_order' do
-      expect(product.options.to_a).to eq [first_option, last_option]
+      product = create(:product)
+      option_1 = create(:option, product: product, sort_order: 10)
+      option_2 = create(:option, product: product, sort_order: 20)
+      expect(product.options.to_a).to eq [option_1, option_2]
     end
     
     it 'should destroy associated options' do
-      options = product.options.to_a
-      product.destroy
-      expect(options).not_to be_empty
-      options.each do |option| 
-        expect(Feature.where(id: option.id)).to be_empty
-      end
+      product = create(:product)
+      create(:option, product: product, sort_order: 10)
+      create(:option, product: product, sort_order: 20)
+      expect {product.destroy}.to change {Option.count}.by(-2)
+    end
+
+    it 'is not destroyed with associated option' do
+      product = create(:product)
+      option = create(:option, product: product, sort_order: 10)
+      expect {option.destroy}.not_to change {Product.count}
     end
   end
 
   describe 'line_item associations' do
-
-    # let(:cart) { FactoryGirl.build_stubbed(:cart) }
-    # let(:option) { FactoryGirl.build_stubbed(:option) }
-    let(:line_item_1) { FactoryGirl.build(:line_item, product: product, option: option, cart: cart) }
-    let(:line_item_2) { FactoryGirl.build(:line_item, product: product, option: option, cart: cart) }
-
-    before do
-      product.save
-      product.line_items << line_item_1
-      product.line_items << line_item_2
-    end
-
-    it 'should have two line_items' do
+    it 'can have multiple line_items' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_1 = create(:line_item, product: product, option: option, cart: cart)
+      line_2 = create(:line_item, product: product, option: option, cart: cart)
       expect(product.line_items.count).to eq 2
     end
+
+    it 'is not destroyed with associated line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, product: product, option: option, cart: cart)
+      expect {line.destroy}.not_to change {Product.count}
+    end
+
+    it 'line_item association does not constrain line_item destroy' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, product: product, option: option, cart: cart)
+      expect {line.destroy}.to change {LineItem.count}.by(-1)
+    end
     
-    it 'should destroy associated line_items' do
-      line_items = product.line_items.to_a
-      product.destroy
-      expect(line_items).not_to be_empty
-      line_items.each do |line_item| 
-        expect(Feature.where(id: line_item.id)).to be_empty
-      end
+    it 'line_item association constrains product destroy' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, product: product, option: option, cart: cart)
+      expect {product.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+      expect(Product.count).to eq 1
+    end
+
+    it 'can be destroyed after associated line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, product: product, option: option, cart: cart)
+      line.destroy
+      expect {product.destroy}.to change {Product.count}.by(-1)
     end
   end
 end

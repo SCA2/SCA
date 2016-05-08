@@ -2,9 +2,8 @@ class Option < ActiveRecord::Base
   
   belongs_to :product, inverse_of: :options
   
-  has_many :line_items, inverse_of: :option, dependent: :restrict_with_error
-  
-  before_destroy :ensure_not_referenced_by_any_line_item
+  # line_item has database foreign key constraint
+  has_many :line_items, inverse_of: :option
 
   default_scope -> { order('sort_order ASC') }
   
@@ -71,16 +70,5 @@ class Option < ActiveRecord::Base
   def active?
     self.active
   end
-
-  private
-  
-    def ensure_not_referenced_by_any_line_item
-      if line_items.empty?
-        return true
-      else
-        errors.add(:base, 'Line items present')
-        return false
-      end
-    end
 
 end

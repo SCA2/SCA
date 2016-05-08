@@ -46,57 +46,6 @@ describe Option do
   
   it { expect(@option.product).to eql product }
 
-  it 'does not constrain product delete' do
-    product = create(:product)
-    option = create(:option, product: product)
-    expect {product.destroy}.to change {Product.count}.by(-1)
-  end
-  
-  it 'is deleted along with product' do
-    product = create(:product)
-    option = create(:option, product: product)
-    expect {product.destroy}.to change {Option.count}.by(-1)
-  end
-  
-  it 'does not delete associated product when deleted' do
-    product = create(:product)
-    option = create(:option, product: product)
-    expect {option.destroy}.not_to change {Product.count}
-  end
-  
-  it 'does not constrain line_item delete' do
-    cart = build_stubbed(:cart)
-    product = build_stubbed(:product)
-    option = create(:option, product: product)
-    line_item = create(:line_item, cart: cart, product: product, option: option)
-    expect {line_item.destroy}.to change {LineItem.count}.by(-1)
-  end
-  
-  it 'is not deleted along with line_item' do
-    cart = build_stubbed(:cart)
-    product = build_stubbed(:product)
-    option = create(:option, product: product)
-    line_item = create(:line_item, cart: cart, product: product, option: option)
-    expect {line_item.destroy}.not_to change {Option.count}
-  end
-  
-  it 'cannot be deleted before associated line_item' do
-    cart = build_stubbed(:cart)
-    product = build_stubbed(:product)
-    option = create(:option, product: product)
-    line_item = create(:line_item, cart: cart, product: product, option: option)
-    expect {option.destroy}.not_to change {Option.count}
-  end
-  
-  it 'can be deleted after associated line_item' do
-    cart = build_stubbed(:cart)
-    product = build_stubbed(:product)
-    option = create(:option, product: product)
-    line_item = create(:line_item, cart: cart, product: product, option: option)
-    line_item.destroy
-    expect {option.destroy}.to change {Option.count}.by(-1)
-  end
-  
   describe 'when product_id is not present' do
     before { @option.product_id = nil }
     it { should_not be_valid }
@@ -178,88 +127,43 @@ describe Option do
   end
 
   it 'complains if shipping_length too small' do
-  	@option.shipping_length = 0
-  	expect(@option).to have(1).errors_on(:shipping_length)
+    @option.shipping_length = 0
+    expect(@option).to have(1).errors_on(:shipping_length)
   end
 
   it 'complains if shipping_length too large' do
-  	@option.shipping_length = 25
-  	expect(@option).to have(1).errors_on(:shipping_length)
+    @option.shipping_length = 25
+    expect(@option).to have(1).errors_on(:shipping_length)
   end
 
   it 'complains if shipping_width not an integer' do
-  	@option.shipping_width = 0.5
-  	expect(@option).to have(1).errors_on(:shipping_width)
+    @option.shipping_width = 0.5
+    expect(@option).to have(1).errors_on(:shipping_width)
   end
 
   it 'complains if shipping_width too small' do
-  	@option.shipping_width = 0
-  	expect(@option).to have(1).errors_on(:shipping_width)
+    @option.shipping_width = 0
+    expect(@option).to have(1).errors_on(:shipping_width)
   end
 
   it 'complains if shipping_width too large' do
-  	@option.shipping_width = 13
-  	expect(@option).to have(1).errors_on(:shipping_width)
+    @option.shipping_width = 13
+    expect(@option).to have(1).errors_on(:shipping_width)
   end
 
   it 'complains if shipping_height not an integer' do
-  	@option.shipping_height = 0.5
-  	expect(@option).to have(1).errors_on(:shipping_height)
+    @option.shipping_height = 0.5
+    expect(@option).to have(1).errors_on(:shipping_height)
   end
 
   it 'complains if shipping_height too small' do
-  	@option.shipping_height = 0
-  	expect(@option).to have(1).errors_on(:shipping_height)
+    @option.shipping_height = 0
+    expect(@option).to have(1).errors_on(:shipping_height)
   end
 
   it 'complains if shipping_height too large' do
-  	@option.shipping_height = 7
-  	expect(@option).to have(1).errors_on(:shipping_height)
-  end
-
-  it 'calculates shipping volume' do
-		@option.shipping_length = 2
-		@option.shipping_width = 2
-		@option.shipping_height = 2
-  	expect(@option.shipping_volume).to eq(8)
-  end
-
-  it 'recalculates stock' do
-    @option.assembled_stock = 0
-    @option.partial_stock = 0
-		@option.component_stock = 100
-		@option.subtract_stock(1)
-  	expect(@option.component_stock).to eq(99)
-  end
-
-  it 'calculates price_in_cents' do
-    @option.price = 1
-    expect(@option.price_in_cents).to eq(100)
-  end
-
-  it 'calculates discount_in_cents' do
-    @option.discount = 1
-    expect(@option.discount_in_cents).to eq(100)
-  end
-
-  it 'sells an in-stock item' do
-		@option.assembled_stock = 8
-		@option.partial_stock = 8
-		@option.component_stock = 25
-		@option.subtract_stock(1)
-  	expect(@option.assembled_stock).to eq(7)
-  	expect(@option.partial_stock).to eq(8)
-  	expect(@option.component_stock).to eq(25)
-  end
-
-  it 'sells an out-of-stock item' do
-		@option.assembled_stock = 1
-		@option.partial_stock = 1
-		@option.component_stock = 25
-		@option.subtract_stock(4)
-  	expect(@option.assembled_stock).to eq(0)
-  	expect(@option.partial_stock).to eq(0)
-  	expect(@option.component_stock).to eq(23)
+    @option.shipping_height = 7
+    expect(@option).to have(1).errors_on(:shipping_height)
   end
 
   it 'reports its active status' do
@@ -267,5 +171,117 @@ describe Option do
     expect(@option.active?).to be false
     @option.active = true
     expect(@option.active?).to be true
+  end
+
+  describe 'product associations' do
+    it 'product association does not constrain product delete' do
+      product = create(:product)
+      option = create(:option, product: product)
+      expect {product.destroy}.to change {Product.count}.by(-1)
+    end
+    
+    it 'is destroyed with associated product' do
+      product = create(:product)
+      option = create(:option, product: product)
+      expect {product.destroy}.to change {Option.count}.by(-1)
+    end
+    
+    it 'does not destroy associated product when destroyed' do
+      product = create(:product)
+      option = create(:option, product: product)
+      expect {option.destroy}.not_to change {Product.count}
+    end
+  end
+
+  describe 'line item associations' do
+    it 'can have multiple line_items' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      create(:line_item, cart: cart, product: product, option: option)
+      create(:line_item, cart: cart, product: product, option: option)
+      expect(option.line_items.count).to eq 2
+    end
+    
+    it 'is not deleted with associated line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, cart: cart, product: product, option: option)
+      expect {line.destroy}.not_to change {Option.count}
+    end
+    
+    it 'line_item association does not constrain line_item destroy' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, cart: cart, product: product, option: option)
+      expect {line.destroy}.to change {LineItem.count}.by(-1)
+    end
+
+    it 'line_item association constrains option destroy' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      create(:line_item, cart: cart, product: product, option: option)
+      expect {option.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+      expect(Option.count).to eq 1
+    end
+  
+    it 'can be deleted after associated line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line = create(:line_item, cart: cart, product: product, option: option)
+      line.destroy
+      expect {option.destroy}.to change {Option.count}.by(-1)
+    end
+  end
+
+  describe 'calculations' do  
+    it 'calculates shipping volume' do
+      @option.shipping_length = 2
+      @option.shipping_width = 2
+      @option.shipping_height = 2
+      expect(@option.shipping_volume).to eq(8)
+    end
+
+    it 'recalculates stock' do
+      @option.assembled_stock = 0
+      @option.partial_stock = 0
+      @option.component_stock = 100
+      @option.subtract_stock(1)
+      expect(@option.component_stock).to eq(99)
+    end
+
+    it 'calculates price_in_cents' do
+      @option.price = 1
+      expect(@option.price_in_cents).to eq(100)
+    end
+
+    it 'calculates discount_in_cents' do
+      @option.discount = 1
+      expect(@option.discount_in_cents).to eq(100)
+    end
+
+    it 'sells an in-stock item' do
+      @option.assembled_stock = 8
+      @option.partial_stock = 8
+      @option.component_stock = 25
+      @option.subtract_stock(1)
+      expect(@option.assembled_stock).to eq(7)
+      expect(@option.partial_stock).to eq(8)
+      expect(@option.component_stock).to eq(25)
+    end
+
+    it 'sells an out-of-stock item' do
+      @option.assembled_stock = 1
+      @option.partial_stock = 1
+      @option.component_stock = 25
+      @option.subtract_stock(4)
+      expect(@option.assembled_stock).to eq(0)
+      expect(@option.partial_stock).to eq(0)
+      expect(@option.component_stock).to eq(23)
+    end
   end
 end
