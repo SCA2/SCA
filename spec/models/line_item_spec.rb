@@ -23,13 +23,12 @@ describe LineItem do
   it { should respond_to(:category) }
   it { should respond_to(:description) }
   it { should respond_to(:price) }
+  it { should respond_to(:discount) }
+  it { should respond_to(:shipping_volume) }
+  it { should respond_to(:shipping_weight) }
   it { should respond_to(:extended_price) }
   it { should respond_to(:extended_weight) }
   
-  # its(:product) { should eq product }
-  # its(:option) { should eq option }
-  # its(:cart) { should eq cart }
-
   describe 'when product_id is not present' do
     before { @line_item.product_id = nil }
     it { should_not be_valid }
@@ -43,6 +42,110 @@ describe LineItem do
   describe 'when cart_id is not present' do
     before { @line_item.cart_id = nil }
     it { should_not be_valid }
+  end
+
+  describe 'cart associations' do
+    it 'has one cart' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect(line_item.cart).to eq cart
+    end
+
+    it 'does not destroy associated cart' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {line_item.destroy}.not_to change {Cart.count}
+    end
+
+    it 'does not constrain destruction of associated cart' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {cart.destroy}.to change {Cart.count}.by(-1)
+    end
+
+    it 'is destroyed with destruction of associated cart' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {cart.destroy}.to change {LineItem.count}.by(-1)
+    end
+  end
+
+  describe 'product associations' do
+    it 'has one product' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect(line_item.product).to eq product
+    end
+
+    it 'does not destroy associated product' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {line_item.destroy}.not_to change {Product.count}
+    end
+
+    it 'constrains destruction of associated product' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {product.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+    end
+
+    it 'associated product can be destroyed after destruction of line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item.destroy
+      expect {product.destroy}.to change {Product.count}.by(-1)
+    end
+  end
+
+  describe 'option associations' do
+    it 'has one option' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect(line_item.option).to eq option
+    end
+
+    it 'does not destroy associated option' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {line_item.destroy}.not_to change {Option.count}
+    end
+
+    it 'constrains destruction of associated option' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      expect {option.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+    end
+
+    it 'associated option can be destroyed after destruction of line_item' do
+      cart = create(:cart)
+      product = create(:product)
+      option = create(:option, product: product)
+      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item.destroy
+      expect {option.destroy}.to change {Option.count}.by(-1)
+    end
   end
 
   describe 'product and option calculations' do

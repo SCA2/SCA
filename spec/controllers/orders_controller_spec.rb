@@ -22,20 +22,20 @@ describe OrdersController do
     
     describe "POST #create" do
       context "empty cart" do
-        let(:cart) { nil }
         it "redirects to products page" do
+          cart = create(:cart)
+          session[:cart_id] = cart.id
           post :create
           expect(response).to redirect_to products_path
         end
       end
+
       context "items in cart" do
-        let(:product) { create(:product) }
-        let(:option) { create(:option, product: product) }
-        let(:cart) { create(:cart) }
-        let(:line_item) { create(:line_item, product: product, option: option, cart: cart) }
         it "redirects to address page" do
-          cart.line_items << line_item
-          cart.save!
+          cart = create(:cart)
+          product = create(:product)
+          option = create(:option, product: product)
+          create(:line_item, cart: cart, product: product, option: option)
           session[:cart_id] = cart.id
           post :create
           expect(response).to redirect_to addresses_order_path(Order.last.id)

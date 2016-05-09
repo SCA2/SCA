@@ -6,8 +6,6 @@ describe Order do
     expect(build(:order)).to be_valid
   end
 
-  let(:order) {build(:order) }
-
   it { should respond_to(:cart) }
   it { should respond_to(:addresses) }
   it { should respond_to(:transactions) }
@@ -25,7 +23,6 @@ describe Order do
   it { should respond_to(:get_express_address) }
   it { should respond_to(:total) }
   it { should respond_to(:subtotal) }
-  # it { should respond_to(:subtotal_in_cents) }
   it { should respond_to(:origin) }
   it { should respond_to(:destination) }
   it { should respond_to(:packages) }
@@ -43,6 +40,26 @@ describe Order do
   it { should respond_to(:validate_order) }
   it { should respond_to(:validate_terms) }
   it { should respond_to(:accept_terms) }
+
+  describe 'cart associations' do
+    it 'belongs to one cart' do
+      order = create(:order)
+      cart = create(:cart, order: order)
+      expect(order.cart).to eq cart
+    end
+
+    it 'does not destroy associated cart' do
+      order = create(:order)
+      cart = create(:cart, order: order)
+      expect {order.destroy}.not_to change {Cart.count}
+    end
+
+    it 'constrains destruction of associated cart' do
+      order = create(:order)
+      cart = create(:cart, order: order)
+      expect {cart.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+    end
+  end
 
   describe 'subtotal' do
     let(:price)     { 100 } # price in dollars

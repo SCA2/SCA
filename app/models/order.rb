@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
 
   SALES_TAX = HashWithIndifferentAccess.new(CA: 9) # as percent
 
-  belongs_to :cart, dependent: :destroy, inverse_of: :order
+  belongs_to :cart, inverse_of: :order
   has_many :addresses, as: :addressable
   has_many :transactions
 
@@ -216,10 +216,6 @@ class Order < ActiveRecord::Base
   
   delegate :order_started?, :order_addressed?, :shipping_method_selected?, :order_confirmed?, :payment_submitted?, :transaction_succeeded?, :transaction_failed?, :order_canceled?, :order_shipped?, to: :current_state
   
-  def self.open_orders
-    joins(:events).merge OrderEvent.with_last_state("open")
-  end
-
   def current_state
     (state || STATES.first).inquiry
   end
