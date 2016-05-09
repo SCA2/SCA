@@ -48,7 +48,7 @@ describe Order do
       expect(order.cart).to eq cart
     end
 
-    it 'does not destroy associated cart' do
+    it 'order destroy does not destroy associated cart' do
       order = create(:order)
       cart = create(:cart, order: order)
       expect {order.destroy}.not_to change {Cart.count}
@@ -58,6 +58,22 @@ describe Order do
       order = create(:order)
       cart = create(:cart, order: order)
       expect {cart.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+    end
+  end
+
+  describe 'transaction associations' do
+    it 'can have multiple transactions' do
+      order = create(:order)
+      create(:transaction, order: order)
+      create(:transaction, order: order)
+      expect(order.transactions.count).to eq 2
+    end
+
+    it 'order destroy also destroys associated transactions' do
+      order = create(:order)
+      create(:transaction, order: order)
+      create(:transaction, order: order)
+      expect {order.destroy}.to change {Transaction.count}.by(-2)
     end
   end
 
