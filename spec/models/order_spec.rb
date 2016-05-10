@@ -77,6 +77,15 @@ describe Order do
     end
   end
 
+  describe 'address associations' do
+    it 'destroys assocated addresses' do
+      order = create(:order)
+      create(:address, address_type: 'billing', addressable: order)
+      create(:address, address_type: 'shipping', addressable: order)
+      expect {order.destroy}.to change {Address.count}.by(-2)
+    end
+  end
+
   describe 'subtotal' do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
@@ -101,7 +110,7 @@ describe Order do
   describe 'sales_tax' do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
-    let(:rate)      { 0.09 }
+    let(:rate)      { 0.095 }
     let(:product)   { build_stubbed(:product) }
     let(:option)    { build_stubbed(:option, price: price, product: product) }
     let(:line_item) { build_stubbed(:line_item,

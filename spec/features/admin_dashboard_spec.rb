@@ -121,9 +121,9 @@ feature 'admin dashboard' do
       fill_in 'to', with: '31/03/2016'
       click_button 'Calculate Sales Tax'
       expect(page).to have_title('Sales Tax')
-      within('div.sales-tax') { expect(page).to have_content('372') }
+      within('div.sales-tax') { expect(page).to have_content('373.50') }
       within('div.sales-tax') { expect(page).to have_content('45') }
-      within('div.sales-tax') { expect(page).to have_content('27') }
+      within('div.sales-tax') { expect(page).to have_content('28.50') }
     end
   end
 end

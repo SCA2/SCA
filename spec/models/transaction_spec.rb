@@ -14,6 +14,22 @@ describe Transaction do
 
   describe 'associations' do
     it 'belongs to one order' do
+      order = create(:order)
+      transaction = create(:transaction, order: order)
+      expect(transaction.order).to eq order
+      expect(order.transactions.first).to eq transaction
+    end
+
+    it 'does not destroy its associated order' do
+      order = create(:order)
+      transaction = create(:transaction, order: order)
+      expect {transaction.destroy}.not_to change {Order.count}
+    end
+
+    it 'is destroyed by its associated order' do
+      order = create(:order)
+      transaction = create(:transaction, order: order)
+      expect {order.destroy}.to change {Transaction.count}.by(-1)
     end
   end
 end

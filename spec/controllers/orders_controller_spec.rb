@@ -389,4 +389,8 @@ describe OrdersController do
     let(:valid_address) { attributes_for(:address) }
     it_behaves_like "public access"
   end
+
+  describe 'admin access to orders' do
+    let(:admin) { create(:admin)}
+  end
 end

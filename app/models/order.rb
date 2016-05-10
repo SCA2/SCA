@@ -10,10 +10,10 @@ class Order < ActiveRecord::Base
   
   VIEWABLE_STATES = %w[order_started order_addressed shipping_method_selected order_confirmed]
 
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 9) # as percent
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
 
   belongs_to :cart, inverse_of: :order
-  has_many :addresses, as: :addressable
+  has_many :addresses, as: :addressable, dependent: :destroy
   has_many :transactions
 
   accepts_nested_attributes_for :addresses
