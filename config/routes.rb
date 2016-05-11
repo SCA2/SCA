@@ -24,7 +24,7 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :orders, except: [:edit] do
+  resources :orders, except: [:new, :edit] do
     collection do
       get 'subregion_options'
       get 'express'
@@ -64,6 +64,8 @@ SCA::Application.routes.draw do
   get "signin", to: 'sessions#new', as: 'signin'
   delete "signout", to: 'sessions#destroy', as: 'signout'
   match "features", to: 'features#create', via: :post
+
+  get "*any", via: :all, to: "error_pages#unknown"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

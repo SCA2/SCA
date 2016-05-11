@@ -117,7 +117,7 @@ describe UsersController do
     end
   end
 
-  describe "admin access to contacts" do
+  describe "admin access to users" do
     let(:admin) { create(:admin) }
     let(:user) { create(:user) }
     let(:valid_attributes) { attributes_for(:user) }

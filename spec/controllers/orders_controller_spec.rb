@@ -1,25 +1,105 @@
 require 'rails_helper'
 
 describe OrdersController do
+  context 'admin access' do
 
-  shared_examples 'public access' do
+  #   describe "GET new" do
+  #     it "assigns a new order as @order" do
+  #       get :new, {}, valid_session
+  #       assigns(:order).should be_a_new(Order)
+  #     end
+  #   end
+
+  #   describe "GET index" do
+  #     it "assigns all orders as @orders" do
+  #       order = Order.create! valid_attributes
+  #       get :index, {}, valid_session
+  #       assigns(:orders).should eq([order])
+  #     end
+  #   end
+
+  #   describe "GET show" do
+  #     it "assigns the requested order as @order" do
+  #       order = Order.create! valid_attributes
+  #       get :show, {:id => order.to_param}, valid_session
+  #       assigns(:order).should eq(order)
+  #     end
+  #   end
+
+  #   describe "DELETE destroy" do
+  #     it "destroys the requested order" do
+  #       order = Order.create! valid_attributes
+  #       expect {
+  #         delete :destroy, {:id => order.to_param}, valid_session
+  #       }.to change(Order, :count).by(-1)
+  #     end
+
+  #     it "redirects to the orders list" do
+  #       order = Order.create! valid_attributes
+  #       delete :destroy, {:id => order.to_param}, valid_session
+  #       response.should redirect_to(orders_url)
+  #     end
+  #   end
+  end
+
+  context 'unrestricted access' do
+    describe 'GET #new' do
+      it "doesn't exist" do
+        get :new
+        expect(response).to redirect_to home_path
+      end
+    end 
+
     describe 'GET #index' do
       it "requires login" do
         get :index
         expect(response).to redirect_to home_path
       end
     end
+
     describe 'GET #show' do
       it "requires login" do
         expect { get :show }.to raise_error
       end
     end
-    describe 'GET #new' do
-      it "requires login" do
-        expect { get :new }.to raise_error
-      end
-    end
-    
+
+  #   describe "POST create" do
+  #     describe "with valid params" do
+  #       it "creates a new Order" do
+  #         expect {
+  #           post :create, {:order => valid_attributes}, valid_session
+  #         }.to change(Order, :count).by(1)
+  #       end
+
+  #       it "assigns a newly created order as @order" do
+  #         post :create, {:order => valid_attributes}, valid_session
+  #         assigns(:order).should be_a(Order)
+  #         assigns(:order).should be_persisted
+  #       end
+
+  #       it "redirects to the created order" do
+  #         post :create, {:order => valid_attributes}, valid_session
+  #         response.should redirect_to(Order.last)
+  #       end
+  #     end
+
+  #     describe "with invalid params" do
+  #       it "assigns a newly created but unsaved order as @order" do
+  #         # Trigger the behavior that occurs when invalid params are submitted
+  #         Order.any_instance.stub(:save).and_return(false)
+  #         post :create, {:order => { "cart_id" => "invalid value" }}, valid_session
+  #         assigns(:order).should be_a_new(Order)
+  #       end
+
+  #       it "re-renders the 'new' template" do
+  #         # Trigger the behavior that occurs when invalid params are submitted
+  #         Order.any_instance.stub(:save).and_return(false)
+  #         post :create, {:order => { "cart_id" => "invalid value" }}, valid_session
+  #         response.should render_template("new")
+  #       end
+  #     end
+  #   end
+
     describe "POST #create" do
       context "empty cart" do
         it "redirects to products page" do
@@ -42,6 +122,14 @@ describe OrdersController do
         end
       end
     end
+
+  #   describe "GET edit" do
+  #     it "assigns the requested order as @order" do
+  #       order = Order.create! valid_attributes
+  #       get :edit, {:id => order.to_param}, valid_session
+  #       assigns(:order).should eq(order)
+  #     end
+  #   end
 
     describe "GET #addresses" do
       let(:address) { create(:address) }
@@ -164,161 +252,6 @@ describe OrdersController do
       end
     end
 
-    describe 'DELETE #destroy' do
-      it "requires login" do
-        expect { delete :destroy }.to raise_error
-      end
-    end
-  end
-
-  shared_examples 'limited access' do
-    context 'user not signed in' do
-      describe 'GET #show' do
-        it "requires login" do
-          get :show, id: user
-          expect(response).to redirect_to signin_path
-        end
-      end
-      describe "POST #create" do
-        it "requires login" do
-          post :create, id: user, user: valid_attributes
-          expect(response).to redirect_to User.last
-        end
-      end
-      describe 'PATCH #update' do
-        it "requires login" do
-          patch :update, id: user, user: valid_attributes
-          expect(response).to redirect_to signin_path
-        end
-      end
-    end
-
-    context 'user signed in' do
-      before { test_sign_in(user, false) }
-      describe 'GET #show' do
-        it "requires login" do
-          get :show, id: user
-          expect(response).to render_template(:show)
-        end
-      end
-      describe 'GET #show admin' do
-        it "requires login" do
-          get :show, id: admin
-          expect(response).to redirect_to home_path
-        end
-      end
-      describe "POST #create" do
-        it "requires login" do
-          post :create, id: user, user: valid_attributes
-          expect(response).to redirect_to home_path
-          expect(flash[:notice]).to include("Already signed up!")
-        end
-      end
-      describe 'PATCH #update' do
-        it "requires login" do
-          patch :update, id: user, user: valid_attributes
-          expect(response).to redirect_to user
-        end
-      end
-    end
-
-    context 'either' do
-      describe 'DELETE #destroy' do
-        it "requires login" do
-          delete :destroy, id: user
-          expect(response).to redirect_to home_path
-        end
-      end
-    end
-  end
-
-  shared_examples 'full access' do
-    context 'admin signed in' do
-      before { test_sign_in(admin, false) }
-      describe 'GET #index' do
-        it "requires login" do
-          get :index
-          expect(response).to render_template(:index)
-        end
-      end
-      describe 'DELETE #destroy' do
-        it "requires login" do
-          delete :destroy, id: user
-          expect(response).to redirect_to users_path
-          expect(flash[:success]).to include("User deleted")
-        end
-      end
-    end
-  end
-
-  #   describe "GET index" do
-  #     it "assigns all orders as @orders" do
-  #       order = Order.create! valid_attributes
-  #       get :index, {}, valid_session
-  #       assigns(:orders).should eq([order])
-  #     end
-  #   end
-
-  #   describe "GET show" do
-  #     it "assigns the requested order as @order" do
-  #       order = Order.create! valid_attributes
-  #       get :show, {:id => order.to_param}, valid_session
-  #       assigns(:order).should eq(order)
-  #     end
-  #   end
-
-  #   describe "GET new" do
-  #     it "assigns a new order as @order" do
-  #       get :new, {}, valid_session
-  #       assigns(:order).should be_a_new(Order)
-  #     end
-  #   end
-
-  #   describe "GET edit" do
-  #     it "assigns the requested order as @order" do
-  #       order = Order.create! valid_attributes
-  #       get :edit, {:id => order.to_param}, valid_session
-  #       assigns(:order).should eq(order)
-  #     end
-  #   end
-
-  #   describe "POST create" do
-  #     describe "with valid params" do
-  #       it "creates a new Order" do
-  #         expect {
-  #           post :create, {:order => valid_attributes}, valid_session
-  #         }.to change(Order, :count).by(1)
-  #       end
-
-  #       it "assigns a newly created order as @order" do
-  #         post :create, {:order => valid_attributes}, valid_session
-  #         assigns(:order).should be_a(Order)
-  #         assigns(:order).should be_persisted
-  #       end
-
-  #       it "redirects to the created order" do
-  #         post :create, {:order => valid_attributes}, valid_session
-  #         response.should redirect_to(Order.last)
-  #       end
-  #     end
-
-  #     describe "with invalid params" do
-  #       it "assigns a newly created but unsaved order as @order" do
-  #         # Trigger the behavior that occurs when invalid params are submitted
-  #         Order.any_instance.stub(:save).and_return(false)
-  #         post :create, {:order => { "cart_id" => "invalid value" }}, valid_session
-  #         assigns(:order).should be_a_new(Order)
-  #       end
-
-  #       it "re-renders the 'new' template" do
-  #         # Trigger the behavior that occurs when invalid params are submitted
-  #         Order.any_instance.stub(:save).and_return(false)
-  #         post :create, {:order => { "cart_id" => "invalid value" }}, valid_session
-  #         response.should render_template("new")
-  #       end
-  #     end
-  #   end
-
   #   describe "PUT update" do
   #     describe "with valid params" do
   #       it "updates the requested order" do
@@ -363,34 +296,10 @@ describe OrdersController do
   #     end
   #   end
 
-  #   describe "DELETE destroy" do
-  #     it "destroys the requested order" do
-  #       order = Order.create! valid_attributes
-  #       expect {
-  #         delete :destroy, {:id => order.to_param}, valid_session
-  #       }.to change(Order, :count).by(-1)
-  #     end
-
-  #     it "redirects to the orders list" do
-  #       order = Order.create! valid_attributes
-  #       delete :destroy, {:id => order.to_param}, valid_session
-  #       response.should redirect_to(orders_url)
-  #     end
-  #   end
-  # end
-
-  # describe "user access to orders" do
-  #   let(:user) { create(:user) }
-  #   it_behaves_like "public access"
-  #   it_behaves_like "limited access"
-  # end
-
-  describe "guest access to orders" do
-    let(:valid_address) { attributes_for(:address) }
-    it_behaves_like "public access"
-  end
-
-  describe 'admin access to orders' do
-    let(:admin) { create(:admin)}
+    describe 'DELETE #destroy' do
+      it "requires login" do
+        expect { delete :destroy }.to raise_error
+      end
+    end
   end
 end
