@@ -23,7 +23,10 @@ class CartsController < ApplicationController
   end
 
   def destroy
-    @cart.destroy if @cart.id == session[:cart_id]
+    if @cart.id == session[:cart_id]
+      @cart.order.destroy if @cart.order
+      @cart.destroy
+    end
     session[:cart_id] = nil
     session[:progress] = nil
     redirect_to products_url, notice: 'Your cart is empty!'
