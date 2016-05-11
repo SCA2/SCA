@@ -2,51 +2,148 @@ require 'rails_helper'
 
 describe OrdersController do
   context 'admin access' do
+    let(:admin) { create(:admin) }
+    before { test_sign_in(admin, false) }
+    let(:valid_attributes) { attributes_for(:order) }
 
-  #   describe "GET new" do
-  #     it "assigns a new order as @order" do
-  #       get :new, {}, valid_session
-  #       assigns(:order).should be_a_new(Order)
-  #     end
-  #   end
+    describe 'GET #new' do
+      it "doesn't exist" do
+        expect { get :new }.to raise_error(ActionController::UrlGenerationError)
+      end
+    end 
 
-  #   describe "GET index" do
-  #     it "assigns all orders as @orders" do
-  #       order = Order.create! valid_attributes
-  #       get :index, {}, valid_session
-  #       assigns(:orders).should eq([order])
-  #     end
-  #   end
+    describe "GET #index" do
+      it "assigns all orders as @orders" do
+        order = create(:order)
+        get :index, {}
+        expect(assigns(:orders)).to eq([order])
+      end
+    end
 
-  #   describe "GET show" do
-  #     it "assigns the requested order as @order" do
-  #       order = Order.create! valid_attributes
-  #       get :show, {:id => order.to_param}, valid_session
-  #       assigns(:order).should eq(order)
-  #     end
-  #   end
+    describe "GET #show" do
+      it "assigns the requested order as @order" do
+        order = create(:order)
+        get :show, {id: order.to_param}
+        expect(assigns(:order)).to eq(order)
+      end
+    end
 
-  #   describe "DELETE destroy" do
-  #     it "destroys the requested order" do
-  #       order = Order.create! valid_attributes
-  #       expect {
-  #         delete :destroy, {:id => order.to_param}, valid_session
-  #       }.to change(Order, :count).by(-1)
-  #     end
+    describe "DELETE #destroy" do
+      let!(:cart) { create(:cart) }
+      let!(:order) { create(:order, cart: cart) }
 
-  #     it "redirects to the orders list" do
-  #       order = Order.create! valid_attributes
-  #       delete :destroy, {:id => order.to_param}, valid_session
-  #       response.should redirect_to(orders_url)
-  #     end
-  #   end
+      it "destroys the requested order" do
+        session[:cart_id] = cart.id
+        expect { delete :destroy, {id: order} }.to change { Order.count }.by(-1)
+      end
+
+      it "destroys the associated cart" do
+        session[:cart_id] = cart.id
+        expect { delete :destroy, {id: order} }.to change{ Cart.count }.by(-1)
+      end
+
+      it "destroys the associated line_item" do
+        session[:cart_id] = cart.id
+        product = create(:product)
+        option = create(:option, product: product)
+        create(:line_item, cart: cart, product: product, option: option)
+        expect { delete :destroy, {id: order} }.to change{ LineItem.count }.by(-1)
+      end
+
+      it "destroys the associated transaction" do
+        session[:cart_id] = cart.id
+        create(:transaction, order: order)
+        expect { delete :destroy, {id: order} }.to change{ Transaction.count }.by(-1)
+      end
+
+      it "destroys the associated addresses" do
+        session[:cart_id] = cart.id
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        expect { delete :destroy, {id: order} }.to change{ Address.count }.by(-2)
+      end
+
+      it "does not destroy the associated product" do
+        session[:cart_id] = cart.id
+        product = create(:product)
+        option = create(:option, product: product)
+        create(:line_item, cart: cart, product: product, option: option)
+        expect { delete :destroy, {id: order} }.not_to change{ Product.count }
+      end
+
+      it "does not destroy the associated option" do
+        session[:cart_id] = cart.id
+        product = create(:product)
+        option = create(:option, product: product)
+        create(:line_item, cart: cart, product: product, option: option)
+        expect { delete :destroy, {id: order} }.not_to change{ Option.count }
+      end
+
+      it "redirects to the orders list" do
+        session[:cart_id] = cart.id
+        delete :destroy, {id: order}
+        expect(response).to redirect_to(orders_path)
+      end
+    end
+
+    describe "GET #delete_abandoned" do
+      it "does not destroy a completed order" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        create(:transaction, order: order)
+        expect { get :delete_abandoned }.not_to change{ Order.count }
+      end
+
+      it "destroys orders without email" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        order.update(email: nil)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        create(:transaction, order: order)
+        expect { get :delete_abandoned }.to change{ Order.count }.by(-1)
+      end
+
+      it "destroys orders without billing address" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'shipping', addressable: order)
+        create(:transaction, order: order)
+        expect { get :delete_abandoned }.to change{ Order.count }.by(-1)
+      end
+
+      it "destroys orders without shipping address" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:transaction, order: order)
+        expect { get :delete_abandoned }.to change{ Order.count }.by(-1)
+      end
+
+      it "destroys orders without cart" do
+        order = create(:order, cart: nil)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        create(:transaction, order: order)
+        expect { get :delete_abandoned }.to change{ Order.count }.by(-1)
+      end
+
+      it "destroys orders without transaction" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        expect { get :delete_abandoned }.to change{ Order.count }.by(-1)
+      end
+    end
   end
 
   context 'unrestricted access' do
     describe 'GET #new' do
       it "doesn't exist" do
-        get :new
-        expect(response).to redirect_to home_path
+        expect { get :new }.to raise_error(ActionController::UrlGenerationError)
       end
     end 
 

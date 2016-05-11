@@ -24,7 +24,17 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :orders, except: [:new, :edit] do
+  # get "/products/A12", to: redirect {|params, req| 
+  #   begin
+  #     name = req.params[:products_id]
+  #     product = Product.find_by(model: name)
+  #     "/products/#{product.slug}"
+  #   rescue
+  #     "/products"
+  #   end
+  # }
+
+  resources :orders, only: [:index, :show, :create, :update, :destroy] do
     collection do
       get 'subregion_options'
       get 'express'

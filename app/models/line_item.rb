@@ -27,6 +27,18 @@ class LineItem < ActiveRecord::Base
     option.discount_in_cents
   end
 
+  def shipping_length
+    option.shipping_length
+  end
+  
+  def shipping_width
+    option.shipping_width
+  end
+  
+  def shipping_height
+    option.shipping_height
+  end
+  
   def shipping_volume
     option.shipping_volume
   end

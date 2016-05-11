@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   before_action :set_no_cache
   before_action :save_progress, except: [:express, :create_express, :payment]
   before_action :admin_user, only: [:index]
-  before_action :set_order, except: [:index, :create, :express, :create_express, :delete_abandoned, :search, :sales_tax]
+  before_action :set_order, except: [:new, :index, :create, :express, :create_express, :delete_abandoned, :search, :sales_tax]
 
   def index
     @orders = Order.order(:created_at)    
@@ -188,7 +188,13 @@ class OrdersController < ApplicationController
   end
     
   def destroy
-    @order.destroy
+    if @order.cart
+      cart = @order.cart
+      @order.destroy
+      cart.destroy
+    else
+      @order.destroy
+    end
     redirect_to orders_path
   end
 
