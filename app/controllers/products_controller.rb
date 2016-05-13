@@ -67,7 +67,7 @@ class ProductsController < ApplicationController
     
     def find_product
       begin
-        product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch01 ch02 pc01)
+        product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02 pc01)
         product_models.each do |model|
           if params[:id].downcase.include? model
             return Product.where("lower(model) = ?", model).first
