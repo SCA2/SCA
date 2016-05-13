@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   before_action :set_cart, :set_products
   before_action :set_no_cache
   before_action :save_progress, except: [:express, :create_express, :payment]
-  before_action :admin_user, only: [:index]
+  before_action :admin_user, only: [:index, :show]
   before_action :set_order, except: [:new, :index, :create, :express, :create_express, :delete_abandoned, :search, :sales_tax]
 
   def index

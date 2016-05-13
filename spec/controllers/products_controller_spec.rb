@@ -14,17 +14,22 @@ describe ProductsController do
         expect(assigns(:products)).to eq([product])
       end
     end
-  end  
-
-  shared_examples('admin access to products') do
   
     describe "GET show" do
       it "assigns the requested product as @product" do
         get :show, id: product.to_param
         expect(assigns(:product)).to eq(product)
       end
+      it "finds hard-coded products" do
+        product = create(:product, model: 'A12')
+        create(:option, product: product)
+        get :show, id: 'a12'
+        expect(assigns(:product)).to eq(product)
+      end
     end
-  
+  end  
+
+  shared_examples('admin access to products') do  
     describe "GET new" do
       it "assigns a new product as @product" do
         get :new, {}

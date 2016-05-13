@@ -20,19 +20,9 @@ SCA::Application.routes.draw do
     resources :features, except: [:index, :show]
     resources :options, except: [:index, :show]
     member do
-      put 'update_option'
+      put 'update_option'  
     end
   end
-  
-  # get "/products/A12", to: redirect {|params, req| 
-  #   begin
-  #     name = req.params[:products_id]
-  #     product = Product.find_by(model: name)
-  #     "/products/#{product.slug}"
-  #   rescue
-  #     "/products"
-  #   end
-  # }
 
   resources :orders, only: [:index, :show, :create, :update, :destroy] do
     collection do

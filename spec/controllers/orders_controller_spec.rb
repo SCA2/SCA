@@ -2,15 +2,9 @@ require 'rails_helper'
 
 describe OrdersController do
   context 'admin access' do
+
     let(:admin) { create(:admin) }
     before { test_sign_in(admin, false) }
-    let(:valid_attributes) { attributes_for(:order) }
-
-    describe 'GET #new' do
-      it "doesn't exist" do
-        expect { get :new }.to raise_error(ActionController::UrlGenerationError)
-      end
-    end 
 
     describe "GET #index" do
       it "assigns all orders as @orders" do
@@ -18,13 +12,36 @@ describe OrdersController do
         get :index, {}
         expect(assigns(:orders)).to eq([order])
       end
+
+      it "renders the index" do
+        order = create(:order)
+        get :index, {}
+        expect(response).to render_template(:index)
+      end
     end
 
     describe "GET #show" do
       it "assigns the requested order as @order" do
         order = create(:order)
-        get :show, {id: order.to_param}
+        get :show, {id: order}
         expect(assigns(:order)).to eq(order)
+      end
+
+      it "renders a valid order" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'billing', addressable: order)
+        create(:address, address_type: 'shipping', addressable: order)
+        get :show, {id: order}
+        expect(response).to render_template(:show)
+      end
+
+      it "redirects with an invalid order" do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        create(:address, address_type: 'billing', addressable: order)
+        get :show, {id: order}
+        expect(response).to redirect_to(orders_path)
       end
     end
 
@@ -140,12 +157,22 @@ describe OrdersController do
     end
   end
 
-  context 'unrestricted access' do
+  context 'guest and user access' do
+
+    before { test_sign_out(false) }
+
     describe 'GET #new' do
       it "doesn't exist" do
         expect { get :new }.to raise_error(ActionController::UrlGenerationError)
       end
     end 
+
+    describe "GET #edit" do
+      it "doesn't exist" do
+        order = create(:order)
+        expect { get :edit, id: order }.to raise_error(ActionController::UrlGenerationError)
+      end
+    end
 
     describe 'GET #index' do
       it "requires login" do
@@ -156,7 +183,9 @@ describe OrdersController do
 
     describe 'GET #show' do
       it "requires login" do
-        expect { get :show }.to raise_error
+        order = create(:order)
+        get :show, id: order
+        expect(response).to redirect_to home_path
       end
     end
 
@@ -219,14 +248,6 @@ describe OrdersController do
         end
       end
     end
-
-  #   describe "GET edit" do
-  #     it "assigns the requested order as @order" do
-  #       order = Order.create! valid_attributes
-  #       get :edit, {:id => order.to_param}, valid_session
-  #       assigns(:order).should eq(order)
-  #     end
-  #   end
 
     describe "GET #addresses" do
       let(:address) { create(:address) }

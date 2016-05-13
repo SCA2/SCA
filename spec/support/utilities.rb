@@ -13,6 +13,16 @@ def test_sign_in(user, use_capybara = true)
   end
 end
 
+def test_sign_out(use_capybara = true)
+  if use_capybara
+    click_link "Log Out"
+  else
+    @current_user = nil
+    self.current_user = nil
+    cookies.delete(:remember_token)
+  end
+end
+
 def fill_in_product(product)
   fill_in "Model:", with: product.model
   fill_in "Model Sort Order:", with: product.model_sort_order

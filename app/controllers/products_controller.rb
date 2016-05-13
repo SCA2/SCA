@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-  
   include CurrentCart, SidebarData
   before_action :set_cart, :set_products
 
@@ -57,7 +56,7 @@ class ProductsController < ApplicationController
   private
 
     def set_product
-      @product = Product.find(params[:id])
+      @product ||= find_product
       if @product.options.any?
         @option = view_context.get_current_option(@product)
       else
@@ -66,6 +65,20 @@ class ProductsController < ApplicationController
       end
     end
     
+    def find_product
+      begin
+        product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch01 ch02 pc01)
+        product_models.each do |model|
+          if params[:id].downcase.include? model
+            return Product.where("lower(model) = ?", model).first
+          end
+        end
+        return Product.find(params[:id])
+      rescue
+        return Product.first
+      end
+    end
+
     def product_params
       params.require(:product).permit(:model, :model_sort_order,
       :category, :category_sort_order, :options,
