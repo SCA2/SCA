@@ -43,9 +43,9 @@ class Cart < ActiveRecord::Base
     end
 
     subpanels.each do |a_model|
-      b_options = '-SP-' + a_model
+      b_options = '-' + a_model
       a_model = [a_model, a_model + 'B'] 
-      total_discount += combo_discount(a_model, module_options, 'CH02', b_options)      
+      total_discount += combo_discount(a_model, module_options, 'CH02-SP', b_options)      
     end
 
     total_discount
