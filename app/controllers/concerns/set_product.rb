@@ -16,7 +16,7 @@ module SetProduct
     end
     
     def find_product
-      product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02 pc01)
+      product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02-sp ch02 pc01)
       product_models.each do |model|
         if params[:id].downcase.include? model
           return get_product model
