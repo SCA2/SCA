@@ -26,7 +26,7 @@ module ProductUtilities
     end
     
     def set_products
-      @products = Product.order(:category_sort_order, :model_sort_order)
+      @products ||= get_products
       @product_categories = Product.order(:category_sort_order).select(:category, :category_sort_order).distinct
       @product_categories = @product_categories.map do |pc|
         count = @products.where(category: pc.category).count
@@ -35,13 +35,20 @@ module ProductUtilities
     end 
 
     def find_product
-      product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02-sp ch02 pc01)
+      @products ||= get_products
+      product_models = @products.select(:model).to_ary
+      product_models = product_models.sort_by { |record| record.model.length }
+      product_models = product_models.reverse.map { |record| record.model.downcase }
       product_models.each do |model|
         if params[:id].downcase.include? model
           return get_product model
         end
       end
-      get_product params[:id].downcase
+      return nil
+    end
+
+    def get_products
+      Product.order(:category_sort_order, :model_sort_order)
     end
 
     def get_product_id(model)
