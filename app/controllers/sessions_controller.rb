@@ -1,6 +1,7 @@
  class SessionsController < ApplicationController
   
-  include CurrentCart, SidebarData
+  include ProductUtilities
+  
   before_action :set_cart, :set_products
   
   def new

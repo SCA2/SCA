@@ -1,6 +1,6 @@
 class AddressesController < ApplicationController
 
-  include CurrentCart, SidebarData
+  include ProductUtilities
   before_action :set_cart, :set_products
   
   before_action :set_addressable, except: :subregion_options

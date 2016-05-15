@@ -1,8 +1,8 @@
 class FaqsController < ApplicationController
   
-  include CurrentCart, SidebarData
-  before_action :set_cart, :set_products
+  include ProductUtilities
 
+  before_action :set_cart, :set_products
   before_action :signed_in_admin, except: :index
   before_action :set_categories
   before_action :set_faq, only: [:edit, :update, :destroy]

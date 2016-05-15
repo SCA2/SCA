@@ -1,8 +1,8 @@
 class SliderImagesController < ApplicationController
   
-  include CurrentCart, SidebarData
+  include ProductUtilities
+
   before_action :set_cart, :set_products
-  
   before_action :signed_in_admin
   before_action :set_slider_image, only: [:update, :destroy]
 
@@ -37,12 +37,10 @@ class SliderImagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_slider_image
       @slider_image = SliderImage.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def slider_image_params
       params.require(:slider_image).permit(:name, :caption, :image_url, :product_url, :sort_order)
     end

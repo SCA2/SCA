@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515011235) do
+ActiveRecord::Schema.define(version: 20160515165042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(version: 20160515011235) do
     t.string   "specifications",      limit: 255
     t.boolean  "active",                          default: true, null: false
   end
+
+  add_index "products", ["model"], name: "index_products_on_model", using: :btree
 
   create_table "slider_images", force: :cascade do |t|
     t.string   "name",        limit: 255

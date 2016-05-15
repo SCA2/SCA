@@ -1,6 +1,6 @@
 class OptionsController < ApplicationController
 
-  include CurrentCart, SidebarData, SetProduct
+  include ProductUtilities
 
   before_action :set_cart, :set_products
   

@@ -1,7 +1,6 @@
 class CartsController < ApplicationController
   
-  include CurrentCart
-  include SidebarData
+  include ProductUtilities
   
   before_action :set_products
   before_action :signed_in_admin, except: [:show, :update, :destroy]

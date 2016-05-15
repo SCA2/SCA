@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  include CurrentCart, SidebarData
-  before_action :set_cart, :set_products
+  include ProductUtilities
 
+  before_action :set_cart, :set_products
   before_action :signed_in_user, only: [:show, :edit, :update]
   before_action :correct_user, only: [:show, :edit, :update]
   before_action :admin_user, only: [:index, :destroy]

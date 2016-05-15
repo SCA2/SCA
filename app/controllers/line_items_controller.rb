@@ -1,6 +1,6 @@
 class LineItemsController < ApplicationController
   
-  include CurrentCart, SetProduct
+  include ProductUtilities
   
   def create
     set_cart

@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
 
-  include CurrentCart, SidebarData
+  include ProductUtilities
+  
   before_action :set_cart, :set_products
   before_action :set_no_cache
   before_action :save_progress, except: [:express, :create_express, :payment]
