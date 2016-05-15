@@ -1,6 +1,6 @@
 SCA::Application.routes.draw do
   
-  resources :slider_images, :line_items, :users
+  resources :slider_images, :users
 
   resources :faqs_categories, except: [:show]
   resources :faqs, except: [:show]
@@ -23,6 +23,8 @@ SCA::Application.routes.draw do
       put 'update_option'  
     end
   end
+
+  resources :line_items, only: [:create]
 
   resources :orders, only: [:index, :show, :create, :update, :destroy] do
     collection do

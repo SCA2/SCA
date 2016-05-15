@@ -12,4 +12,7 @@ class Product < ActiveRecord::Base
   validates :model, :model_sort_order, :category, :category_sort_order,
             :short_description, :long_description, :image_1, presence: true 
             
+  def to_param
+    model.upcase
+  end            
 end

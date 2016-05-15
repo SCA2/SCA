@@ -1,14 +1,15 @@
 class OptionsController < ApplicationController
 
-  include CurrentCart, SidebarData
+  include CurrentCart, SidebarData, SetProduct
+
   before_action :set_cart, :set_products
   
   before_action :signed_in_admin
   before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
-    @product = Product.find(params[:product_id])
-    @option = @product.options.build
+    @product = get_product(params[:product_id])
+    @option = Option.new(product: get_product(params[:product_id]))
   end
 
 
@@ -16,7 +17,7 @@ class OptionsController < ApplicationController
   end
 
   def create
-    @product = Product.find(params[:product_id])
+    @product = get_product(params[:product_id])
     @option = @product.options.build(option_params)
 
     if @option.save
@@ -46,7 +47,7 @@ class OptionsController < ApplicationController
   private
 
     def set_option
-      @product = Product.find(params[:product_id])
+      @product = get_product(params[:product_id])
       if @product.options.any?
         @option = view_context.get_current_option(@product)
       else

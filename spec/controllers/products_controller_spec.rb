@@ -20,11 +20,26 @@ describe ProductsController do
         get :show, id: product.to_param
         expect(assigns(:product)).to eq(product)
       end
+
       it "finds hard-coded products" do
         product = create(:product, model: 'A12')
         create(:option, product: product)
         get :show, id: 'a12'
         expect(assigns(:product)).to eq(product)
+      end
+
+      it "finds first product name alphabetically in id string" do
+        product = create(:product, model: 'A12B')
+        create(:option, product: product)
+        get :show, id: 'asdf1234nnn72a12b'
+        expect(assigns(:product)).to eq(product)
+      end
+
+      it "redirects to products path with bogus id" do
+        product = create(:product, model: 'A12B')
+        create(:option, product: product)
+        get :show, id: 'bogus'
+        expect(response).to redirect_to(products_path)
       end
     end
   end  
@@ -95,8 +110,15 @@ describe ProductsController do
         end
   
         it "redirects to the product" do
-          patch :update, id: product, product: valid_attributes
+          patch :update, id: product,
+            product: attributes_for(:product, model: product.model)
           expect(response).to redirect_to(product)
+        end
+
+        it "redirects to the product index with bogus id" do
+          patch :update, id: 'bogus',
+            product: attributes_for(:product, model: product.model)
+          expect(response).to redirect_to(products_path)
         end
       end
   

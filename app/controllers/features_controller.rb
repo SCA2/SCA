@@ -1,13 +1,14 @@
 class FeaturesController < ApplicationController
 
-  include CurrentCart, SidebarData
+  include CurrentCart, SidebarData, SetProduct
+
   before_action :set_cart, :set_products
   
   before_action :signed_in_admin
   before_action :set_feature, only: [:edit, :update, :destroy]
 
   def new
-    @product = Product.find(params[:product_id])
+    @product = get_product(params[:product_id])
     @feature = Feature.next_feature
   end
 
@@ -15,7 +16,7 @@ class FeaturesController < ApplicationController
   end
 
   def create
-    @product = Product.find(params[:product_id])
+    @product = get_product(params[:product_id])
     @feature = @product.features.build(feature_params)
     if @feature.save
       flash[:success] = "Success! Feature #{ @feature.sort_order } created."
@@ -43,7 +44,7 @@ class FeaturesController < ApplicationController
 
   private
     def set_feature
-      @product = Product.find(params[:product_id])
+      @product = get_product(params[:product_id])
       @feature = @product.features.find(params[:id])
     end
 

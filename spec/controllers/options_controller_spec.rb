@@ -10,14 +10,19 @@ describe OptionsController do
   shared_examples('admin access to options') do
     describe "GET #new" do
       it "assigns a new option as @option" do
-        get :new, id: option, product_id: product.id
+        get :new, id: option, product_id: product
         expect(assigns(:option)).to be_a_new(Option)
+      end
+
+      it "associates option with product" do
+        get :new, id: option, product_id: product
+        expect(product.options.last).to eq(Option.last)
       end
     end
   
     describe "GET #edit" do
       it "assigns the requested option as @option" do
-        get :edit, id: option, product_id: product.id
+        get :edit, id: option, product_id: product
         expect(assigns(:option)).to eq(option)
       end
     end
@@ -26,30 +31,30 @@ describe OptionsController do
       describe "with valid params" do
         it "creates a new Option" do
           expect {
-            post :create, { option: valid_attributes, product_id: product.id }
+            post :create, { option: valid_attributes, product_id: product }
           }.to change(Option, :count).by(1)
         end
   
         it "assigns a newly created option as @option" do
-          post :create, { option: valid_attributes, product_id: product.id }
+          post :create, { option: valid_attributes, product_id: product }
           expect(assigns(:option)).to be_a(Option)
           expect(assigns(:option)).to be_persisted
         end
   
         it "redirects to new option path" do
-          post :create, { option: valid_attributes, product_id: product.id }
-          expect(response).to redirect_to(new_product_option_path(product.id))
+          post :create, { option: valid_attributes, product_id: product }
+          expect(response).to redirect_to(new_product_option_path(product))
         end
       end
   
       describe "with invalid params" do
         it "assigns a newly created but unsaved option as @option" do
-          post :create, { option: invalid_attributes, product_id: product.id }
+          post :create, { option: invalid_attributes, product_id: product }
           expect(assigns(:option)).to be_a_new(Option)
         end
   
         it "re-renders the 'new' template" do
-          post :create, { option: invalid_attributes, product_id: product.id }
+          post :create, { option: invalid_attributes, product_id: product }
           expect(response).to render_template("new")
         end
       end
@@ -58,31 +63,31 @@ describe OptionsController do
     describe "PATCH #update" do
       describe "with valid params" do
         it "assigns the requested option as @option" do
-          patch :update, id: option.to_param, option: valid_attributes, product_id: product.id
+          patch :update, id: option.to_param, option: valid_attributes, product_id: product
           expect(assigns(:option)).to eq(option)
         end
   
         it "changes option's attributes" do
-          patch :update, id: option, option: { description: 'New description' }, product_id: product.id
+          patch :update, id: option, option: { description: 'New description' }, product_id: product
           option.reload
           expect(option.description).to eq('New description')
         end
 
         it "redirects to the option" do
-          patch :update, id: option.to_param, option: valid_attributes, product_id: product.id
+          patch :update, id: option.to_param, option: valid_attributes, product_id: product
           expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
         it "does not change option's attributes" do
-          patch :update, id: option, option: { description: nil }, product_id: product.id
+          patch :update, id: option, option: { description: nil }, product_id: product
           option.reload
           expect(option.description).not_to eq('New description')
         end
 
         it "re-renders the 'edit' template" do
-          patch :update, id: option.to_param, option: invalid_attributes, product_id: product.id
+          patch :update, id: option.to_param, option: invalid_attributes, product_id: product
           expect(response).to render_template("edit")
         end
       end
@@ -92,12 +97,12 @@ describe OptionsController do
       it "destroys the requested option" do
         option.save!
         expect {
-          delete :destroy, id: option, product_id: product.id
+          delete :destroy, id: option, product_id: product
         }.to change(Option, :count).by(-1)
       end
   
       it "redirects to the options list" do
-        delete :destroy, id: option, product_id: product.id
+        delete :destroy, id: option, product_id: product
         expect(response).to redirect_to(product)
       end
     end

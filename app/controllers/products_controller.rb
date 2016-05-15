@@ -1,5 +1,7 @@
 class ProductsController < ApplicationController
-  include CurrentCart, SidebarData
+  
+  include CurrentCart, SidebarData, SetProduct
+
   before_action :set_cart, :set_products
 
   before_action :signed_in_admin, except: [:index, :show, :update_option]
@@ -55,29 +57,26 @@ class ProductsController < ApplicationController
 
   private
 
-    def set_product
-      @product ||= find_product
-      if @product.options.any?
-        @option = view_context.get_current_option(@product)
-      else
-        flash[:alert] = 'Product must have at least one option!'
-        redirect_to new_product_option_path(@product)
-      end
-    end
+    # def set_product
+    #   @product = find_product
+    #   redirect_to products_path and return if @product.nil?
+    #   if @product.options.any?
+    #     @option = view_context.get_current_option(@product)
+    #   else
+    #     flash[:alert] = 'Product must have at least one option!'
+    #     redirect_to new_product_option_path(@product)
+    #   end
+    # end
     
-    def find_product
-      begin
-        product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02 pc01)
-        product_models.each do |model|
-          if params[:id].downcase.include? model
-            return Product.where("lower(model) = ?", model).first
-          end
-        end
-        return Product.find(params[:id])
-      rescue
-        return Product.first
-      end
-    end
+    # def find_product
+    #   product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02 pc01)
+    #   product_models.each do |model|
+    #     if params[:id].downcase.include? model
+    #       return Product.where("lower(model) = ?", model).first
+    #     end
+    #   end
+    #   Product.where("lower(model) = ?", params[:id].downcase).first
+    # end
 
     def product_params
       params.require(:product).permit(:model, :model_sort_order,
