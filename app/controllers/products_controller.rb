@@ -48,34 +48,21 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    id = @product.id
     @product.destroy
-    flash[:notice] = "Success! Product #{id} deleted."
+    flash[:notice] = "Success! Product #{@product.model} deleted."
     redirect_to products_path
+  rescue(ActiveRecord::InvalidForeignKey)
+    carts = @product.line_items.map {|line| line.cart }
+    orders = carts.map {|cart| cart.order }
+    if carts.count > 0 && !orders.first
+      alert = "Product #{@product.model} is referenced by cart #{carts.first.id} and #{carts.count - 1} others. Delete those first."
+    else
+      alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."
+    end
+    redirect_to products_path, alert: alert
   end
 
   private
-
-    # def set_product
-    #   @product = find_product
-    #   redirect_to products_path and return if @product.nil?
-    #   if @product.options.any?
-    #     @option = view_context.get_current_option(@product)
-    #   else
-    #     flash[:alert] = 'Product must have at least one option!'
-    #     redirect_to new_product_option_path(@product)
-    #   end
-    # end
-    
-    # def find_product
-    #   product_models = %w(a12b a12 c84 j99b j99 n72 t15 b16 d11 ch02 pc01)
-    #   product_models.each do |model|
-    #     if params[:id].downcase.include? model
-    #       return Product.where("lower(model) = ?", model).first
-    #     end
-    #   end
-    #   Product.where("lower(model) = ?", params[:id].downcase).first
-    # end
 
     def product_params
       params.require(:product).permit(:model, :model_sort_order,

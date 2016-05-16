@@ -154,6 +154,13 @@ describe ProductsController do
         delete :destroy, id: product
         expect(response).to redirect_to(products_path)
       end
+
+      it "alerts if product is referenced by a cart" do
+        cart = create(:cart)
+        create(:line_item, cart: cart, product: product, option: option)
+        delete :destroy, id: product
+        expect(flash[:alert]).to be_present
+      end
     end
   end
 
