@@ -24,6 +24,8 @@ SCA::Application.routes.draw do
     end
   end
 
+  get 'products/*id', to: 'products#show', format: false
+
   resources :line_items, only: [:create]
 
   resources :orders, only: [:index, :show, :create, :update, :destroy] do

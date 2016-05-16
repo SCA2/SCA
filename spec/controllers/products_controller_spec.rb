@@ -28,10 +28,10 @@ describe ProductsController do
         expect(assigns(:product)).to eq(product)
       end
 
-      it "finds first product name alphabetically in id string" do
-        product = create(:product, model: 'A12B')
+      it "finds longest product name first in id string" do
+        product = create(:product, model: 'CH02-SP')
         create(:option, product: product)
-        get :show, id: 'asdf1234nnn72a12b'
+        get :show, id: 'asdf/1234/n72a12bch02-sp'
         expect(assigns(:product)).to eq(product)
       end
 
