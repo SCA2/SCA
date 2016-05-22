@@ -5,6 +5,6 @@ FactoryGirl.define do
     association :cart
     association :product
     association :option
-    quantity  Random.new.rand(1..10)
+    quantity  1
   end
 end

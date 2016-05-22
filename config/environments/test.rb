@@ -38,13 +38,6 @@ SCA::Application.configure do
   # Speed up tests by lowering bcrypt's cost function.
   ActiveModel::SecurePassword.min_cost = true
   
-  # Configure ActiveMerchant
-  # config.after_initialize do
-  #   ActiveMerchant::Billing::Base.mode = :test
-  #   ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-  #   ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
-  # end
-
   #Paypal
   config.after_initialize do
     ActiveMerchant::Billing::Base.mode = :test

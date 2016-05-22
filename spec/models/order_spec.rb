@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Order do
 
-  it "has a valid factory" do
+  it "has a valid factory", :vcr do
     expect(build(:order)).to be_valid
   end
 
@@ -41,7 +41,7 @@ describe Order do
   it { should respond_to(:validate_terms) }
   it { should respond_to(:accept_terms) }
 
-  describe 'cart associations' do
+  describe 'cart associations', :vcr do
     it 'belongs to one cart' do
       order = create(:order)
       cart = create(:cart, order: order)
@@ -61,7 +61,7 @@ describe Order do
     end
   end
 
-  describe 'transaction associations' do
+  describe 'transaction associations', :vcr do
     it 'can have multiple transactions' do
       order = create(:order)
       create(:transaction, order: order)
@@ -77,7 +77,7 @@ describe Order do
     end
   end
 
-  describe 'address associations' do
+  describe 'address associations', :vcr do
     it 'destroys assocated addresses' do
       order = create(:order)
       create(:address, address_type: 'billing', addressable: order)
@@ -86,7 +86,7 @@ describe Order do
     end
   end
 
-  describe 'subtotal' do
+  describe 'subtotal', :vcr do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:product)   { build_stubbed(:product) }
@@ -107,7 +107,7 @@ describe Order do
 
   end
 
-  describe 'sales_tax' do
+  describe 'sales_tax', :vcr do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:rate)      { 0.095 }

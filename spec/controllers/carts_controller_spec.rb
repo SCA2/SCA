@@ -9,6 +9,7 @@ describe CartsController do
           expect(assigns(:cart)).to eq(Cart.last)
         end
       end
+
       context "with a cart in the session" do
         it "assigns the requested cart as @cart" do
             cart = create(:cart)
@@ -26,6 +27,7 @@ describe CartsController do
           expect(assigns(:cart)).to eq(Cart.last)
         end
       end
+
       context "with a cart in the session" do
         
         let(:cart) { create(:cart) }
@@ -44,10 +46,10 @@ describe CartsController do
       end
     end
 
-    describe "DELETE #destroy" do
+    describe "DELETE #destroy", :vcr do
 
       let!(:cart) { create(:cart) }
-      let!(:order) { create(:order, cart: cart) }
+      let!(:order) { create(:paypal_order, cart: cart) }
 
       it "destroys the requested cart" do
         session[:cart_id] = cart.id

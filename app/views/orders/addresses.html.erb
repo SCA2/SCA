@@ -7,12 +7,12 @@
 				<%= render 'shared/progress_bar' %>
 				<%= form_for @order, url: create_addresses_order_path(@order), method: 'post' do |order| %>
 					<%= render 'shared/errors', object: order.object %>
-					<div class="address">
+					<div id='billing' class="address">
 						<%= order.fields_for :addresses, @order.addresses.first do |billing| %>
 							<%= render 'addresses/address_form', f: billing %>
 						<% end %>
 					</div>
-					<div class="address">
+					<div id='shipping' class="address">
 						<div id="use-billing">
 							<%= order.check_box :use_billing, { id: 'use-billing' }, 'yes', 'no' %>
 							<%= order.label :use_billing, 'Shipping address same as billing?' %>

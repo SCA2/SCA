@@ -12,7 +12,7 @@ describe Transaction do
   it { should respond_to(:message) }
   it { should respond_to(:params) }
 
-  describe 'associations' do
+  describe 'associations', :vcr do
     it 'belongs to one order' do
       order = create(:order)
       transaction = create(:transaction, order: order)

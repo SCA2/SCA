@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe OrdersController do
+
   context 'admin access' do
 
     let(:admin) { create(:admin) }
     before { test_sign_in(admin, false) }
 
-    describe "GET #index" do
+    describe "GET #index", :vcr do
       it "assigns all orders as @orders" do
         order = create(:order)
         get :index, {}
@@ -20,7 +21,7 @@ describe OrdersController do
       end
     end
 
-    describe "GET #show" do
+    describe "GET #show", :vcr do
       it "assigns the requested order as @order" do
         order = create(:order)
         get :show, {id: order}
@@ -45,7 +46,7 @@ describe OrdersController do
       end
     end
 
-    describe "DELETE #destroy" do
+    describe "DELETE #destroy", :vcr do
       let!(:cart) { create(:cart) }
       let!(:order) { create(:order, cart: cart) }
 
@@ -103,7 +104,7 @@ describe OrdersController do
       end
     end
 
-    describe "GET #delete_abandoned" do
+    describe "GET #delete_abandoned", :vcr do
       it "does not destroy a completed order" do
         cart = create(:cart)
         order = create(:order, cart: cart)
@@ -168,8 +169,8 @@ describe OrdersController do
     end 
 
     describe "GET #edit" do
-      it "doesn't exist" do
-        order = create(:order)
+      it "doesn't exist", :vcr do
+        order = build_stubbed(:order)
         expect { get :edit, id: order }.to raise_error(ActionController::UrlGenerationError)
       end
     end
@@ -182,7 +183,7 @@ describe OrdersController do
     end
 
     describe 'GET #show' do
-      it "requires login" do
+      it "requires login", :vcr do
         order = create(:order)
         get :show, id: order
         expect(response).to redirect_to home_path
@@ -280,12 +281,17 @@ describe OrdersController do
       end
     end
 
-    describe "GET #shipping" do
-      let(:order) { Order.new }
+    describe "GET #shipping", :vcr do
       context "order exists" do
         it "renders shipping form" do
-          order.save!
-          get :shipping, id: order
+          cart = create(:cart)
+          product = create(:n72)
+          option = create(:ka, product: product)
+          create(:line_item, cart: cart, product: product, option: option)
+          order = create(:paypal_order, cart: cart, state: 'order_addressed')
+          create(:billing_constant_taxable, addressable: order)
+          create(:shipping_constant_taxable, addressable: order)
+          get :shipping, id: order.to_param
           expect(response).to render_template(:shipping)
         end
       end

@@ -1,19 +1,37 @@
 require 'faker'
 
 FactoryGirl.define do
-  sequence(:email) { |n| "buyer_#{n}@test.com" }
-
   factory :order do
     association :cart
-    email
+    sequence(:email) { |n| "buyer_#{n}@test.com" }
     card_type Faker::Business.credit_card_type
     card_expires_on Faker::Business.credit_card_expiry_date
-    express_token Faker::Internet.password
-    express_payer_id Faker::Internet.password
+    express_token 'express_token_1234'
+    express_payer_id 'express_payer_id_1234'
     shipping_method "UPS Ground"
     shipping_cost Faker::Commerce.price
     use_billing true
     state Faker::Address.state_abbr
+
+    trait :sales_buyer do
+      email 'sales-buyer@seventhcircleaudio.com'
+      card_type 'visa'
+      card_expires_on '12/2019'
+    end
+
+    trait :express_buyer do
+      email 'express_buyer@seventhcircleaudio.com'
+      card_type 'discover'
+      card_expires_on '01/2020'
+    end
+
+    trait :constant_shipping do
+      shipping_method 'UPS Ground'
+      shipping_cost 1500
+    end
+
+    factory :paypal_order, traits: [:sales_buyer, :constant_shipping]
+    factory :express_order, traits: [:express_buyer, :constant_shipping]
   end
 end
 

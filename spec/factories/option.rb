@@ -16,5 +16,30 @@ FactoryGirl.define do
     partial_stock { rand(0..250) }
     component_stock { rand (0..250) }
     active { true }
+
+    trait :ka do
+      model 'KA'
+      description 'fully assembled'
+      price 479
+      discount 0
+      upc '123456789012'
+      sort_order 10
+    end
+
+    trait :in_stock do
+      assembled_stock 8
+      partial_stock 12
+      component_stock 100
+      active { true }
+    end
+
+    trait :module do
+      shipping_weight 3
+      shipping_length 10
+      shipping_width 4
+      shipping_height 2
+    end
+
+    factory :ka, traits: [:ka, :in_stock, :module]
   end
 end

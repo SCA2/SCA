@@ -17,16 +17,7 @@ feature "Products" do
       visit home_path
       expect(page).to have_link 'Products'
       find(:link_or_button, 'Products').click
-      expect(current_path).to eq products_path
       expect(page).to have_title('Products')
-    end
-
-    scenario 'add product to cart' do
-      visit products_path
-      expect(page).to have_content('0 Items')
-      # save_and_open_page; 
-      first(:button, 'Add to Cart').click
-      expect(page).to have_content('1 Items')
     end
 
     scenario 'view large product page' do
@@ -40,21 +31,18 @@ feature "Products" do
       expect(page).to have_content(@first.options.first.description)
     end
 
-    scenario 'checkout - normal'
-    scenario 'checkout - PayPal Express'
-
   end
 
   context "as an admin" do
 
     let(:admin)   { create(:admin) }
-    let(:product) { build(:product) }
-    let(:option)  { build(:option) }
-    
     before { test_sign_in admin }
 
-    context "with no products" do
-    
+    context "with no products" do    
+
+      let(:product) { build(:product) }
+      let(:option)  { build(:option) }
+      
       scenario 'add a product' do
         visit products_path
         expect(page).to have_selector(:link_or_button, 'New Product')
@@ -68,7 +56,6 @@ feature "Products" do
         expect(page).to have_title(product.model)
         expect(page).to have_content('Success!')
       end
-
     end
 
     context "with products" do

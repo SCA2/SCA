@@ -33,7 +33,7 @@ feature 'admin dashboard' do
       expect(page).to have_content('View FAQs')
     end
 
-    scenario 'view orders' do
+    scenario 'view orders', :vcr do
       orders = []
       3.times do |n|
         cart = create(:cart)
@@ -50,7 +50,7 @@ feature 'admin dashboard' do
       expect(page).to have_content(orders[2].email)
     end
 
-    scenario 'view orders between dates' do
+    scenario 'view orders between dates', :vcr do
       orders = []
       3.times do |n|
         cart = create(:cart)
@@ -76,7 +76,7 @@ feature 'admin dashboard' do
       expect(page).not_to have_content(orders[2].email)
     end
 
-    scenario 'delete abandoned orders' do
+    scenario 'delete abandoned orders', :vcr do
       order = create(:order, cart: cart)
       order.addresses << build(:address, addressable: order, address_type: 'billing')
       order.addresses << build(:address, addressable: order, address_type: 'shipping')
@@ -88,7 +88,7 @@ feature 'admin dashboard' do
       expect { click_link 'Delete abandoned' }.to change(Order, :count).by(-1)
     end
 
-    scenario 'does not delete completed orders' do
+    scenario 'does not delete completed orders', :vcr do
       order = build(:order, cart: cart)
       order.addresses << build(:address, addressable: order, address_type: 'billing')
       order.addresses << build(:address, addressable: order, address_type: 'shipping')
@@ -101,7 +101,7 @@ feature 'admin dashboard' do
       expect { click_link 'Delete abandoned' }.to change(Order, :count).by(0)
     end
 
-    scenario 'view sales tax' do
+    scenario 'view sales tax', :vcr do
       orders = []
       3.times do |n|
         product = create(:product)

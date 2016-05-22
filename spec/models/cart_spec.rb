@@ -25,7 +25,7 @@ describe Cart do
     expect(@cart).to be_valid
   end
 
-  describe 'associations' do
+  describe 'associations', :vcr do
     it 'has one order' do
       cart = create(:cart)
       order = create(:order, cart: cart)

@@ -30,20 +30,16 @@ group :development, :test do
   gem 'rspec-collection_matchers', '~> 1.1.2'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'autotest-rails', '~> 4.2.1'
-  gem 'cucumber-rails', '~> 1.4.1', :require => false
-  gem 'rails_layout'
   gem 'letter_opener'
   gem 'byebug'
 end
 
 group :test do
+  gem 'vcr', '~> 3.0.1'
+  gem 'webmock'
   gem 'faker', '~> 1.4.3'
   gem 'capybara', '~> 2.4.3'
   gem 'database_cleaner', '~> 1.3.0'
   gem 'launchy', '~> 2.4.2'
-  gem 'selenium-webdriver', '~> 2.43.0'
-end
-
-group :production do
-  gem 'rails_12factor'
+  # gem 'selenium-webdriver', '~> 2.43.0'
 end

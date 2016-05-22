@@ -33,8 +33,8 @@ GEM
     activejob (4.2.0)
       activesupport (= 4.2.0)
       globalid (>= 0.3.0)
-    activemerchant (1.53.0)
-      activesupport (>= 3.2.14, < 5.0.0)
+    activemerchant (1.58.0)
+      activesupport (>= 3.2.14, < 5.1)
       builder (>= 2.1.2, < 4.0.0)
       i18n (>= 0.6.9)
       nokogiri (~> 1.4)
@@ -92,8 +92,6 @@ GEM
     carmen-rails (1.0.1)
       carmen (~> 1.0.0)
       rails
-    childprocess (0.5.5)
-      ffi (~> 1.0, >= 1.0.11)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -102,20 +100,10 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     columnize (0.9.0)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     css_parser (1.3.5)
       addressable
-    cucumber (1.3.18)
-      builder (>= 2.1.2)
-      diff-lcs (>= 1.1.3)
-      gherkin (~> 2.12)
-      multi_json (>= 1.7.5, < 2.0)
-      multi_test (>= 0.1.1)
-    cucumber-rails (1.4.2)
-      capybara (>= 1.1.2, < 3)
-      cucumber (>= 1.3.8, < 2)
-      mime-types (>= 1.16, < 3)
-      nokogiri (~> 1.5)
-      rails (>= 3, < 5)
     database_cleaner (1.3.0)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
@@ -128,12 +116,9 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    ffi (1.9.6)
     foundation-rails (5.5.0.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0, < 3.4)
-    gherkin (2.12.2)
-      multi_json (~> 1.3)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     hike (1.2.3)
@@ -157,15 +142,14 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
-    mini_portile (0.6.2)
-    minitest (5.8.0)
+    mini_portile2 (2.0.0)
+    minitest (5.9.0)
     multi_json (1.10.1)
-    multi_test (0.1.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.1)
     rack (1.6.0)
     rack-test (0.6.3)
@@ -189,12 +173,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.1)
       loofah (~> 2.0)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_layout (1.0.24)
-    rails_serve_static_assets (0.0.3)
-    rails_stdout_logging (0.0.3)
     railties (4.2.0)
       actionpack (= 4.2.0)
       activesupport (= 4.2.0)
@@ -225,7 +203,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
-    rubyzip (1.1.6)
+    safe_yaml (1.0.4)
     sass (3.3.14)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -233,11 +211,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
-    selenium-webdriver (2.43.0)
-      childprocess (~> 0.5)
-      multi_json (~> 1.0)
-      rubyzip (~> 1.0)
-      websocket (~> 1.0)
     slop (3.6.0)
     sprockets (2.12.3)
       hike (~> 1.2)
@@ -262,7 +235,10 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unicode_utils (1.4.0)
-    websocket (1.2.1)
+    vcr (3.0.1)
+    webmock (1.21.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
     will_paginate (3.0.7)
     will_paginate-foundation (5.3.4)
       will_paginate (>= 3.0.3)
@@ -286,7 +262,6 @@ DEPENDENCIES
   capybara (~> 2.4.3)
   carmen-rails
   coffee-rails
-  cucumber-rails (~> 1.4.1)
   database_cleaner (~> 1.3.0)
   factory_girl_rails (~> 4.4.1)
   faker (~> 1.4.3)
@@ -299,15 +274,14 @@ DEPENDENCIES
   mail (~> 2.6.3)
   pg
   rails
-  rails_12factor
-  rails_layout
   roadie-rails (~> 1.0.4)
   rspec-collection_matchers (~> 1.1.2)
   rspec-rails (~> 3.1.0)
   sass-rails
-  selenium-webdriver (~> 2.43.0)
   turbolinks
   uglifier
+  vcr (~> 3.0.1)
+  webmock
   will_paginate
   will_paginate-foundation
 

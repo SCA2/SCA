@@ -2,6 +2,8 @@ class Order < ActiveRecord::Base
 
   include ActiveMerchant::Shipping
 
+  require 'active_merchant/billing/rails'
+
   CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -46,69 +48,41 @@ class Order < ActiveRecord::Base
  
   def express_token=(token)
     write_attribute(:express_token, token)
-    if new_record? && !token.blank?
+    if !purchased? && !token.blank?
       details = EXPRESS_GATEWAY.details_for(token)
-      self.express_payer_id = details.payer_id
+      write_attribute(:express_payer_id, details.payer_id)
     end
   end
 
   def get_express_address(token)
     details = EXPRESS_GATEWAY.details_for(token)
     update(email: details.params["payer"])
-    if addresses.where(address_type: 'billing').exists?
-      addresses.first.update(
-        :address_type => 'billing',
-        :first_name => details.params["first_name"],
-        :last_name => details.params["last_name"],
-        :address_1 => details.params["street1"],
-        :address_2 => details.params["street2"],
-        :city => details.params["city_name"],
-        :state_code => details.params["state_or_province"],
-        :country => details.params["country"],
-        :post_code => details.params["postal_code"],
-        :telephone => details.params["phone"]
-      )
-    else
-      addresses.create!(
-        :address_type => 'billing',
-        :first_name => details.params["first_name"],
-        :last_name => details.params["last_name"],
-        :address_1 => details.params["street1"],
-        :address_2 => details.params["street2"],
-        :city => details.params["city_name"],
-        :state_code => details.params["state_or_province"],
-        :country => details.params["country"],
-        :post_code => details.params["postal_code"],
-        :telephone => details.params["phone"]
-      )
-    end
-    if addresses.where(address_type: 'shipping').exists?
-      addresses.last.update(
-        :address_type => 'shipping',
-        :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
-        :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
-        :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
-        :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
-        :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
-        :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
-        :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
-        :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
-        :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
-      )
-    else
-      addresses.create!(
-        :address_type => 'shipping',
-        :first_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
-        :last_name => details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
-        :address_1 => details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
-        :address_2 => details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
-        :city => details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
-        :state_code => details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
-        :country => details.params["PaymentDetails"]["ShipToAddress"]["Country"],
-        :post_code => details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
-        :telephone => details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
-      )
-    end
+    billing = addresses.find_or_create_by(address_type: 'billing')
+    billing.update(
+      address_type: 'billing',
+      first_name:   details.params["first_name"],
+      last_name:    details.params["last_name"],
+      address_1:    details.params["street1"],
+      address_2:    details.params["street2"],
+      city:         details.params["city_name"],
+      state_code:   details.params["state_or_province"],
+      country:      details.params["country"],
+      post_code:    details.params["postal_code"],
+      telephone:    details.params["phone"]
+    )
+    shipping = addresses.find_or_create_by(address_type: 'shipping')
+    shipping.update(
+      address_type: 'shipping',
+      first_name:   details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
+      last_name:    details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[1],
+      address_1:    details.params["PaymentDetails"]["ShipToAddress"]["Street1"],
+      address_2:    details.params["PaymentDetails"]["ShipToAddress"]["Street2"],
+      city:         details.params["PaymentDetails"]["ShipToAddress"]["CityName"],
+      state_code:   details.params["PaymentDetails"]["ShipToAddress"]["StateOrProvince"],
+      country:      details.params["PaymentDetails"]["ShipToAddress"]["Country"],
+      post_code:    details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
+      telephone:    details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
+    )
   end
 
   def total
@@ -120,12 +94,22 @@ class Order < ActiveRecord::Base
   end
 
   def origin
-    Location.new(country: "US", state: "CA", city: "Oakland", postal_code: "94612")
+    Location.new(
+      country: "US",
+      state: "CA",
+      city: "Oakland",
+      postal_code: "94612"
+    )
   end
 
   def destination
-    shipping = self.addresses.find_by(:address_type => 'shipping')
-    Location.new(country: shipping.country, state: shipping.state_code, city: shipping.city, postal_code: shipping.post_code)
+    shipping = self.addresses.find_by(address_type: 'shipping')
+    Location.new(
+      country: shipping.country,
+      state: shipping.state_code,
+      city: shipping.city,
+      postal_code: shipping.post_code
+    )
   end
 
   def packages
@@ -248,23 +232,23 @@ class Order < ActiveRecord::Base
   def standard_purchase_options
     billing = addresses.find_by(:address_type => 'billing')
     {
-      :ip => ip_address,
-      :billing_address => {
-        :name       => billing.first_name + ' ' + billing.last_name,
-        :address1   => billing.address_1,
-        :city       => billing.city,
-        :state_code => billing.state_code,
-        :country    => billing.country,
-        :zip        => billing.post_code
+      ip: ip_address,
+      billing_address: {
+        name:       billing.first_name + ' ' + billing.last_name,
+        address1:   billing.address_1,
+        city:       billing.city,
+        state_code: billing.state_code,
+        country:    billing.country,
+        zip:        billing.post_code
       }
     }
   end
   
   def express_purchase_options
     {
-      :ip => ip_address,
-      :token => express_token,
-      :payer_id => express_payer_id
+      ip:       ip_address,
+      token:    express_token,
+      payer_id: express_payer_id
     }
   end
   
@@ -279,7 +263,7 @@ class Order < ActiveRecord::Base
   def credit_card
     billing = addresses.find_by(:address_type => 'billing')
     @credit_card ||= ActiveMerchant::Billing::CreditCard.new(
-      type:               card_type,
+      brand:              card_type,
       number:             card_number,
       verification_value: card_verification,
       month:              card_expires_on.month,

@@ -90,6 +90,8 @@ class OrdersController < ApplicationController
   end
   
   def shipping
+    @ups_rates = @order.ups_rates
+    @usps_rates = @order.usps_rates
     unless @order.viewable?
       flash[:alert] = 'Sorry, there was a problem creating your addresses.'
       bad_state_redirect
@@ -169,7 +171,7 @@ class OrdersController < ApplicationController
           @transaction = @order.transactions.last
           @order.cart.inventory
           @cart.save
-          UserMailer.order_received(@order).deliver
+          UserMailer.order_received(@order).deliver_now
           session[:cart_id] = nil
           session[:progress] = nil
           @order.update(state: @order.next_state(:success))

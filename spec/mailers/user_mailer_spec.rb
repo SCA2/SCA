@@ -40,7 +40,7 @@ describe UserMailer do
     end
   end
 
-  describe "#order_received(order)" do
+  describe "#order_received(order)", :vcr do
     
     let(:mail) { UserMailer.order_received(order) }
 
@@ -55,7 +55,7 @@ describe UserMailer do
     end
   end
 
-  describe "#order_shipped(order)" do
+  describe "#order_shipped(order)", :vcr do
 
     let(:mail)  { UserMailer.order_shipped(order) }
 
