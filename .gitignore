@@ -31,3 +31,6 @@ sca.sublime-project
 
 # Ignore vcr cassettes
 /fixtures/vcr_cassettes
+
+# Ignore simplecov results
+/coverage

@@ -29,9 +29,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
   gem 'rspec-collection_matchers', '~> 1.1.2'
   gem 'factory_girl_rails', '~> 4.4.1'
-  gem 'autotest-rails', '~> 4.2.1'
   gem 'letter_opener'
   gem 'byebug'
+  gem 'pry'
 end
 
 group :test do
@@ -39,7 +39,8 @@ group :test do
   gem 'webmock'
   gem 'faker', '~> 1.4.3'
   gem 'capybara', '~> 2.4.3'
+  gem 'poltergeist', '~> 1.9.0'
   gem 'database_cleaner', '~> 1.3.0'
   gem 'launchy', '~> 2.4.2'
-  # gem 'selenium-webdriver', '~> 2.43.0'
+  gem 'simplecov', require: false
 end

@@ -1,11 +1,16 @@
-require 'rubygems'
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+# require 'rubygems'
 require 'rspec/rails'
+require 'capybara/rails'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'factory_girl_rails'
+
+require 'simplecov'
+SimpleCov.start 'rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -34,14 +39,6 @@ RSpec.configure do |config|
 
   config.include Capybara::DSL
   
-  # ## Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
-
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -51,11 +48,11 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   # Database cleaner
-  config.before(:suite) { DatabaseCleaner.clean_with(:truncation) }
-  config.before(:each) { DatabaseCleaner.strategy = :transaction }
-  config.before(:each, :js => true) { DatabaseCleaner.strategy = :truncation }
-  config.before(:each) { DatabaseCleaner.start }
-  config.after(:each) { DatabaseCleaner.clean }
+  config.before(:suite)           { DatabaseCleaner.clean_with(:truncation) }
+  config.before(:each)            { DatabaseCleaner.strategy = :transaction }
+  config.before(:each, js: true)  { DatabaseCleaner.strategy = :truncation }
+  config.before(:each)            { DatabaseCleaner.start }
+  config.after(:each)             { DatabaseCleaner.clean }
 
 
   # If true, the base class of anonymous controllers will be inferred
@@ -72,3 +69,19 @@ RSpec.configure do |config|
   config.include(MailerMacros)
   config.before(:each) { reset_email }
 end
+
+# register phantomjs driver:
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, debug: false, timeout: 180, js_errors: true,
+    phantomjs_options: [
+      '--debug=no',
+      '--load-images=no',
+      '--ignore-ssl-errors=yes',
+      '--ssl-protocol=TLSv1',
+      '--local-to-remote-url-access=yes'
+    ]
+  )
+end
+
+# set defaults:
+Capybara.javascript_driver = :poltergeist

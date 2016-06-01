@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    ZenTest (4.11.0)
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
       actionview (= 4.2.0)
@@ -55,8 +54,6 @@ GEM
     airbrussh (1.0.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.0)
-    autotest-rails (4.2.1)
-      ZenTest (~> 4.5)
     bcrypt (3.1.9)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
@@ -92,6 +89,8 @@ GEM
     carmen-rails (1.0.1)
       carmen (~> 1.0.0)
       rails
+    cliver (0.3.2)
+    coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -107,6 +106,7 @@ GEM
     database_cleaner (1.3.0)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     erubis (2.7.0)
     execjs (2.2.2)
     factory_girl (4.4.0)
@@ -141,17 +141,27 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (2.4.3)
+    method_source (0.8.2)
+    mime-types (2.99.2)
     mini_portile2 (2.0.0)
     minitest (5.9.0)
-    multi_json (1.10.1)
+    multi_json (1.12.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.1)
-    rack (1.6.0)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
@@ -211,6 +221,11 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    simplecov (0.11.2)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.6.0)
     sprockets (2.12.3)
       hike (~> 1.2)
@@ -239,6 +254,9 @@ GEM
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
+    websocket-driver (0.6.4)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     will_paginate (3.0.7)
     will_paginate-foundation (5.3.4)
       will_paginate (>= 3.0.3)
@@ -252,7 +270,6 @@ DEPENDENCIES
   active_shipping
   active_utils
   activemerchant
-  autotest-rails (~> 4.2.1)
   bcrypt-ruby
   byebug
   capistrano (~> 3.5.0)
@@ -273,11 +290,14 @@ DEPENDENCIES
   letter_opener
   mail (~> 2.6.3)
   pg
+  poltergeist (~> 1.9.0)
+  pry
   rails
   roadie-rails (~> 1.0.4)
   rspec-collection_matchers (~> 1.1.2)
   rspec-rails (~> 3.1.0)
   sass-rails
+  simplecov
   turbolinks
   uglifier
   vcr (~> 3.0.1)

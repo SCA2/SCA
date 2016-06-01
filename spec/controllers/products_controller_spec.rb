@@ -42,6 +42,13 @@ describe ProductsController do
         expect(response).to redirect_to(products_path)
       end
     end
+
+    describe "GET update_option" do
+      it "assigns new option to @option" do
+        xhr :get, :update_option, product: {options: option}, id: product, format: :js
+        expect(assigns(:option)).to eq(option)
+      end
+    end
   end  
 
   shared_examples('admin access to products') do  
