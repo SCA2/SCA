@@ -36,6 +36,8 @@ class Order < ActiveRecord::Base
     transactions.create!(action: "purchase", amount: total, response: response)
     cart.update(purchased_at: Time.zone.now) if response.success?
     response.success?
+  rescue StandardError => e 
+    byebug
   end
 
   def purchased?

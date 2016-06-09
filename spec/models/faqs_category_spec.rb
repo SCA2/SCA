@@ -57,4 +57,17 @@ describe FaqsCategory do
     create(:faqs_category, category_weight: 3, category_name: 'ghi')
     expect(FaqsCategory.order(:category_weight).first.category_name).not_to eq 'def'
   end
+
+  it "generates an error if deleted with associated FAQ" do
+    category = create(:faqs_category)
+    create(:faq, faqs_category: category)
+    expect {category.destroy}.to change{category.errors.count}.by(1)
+  end
+
+  it "does not generate an error if deleted with no associated FAQ" do
+    category = create(:faqs_category)
+    create(:faq, faqs_category: category)
+    category.faqs.last.destroy
+    expect {category.destroy}.not_to change{category.errors.count}
+  end
 end

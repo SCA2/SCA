@@ -10,12 +10,9 @@ class FaqsCategory < ActiveRecord::Base
   private
 
     def check_for_faqs
-      if faqs.any?
-        errors.add(:base, 'Category still has FAQs!')
-        return false
-      else
-        return true
-      end
+      return true unless faqs.any?
+      errors.add(:base, 'Category still has FAQs!')
+      return false
     end
 
 end
