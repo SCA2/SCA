@@ -28,7 +28,7 @@ SCA::Application.routes.draw do
 
   resources :line_items, only: [:create]
 
-  resources :orders, only: [:index, :show, :create, :update, :destroy] do
+  resources :orders, only: [:index, :show, :update, :destroy] do
     collection do
       get 'subregion_options'
       get 'express'
@@ -47,6 +47,16 @@ SCA::Application.routes.draw do
       get 'confirm'
       patch 'update_confirm'
     end
+  end
+
+  resource :checkout, only: :new do
+    resource :express,        only: [:new, :create],  controller: 'checkout/express'
+    resources :addresses,     only: [:new, :create],  controller: 'checkout/addresses'
+    resources :subregions,    only: [:new, :create],  controller: 'checkout/subregions'
+    resource :shipping,       only: [:new, :update],  controller: 'checkout/shipping'
+    resource :confirmation,   only: [:new, :update],  controller: 'checkout/confirmation'
+    resource :payment,        only: [:new, :update],  controller: 'checkout/payment'
+    resources :transactions,  only: [:new],           controller: 'checkout/transactions'
   end
 
   root to: "static_pages#home"

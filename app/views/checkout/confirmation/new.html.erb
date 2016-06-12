@@ -1,0 +1,25 @@
+<% provide(:title, 'Confirm Order') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-12 columns main">
+			<%= render 'shared/errors', object: @order %>
+			<%= render 'shared/progress_bar' %>
+			<%= form_for @order, url: checkout_confirmation_path(id: @order) do |form| %>
+				<%= form.hidden_field :express_token %>
+				<div class='review-box'>
+					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
+					<%= render 'confirm_address', f: @shipping, legend: 'Shipping Address' %>
+					<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
+				</div>
+				<%= render 'confirm_cart' %>
+				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
+				<div class="button-box">
+					<%= link_to 'Back to Shipping', new_checkout_shipping_path(id: @order), class: 'button user' %>
+					<%= form.submit 'Continue Checkout', class: 'button user' %>
+				</div>
+			<% end %>
+		</div>
+	</div>	
+</div>
+

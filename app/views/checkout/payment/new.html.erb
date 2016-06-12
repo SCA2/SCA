@@ -1,0 +1,21 @@
+<% provide(:title, 'Payment Method') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-9 columns main">
+			<%= render 'shared/progress_bar' %>
+			<%= form_for @order, url: checkout_payment_path(id: @order) do |f| %>
+				<%= render 'shared/errors', object: f.object %>
+				<%= render 'payment_form', f: f, legend: 'Card Info' %>
+				<div class="button-box">
+					<%= link_to 'Back to Confirmation', new_checkout_confirmation_path(id: @order), class: 'button user' %>
+					<%= f.submit 'Place Order', class: 'button user' %>
+				</div>
+			<% end %>
+		</div>
+		<div class="small-3 columns sidebar">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+	</div>	
+</div>
+

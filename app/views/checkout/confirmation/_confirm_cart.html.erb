@@ -1,0 +1,62 @@
+<fieldset>
+	<legend>Cart Contents</legend>
+	<table class="main-cart">
+		<tr id="header">
+			<th id="line">Line</th>
+			<th id="item">Item</th>
+			<th id="description">Description</th>
+			<th id="quantity">Quantity</th>
+			<th id="price">Price</th>
+			<th id="ext">Ext</th>
+		</tr>
+		<% @cart.line_items.each_with_index do |line_item, index| %>
+			<tr>
+				<% model = line_item.model %>
+				<% item = line_item.category + ', ' + line_item.description %>
+				<td class="line-cell"><%= index + 1 %></td>
+				<td class="item-cell"><%= link_to model, line_item.product %></td>
+				<td class="description-cell"><%= link_to item, line_item.product %></td>
+				<td class="quantity-cell" style="text-align: center">
+					<%= line_item.quantity %>
+				</td>
+				<td class="price-cell">
+					<%= cents_to_dollars(line_item.price, precision: 0) %>
+				</td>
+				<td class="price-cell">
+					<%= cents_to_dollars(line_item.extended_price, precision: 2) %>
+				</td>
+			</tr>
+		<% end %>
+		<tr><td class="divider-cell" colspan="6"></td></tr>
+		<tr id="discount-line">
+			<td class="total-cell" colspan="5">Package Discount</td>
+			<td class="total-cell">
+				<%= cents_to_dollars(@cart.discount, precision: 2) %>
+			</td>
+		</tr>
+		<tr id="subtotal-line">
+			<td class="total-cell" colspan="5">Subtotal</td>
+			<td class="total-cell">
+				<%= cents_to_dollars(@cart.subtotal, precision: 2) %>
+			</td>
+		</tr>
+		<tr id="salestax-line">
+			<td class="total-cell" colspan="5">Sales Tax</td>
+			<td class="total-cell">
+				<%= cents_to_dollars(@order.sales_tax, precision: 2) %>
+			</td>
+		</tr>
+		<tr id="shipping-line">
+			<td class="total-cell" colspan="5">Shipping</td>
+			<td class="total-cell">
+				<%= cents_to_dollars(@order.shipping_cost, precision: 2) %>
+			</td>
+		</tr>
+		<tr id="total-line">
+			<td class="total-cell" colspan="5">Total</td>
+			<td class="total-cell">
+				<%= cents_to_dollars(@order.total, precision: 2) %>
+			</td>
+		</tr>
+	</table>
+</fieldset>

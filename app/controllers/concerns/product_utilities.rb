@@ -14,6 +14,22 @@ module ProductUtilities
       session[:progress] = cart_path(@cart)
     end
 
+    def empty_cart_redirect
+      set_cart unless @cart
+      if @cart.line_items.empty?
+        flash[:notice] = 'Your cart is empty'
+        redirect_to products_path and return
+      end
+    end
+
+    def checkout_complete_redirect
+      set_cart unless @cart
+      if @cart.order.purchased?
+        flash[:notice] = 'Cart already purchased'
+        redirect_to products_path and return
+      end
+    end
+
     def set_product
       @product = find_product
       redirect_to products_path and return if @product.nil?

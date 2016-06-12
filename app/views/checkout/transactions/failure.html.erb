@@ -1,0 +1,29 @@
+<% provide(:title, 'Transaction Failed') %>
+
+<div class="box_2">
+	<div class="row">
+		<div class="small-9 columns">
+			<h6>Sorry, the transaction failed. Please contact <b>sales@seventhcircleaudio.com</b> for assistance with your order.</h6>
+			
+			<p>order_id: <%= @transaction.order_id %></p>
+			<p>action: <%= @transaction.action %></p>
+			<p>amount: <%= @transaction.amount %></p>
+			<p>success: <%= @transaction.success %></p>
+			<p>authorization: <%= @transaction.authorization %></p>
+			<p>message: <%= @transaction.message %></p>
+				
+		</div>
+		<div class="small-3 columns">
+			<%= render 'layouts/sidebar_left' %>
+		</div>
+	</div>	
+</div>
+
+<!--
+<div>
+	<% @transaction.params.each do |key, value| %>
+		<p><%= key.to_s + ': ' + value.to_s %></p>
+	<% end %>
+</div>
+-->
+

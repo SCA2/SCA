@@ -6,7 +6,6 @@ class OrdersController < ApplicationController
   before_action :set_no_cache
   before_action :save_progress, except: [:express, :create_express, :payment]
   before_action :admin_user, only: [:index, :show]
-  before_action :set_order, except: [:new, :index, :create, :express, :create_express, :delete_abandoned, :search, :sales_tax]
 
   def index
     @orders = Order.order(:created_at)    
@@ -19,19 +18,6 @@ class OrdersController < ApplicationController
     
     if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
       redirect_to orders_path, alert: "Invalid record" and return
-    end
-  end
-  
-  def create
-    if @cart.line_items.empty?
-      flash[:notice] = 'Your cart is empty'
-      redirect_to products_path and return
-    elsif @cart.order
-      @order = @cart.order
-      bad_state_redirect
-    else
-      @order = Order.create(cart_id: @cart.id)
-      bad_state_redirect
     end
   end
   
@@ -68,127 +54,34 @@ class OrdersController < ApplicationController
     render partial: 'subregion_select'
   end
   
-  def addresses
-    if @order.viewable?
-      assign_address('billing')
-      assign_address('shipping')
-    else
-      flash[:alert] = 'Sorry, there was a problem creating your order.'
-      bad_state_redirect
-    end
-  end
-
-  def create_addresses
-    copy_billing_to_shipping if use_billing_for_shipping?
-    if @order.update(order_params)
-      flash[:success] = 'Addresses saved!'
-      @order.update(state: 'order_addressed')
-      redirect_to shipping_order_path(@order)
-    else
-      render 'addresses'
-    end
-  end
-  
-  def shipping
-    @ups_rates = @order.ups_rates
-    @usps_rates = @order.usps_rates
-    unless @order.viewable?
-      flash[:alert] = 'Sorry, there was a problem creating your addresses.'
-      bad_state_redirect
-    end
-  rescue ActiveMerchant::Shipping::ResponseError => e
-    flash[:error] = e.message
-    redirect_to addresses_order_path(@order)
-  end
-  
-  def update_shipping
-    if @order.update(order_params)
-      @order.get_rates_from_params
-      @order.update(state: 'shipping_method_selected')
-      flash[:success] = 'Shipping method saved!'
-      redirect_to confirm_order_path(@order)
-    else
-      flash[:alert] = 'Please select a shipping method!'
-      render 'shipping'
-    end
-  rescue ActionController::ParameterMissing
-    flash[:alert] = 'Please select a shipping method!'
-    redirect_to shipping_order_path(@order)
-  end
-
-  def confirm
-    if @order.viewable?
-      @form_url = update_confirm_order_path(@order)
-      if @order.addresses.any?
-        @billing = @order.addresses.find_by(address_type: 'billing')
-        @shipping = @order.addresses.find_by(address_type: 'shipping')
-      else
-        flash[:alert] = 'Addresses are missing!'
-        redirect_to shipping_order_path(@order)
-      end
-    else
-      flash[:alert] = 'Sorry, there was a problem creating your shipping method.'
-      bad_state_redirect
-    end
-  end
-  
-  def paypal_redirect
-    @order.update(state: @order.next_state)
-    if @order.express_token.to_s.length > 1
-      update and return
-    else
-      redirect_to payment_order_path @order
-    end
-  end
-
-  def update_confirm
-    @order.validate_terms = true
-    if @order.update(order_params)
-      flash[:success] = 'Order confirmed!'
-      paypal_redirect
-    else
-      flash[:alert] = 'You must accept terms to proceed'
-      redirect_to confirm_order_path(@order)
-    end 
-  end
-
-  def payment
-    if @order.viewable?
-      @order.email = current_user.email if signed_in?
-    else
-      flash[:alert] = 'Sorry, there was a problem confirming your order.'
-      bad_state_redirect
-    end
-  end
-  
-  def update
-    @order.update(state: @order.next_state)
-    if @order.payment_submitted?
-      @order.validate_order = true
-      if @order.update(order_params)
-        @order.ip_address = request.remote_ip
-        if @order.purchase
-          @transaction = @order.transactions.last
-          @order.cart.inventory
-          @cart.save
-          UserMailer.order_received(@order).deliver_now
-          session[:cart_id] = nil
-          session[:progress] = nil
-          @order.update(state: @order.next_state(:success))
-          render 'success'
-        else
-          @transaction = @order.transactions.last
-          @order.update(state: @order.next_state(:failure))
-          render 'failure'
-        end
-      else
-        render 'payment'
-      end
-    else
-      flash[:alert] = 'Sorry, there was a problem submitting your payment details.'
-      bad_state_redirect
-    end
-  end
+  # def update
+  #   @order.update(state: @order.next_state)
+  #   if @order.payment_submitted?
+  #     @order.validate_order = true
+  #     if @order.update(order_params)
+  #       @order.ip_address = request.remote_ip
+  #       if @order.purchase
+  #         @transaction = @order.transactions.last
+  #         @order.cart.inventory
+  #         @cart.save
+  #         UserMailer.order_received(@order).deliver_now
+  #         session[:cart_id] = nil
+  #         session[:progress] = nil
+  #         @order.update(state: @order.next_state(:success))
+  #         render 'success'
+  #       else
+  #         @transaction = @order.transactions.last
+  #         @order.update(state: @order.next_state(:failure))
+  #         render 'failure'
+  #       end
+  #     else
+  #       render 'payment'
+  #     end
+  #   else
+  #     flash[:alert] = 'Sorry, there was a problem submitting your payment details.'
+  #     bad_state_redirect
+  #   end
+  # end
     
   def destroy
     if @order.cart
@@ -326,38 +219,38 @@ class OrdersController < ApplicationController
       return options
     end
 
-    def use_billing_for_shipping?
-      order_params[:use_billing] == 'yes'
-    end
+    # def use_billing_for_shipping?
+    #   order_params[:use_billing] == 'yes'
+    # end
 
-    def billing_address_record?
-      @order.addresses.exists?(address_type: 'billing')
-    end
+    # def billing_address_record?
+    #   @order.addresses.exists?(address_type: 'billing')
+    # end
 
-    def shipping_address_record?
-      @order.addresses.exists?(address_type: 'shipping')
-    end
+    # def shipping_address_record?
+    #   @order.addresses.exists?(address_type: 'shipping')
+    # end
 
-    def copy_billing_to_shipping
-      billing = params[:order][:addresses_attributes]['0'].dup
-      billing[:address_type] = 'billing'
-      if billing_address_record?
-        billing[:id] = @order.addresses.find_by(address_type: 'billing').id
-      else
-        billing[:id] = nil
-      end
+    # def copy_billing_to_shipping
+    #   billing = params[:order][:addresses_attributes]['0'].dup
+    #   billing[:address_type] = 'billing'
+    #   if billing_address_record?
+    #     billing[:id] = @order.addresses.find_by(address_type: 'billing').id
+    #   else
+    #     billing[:id] = nil
+    #   end
 
-      shipping = billing.dup
-      shipping[:address_type] = 'shipping'
-      if shipping_address_record?
-        shipping[:id] = @order.addresses.find_by(address_type: 'shipping').id
-      else
-        shipping[:id] = nil
-      end
+    #   shipping = billing.dup
+    #   shipping[:address_type] = 'shipping'
+    #   if shipping_address_record?
+    #     shipping[:id] = @order.addresses.find_by(address_type: 'shipping').id
+    #   else
+    #     shipping[:id] = nil
+    #   end
 
-      params[:order][:addresses_attributes]['0'] = billing
-      params[:order][:addresses_attributes]['1'] = shipping
-    end
+    #   params[:order][:addresses_attributes]['0'] = billing
+    #   params[:order][:addresses_attributes]['1'] = shipping
+    # end
 
     def set_no_cache
         response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
