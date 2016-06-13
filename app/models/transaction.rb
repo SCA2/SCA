@@ -7,9 +7,9 @@ class Transaction < ActiveRecord::Base
     self.authorization  = response.authorization
     self.message        = response.message
     self.params         = response.params
-  rescue ActiveMerchant::ActiveMerchantError => e
+  rescue StandardError => e
     self.success        = false
-    self.authorization  = nil
+    self.authorization  = 'failed'
     self.message        = e.message
     self.params         = {}
   end

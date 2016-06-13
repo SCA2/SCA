@@ -16,7 +16,7 @@ module ProductUtilities
 
     def empty_cart_redirect
       set_cart unless @cart
-      if @cart.line_items.empty?
+      if @cart.empty?
         flash[:notice] = 'Your cart is empty'
         redirect_to products_path and return
       end
@@ -24,7 +24,7 @@ module ProductUtilities
 
     def checkout_complete_redirect
       set_cart unless @cart
-      if @cart.order.purchased?
+      if @cart.purchased?
         flash[:notice] = 'Cart already purchased'
         redirect_to products_path and return
       end

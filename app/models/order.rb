@@ -24,7 +24,6 @@ class Order < ActiveRecord::Base
   
   validate :validate_card, if: :validate_order?
   validates :accept_terms, acceptance: true, if: :validate_terms?
-  # validates_inclusion_of :state, in: STATES
 
   validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },
@@ -36,8 +35,9 @@ class Order < ActiveRecord::Base
     transactions.create!(action: "purchase", amount: total, response: response)
     cart.update(purchased_at: Time.zone.now) if response.success?
     response.success?
-  rescue StandardError => e 
-    byebug
+  rescue StandardError => e
+    transactions.create!(action: "error", amount: total, response: nil)
+    false
   end
 
   def purchased?

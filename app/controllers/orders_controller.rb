@@ -54,35 +54,6 @@ class OrdersController < ApplicationController
     render partial: 'subregion_select'
   end
   
-  # def update
-  #   @order.update(state: @order.next_state)
-  #   if @order.payment_submitted?
-  #     @order.validate_order = true
-  #     if @order.update(order_params)
-  #       @order.ip_address = request.remote_ip
-  #       if @order.purchase
-  #         @transaction = @order.transactions.last
-  #         @order.cart.inventory
-  #         @cart.save
-  #         UserMailer.order_received(@order).deliver_now
-  #         session[:cart_id] = nil
-  #         session[:progress] = nil
-  #         @order.update(state: @order.next_state(:success))
-  #         render 'success'
-  #       else
-  #         @transaction = @order.transactions.last
-  #         @order.update(state: @order.next_state(:failure))
-  #         render 'failure'
-  #       end
-  #     else
-  #       render 'payment'
-  #     end
-  #   else
-  #     flash[:alert] = 'Sorry, there was a problem submitting your payment details.'
-  #     bad_state_redirect
-  #   end
-  # end
-    
   def destroy
     if @order.cart
       cart = @order.cart

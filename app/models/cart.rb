@@ -95,6 +95,10 @@ class Cart < ActiveRecord::Base
   def total_items
     line_items.to_a.sum { |item| item.quantity }
   end
+
+  def empty?
+    line_items.empty?
+  end
   
   def weight
     line_items.to_a.sum { |item| item.extended_weight * 16 }

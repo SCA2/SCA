@@ -5,7 +5,7 @@ module Checkout
     
     before_action :set_cart, :set_products
     before_action :checkout_complete_redirect
-    before_action :cart_empty_redirect
+    before_action :empty_cart_redirect
 
     def new
       @order = Order.find_or_create_by(cart_id: @cart.id)
@@ -27,20 +27,6 @@ module Checkout
     end
 
   private
-
-    def cart_empty_redirect
-      if @cart.line_items.empty?
-        flash[:notice] = 'Your cart is empty'
-        redirect_to products_path and return
-      end
-    end
-
-    def checkout_complete_redirect
-      if @cart.order.purchased?
-        flash[:notice] = 'Cart already purchased'
-        redirect_to products_path and return
-      end
-    end
 
     def assign_address(type)
       unless @order.addresses.exists?(address_type: type)

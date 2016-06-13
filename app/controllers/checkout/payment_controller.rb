@@ -24,9 +24,9 @@ module Checkout
       if @order.payment_submitted?
         if @order.update(order_params)
           if @order.purchase
-            redirect_to new_checkout_transaction_path(success: true)
+            redirect_to new_checkout_transaction_path(id: @order, success: true)
           else
-            redirect_to new_checkout_transaction_path(success: false)
+            redirect_to new_checkout_transaction_path(id: @order, success: false)
           end
         else
           render 'new'

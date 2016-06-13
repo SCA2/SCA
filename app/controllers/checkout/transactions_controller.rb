@@ -9,8 +9,9 @@ module Checkout
 
     def new
       @order = Order.find(params[:id])
-      if order_params[:success]
-        @transaction = @order.transactions.last
+      @transaction = @order.transactions.last
+      # byebug
+      if order_params[:success] == 'true'
         @order.cart.inventory
         @cart.save
         UserMailer.order_received(@order).deliver_now
@@ -19,7 +20,6 @@ module Checkout
         @order.update(state: @order.next_state(:success))
         render 'success'
       else
-        @transaction = @order.transactions.last
         @order.update(state: @order.next_state(:failure))
         render 'failure'
       end
@@ -28,7 +28,7 @@ module Checkout
   private
 
     def order_params
-      params.require(:order).permit(:id, :success)
+      params.permit(:id, :success)
     end
   end
 end
