@@ -1,6 +1,7 @@
 module Checkout
   class ShippingController < ApplicationController
     
+    require 'active_shipping'
     include ProductUtilities
     
     before_action :set_cart, :set_products
@@ -15,7 +16,7 @@ module Checkout
         flash[:alert] = 'Sorry, there was a problem creating your addresses.'
         redirect_to new_checkout_address_path(id: @order)
       end
-    rescue ActiveMerchant::Shipping::ResponseError => e
+    rescue ActiveShipping::ResponseError => e
       flash[:error] = e.message
       redirect_to new_checkout_address_path(id: @order.id)
     end

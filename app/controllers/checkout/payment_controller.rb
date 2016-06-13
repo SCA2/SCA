@@ -22,6 +22,7 @@ module Checkout
       @order.update(state: @order.next_state)
       @order.validate_order = true
       if @order.payment_submitted?
+        @order.ip_address = request.remote_ip
         if @order.update(order_params)
           if @order.purchase
             redirect_to new_checkout_transaction_path(id: @order, success: true)

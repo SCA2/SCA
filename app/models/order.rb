@@ -1,7 +1,6 @@
 class Order < ActiveRecord::Base
 
-  include ActiveMerchant::Shipping
-
+  require 'active_shipping'
   require 'active_merchant/billing/rails'
 
   CARD_TYPES = [["Visa", "visa"],["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]] 
@@ -96,7 +95,7 @@ class Order < ActiveRecord::Base
   end
 
   def origin
-    Location.new(
+    ActiveShipping::Location.new(
       country: "US",
       state: "CA",
       city: "Oakland",
@@ -106,7 +105,7 @@ class Order < ActiveRecord::Base
 
   def destination
     shipping = self.addresses.find_by(address_type: 'shipping')
-    Location.new(
+    ActiveShipping::Location.new(
       country: shipping.country,
       state: shipping.state_code,
       city: shipping.city,
@@ -115,7 +114,7 @@ class Order < ActiveRecord::Base
   end
 
   def packages
-    package = Package.new(
+    package = ActiveShipping::Package.new(
       self.cart.weight,
       dimensions,
       cylinder: false,
@@ -150,12 +149,12 @@ class Order < ActiveRecord::Base
   end
 
   def ups_rates
-    ups = UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
+    ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
     get_rates_from_shipper(ups)
   end
 
   def usps_rates
-    usps = USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
+    usps = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
     get_rates_from_shipper(usps)
   end
 
