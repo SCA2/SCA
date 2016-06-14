@@ -35,7 +35,15 @@ class Order < ActiveRecord::Base
     cart.update(purchased_at: Time.zone.now) if response.success?
     response.success?
   rescue StandardError => e
-    transactions.create!(action: "error", amount: total, response: nil)
+    error_params = {
+      action: 'exception',
+      amount: total,
+      success: false,
+      authorization: 'failed',
+      message: e.message,
+      params: {}
+    }
+    transactions.create(error_params)
     false
   end
 

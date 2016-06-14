@@ -3,14 +3,12 @@ module Checkout
 
     include ProductUtilities
     
-    before_action :set_cart, :set_products
-    before_action :checkout_complete_redirect
-    before_action :empty_cart_redirect
+    before_action :set_products
 
     def new
+      @cart = get_cart
       @order = Order.find(params[:id])
       @transaction = @order.transactions.last
-      # byebug
       if order_params[:success] == 'true'
         @order.cart.inventory
         @cart.save

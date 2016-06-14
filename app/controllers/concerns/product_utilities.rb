@@ -5,8 +5,8 @@ module ProductUtilities
   private
 
     def set_cart
-      @cart = Cart.find(session[:cart_id])
-      raise ActiveRecord::RecordNotFound if @cart.purchased_at
+      @cart ||= get_cart
+      raise ActiveRecord::RecordNotFound if @cart.purchased?
     rescue ActiveRecord::RecordNotFound
       @cart = Cart.create
       session[:cart_id] = @cart.id
@@ -15,7 +15,7 @@ module ProductUtilities
     end
 
     def empty_cart_redirect
-      set_cart unless @cart
+      @cart ||= get_cart
       if @cart.empty?
         flash[:notice] = 'Your cart is empty'
         redirect_to products_path and return
@@ -23,7 +23,7 @@ module ProductUtilities
     end
 
     def checkout_complete_redirect
-      set_cart unless @cart
+      @cart ||= get_cart
       if @cart.purchased?
         flash[:notice] = 'Cart already purchased'
         redirect_to products_path and return
@@ -75,6 +75,10 @@ module ProductUtilities
 
     def get_product(model)
       Product.where("lower(model) = ?", model.downcase).first
+    end
+
+    def get_cart
+      Cart.find(session[:cart_id])
     end
 
 end

@@ -22,7 +22,6 @@ module Checkout
       @order.update(state: @order.next_state)
       @order.validate_order = true
       if @order.payment_submitted?
-        @order.ip_address = request.remote_ip
         if @order.update(order_params)
           if @order.purchase
             redirect_to new_checkout_transaction_path(id: @order, success: true)
@@ -45,7 +44,7 @@ module Checkout
   private
 
     def order_params
-      params.require(:order).permit(:id, :email, :card_type, :card_expires_on, :card_number, :card_verification)
+      params.require(:order).permit(:id, :email, :card_type, :card_expires_on, :card_number, :card_verification).merge(ip_address: request.remote_ip)
     end
   end
 end
