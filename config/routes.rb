@@ -50,7 +50,9 @@ SCA::Application.routes.draw do
   end
 
   resource :checkout, only: :new do
-    resource :express,        only: [:new, :create],  controller: 'checkout/express'
+    resource :express,        only: [:new],           controller: 'checkout/express' do
+      get 'create'
+    end
     resources :addresses,     only: [:new, :create],  controller: 'checkout/addresses'
     resources :subregions,    only: [:new, :create],  controller: 'checkout/subregions'
     resource :shipping,       only: [:new, :update],  controller: 'checkout/shipping'

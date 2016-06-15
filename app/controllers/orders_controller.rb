@@ -21,38 +21,13 @@ class OrdersController < ApplicationController
     end
   end
   
-  def express
-    if @cart.line_items.empty?
-      flash[:notice] = 'Your cart is empty'
-      redirect_to products_path and return
-    else
-      response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal, express_options)
-      redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
-    end
-  end
-  
-  def create_express
-    token = params[:token]
-    if @cart.order
-      @order = @cart.order
-      @order.update(express_token: token)
-    else
-      @order = Order.new(express_token: token)
-      @order.cart = @cart
-    end
-    @order.get_express_address(token)
-    @order.update(state: 'order_addressed')
-    flash[:success] = 'Got PayPal token!'
-    redirect_to shipping_order_path(@order)
-  end
-  
-  def subregion_options
-    if @order.addresses.any?
-      @billing = @order.addresses.find_by(address_type: 'billing')
-      @shipping = @order.addresses.find_by(address_type: 'shipping')
-    end
-    render partial: 'subregion_select'
-  end
+  # def subregion_options
+  #   if @order.addresses.any?
+  #     @billing = @order.addresses.find_by(address_type: 'billing')
+  #     @shipping = @order.addresses.find_by(address_type: 'shipping')
+  #   end
+  #   render partial: 'subregion_select'
+  # end
   
   def destroy
     if @order.cart
@@ -107,125 +82,13 @@ class OrdersController < ApplicationController
     @tax[:tax_withheld] = @tax[:orders].reduce(0) { |sum, order| sum + order.sales_tax }
   end
 
-  private
-    
-    ADDRESS_ATTRIBUTES = [:id, [:address_type, :first_name, :last_name,
-      :address_1, :address_2, :city, :state_code, :post_code, :country,
-      :telephone]]
+private
 
-    def order_params
-      params.require(:order)
-            .permit(:id, :cart_id, :state, :email,
-                    :card_type, :card_expires_on, :card_number, :card_verification,
-                    :ip_address, :express_token, :accept_terms, :use_billing,
-                    :shipping_method, :shipping_cost, :length, :width, :height, :weight, 
-                    addresses_attributes: ADDRESS_ATTRIBUTES)
+  def admin_user
+    unless signed_in_admin?
+      flash[:alert] = 'Sorry, admins only'
+      redirect_to(home_path)
     end
+  end
 
-    def admin_user
-      unless signed_in_admin?
-        flash[:alert] = 'Sorry, admins only'
-        redirect_to(home_path)
-      end
-    end
-
-    def set_order
-      @order = Order.find(params[:id])
-    end
-
-    def save_progress
-      session[:progress] ||= []
-      if !session[:progress].include?(request.path)
-        session[:progress] << request.path
-      end
-    end
-
-    def bad_state_redirect
-      if @order.purchased?
-        redirect_to products_path and return
-      else
-        @order.update(state: Order::STATES.first)
-        redirect_to addresses_order_path(@order) and return
-      end
-    end
-
-    def assign_address(type)
-      unless @order.addresses.exists?(address_type: type)
-        if signed_in?
-          address = current_user.addresses.find_by(address_type: type)
-          if address
-            @order.addresses << address.dup
-          else
-            @order.addresses.build(address_type: type)
-          end
-        else
-          @order.addresses.build(address_type: type)
-        end
-      end
-    end
-    
-    def express_options
-      options = {}
-      options[:ip] = request.remote_ip,
-      options[:return_url] = create_express_orders_url,
-      options[:cancel_return_url] = cart_url(@cart),
-      options[:payment_action] = 'sale',
-      options[:currency] = 'USD',
-      options[:brand_name] = 'Seventh Circle Audio',
-      options[:allow_guest_checkout] = 'true'
-      options[:subtotal] = @cart.subtotal
-      options[:items] = @cart.line_items.map do |line_item|
-        {
-          name: line_item.model,
-          description: line_item.product.category + ', ' + line_item.option.description,
-          quantity: line_item.quantity,
-          amount: line_item.price
-        }
-      end
-
-      if (discount = @cart.discount) > 0
-        options[:items] << { name: 'Discount', quantity: 1, amount: -discount }
-      end
-
-      return options
-    end
-
-    # def use_billing_for_shipping?
-    #   order_params[:use_billing] == 'yes'
-    # end
-
-    # def billing_address_record?
-    #   @order.addresses.exists?(address_type: 'billing')
-    # end
-
-    # def shipping_address_record?
-    #   @order.addresses.exists?(address_type: 'shipping')
-    # end
-
-    # def copy_billing_to_shipping
-    #   billing = params[:order][:addresses_attributes]['0'].dup
-    #   billing[:address_type] = 'billing'
-    #   if billing_address_record?
-    #     billing[:id] = @order.addresses.find_by(address_type: 'billing').id
-    #   else
-    #     billing[:id] = nil
-    #   end
-
-    #   shipping = billing.dup
-    #   shipping[:address_type] = 'shipping'
-    #   if shipping_address_record?
-    #     shipping[:id] = @order.addresses.find_by(address_type: 'shipping').id
-    #   else
-    #     shipping[:id] = nil
-    #   end
-
-    #   params[:order][:addresses_attributes]['0'] = billing
-    #   params[:order][:addresses_attributes]['1'] = shipping
-    # end
-
-    def set_no_cache
-        response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
-    end
 end
