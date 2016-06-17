@@ -7,10 +7,6 @@ class Order < ActiveRecord::Base
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  STATES = %w[order_started order_addressed shipping_method_selected order_confirmed payment_submitted transaction_succeeded transaction_failed order_canceled order_shipped]
-  
-  VIEWABLE_STATES = %w[order_started order_addressed shipping_method_selected order_confirmed]
-
   SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
 
   belongs_to :cart, inverse_of: :order
@@ -27,7 +23,6 @@ class Order < ActiveRecord::Base
   validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },
                     if: :validate_order?
-
 
   def purchase
     response = process_purchase
@@ -207,25 +202,22 @@ class Order < ActiveRecord::Base
     return [length, width, height]  
   end
   
-  delegate :order_started?, :order_addressed?, :shipping_method_selected?, :order_confirmed?, :payment_submitted?, :transaction_succeeded?, :transaction_failed?, :order_canceled?, :order_shipped?, to: :current_state
-  
-  def current_state
-    (state || STATES.first).inquiry
+  def addressable?
+    cart && !cart.empty?
   end
 
-  def next_state(event = nil)
-    case current_state
-    when 'payment_submitted'
-      event == :success ? 'transaction_succeeded' : 'transaction_failed'
-    when 'transaction_succeeded'
-      event == :ship ? 'order_shipped' : current_state
-    else
-      STATES[STATES.index(current_state) + 1]
-    end
+  def shippable?
+    addresses.exists?(address_type: 'billing') &&
+    addresses.exists?(address_type: 'shipping') &&
+    addressable?
   end
 
-  def viewable?
-    VIEWABLE_STATES.include?(current_state)
+  def confirmable?
+    shipping_method && shipping_cost && shippable?
+  end
+
+  def notifiable?
+    email && confirmable?
   end
 
   private

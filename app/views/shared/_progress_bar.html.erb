@@ -2,17 +2,17 @@
   <li <%= crumb_class(cart_path(@cart)) %>>
     <%= crumb_link 'Cart', cart_path(@cart) %>
   </li>
-  <% if @cart.order %>
-    <li <%= crumb_class(addresses_order_path(@cart.order)) %>>
-      <%= crumb_link 'Billing & Shipping Addresses', addresses_order_path(@cart.order) %>
+  <% if @order %>
+    <li <%= crumb_class(new_checkout_address_path(@cart)) %>>
+      <%= crumb_link 'Billing & Shipping Addresses', new_checkout_address_path(@cart) %>
     </li>
-    <li <%= crumb_class(shipping_order_path(@cart.order)) %>>
-      <%= crumb_link 'Shipping Method', shipping_order_path(@cart.order) %>
+    <li <%= crumb_class(new_checkout_shipping_path(@cart)) %>>
+      <%= crumb_link 'Shipping Method', new_checkout_shipping_path(@cart) %>
     </li>
-    <li <%= crumb_class(confirm_order_path(@cart.order)) %>>
-      <%= crumb_link 'Confirm', confirm_order_path(@cart.order) %>
+    <li <%= crumb_class(new_checkout_confirmation_path(@cart)) %>>
+      <%= crumb_link 'Confirm', new_checkout_confirmation_path(@cart) %>
     </li>
-    <li <%= crumb_class(payment_order_path(@cart.order)) %>>
+    <li <%= crumb_class(new_checkout_payment_path(@cart)) %>>
       <%= link_to 'Payment', '#' %>
     </li>
   <% else %>

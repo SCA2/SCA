@@ -3,7 +3,6 @@ class CartsController < ApplicationController
   include ProductUtilities
   
   before_action :set_products
-  before_action :signed_in_admin, except: [:show, :update, :destroy]
   before_action :set_cart, only: [:show, :update, :destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
   

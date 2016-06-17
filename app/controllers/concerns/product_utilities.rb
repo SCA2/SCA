@@ -14,6 +14,10 @@ module ProductUtilities
       session[:progress] = cart_path(@cart)
     end
 
+    def set_checkout_cart
+      @cart ||= get_cart
+    end
+
     def empty_cart_redirect
       @cart ||= get_cart
       if @cart.empty?
@@ -22,7 +26,7 @@ module ProductUtilities
       end
     end
 
-    def checkout_complete_redirect
+    def cart_purchased_redirect
       @cart ||= get_cart
       if @cart.purchased?
         flash[:notice] = 'Cart already purchased'

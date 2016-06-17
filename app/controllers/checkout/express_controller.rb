@@ -3,31 +3,36 @@ module Checkout
   
     include ProductUtilities
 
-    before_action :set_cart
-    before_action :checkout_complete_redirect
+    before_action :set_no_cache
+    before_action :set_checkout_cart
+    before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
 
     def new
+      @order = Order.find_or_create_by(cart_id: @cart.id)
+      bad_state_redirect; return if performed?
       response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal, express_options)
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
     end
     
     def create
-      token = params[:token]
-      if @cart.order
-        @order = @cart.order
-        @order.update(express_token: token)
-      else
-        @order = Order.new(express_token: token)
-        @order.cart = @cart
-      end
+      @order = @cart.order
+      bad_state_redirect; return if performed?
+      token = order_params[:token]
+      @order.update(express_token: token)
       @order.get_express_address(token)
-      @order.update(state: 'order_addressed')
-      flash[:success] = 'Got PayPal token!'
+      flash[:success] = 'Got PayPal authorization!'
       redirect_to new_checkout_shipping_path(id: @order)
     end
 
   private
+
+    def bad_state_redirect
+      unless @order.addressable?
+        flash[:alert] = 'Sorry, unable to continue checkout.'
+        redirect_to products_path
+      end
+    end
 
     def express_options
       options = {
@@ -55,6 +60,10 @@ module Checkout
       end
 
       return options
+    end
+    
+    def order_params
+      params.permit(:token, :PayerID)
     end
 
   end

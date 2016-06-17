@@ -5,7 +5,7 @@
 		<div class="small-12 columns main">
 			<%= render 'shared/errors', object: @order %>
 			<%= render 'shared/progress_bar' %>
-			<%= form_for @order, url: checkout_confirmation_path(id: @order) do |form| %>
+			<%= form_for @order, url: checkout_confirmation_path(@cart) do |form| %>
 				<%= form.hidden_field :express_token %>
 				<div class='review-box'>
 					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
@@ -15,11 +15,14 @@
 				<%= render 'confirm_cart' %>
 				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
 				<div class="button-box">
-					<%= link_to 'Back to Shipping', new_checkout_shipping_path(id: @order), class: 'button user' %>
-					<%= form.submit 'Continue Checkout', class: 'button user' %>
-				</div>
-			<% end %>
-		</div>
-	</div>	
+					<%= link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button user' %>
+          <% if @order.express_token %>
+          <%= form.submit 'Place Order', class: 'button user' %>
+          <% else %>
+          <%= form.submit 'Continue Checkout', class: 'button user' %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>  
 </div>
-

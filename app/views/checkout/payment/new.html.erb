@@ -8,7 +8,7 @@
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'payment_form', f: f, legend: 'Card Info' %>
 				<div class="button-box">
-					<%= link_to 'Back to Confirmation', new_checkout_confirmation_path(id: @order), class: 'button user' %>
+					<%= link_to 'Back to Confirmation', new_checkout_confirmation_path(@cart), class: 'button user' %>
 					<%= f.submit 'Place Order', class: 'button user' %>
 				</div>
 			<% end %>

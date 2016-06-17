@@ -3,7 +3,8 @@ require 'rails_helper'
 describe LineItem do
 
   before do
-    @line_item = FactoryGirl.build_stubbed(:line_item)
+    @cart = create(:cart)
+    @line_item = build_stubbed(:line_item, cart: @cart)
   end
 
   it "has a valid factory" do
@@ -49,12 +50,12 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = build_stubbed(:line_item, cart: cart, product: product, option: option)
       expect(line_item.cart).to eq cart
     end
 
     it 'does not destroy associated cart' do
-      cart = create(:cart)
+      cart = create(:cart, purchased_at: Time.now)
       product = create(:product)
       option = create(:option, product: product)
       line_item = create(:line_item, cart: cart, product: product, option: option)
@@ -65,7 +66,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = build_stubbed(:line_item, cart: cart, product: product, option: option)
       expect {cart.destroy}.to change {Cart.count}.by(-1)
     end
 

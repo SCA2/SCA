@@ -3,27 +3,35 @@ module Checkout
 
     include ProductUtilities
     
-    before_action :set_products
+    before_action :set_no_cache
+    before_action :set_checkout_cart, :set_products
+    before_action :empty_cart_redirect
 
     def new
-      @cart = get_cart
-      @order = Order.find(params[:id])
+      @order = @cart.order
+      bad_state_redirect; return if performed?
       @transaction = @order.transactions.last
       if order_params[:success] == 'true'
-        @order.cart.inventory
+        @cart.inventory
         @cart.save
         UserMailer.order_received(@order).deliver_now
         session[:cart_id] = nil
         session[:progress] = nil
-        @order.update(state: @order.next_state(:success))
+        set_cart
         render 'success'
       else
-        @order.update(state: @order.next_state(:failure))
         render 'failure'
       end
     end
 
   private
+
+    def bad_state_redirect
+      unless @order.notifiable?
+        flash[:alert] = 'Sorry, there was a problem submitting your payment.'
+        redirect_to new_checkout_payment_path(@order)
+      end
+    end
 
     def order_params
       params.permit(:id, :success)

@@ -2,31 +2,40 @@ module Checkout
   class AddressesController < ApplicationController
     
     include ProductUtilities
-    
-    before_action :set_cart, :set_products
-    before_action :checkout_complete_redirect
+
+    before_action :set_no_cache
+    before_action :set_checkout_cart, :set_products
+    before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
+    before_action :save_progress
 
     def new
       @order = Order.find_or_create_by(cart_id: @cart.id)
-      @order.update(state: Order::STATES.first)
+      bad_state_redirect; return if performed?
       assign_address('billing')
       assign_address('shipping')
     end
 
     def create
-      @order = Order.find(params[:id])
+      @order = @cart.order
+      bad_state_redirect; return if performed?
       copy_billing_to_shipping if use_billing_for_shipping?
       if @order.update(order_params)
         flash[:success] = 'Addresses saved!'
-        @order.update(state: 'order_addressed')
-        redirect_to new_checkout_shipping_path(id: @order.id)
+        redirect_to new_checkout_shipping_path(@cart)
       else
         render 'new'
       end
     end
 
   private
+
+    def bad_state_redirect
+      unless @order.addressable?
+        flash[:alert] = 'Sorry, unable to continue checkout.'
+        redirect_to products_path
+      end
+    end
 
     def assign_address(type)
       unless @order.addresses.exists?(address_type: type)
