@@ -46,7 +46,7 @@ describe Cart do
     end
 
     it 'has multiple line_items' do
-      cart = create(:cart)
+      cart = create(:cart, purchased_at: Time.zone.now)
       product = create(:product)
       option = create(:option, product: product)
       create(:line_item, cart: cart, product: product, option: option)

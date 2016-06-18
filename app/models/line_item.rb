@@ -1,7 +1,7 @@
 class LineItem < ActiveRecord::Base
+  belongs_to :cart, inverse_of: :line_items
   belongs_to :product, inverse_of: :line_items
   belongs_to :option, inverse_of: :line_items
-  belongs_to :cart, inverse_of: :line_items
   validates :cart, :product, :option, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   

@@ -96,7 +96,7 @@ class Cart < ActiveRecord::Base
     line_items.to_a.sum { |item| item.quantity }
   end
 
-  def empty?
+  def line_items_empty?
     line_items.empty?
   end
   

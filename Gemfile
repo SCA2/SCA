@@ -26,21 +26,21 @@ gem 'capistrano-rails', '~> 1.1.6'
 gem 'capistrano-rbenv', '~> 2.0.4', require: false
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.1.0'
-  gem 'rspec-collection_matchers', '~> 1.1.2'
-  gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
+  gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'byebug'
   gem 'pry'
 end
 
 group :test do
-  gem 'vcr', '~> 3.0.1'
+  gem 'vcr'
   gem 'webmock'
-  gem 'faker', '~> 1.4.3'
-  gem 'capybara', '~> 2.4.3'
-  gem 'poltergeist', '~> 1.9.0'
-  gem 'database_cleaner', '~> 1.3.0'
-  gem 'launchy', '~> 2.4.2'
+  gem 'faker'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'database_cleaner'
+  gem 'launchy'
   gem 'simplecov', require: false
 end

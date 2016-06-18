@@ -35,7 +35,6 @@ describe Transaction do
 
   describe 'response=', :vcr do
     before do
-      # ::STANDARD_GATEWAY = ActiveMerchant::Billing::BogusGateway.new()
       @total = 100
       @standard_purchase_options = {
         ip: '127.0.0.1',
@@ -50,7 +49,7 @@ describe Transaction do
       }
     end
 
-    it 'handles valid transaction assignment' do
+    it 'handles successful transaction assignment' do
       credit_card = ActiveMerchant::Billing::CreditCard.new(
         brand:              'VISA',
         number:             '4032038036005571',
@@ -65,7 +64,7 @@ describe Transaction do
       expect(transaction.success).to be true
     end
 
-    it 'handles invalid transaction assignment' do
+    it 'handles unsuccessful transaction assignment' do
       credit_card = ActiveMerchant::Billing::CreditCard.new(
         brand:              'VISA',
         number:             '4032038036005573',
@@ -76,7 +75,14 @@ describe Transaction do
         last_name:          'Tester'
       )
       transaction = create(:transaction)
-      expect { transaction.response = STANDARD_GATEWAY.purchase(@total, credit_card, @standard_purchase_options) }.to raise_error
+      transaction.response = STANDARD_GATEWAY.purchase(@total, credit_card, @standard_purchase_options)
+      expect(transaction.success).to be false
+    end
+
+    it 'handles invalid response' do
+      transaction = create(:transaction)
+      transaction.response = nil
+      expect(transaction.message).to eq "invalid response"
     end
   end
 end

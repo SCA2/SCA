@@ -20,7 +20,7 @@ module ProductUtilities
 
     def empty_cart_redirect
       @cart ||= get_cart
-      if @cart.empty?
+      if @cart.line_items_empty?
         flash[:notice] = 'Your cart is empty'
         redirect_to products_path and return
       end

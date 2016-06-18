@@ -11,7 +11,7 @@ class Transaction < ActiveRecord::Base
     else
       self.success        = false
       self.authorization  = 'failed'
-      self.message        = 'response not received'
+      self.message        = 'invalid response'
       self.params         = {}
     end
   end

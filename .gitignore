@@ -34,3 +34,6 @@ sca.sublime-project
 
 # Ignore simplecov results
 /coverage
+
+# Ignore new byebug feature
+.byebug_history
