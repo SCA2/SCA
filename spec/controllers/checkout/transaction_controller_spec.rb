@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Standard Checkout" do
+describe OrdersController do
 
   context 'admin access' do
 

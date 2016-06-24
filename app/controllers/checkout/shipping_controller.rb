@@ -29,7 +29,7 @@ module Checkout
         flash[:success] = 'Shipping method saved!'
         redirect_to new_checkout_confirmation_path(@cart)
       else
-        flash[:alert] = 'Please select a shipping method!'
+        flash.now[:alert] = 'Please select a shipping method!'
         render 'new'
       end
     rescue ActionController::ParameterMissing

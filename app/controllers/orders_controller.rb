@@ -3,18 +3,16 @@ class OrdersController < ApplicationController
   include ProductUtilities
   
   before_action :set_cart, :set_products
-  before_action :set_no_cache
-  before_action :save_progress, except: [:express, :create_express, :payment]
-  before_action :admin_user, only: [:index, :show]
+  before_action :admin_user
 
   def index
     @orders = Order.order(:created_at)    
   end
   
   def show
+    @order = @cart.order
     @billing = @order.addresses.find_by(address_type: 'billing')
     @shipping = @order.addresses.find_by(address_type: 'shipping')
-    @cart = @order.cart
     
     if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
       redirect_to orders_path, alert: "Invalid record" and return
@@ -30,12 +28,10 @@ class OrdersController < ApplicationController
   # end
   
   def destroy
-    if @order.cart
-      cart = @order.cart
+    @order = @cart.order
+    if @order
       @order.destroy
-      cart.destroy
-    else
-      @order.destroy
+      @cart.destroy
     end
     redirect_to orders_path
   end

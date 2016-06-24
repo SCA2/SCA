@@ -201,9 +201,13 @@ class Order < ActiveRecord::Base
     end
     return [length, width, height]  
   end
+
+  def line_items_empty?
+    cart && cart.line_items_empty?
+  end
   
   def addressable?
-    cart && !cart.empty?
+    !line_items_empty?
   end
 
   def shippable?

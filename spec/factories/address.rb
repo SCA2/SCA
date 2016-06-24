@@ -62,11 +62,20 @@ FactoryGirl.define do
       country 'Canada'
     end
 
+    trait :invalid_zip do
+      city 'Pittsburgh'
+      state_code 'PA'
+      post_code '94601'
+      country 'USA'      
+    end
+
     factory :billing, traits: [:billing]
     factory :shipping, traits: [:shipping]
     factory :billing_taxable, traits: [:billing, :taxable]
     factory :shipping_taxable, traits: [:shipping, :taxable]
     factory :billing_constant_taxable, traits: [:billing, :constant_name, :taxable]
     factory :shipping_constant_taxable, traits: [:shipping, :constant_name, :taxable]
+    factory :invalid_billing_zip, traits: [:billing, :constant_name, :invalid_zip]
+    factory :invalid_shipping_zip, traits: [:shipping, :constant_name, :invalid_zip]
   end
 end

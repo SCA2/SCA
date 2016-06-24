@@ -15,7 +15,7 @@ module Checkout
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
     end
     
-    def create
+    def edit
       @order = @cart.order
       bad_state_redirect; return if performed?
       token = order_params[:token]
@@ -37,7 +37,7 @@ module Checkout
     def express_options
       options = {
         ip:                   request.remote_ip,
-        return_url:           checkout_express_url,
+        return_url:           edit_checkout_express_url(@cart),
         cancel_return_url:    cart_url(@cart),
         payment_action:       'sale',
         currency:             'USD',

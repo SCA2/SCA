@@ -11,18 +11,21 @@ module Checkout
 
     def new
       @order = @cart.order
-      bad_state_redirect; return if performed?
       unless @billing = @order.addresses.find_by(address_type: 'billing')
         flash[:alert] = 'Billing address is missing!'
-        redirect_to new_checkout_address_path(@cart)
+        redirect_to new_checkout_address_path(@cart) and return
       end
       unless @shipping = @order.addresses.find_by(address_type: 'shipping')
         flash[:alert] = 'Shipping address is missing!'
-        redirect_to new_checkout_address_path(@cart)
+        redirect_to new_checkout_address_path(@cart) and return
       end
       unless @order.shipping_method
         flash[:alert] = 'Shipping method is missing!'
-        redirect_to new_checkout_shipping_path(@cart)
+        redirect_to new_checkout_shipping_path(@cart) and return
+      end
+      unless @order.shipping_cost
+        flash[:alert] = 'Shipping cost is missing!'
+        redirect_to new_checkout_shipping_path(@cart) and return
       end
     end
     
@@ -34,7 +37,7 @@ module Checkout
         flash[:accept_terms] = true
         redirect_to paypal_redirect
       else
-        flash[:alert] = 'You must accept terms to proceed'
+        flash[:alert] = 'You must accept terms to proceed!'
         redirect_to new_checkout_confirmation_path(@cart)
       end 
     end
@@ -43,8 +46,8 @@ module Checkout
 
     def bad_state_redirect
       unless @order.confirmable?
-        flash[:alert] = 'Sorry, there was a problem creating your shipping method.'
-        redirect_to new_checkout_shipping_path(@cart)
+        flash[:alert] = 'Sorry, there was a problem confirming your order.'
+        redirect_to new_checkout_confirmation_path(@cart)
       end
     end
 

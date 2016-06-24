@@ -49,7 +49,7 @@
 				<%= cart_form.submit 'Update cart', method: :patch, class: "button checkout" %>
 				<%= link_to 'Empty cart', cart_path, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' } %>
 				<%= link_to 'Keep shopping', products_path, class: "button checkout" %>
-				<%= link_to 'Checkout', new_checkout_path, class: "button checkout" %>
+				<%= link_to 'Checkout', new_checkout_address_path(cart), class: "button checkout" %>
 			</div>
 			<div class="checkout-box">
 				<%= link_to image_tag("https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"),	new_checkout_express_path(cart), id: 'paypal-button', class: 'paypal-button' %>
