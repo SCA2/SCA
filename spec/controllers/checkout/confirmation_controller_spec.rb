@@ -10,7 +10,7 @@ describe Checkout::ConfirmationController do
         create(:line_item, cart: cart, product: product, option: option)
         order = create(:order,
           cart: cart,
-          express_token: nil,
+          express_token: nil
         )
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

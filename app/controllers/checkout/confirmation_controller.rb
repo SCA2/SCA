@@ -4,13 +4,14 @@ module Checkout
     include ProductUtilities
 
     before_action :set_no_cache
-    before_action :set_checkout_cart, :set_products
+    before_action :set_products
+    before_action :set_checkout_cart
+    before_action :set_checkout_order
     before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
     before_action :save_progress
 
     def new
-      @order = @cart.order
       unless @billing = @order.addresses.find_by(address_type: 'billing')
         flash[:alert] = 'Billing address is missing!'
         redirect_to new_checkout_address_path(@cart) and return
@@ -30,11 +31,9 @@ module Checkout
     end
     
     def update
-      @order = @cart.order
       bad_state_redirect; return if performed?
       if @order.update(order_params)
         flash[:success] = 'Order confirmed!'
-        flash[:accept_terms] = true
         redirect_to paypal_redirect
       else
         flash[:alert] = 'You must accept terms to proceed!'
@@ -55,7 +54,7 @@ module Checkout
       if @order.express_token.to_s.length > 1
         edit_checkout_payment_path(@cart)
       else
-        new_checkout_payment_path(@cart)
+        new_checkout_payment_path(@cart, accept_terms: true)
       end
     end
 

@@ -18,6 +18,11 @@ module ProductUtilities
       @cart ||= get_cart
     end
 
+    def set_checkout_order
+      set_checkout_cart
+      @order ||= @cart.order
+    end      
+
     def empty_cart_redirect
       @cart ||= get_cart
       if @cart.line_items_empty?
