@@ -3,12 +3,17 @@ module Checkout
 
     include ProductUtilities
     
-    before_action :set_no_cache
     before_action :set_checkout_cart, :set_products
     before_action :empty_cart_redirect
 
+    before_action :set_no_cache
+    before_action :set_products
+    before_action :set_checkout_cart
+    before_action :set_checkout_order
+    # before_action :cart_purchased_redirect
+    before_action :empty_cart_redirect
+
     def new
-      @order = @cart.order
       bad_state_redirect; return if performed?
       @transaction = @order.transactions.last
       if order_params[:success] == 'true'
