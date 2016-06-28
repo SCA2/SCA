@@ -119,7 +119,8 @@ describe Checkout::ShippingController do
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
         post :update,
-          checkout_id: @cart.id
+          checkout_id: @cart.id,
+          order: { shipping_method: "" }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok

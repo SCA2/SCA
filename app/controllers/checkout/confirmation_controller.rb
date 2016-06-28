@@ -54,7 +54,7 @@ module Checkout
       if @order.express_token.to_s.length > 1
         edit_checkout_payment_path(@cart)
       else
-        new_checkout_payment_path(@cart, accept_terms: true)
+        new_checkout_payment_path(@cart, accept_terms: '1')
       end
     end
 
