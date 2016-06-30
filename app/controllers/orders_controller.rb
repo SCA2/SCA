@@ -11,8 +11,8 @@ class OrdersController < ApplicationController
   
   def show
     @order = @cart.order
-    @billing = @order.addresses.find_by(address_type: 'billing')
-    @shipping = @order.addresses.find_by(address_type: 'shipping')
+    @billing = @order.billing_address
+    @shipping = @order.shipping_address
     
     if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
       redirect_to orders_path, alert: "Invalid record" and return
@@ -40,8 +40,8 @@ class OrdersController < ApplicationController
     orders = Order.order(:created_at)
     orders.each do |order|
       email = order.email
-      billing = order.addresses.find_by(address_type: 'billing')
-      shipping = order.addresses.find_by(address_type: 'shipping')
+      billing = order.billing_address
+      shipping = order.shipping_address
       cart = order.cart  
       transaction = order.transactions.last
       order.destroy unless email && billing && shipping && cart && transaction

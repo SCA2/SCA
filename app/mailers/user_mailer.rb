@@ -24,8 +24,8 @@ class UserMailer < ActionMailer::Base
     @order = order
     @cart = order.cart
     @transaction = order.transactions.first
-    @billing = order.addresses.find_by(address_type: 'billing')
-    @shipping = order.addresses.find_by(address_type: 'shipping')
+    @billing = order.billing_address
+    @shipping = order.shipping_address
     mail  to: order.email, 
           bcc: "orders@seventhcircleaudio.com",
           subject: "Thank you for your order"
@@ -35,8 +35,8 @@ class UserMailer < ActionMailer::Base
     @order = order
     @cart = order.cart
     @transaction = order.transactions.first
-    @billing = order.addresses.find_by(address_type: 'billing')
-    @shipping = order.addresses.find_by(address_type: 'shipping')
+    @billing = order.billing_address
+    @shipping = order.shipping_address
     mail  to: order.email, 
           bcc: "orders@seventhcircleaudio.com",
           subject: "Your Seventh Circle Audio order has shipped!"

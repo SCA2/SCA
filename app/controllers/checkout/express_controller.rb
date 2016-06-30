@@ -18,11 +18,10 @@ module Checkout
     def edit
       @order = @cart.order
       bad_state_redirect; return if performed?
-      token = order_params[:token]
-      @order.update(express_token: token)
-      @order.get_express_address(token)
+      validator = ExpressValidator.new(@order, order_params)
+      validator.set_express_addresses
       flash[:success] = 'Got PayPal authorization!'
-      redirect_to new_checkout_shipping_path(id: @order)
+      redirect_to new_checkout_shipping_path(@order)
     end
 
   private
@@ -63,7 +62,7 @@ module Checkout
     end
     
     def order_params
-      params.permit(:token, :PayerID)
+      params.permit(:token, :PayerID).merge(ip_address: request.remote_ip)
     end
 
   end

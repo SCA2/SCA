@@ -25,7 +25,7 @@ module Checkout
         redirect_to new_checkout_confirmation_path(@cart) and return
       end
 
-      if @order.purchase
+      if OrderPurchaser.new(@order).purchase
         redirect_to new_checkout_transaction_path(@cart, success: true)
       else
         redirect_to new_checkout_transaction_path(@cart, success: false)
@@ -45,7 +45,7 @@ module Checkout
         render 'new' and return
       end
 
-      if StandardPurchaser.new(@order, @card).purchase
+      if OrderPurchaser.new(@order, @card).purchase
         redirect_to new_checkout_transaction_path(@cart, success: true)
       else
         redirect_to new_checkout_transaction_path(@cart, success: false)

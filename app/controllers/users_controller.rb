@@ -24,8 +24,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @billing = @user.addresses.find_by(address_type: 'billing')
-    @shipping = @user.addresses.find_by(address_type: 'shipping')
+    @billing = @user.billing_address
+    @shipping = @user.shipping_address
   end
 
   def create

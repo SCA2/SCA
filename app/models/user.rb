@@ -40,6 +40,14 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver_now
   end
 
+  def billing_address
+    addresses.billing_address
+  end
+
+  def shipping_address
+    addresses.shipping_address
+  end
+
   private
 
     def create_remember_token

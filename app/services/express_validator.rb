@@ -1,18 +1,11 @@
-class ExpressPurchaser
+class ExpressValidator
 
   require 'active_merchant/billing/rails'
 
-  def initialize(order, token = nil)
+  def initialize(order, params = nil)
     @order = order
-    @token = token
-  end
-
-  def express_token=(token)
-    @order.write_attribute(:express_token, token)
-    if !@order.purchased? && !token.blank?
-      details = EXPRESS_GATEWAY.details_for(token)
-      @order.write_attribute(:express_payer_id, details.payer_id)
-    end
+    set_ip_address(params) if params
+    set_express_token(params) if params
   end
 
   def paypal_url
@@ -20,10 +13,10 @@ class ExpressPurchaser
     EXPRESS_GATEWAY.redirect_url_for(@order.express_token)
   end
 
-  def get_express_address(token)
-    details = EXPRESS_GATEWAY.details_for(token)
-    update(email: details.params["payer"])
-    billing = addresses.find_or_create_by(address_type: 'billing')
+  def set_express_addresses
+    details = EXPRESS_GATEWAY.details_for(@order.express_token)
+    @order.update(email: details.params["payer"])
+    billing = @order.addresses.find_or_create_by(address_type: 'billing')
     billing.update(
       address_type: 'billing',
       first_name:   details.params["first_name"],
@@ -36,7 +29,7 @@ class ExpressPurchaser
       post_code:    details.params["postal_code"],
       telephone:    details.params["phone"]
     )
-    shipping = addresses.find_or_create_by(address_type: 'shipping')
+    shipping = @order.addresses.find_or_create_by(address_type: 'shipping')
     shipping.update(
       address_type: 'shipping',
       first_name:   details.params["PaymentDetails"]["ShipToAddress"]["Name"].split(' ')[0],
@@ -49,6 +42,23 @@ class ExpressPurchaser
       post_code:    details.params["PaymentDetails"]["ShipToAddress"]["PostalCode"],
       telephone:    details.params["PaymentDetails"]["ShipToAddress"]["Phone"]
     )
+  end
+
+private
+
+  def set_express_token(params)
+    return unless params && params[:token]
+    token = params[:token]
+    @order.update(express_token: token)
+    if !@order.purchased? && !token.blank?
+      details = EXPRESS_GATEWAY.details_for(token)
+      @order.update(express_payer_id: details.payer_id)
+    end
+  end
+
+  def set_ip_address(params)
+    return unless params && params[:ip_address]
+    @order.update(ip_address: params[:ip_address])
   end
 
 end

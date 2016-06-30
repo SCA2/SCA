@@ -16,7 +16,7 @@ module Checkout
       shipper = OrderShipper.new(@order)
       @ups_rates = shipper.ups_rates
       @usps_rates = shipper.usps_rates
-      @paypal_url = ExpressPurchaser.new(@order)
+      @paypal_url = ExpressValidator.new(@order).paypal_url
     rescue StandardError => e
       flash[:error] = e.message
       redirect_to new_checkout_address_path(@cart)
