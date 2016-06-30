@@ -4,14 +4,13 @@ FactoryGirl.define do
   factory :order do
     association :cart
     sequence(:email) { |n| "buyer_#{n}@test.com" }
-    card_type Faker::Business.credit_card_type
-    card_expires_on Faker::Business.credit_card_expiry_date
     express_token 'express_token_1234'
     express_payer_id 'express_payer_id_1234'
+    ip_address Faker::Internet.ip_v4_address
     shipping_method "UPS Ground"
     shipping_cost Faker::Commerce.price
+    sales_tax { cart.subtotal * 0.095 }
     use_billing true
-    state Faker::Address.state_abbr
 
     trait :sales_buyer do
       email 'sales-buyer@seventhcircleaudio.com'

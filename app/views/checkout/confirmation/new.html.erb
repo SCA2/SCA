@@ -3,7 +3,7 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-12 columns main">
-			<%= render 'shared/errors', object: @order %>
+			<%= render 'shared/errors', object: @terms %>
 			<%= render 'shared/progress_bar' %>
 			<%= form_for @order, url: checkout_confirmation_path(@cart) do |form| %>
 				<%= form.hidden_field :express_token %>
@@ -13,7 +13,9 @@
 					<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
 				</div>
 				<%= render 'confirm_cart' %>
-				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
+        <%= form.fields_for @terms do |terms| %>
+  				<%= render 'confirm_terms', f: terms, legend: 'Terms' %>
+        <% end %>
 				<div class="button-box">
 					<%= link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button user' %>
           <% if @order.express_token %>

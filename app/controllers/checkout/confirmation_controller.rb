@@ -12,11 +12,11 @@ module Checkout
     before_action :save_progress
 
     def new
-      unless @billing = @order.addresses.find_by(address_type: 'billing')
+      unless @billing = @order.billing_address
         flash[:alert] = 'Billing address is missing!'
         redirect_to new_checkout_address_path(@cart) and return
       end
-      unless @shipping = @order.addresses.find_by(address_type: 'shipping')
+      unless @shipping = @order.shipping_address
         flash[:alert] = 'Shipping address is missing!'
         redirect_to new_checkout_address_path(@cart) and return
       end
@@ -28,11 +28,15 @@ module Checkout
         flash[:alert] = 'Shipping cost is missing!'
         redirect_to new_checkout_shipping_path(@cart) and return
       end
+      @calculator = SalesTaxCalculator.new(@order)
+      @terms = TermsValidator.new
     end
     
     def update
       bad_state_redirect; return if performed?
-      if @order.update(order_params)
+      if TermsValidator.new(order_params).valid?
+        sales_tax = SalesTaxCalculator.new(@order).sales_tax
+        @order.update(sales_tax: sales_tax)
         flash[:success] = 'Order confirmed!'
         redirect_to paypal_redirect
       else
@@ -59,7 +63,9 @@ module Checkout
     end
 
     def order_params
-      params.require(:order).permit(:id, :accept_terms).merge(validate_terms: true)
+      params.require(:order).
+      require(:terms_validator).
+      permit(:accept_terms)
     end
 
   end

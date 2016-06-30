@@ -6,18 +6,18 @@
 			<div class='show-profile'>
 				<div class="user">
 					<div class="user-info">
-						<%= render 'orders/confirm_user', f: @user, legend: 'User' %>
+						<%= render 'users/confirm_user', f: @user, legend: 'User' %>
 					</div>
 					<div class="contact-preferences">
-						<%= render 'orders/confirm_contact', f: @user, legend: 'Contact Preferences' %>
+						<%= render 'users/confirm_contact', f: @user, legend: 'Contact Preferences' %>
 					</div>
 				</div>
 				<div class="addresses">
 					<div class="address">						
-						<%= render 'orders/confirm_address', f: @billing, legend: 'Billing Address' if @billing %>
+						<%= render 'checkout/confirmation/confirm_address', f: @billing, legend: 'Billing Address' if @billing %>
 					</div>
 					<div class="address">						
-						<%= render 'orders/confirm_address', f: @shipping, legend: 'Shipping Address' if @shipping %>
+						<%= render 'checkout/confirmation/confirm_address', f: @shipping, legend: 'Shipping Address' if @shipping %>
 					</div>
 				</div>
 				<div class="button-box">					

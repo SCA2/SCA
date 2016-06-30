@@ -41,7 +41,7 @@ SCA::Application.routes.draw do
     resources :addresses,     only: [:new, :create],        controller: 'checkout/addresses'
     resource :shipping,       only: [:new, :update],        controller: 'checkout/shipping'
     resource :confirmation,   only: [:new, :update],        controller: 'checkout/confirmation'
-    resource :payment,        only: [:new, :edit, :update], controller: 'checkout/payment'
+    resource :payment,        only: [:new, :edit, :create], controller: 'checkout/payment'
     resources :transactions,  only: [:new],                 controller: 'checkout/transactions'
   end
 

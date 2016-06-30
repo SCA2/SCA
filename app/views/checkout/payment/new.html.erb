@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="small-9 columns main">
 			<%= render 'shared/progress_bar' %>
-			<%= form_for @order, url: checkout_payment_path(id: @order) do |f| %>
+			<%= form_for @card, url: checkout_payment_path(@cart) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'payment_form', f: f, legend: 'Card Info' %>
 				<div class="button-box">

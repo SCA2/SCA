@@ -3,7 +3,7 @@
 	<table class="address-table">
 		<tr class="field">
 			<td class="label"><%= f.label :card_type %></td>
-			<td class="input"><%= f.select :card_type, Order::CARD_TYPES, prompt: 'Select a payment method' %></td>
+			<td class="input"><%= f.select :card_type, OrderPurchaser::CARD_TYPES, prompt: 'Select a payment method' %></td>
 		</tr>
 		<tr class="field">
 			<td class="label"><%= f.label :card_number, "Card Number (16 Digits)" %></td>

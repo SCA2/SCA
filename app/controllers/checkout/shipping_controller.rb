@@ -2,7 +2,7 @@ module Checkout
   class ShippingController < ApplicationController
     
     include ProductUtilities
-    
+
     before_action :set_no_cache
     before_action :set_products
     before_action :set_checkout_cart
@@ -16,8 +16,8 @@ module Checkout
       shipper = OrderShipper.new(@order)
       @ups_rates = shipper.ups_rates
       @usps_rates = shipper.usps_rates
-      @paypal_url = @order.paypal_url
-    rescue OrderShipper::ResponseError => e
+      @paypal_url = ExpressPurchaser.new(@order)
+    rescue StandardError => e
       flash[:error] = e.message
       redirect_to new_checkout_address_path(@cart)
     end

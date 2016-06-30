@@ -43,7 +43,7 @@
 		<tr id="salestax-line">
 			<td class="total-cell" colspan="5">Sales Tax</td>
 			<td class="total-cell">
-				<%= cents_to_dollars(@order.sales_tax, precision: 2) %>
+				<%= cents_to_dollars(@calculator.sales_tax, precision: 2) %>
 			</td>
 		</tr>
 		<tr id="shipping-line">
@@ -55,7 +55,7 @@
 		<tr id="total-line">
 			<td class="total-cell" colspan="5">Total</td>
 			<td class="total-cell">
-				<%= cents_to_dollars(@order.total, precision: 2) %>
+				<%= cents_to_dollars(@calculator.total, precision: 2) %>
 			</td>
 		</tr>
 	</table>

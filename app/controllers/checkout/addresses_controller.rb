@@ -4,7 +4,8 @@ module Checkout
     include ProductUtilities
 
     before_action :set_no_cache
-    before_action :set_checkout_cart, :set_products
+    before_action :set_products
+    before_action :set_checkout_cart
     before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
     before_action :save_progress

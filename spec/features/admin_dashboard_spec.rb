@@ -116,6 +116,7 @@ feature 'admin dashboard' do
         orders[n].addresses.each { |address| address.save }
         create(:transaction, order: orders[n])
       end
+      # byebug
       visit '/admin'
       fill_in 'from', with: '01/01/2016'
       fill_in 'to', with: '31/03/2016'

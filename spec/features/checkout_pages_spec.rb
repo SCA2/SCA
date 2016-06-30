@@ -36,7 +36,7 @@ feature 'standard checkout', :vcr, js: true do
     find("input[id^='order_shipping_method_ups_ground']").click
     click_button('Continue Checkout')
     expect(page).to have_content(@product.options.last.model)
-    check('order_accept_terms')
+    check('order_terms_validator_accept_terms')
     click_button('Continue Checkout')
     expect(page).to have_content('Card Info')
     fill_in_credit_card
@@ -68,7 +68,7 @@ feature 'standard checkout', :vcr, js: true do
     expect(page).to have_content(user.addresses.last.address_1)
     expect(page).to have_content('UPS Ground')
     expect(page).to have_content(@product.options.last.model)
-    check('order_accept_terms')
+    check('order_terms_validator_accept_terms')
     click_button('Continue Checkout')
     expect(page).to have_content('Card Info')
     fill_in_credit_card
@@ -107,12 +107,12 @@ feature 'standard checkout', :vcr, js: true do
 
   def fill_in_credit_card
     within('fieldset#payment') do
-      select(@credit_card[:card_type], from: 'order_card_type')
-      fill_in('order_card_number', with: @credit_card[:card_number])
-      fill_in('order_card_verification', with: @credit_card[:cvv])
-      select(@credit_card[:expiration_month], from: 'order_card_expires_on_2i')
-      select(@credit_card[:expiration_year], from: 'order_card_expires_on_1i')
-      fill_in('order_email', with: @credit_card[:email])
+      select(@credit_card[:card_type], from: 'card_validator_card_type')
+      fill_in('card_validator_card_number', with: @credit_card[:card_number])
+      fill_in('card_validator_card_verification', with: @credit_card[:cvv])
+      select(@credit_card[:expiration_month], from: 'card_validator_card_expires_on_2i')
+      select(@credit_card[:expiration_year], from: 'card_validator_card_expires_on_1i')
+      fill_in('card_validator_email', with: @credit_card[:email])
     end
   end
 end
