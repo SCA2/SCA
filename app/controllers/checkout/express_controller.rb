@@ -10,6 +10,7 @@ module Checkout
 
     def new
       @order = Order.find_or_create_by(cart_id: @cart.id)
+      @order.update(express_token: nil)
       bad_state_redirect; return if performed?
       response = EXPRESS_GATEWAY.setup_purchase(@cart.subtotal, express_options)
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)

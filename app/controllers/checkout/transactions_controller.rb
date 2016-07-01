@@ -10,7 +10,6 @@ module Checkout
     before_action :set_products
     before_action :set_checkout_cart
     before_action :set_checkout_order
-    # before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
 
     def new

@@ -26,8 +26,10 @@ module Checkout
       end
 
       if OrderPurchaser.new(@order).purchase
+        flash[:success] = 'Thank you for your order!'
         redirect_to new_checkout_transaction_path(@cart, success: true)
       else
+        flash[:alert] = 'Sorry, we had a problem with your PayPal Express payment.'
         redirect_to new_checkout_transaction_path(@cart, success: false)
       end
     end
@@ -46,8 +48,10 @@ module Checkout
       end
 
       if OrderPurchaser.new(@order, @card).purchase
+        flash[:success] = 'Thank you for your order!'
         redirect_to new_checkout_transaction_path(@cart, success: true)
       else
+        flash[:alert] = 'Sorry, we had a problem with your credit card payment.'
         redirect_to new_checkout_transaction_path(@cart, success: false)
       end
     end
