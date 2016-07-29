@@ -4,35 +4,39 @@ describe UsersController do
 
   shared_examples 'public access' do
     describe 'GET #index' do
-      it "requires login" do
+      it "requires admin" do
         get :index
         expect(response).to redirect_to home_path
       end
     end
     describe 'GET #show' do
       it "requires login" do
-        expect { get :show }.to raise_error
+        get :show, id: 0
+        expect(response).to redirect_to signin_path
       end
     end
     describe 'GET #new' do
-      it "requires login" do
+      it "renders form" do
         get :new
         expect(response).to render_template(:new)
       end
     end
     describe "POST #create" do
-      it "requires login" do
-        expect { post :create }.to raise_error
+      it "creates a user" do
+        post :create, user: valid_attributes
+        expect(response).to redirect_to User.last
       end
     end
-    describe 'PATCH #update' do
+    describe 'PUT #update' do
       it "requires login" do
-        expect { patch :update }.to raise_error
+        put :update, id: 0
+        expect(response).to redirect_to signin_path
       end
     end
     describe 'DELETE #destroy' do
-      it "requires login" do
-        expect { delete :destroy }.to raise_error
+      it "requires admin" do
+        delete :destroy, id: 0
+        expect(response).to redirect_to home_path
       end
     end
   end
@@ -43,12 +47,6 @@ describe UsersController do
         it "requires login" do
           get :show, id: user
           expect(response).to redirect_to signin_path
-        end
-      end
-      describe "POST #create" do
-        it "requires login" do
-          post :create, id: user, user: valid_attributes
-          expect(response).to redirect_to User.last
         end
       end
       describe 'PATCH #update' do
@@ -135,6 +133,7 @@ describe UsersController do
   end
 
   describe "guest access to users" do
+    let(:valid_attributes) { attributes_for(:user) }
     it_behaves_like "public access"
   end
 end

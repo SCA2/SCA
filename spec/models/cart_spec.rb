@@ -72,5 +72,23 @@ describe Cart do
     end
   end
 
+  describe 'subtotal' do
+    let(:price)     { 100 } # price in dollars
+    let(:quantity)  { 3 }
+    let(:product)   { build_stubbed(:product) }
+    let(:option)    { build_stubbed(:option, price: price, product: product) }
+    let(:line_item) { build_stubbed(:line_item,
+        product: product,
+        option: option,
+        quantity: quantity)
+    }
+    let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
+
+    it 'calculates the correct value' do
+      expect(cart.subtotal).to eql price * quantity * 100
+    end
+
+  end
+
 end
 

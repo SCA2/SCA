@@ -67,13 +67,12 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :create,
           checkout_id: @cart.id,
-          order: {
+          card_validator: {
             card_type: 'Visa',
             card_number: '4032034105891439',
-            card_expires_on_2i: '06',
-            card_expires_on_1i: '2021',
+            card_expires_on: '06-2021',
             card_verification: '123',
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
@@ -94,13 +93,12 @@ describe Checkout::PaymentController do
         create(:line_item, cart: @cart, product: product, option: option)
         order = create(:order, cart: @cart, express_token: nil, shipping_cost: nil)
         session[:cart_id] = @cart.id
-        post :update,
+        post :create,
           checkout_id: @cart.id,
-          order: {
+          card_validator: {
             card_type: 'Visa',
             card_number: '4032034105891439',
-            card_expires_on_2i: '06',
-            card_expires_on_1i: '2021',
+            card_expires_on: '06-2021',
             card_verification: '123',
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
@@ -123,13 +121,12 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :create,
           checkout_id: @cart.id,
-          order: {
+          card_validator: {
             card_type: 'Visa',
             card_number: '',
-            card_expires_on_2i: '06',
-            card_expires_on_1i: '2021',
+            card_expires_on: '06-2021',
             card_verification: '123',
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
@@ -158,13 +155,12 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :create,
           checkout_id: @cart.id,
-          order: {
+          card_validator: {
             card_type: 'Visa',
             card_number: '4032038036005571',
-            card_expires_on_2i: '12',
-            card_expires_on_1i: '2019',
+            card_expires_on: '12-2019',
             card_verification: '123',
             email: 'sales-buyer@seventhcircleaudio.com'
           }

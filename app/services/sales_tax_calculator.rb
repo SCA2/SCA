@@ -1,10 +1,8 @@
 class SalesTaxCalculator
 
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
-
   def initialize(order)
     @order = order
-    @cart = order.cart
+    @state = order.billing_address.state_code
   end
 
   def total
@@ -17,17 +15,18 @@ class SalesTaxCalculator
 
 private
 
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
+
   def shipping_cost
     @shipping_cost ||= @order.shipping_cost
   end
 
   def subtotal
-    @subtotal ||= @cart.subtotal
+    @subtotal ||= @order.subtotal
   end
 
   def sales_tax_rate
-    state = @order.addresses.find_by(address_type: 'billing').state_code
-    rate = SALES_TAX[state] ? SALES_TAX[state] : 0
+    rate = SALES_TAX[@state] ? SALES_TAX[@state] : 0
     rate.to_f / 100
   end
   

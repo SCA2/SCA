@@ -8,10 +8,7 @@ describe Checkout::ConfirmationController do
         product = create(:n72)
         option = create(:ka, product: product)
         create(:line_item, cart: cart, product: product, option: option)
-        order = create(:order,
-          cart: cart,
-          express_token: nil
-        )
+        order = create(:order, cart: cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = cart.id
@@ -69,7 +66,7 @@ describe Checkout::ConfirmationController do
         session[:cart_id] = @cart.id
         post :update,
           checkout_id: @cart.id,
-          order: { accept_terms: '1', validate_terms: true }
+          order: { terms_validator: { accept_terms: '1' }}
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -91,7 +88,7 @@ describe Checkout::ConfirmationController do
         session[:cart_id] = @cart.id
         post :update,
           checkout_id: @cart.id,
-          order: { accept_terms: '1', validate_terms: true }
+          order: { terms_validator: { accept_terms: '1' }}
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -112,7 +109,7 @@ describe Checkout::ConfirmationController do
         session[:cart_id] = @cart.id
         post :update,
           checkout_id: @cart.id,
-          order: { accept_terms: '1', validate_terms: true }
+          order: { terms_validator: { accept_terms: '1' }}
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -134,7 +131,7 @@ describe Checkout::ConfirmationController do
         session[:cart_id] = @cart.id
         post :update,
           checkout_id: @cart.id,
-          order: { accept_terms: '0', validate_terms: true }
+          order: { terms_validator: { accept_terms: '0' }}
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect

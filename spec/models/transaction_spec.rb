@@ -12,7 +12,7 @@ describe Transaction do
   it { should respond_to(:message) }
   it { should respond_to(:params) }
 
-  describe 'associations', :vcr do
+  describe 'associations' do
     it 'belongs to one order' do
       order = create(:order)
       transaction = create(:transaction, order: order)
@@ -33,53 +33,35 @@ describe Transaction do
     end
   end
 
-  describe 'response=', :vcr do
-    before do
-      @total = 100
-      @standard_purchase_options = {
-        ip: '127.0.0.1',
-        billing_address: {
-          name:       'Joe Tester',
-          address1:   '1234 Main Street',
-          city:       'Oakland',
-          state_code: 'CA',
-          country:    'US',
-          zip:        '94612'
-        }
-      }
-    end
-
+  describe 'response=' do
     it 'handles successful transaction assignment' do
-      credit_card = ActiveMerchant::Billing::CreditCard.new(
-        brand:              'VISA',
-        number:             '4032038036005571',
-        verification_value: '123',
-        month:              '12',
-        year:               '2019',
-        first_name:         'Joe',
-        last_name:          'Tester'
-      )
+      response = double
+      expect(response).to receive(:success?).and_return(true)
+      expect(response).to receive(:authorization)
+      expect(response).to receive(:message)
+      expect(response).to receive(:params)
       transaction = create(:transaction)
-      transaction.response = STANDARD_GATEWAY.purchase(@total, credit_card, @standard_purchase_options)
+      transaction.response = response
       expect(transaction.success).to be true
     end
 
     it 'handles unsuccessful transaction assignment' do
-      credit_card = ActiveMerchant::Billing::CreditCard.new(
-        brand:              'VISA',
-        number:             '4032038036005573',
-        verification_value: '123',
-        month:              '12',
-        year:               '2019',
-        first_name:         'Joe',
-        last_name:          'Tester'
-      )
+      response = double
+      expect(response).to receive(:success?).and_return(false)
+      expect(response).to receive(:authorization)
+      expect(response).to receive(:message)
+      expect(response).to receive(:params)
       transaction = create(:transaction)
-      transaction.response = STANDARD_GATEWAY.purchase(@total, credit_card, @standard_purchase_options)
+      transaction.response = response
       expect(transaction.success).to be false
     end
 
     it 'handles invalid response' do
+      response = double
+      expect(response).not_to receive(:success?)
+      expect(response).not_to receive(:authorization)
+      expect(response).not_to receive(:message)
+      expect(response).not_to receive(:params)
       transaction = create(:transaction)
       transaction.response = nil
       expect(transaction.message).to eq "invalid response"

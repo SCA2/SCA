@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Checkout::AddressesController do
-
   describe "GET #new" do
     context 'as a guest with addressable order' do
       before do

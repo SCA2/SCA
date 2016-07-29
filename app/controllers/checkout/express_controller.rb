@@ -18,10 +18,13 @@ module Checkout
     def edit
       @order = @cart.order
       bad_state_redirect; return if performed?
-      validator = ExpressValidator.new(@order, order_params)
-      validator.set_express_addresses
-      flash[:success] = 'Got PayPal authorization!'
-      redirect_to new_checkout_shipping_path(@order)
+      if ExpressValidator.new(@order, order_params)
+        flash[:success] = 'Got PayPal authorization!'
+        redirect_to new_checkout_shipping_path(@cart)
+      else
+        flash[:alert] = 'Sorry, unable to continue checkout.'
+        redirect_to products_path
+      end
     end
 
   private
