@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630004559) do
+ActiveRecord::Schema.define(version: 20160730022420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,7 +105,6 @@ ActiveRecord::Schema.define(version: 20160630004559) do
   create_table "orders", force: :cascade do |t|
     t.integer  "cart_id"
     t.string   "email",            limit: 255
-    t.string   "card_type",        limit: 255
     t.date     "card_expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"

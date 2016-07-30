@@ -14,14 +14,10 @@ FactoryGirl.define do
 
     trait :sales_buyer do
       email 'sales-buyer@seventhcircleaudio.com'
-      card_type 'visa'
-      card_expires_on '12/2019'
     end
 
     trait :express_buyer do
       email 'express_buyer@seventhcircleaudio.com'
-      card_type 'discover'
-      card_expires_on '01/2020'
     end
 
     trait :constant_shipping do
