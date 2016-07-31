@@ -4,16 +4,14 @@
 	<div class="row">
 		<div class="small-12 columns main">
 			<%= render 'shared/errors', object: @order %>
-			<%= render 'shared/progress_bar' %>
 			<%= form_for @order, url: @redirect, method: :patch do |form| %>
 				<%= form.hidden_field :express_token %>
 				<div class='review-box'>
-					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
-					<%= render 'confirm_address', f: @shipping, legend: 'Shipping Address' %>
-					<%= render 'confirm_shipping', f: @order, legend: 'Shipping Method' %>
+					<%= render 'address', f: @billing, legend: 'Billing Address' %>
+					<%= render 'address', f: @shipping, legend: 'Shipping Address' %>
+					<%= render 'shipping', f: @order, legend: 'Shipping Method' %>
 				</div>
-				<%= render 'confirm_cart' %>
-				<%= render 'confirm_terms', f: form, legend: 'Terms' %>
+				<%= render 'cart' %>
 				<div class="button-box">
 					<%= link_to 'Quit', orders_path, class: 'button user' %>
 					<%= link_to 'Ship', @order, class: 'button user' %>

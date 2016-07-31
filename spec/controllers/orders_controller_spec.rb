@@ -59,9 +59,6 @@ describe OrdersController do
       it 'renders the show template' do
         expect(response).to render_template(:show)
       end
-      it "renders a valid order" do
-        expect(response).to render_template(:show)
-      end
     end
 
     context 'with logged in admin and invalid order' do

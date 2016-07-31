@@ -1,0 +1,9 @@
+<fieldset class="confirm-shipper">
+	<legend><%= legend %></legend>
+	<table class="confirm-table">
+		<tr>
+			<td><%= f.shipping_method %></td>
+			<td><%= cents_to_dollars(f.shipping_cost, precision: 2) %></td>
+		</tr>
+	</table>
+</fieldset>
