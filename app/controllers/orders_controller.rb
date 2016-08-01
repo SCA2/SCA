@@ -10,9 +10,7 @@ class OrdersController < ApplicationController
   end
   
   def show
-    # byebug
     @order = Order.find(order_params)
-    # @order = @cart.order
     @billing = @order.billing_address
     @shipping = @order.shipping_address
 
@@ -21,16 +19,8 @@ class OrdersController < ApplicationController
     end
   end
   
-  # def subregion_options
-  #   if @order.addresses.any?
-  #     @billing = @order.addresses.find_by(address_type: 'billing')
-  #     @shipping = @order.addresses.find_by(address_type: 'shipping')
-  #   end
-  #   render partial: 'subregion_select'
-  # end
-  
   def destroy
-    @order = @cart.order
+    @order = Order.find(order_params)
     if @order
       @order.destroy
       @cart.destroy
