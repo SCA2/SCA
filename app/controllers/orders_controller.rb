@@ -20,10 +20,11 @@ class OrdersController < ApplicationController
   end
   
   def destroy
-    @order = Order.find(order_params)
-    if @order
-      @order.destroy
-      @cart.destroy
+    order = Order.find(order_params)
+    if order
+      cart = order.cart
+      order.destroy
+      cart.destroy
     end
     redirect_to orders_path
   end

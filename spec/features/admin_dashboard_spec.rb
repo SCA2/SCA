@@ -50,6 +50,21 @@ feature 'admin dashboard' do
       expect(page).to have_content(orders[2].email)
     end
 
+    scenario 'visit a specific order' do
+      2.times do
+        cart = create(:cart)
+        order = create(:order, cart: cart)
+        order.addresses << build(:address, addressable: order, address_type: 'billing')
+        order.addresses << build(:address, addressable: order, address_type: 'shipping')
+        order.save
+        order.addresses.each { |address| address.save }
+        create(:transaction, order: order)
+      end
+      visit '/orders'
+      click_link Order.first.id
+      expect(page).to have_content(Order.first.billing_address.first_name)
+    end
+
     scenario 'view orders between dates', :vcr do
       orders = []
       3.times do |n|
