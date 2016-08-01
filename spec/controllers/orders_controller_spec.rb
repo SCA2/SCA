@@ -237,4 +237,40 @@ describe OrdersController do
       end
     end
   end
+
+  describe "GET #sales_tax" do
+    context 'with logged in admin and valid date range' do
+
+      let(:admin) { create(:admin) }
+
+      before do
+        test_sign_in(admin, false)
+        @cart = create(:cart)
+        @order = create(:order, cart: @cart, express_token: nil)
+        session[:cart_id] = @cart.id
+        get :sales_tax, from: Date.yesterday, to: Date.today
+      end
+
+      it "renders sales_tax" do
+        expect(response).to render_template(:sales_tax)
+      end
+    end
+
+    context 'as a guest' do
+      before do
+        @cart = create(:cart)
+        @order = create(:order, cart: @cart, express_token: nil)
+        session[:cart_id] = @cart.id
+        get :sales_tax, from: Date.yesterday, to: Date.today
+      end
+
+      it 'redirects to home page' do
+        expect(response).to redirect_to home_path
+      end
+
+      it 'sets the flash' do
+        expect(flash[:alert]).to eq 'Sorry, admins only'
+      end
+    end
+  end
 end

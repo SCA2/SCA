@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
     @order = @cart.order
     @billing = @order.billing_address
     @shipping = @order.shipping_address
-    
+
     if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
       redirect_to orders_path, alert: "Invalid record" and return
     end
@@ -60,22 +60,7 @@ class OrdersController < ApplicationController
   def sales_tax
     start = params[:from].to_date.beginning_of_day
     stop = params[:to].to_date.end_of_day
-    time_range = start..stop
-    @tax = {}
-
-    all_orders = Order.includes(:cart).where(carts: { purchased_at: time_range })
-    @tax[:orders] = Order.
-      includes(:cart).
-      includes(:addresses).
-      where(carts: { purchased_at: time_range }).
-      where(addresses: { address_type: 'shipping' }).
-      where(addresses: { state_code: 'CA' })
-
-    @tax[:gross_sales] = all_orders.reduce(0) { |sum, order| sum + order.total }
-    @tax[:taxable_sales] = @tax[:orders].reduce(0) { |sum, order| sum + order.total }
-    @tax[:excluded_sales] = @tax[:gross_sales] - @tax[:taxable_sales]
-    @tax[:shipping] = @tax[:orders].reduce(0) { |sum, order| sum + order.shipping_cost }
-    @tax[:tax_withheld] = @tax[:orders].reduce(0) { |sum, order| sum + order.sales_tax }
+    @tax = SalesTaxCalculator.new(start..stop)
   end
 
 private

@@ -28,14 +28,14 @@ module Checkout
         flash[:alert] = 'Shipping cost is missing!'
         redirect_to new_checkout_shipping_path(@cart) and return
       end
-      @calculator = SalesTaxCalculator.new(@order)
+      @calculator = OrderCalculator.new(@order)
       @terms = TermsValidator.new
     end
     
     def update
       bad_state_redirect; return if performed?
       if TermsValidator.new(order_params).valid?
-        sales_tax = SalesTaxCalculator.new(@order).sales_tax
+        sales_tax = OrderCalculator.new(@order).sales_tax
         @order.update(sales_tax: sales_tax)
         flash[:success] = 'Order confirmed!'
         redirect_to paypal_redirect

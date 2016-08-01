@@ -1,33 +1,38 @@
 class SalesTaxCalculator
 
-  def initialize(order)
-    @order = order
-    @state = order.billing_address.state_code
+  def initialize(range)
+    @range = range
   end
 
-  def total
-    subtotal + sales_tax + shipping_cost
+  def all_orders
+    @all_orders ||= Order.includes(:cart).where(carts: { purchased_at: @range })
   end
 
-  def sales_tax
-    tax = (subtotal * sales_tax_rate).round
+  def taxable_orders
+    @taxable_orders ||= all_orders.
+      includes(:addresses).
+      where(addresses: { address_type: 'billing' }).
+      where(addresses: { state_code: 'CA' })
   end
 
-private
-
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
-
-  def shipping_cost
-    @shipping_cost ||= @order.shipping_cost
+  def gross_sales
+    @gross_sales ||= all_orders.reduce(0) { |sum, order| sum + order.total }
   end
 
-  def subtotal
-    @subtotal ||= @order.subtotal
+  def taxable_sales
+    @taxable_sales ||= taxable_orders.reduce(0) { |sum, order| sum + order.total }
   end
 
-  def sales_tax_rate
-    rate = SALES_TAX[@state] ? SALES_TAX[@state] : 0
-    rate.to_f / 100
+  def excluded_sales
+    gross_sales - taxable_sales
   end
-  
+
+  def excluded_shipping
+    taxable_orders.sum(:shipping_cost)
+  end
+
+  def tax_withheld
+    taxable_orders.sum(:sales_tax)
+  end
+
 end

@@ -1,52 +1,59 @@
 require 'rails_helper'
 
 describe SalesTaxCalculator do
-  describe 'sales_tax' do
-    let(:price)     { 100 } # price in dollars
-    let(:quantity)  { 3 }
-    let(:rate)      { 0.095 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item,
-      product: product,
-      option: option,
-      quantity: quantity)
-    }
-    let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
-    let(:order)     { build_stubbed(:order, cart: cart) }
-    let(:calculator) { SalesTaxCalculator.new(order) }
-
-    it 'calculates the correct value for CA' do
-      billing = create(:billing, state_code: 'CA', address_type: 'billing', addressable: order)
-      expect(calculator.sales_tax).to eql (price * 100 * quantity * rate).round
+  before do
+    3.times do
+      product = create(:product)
+      option = create(:option, price: 100, product: product)
+      line_item = create(:line_item, quantity: 1, product: product, option: option)
+      line_item.cart.update(purchased_at: Date.today.noon)
+      order = create(:order, shipping_cost: 1500, cart: line_item.cart)
+      order.addresses << build(:address, addressable: order, address_type: 'shipping')
+      order.addresses << build(:address, addressable: order, address_type: 'billing', state_code: 'CA')
+      order.save
+      order.addresses.each { |address| address.save }
+      create(:transaction, order: order)
     end
-
-    it 'calculates value of 0 for other states' do
-      billing = create(:billing, state_code: 'PA', address_type: 'billing', addressable: order)
-      expect(calculator.sales_tax).to eql 0
+    2.times do
+      product = create(:product)
+      option = create(:option, price: 200, product: product)
+      line_item = create(:line_item, quantity: 1, product: product, option: option)
+      line_item.cart.update(purchased_at: Date.today.noon)
+      order = create(:order, shipping_cost: 1500, cart: line_item.cart)
+      order.addresses << build(:address, addressable: order, address_type: 'shipping')
+      order.addresses << build(:address, addressable: order, address_type: 'billing', state_code: 'PA')
+      order.save
+      order.addresses.each { |address| address.save }
+      create(:transaction, order: order)
     end
   end
+  it 'finds taxable orders within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.all_orders.to_a).to eq Order.all.to_a
+  end
 
-  describe 'total' do
-    let(:price)     { 100 } # price in dollars
-    let(:quantity)  { 3 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item,
-        product: product,
-        option: option,
-        quantity: quantity)
-    }
-    let(:cart)        { build_stubbed(:cart, line_items: [line_item]) }
-    let(:order)       { build_stubbed(:order, cart: cart, shipping_cost: 1500) }
-    let(:calculator)  { SalesTaxCalculator.new(order) }
+  it 'calculates gross sales within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.gross_sales).to eq 84150
+  end
 
-    it 'calculates the correct value' do
-      create(:billing, state_code: 'CA', address_type: 'billing', addressable: order)
-      total = price * quantity * 100
-      total *= 1.095
-      total += order.shipping_cost
-      expect(calculator.total).to eql total.round
-    end
+  it 'calculates taxable sales within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.taxable_sales).to eq 37350
+  end
+
+  it 'calculates excluded sales within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.excluded_sales).to eq 46800
+  end
+
+  it 'calculates excluded shipping within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.excluded_shipping).to eq 4500
+  end
+
+  it 'calculates sales tax withheld within date range' do
+    tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
+    expect(tax.tax_withheld).to eq 2850
   end
 end

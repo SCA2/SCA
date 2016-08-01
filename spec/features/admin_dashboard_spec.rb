@@ -110,8 +110,8 @@ feature 'admin dashboard' do
         cart = create(:cart, line_items: [line_item])
         cart.update(purchased_at: "01/01/2016".to_date.noon)
         orders[n] = build(:order, shipping_cost: 1500, cart: cart)
-        orders[n].addresses << build(:address, addressable: orders[n], address_type: 'billing')
-        orders[n].addresses << build(:address, addressable: orders[n], address_type: 'shipping', state_code: 'CA')
+        orders[n].addresses << build(:address, addressable: orders[n], address_type: 'shipping')
+        orders[n].addresses << build(:address, addressable: orders[n], address_type: 'billing', state_code: 'CA')
         orders[n].save
         orders[n].addresses.each { |address| address.save }
         create(:transaction, order: orders[n])
