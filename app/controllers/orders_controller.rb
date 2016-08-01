@@ -10,7 +10,9 @@ class OrdersController < ApplicationController
   end
   
   def show
-    @order = @cart.order
+    # byebug
+    @order = Order.find(order_params)
+    # @order = @cart.order
     @billing = @order.billing_address
     @shipping = @order.shipping_address
 
@@ -64,6 +66,9 @@ class OrdersController < ApplicationController
   end
 
 private
+  def order_params
+    params.require(:id)
+  end
 
   def admin_user
     unless signed_in_admin?
