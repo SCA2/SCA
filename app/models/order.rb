@@ -6,16 +6,14 @@ class Order < ActiveRecord::Base
 
   accepts_nested_attributes_for :addresses
 
+  delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
+
   def billing_address
     addresses.billing_address
   end
 
   def shipping_address
     addresses.shipping_address
-  end
-
-  def purchased?
-    cart && cart.purchased?
   end
 
   def addressable?
@@ -44,16 +42,8 @@ class Order < ActiveRecord::Base
     email && confirmable?
   end
 
-  def purchased_at
-    cart.purchased_at
-  end
-
-  def subtotal
-    cart.subtotal
-  end
-
   def total
-    cart.subtotal + shipping_cost + sales_tax
+    subtotal + shipping_cost + sales_tax
   end
 
 end

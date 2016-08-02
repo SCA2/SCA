@@ -1,6 +1,6 @@
 class SalesTaxCalculator
 
-  def initialize(range)
+  def initialize(range = Date.yesterday..Date.today)
     @range = range
   end
 

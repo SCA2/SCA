@@ -24,6 +24,9 @@ describe Order do
   it { should respond_to(:purchased_at) }
   it { should respond_to(:subtotal) }
   it { should respond_to(:total) }
+  it { should respond_to(:min_dimension) }
+  it { should respond_to(:max_dimension) }
+  it { should respond_to(:total_volume) }
 
   it { should respond_to(:email) }
   it { should respond_to(:ip_address) }

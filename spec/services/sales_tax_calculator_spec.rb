@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 describe SalesTaxCalculator do
+
+  subject { SalesTaxCalculator.new }
+
+  it { should respond_to(:all_orders) }
+  it { should respond_to(:gross_sales) }
+  it { should respond_to(:taxable_sales) }
+  it { should respond_to(:excluded_sales) }
+  it { should respond_to(:excluded_shipping) }
+  it { should respond_to(:tax_withheld) }
+
   before do
     3.times do
       product = create(:product)
@@ -27,6 +37,7 @@ describe SalesTaxCalculator do
       create(:transaction, order: order)
     end
   end
+
   it 'finds taxable orders within date range' do
     tax = SalesTaxCalculator.new(Date.yesterday..Date.tomorrow)
     expect(tax.all_orders.to_a).to eq Order.all.to_a

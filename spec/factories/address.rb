@@ -19,8 +19,25 @@ FactoryGirl.define do
     trait :constant_name do
       first_name 'Joe'
       last_name 'Tester'
+    end
+
+    trait :constant_address_US do
       address_1 '123 Main Street'
       address_2 'Suite B'
+      city 'Oakland'
+      state_code 'CA'
+      post_code '94612'
+      country "USA"
+      telephone '555-555-5555'
+    end
+
+    trait :constant_address_AU do
+      address_1 '99 Jellybean Street'
+      address_2 'Apt 1'
+      city 'Broadview'
+      state_code 'SA'
+      post_code '5083'
+      country 'AU'
       telephone '555-555-5555'
     end
 
@@ -77,5 +94,7 @@ FactoryGirl.define do
     factory :shipping_constant_taxable, traits: [:shipping, :constant_name, :taxable]
     factory :invalid_billing_zip, traits: [:billing, :constant_name, :invalid_zip]
     factory :invalid_shipping_zip, traits: [:shipping, :constant_name, :invalid_zip]
+    factory :shipping_US, traits: [:shipping, :constant_name, :constant_address_US]
+    factory :shipping_AU, traits: [:shipping, :constant_name, :constant_address_AU]
   end
 end

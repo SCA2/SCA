@@ -87,6 +87,11 @@ class Cart < ActiveRecord::Base
     line_items.to_a.sum { |item| item.quantity * item.shipping_volume }
   end
   
+  def min_dimension
+    a = line_items.to_a.sort { |item| item.shipping_height }
+    a.first.option.shipping_height
+  end
+  
   def max_dimension
     a = line_items.to_a.sort { |item| item.shipping_length }
     a.last.option.shipping_length

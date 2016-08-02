@@ -16,6 +16,7 @@ describe Cart do
   it { should respond_to(:combo_discount) }
   it { should respond_to(:subtotal) }
   it { should respond_to(:total_volume) }
+  it { should respond_to(:min_dimension) }
   it { should respond_to(:max_dimension) }
   it { should respond_to(:total_items) }
   it { should respond_to(:weight) }

@@ -6,55 +6,32 @@ class OrderShipper
 
   def initialize(order)
     @order = order
-    @cart = order.cart
-  end
-
-  def origin
-    ActiveShipping::Location.new(
-      country: "US",
-      state: "CA",
-      city: "Oakland",
-      postal_code: "94612"
-    )
+    @shipping_address = @order.shipping_address
   end
 
   def destination
-    shipping = @order.addresses.find_by(address_type: 'shipping')
-    ActiveShipping::Location.new(
-      country: shipping.country,
-      state: shipping.state_code,
-      city: shipping.city,
-      postal_code: shipping.post_code
+    @destination ||= ActiveShipping::Location.new(
+      country: @shipping_address.country,
+      state: @shipping_address.state_code,
+      city: @shipping_address.city,
+      postal_code: @shipping_address.post_code
     )
   end
 
   def packages
     package = ActiveShipping::Package.new(
-      @cart.weight,
+      @order.weight,
       dimensions,
       cylinder: false,
       units: :imperial,
       currency: 'USD',
-      value: @cart.subtotal
+      value: @order.subtotal
     )
-  end
-
-  def prune_response(response)
-    usps = response.rates.select do |rate|
-      (rate.service_name.to_s.include? "USPS") && 
-      (rate.service_name.to_s.include? "Priority") &&
-      !(rate.service_name.to_s.include? "Hold")
-    end
-    ups = response.rates.select do |rate|
-      rate.service_name.to_s.include? "UPS"
-    end
-    return ups + usps
   end
 
   def get_rates_from_shipper(shipper)
     response = shipper.find_rates(origin, destination, packages)
     response.rates.sort_by(&:price)
-    prune_response(response)    
   end
 
   def get_rates_from_params(shipping_method)
@@ -74,39 +51,46 @@ class OrderShipper
 
   def usps_rates
     usps = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
-    get_rates_from_shipper(usps)
+    response = get_rates_from_shipper(usps)
+    response.select do |rate|
+      rate = rate.service_name.to_s
+      rate.include?('Priority') &&
+      rate.include?('Box') &&
+      !rate.include?('Hold') &&
+      (destination.country_code != 'US' ||
+        dimensions == [8, 5, 1.5])
+    end
   rescue ActiveShipping::ResponseError => e
     raise ResponseError.new e.message
   end
 
   def dimensions
-    max_dimension = @cart.max_dimension
-    case @cart.total_volume
-    when (0 .. (6 * 4 * 3)) && max_dimension < 6
-      length = 6
-      width = 4
-      height = 3
-    when ((6 * 4  * 3) .. (11 * 8 * 5)) && max_dimension < 11
-      length = 11
-      width = 8
-      height = 5
-    when ((6 * 4  * 3) .. (12 * 9 * 6)) && max_dimension < 12
-      length = 12
-      width = 9
-      height = 6
-    when ((12 * 9  * 6) .. (12 * 12 * 12)) && max_dimension < 12
-      length = 12
-      width = 12
-      height = 12
-    when ((12 * 12  * 12) .. (24 * 12 * 6)) && max_dimension < 24
-      length = 24
-      width = 12
-      height = 6
+    boxes = [[8,5,1.5], [6,4,3], [11,8,5], [11,11,5], [24,12,6]]
+    if box = boxes.select{|box| box_size(box)}.first
+      box
     else
-      length = 24
-      width = 12
-      height = 6
+      [24, 12, 6]
     end
-    return [length, width, height]  
   end
+
+private
+
+  def origin
+    ActiveShipping::Location.new(
+      country: "US",
+      state: "CA",
+      city: "Oakland",
+      postal_code: "94612"
+    )
+  end
+
+  def box_size(box)
+    length, width, height = box[0], box[1], box[2]
+    volume = length * width * height
+    return nil unless @order.total_volume < volume
+    return nil unless @order.min_dimension < height
+    return nil unless @order.max_dimension < length
+    [length, width, height]
+  end
+
 end
