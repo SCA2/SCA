@@ -11,7 +11,7 @@ describe OrderShipper do
   subject { OrderShipper.new(order) }
 
   it { should respond_to(:destination) }
-  it { should respond_to(:packages) }
+  it { should respond_to(:package) }
   it { should respond_to(:get_rates_from_shipper) }
   it { should respond_to(:get_rates_from_params) }
   it { should respond_to(:ups_rates) }

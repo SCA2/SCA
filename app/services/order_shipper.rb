@@ -18,8 +18,8 @@ class OrderShipper
     )
   end
 
-  def packages
-    package = ActiveShipping::Package.new(
+  def package
+    ActiveShipping::Package.new(
       @order.weight,
       dimensions,
       cylinder: false,
@@ -30,7 +30,7 @@ class OrderShipper
   end
 
   def get_rates_from_shipper(shipper)
-    response = shipper.find_rates(origin, destination, packages)
+    response = shipper.find_rates(origin, destination, package)
     response.rates.sort_by(&:price)
   end
 
@@ -51,14 +51,17 @@ class OrderShipper
 
   def usps_rates
     usps = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
-    response = get_rates_from_shipper(usps)
-    response.select do |rate|
+    get_rates_from_shipper(usps).select do |rate|
       rate = rate.service_name.to_s
-      rate.include?('Priority') &&
-      rate.include?('Box') &&
-      !rate.include?('Hold') &&
-      (destination.country_code != 'US' ||
-        dimensions == [8, 5, 1.5])
+      if rate.include?('Hold')
+        false
+      elsif destination.country_code == 'US'
+        rate.include?('Priority') &&
+        rate.include?('Box') &&
+        dimensions == [8, 5, 1.5]
+      else
+        !rate.include?('Envelope')
+      end
     end
   rescue ActiveShipping::ResponseError => e
     raise ResponseError.new e.message
