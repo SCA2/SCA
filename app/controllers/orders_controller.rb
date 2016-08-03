@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
   
   def show
     @order = Order.find(order_params)
+    @cart = @order.cart
     @billing = @order.billing_address
     @shipping = @order.shipping_address
 

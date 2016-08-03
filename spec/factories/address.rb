@@ -71,14 +71,6 @@ FactoryGirl.define do
       country 'USA'
     end
 
-    trait :usa do
-      country 'United States'
-    end
-
-    trait :canada do
-      country 'Canada'
-    end
-
     trait :invalid_zip do
       city 'Pittsburgh'
       state_code 'PA'
@@ -86,15 +78,25 @@ FactoryGirl.define do
       country 'USA'      
     end
 
-    factory :billing, traits: [:billing]
-    factory :shipping, traits: [:shipping]
-    factory :billing_taxable, traits: [:billing, :taxable]
-    factory :shipping_taxable, traits: [:shipping, :taxable]
-    factory :billing_constant_taxable, traits: [:billing, :constant_name, :taxable]
-    factory :shipping_constant_taxable, traits: [:shipping, :constant_name, :taxable]
-    factory :invalid_billing_zip, traits: [:billing, :constant_name, :invalid_zip]
-    factory :invalid_shipping_zip, traits: [:shipping, :constant_name, :invalid_zip]
-    factory :shipping_US, traits: [:shipping, :constant_name, :constant_address_US]
-    factory :shipping_AU, traits: [:shipping, :constant_name, :constant_address_AU]
+    factory :billing,
+      traits: [:billing]
+    factory :shipping,
+      traits: [:shipping]
+    factory :billing_taxable,
+      traits: [:billing, :taxable]
+    factory :shipping_taxable,
+      traits: [:shipping, :taxable]
+    factory :billing_constant_taxable,
+      traits: [:billing, :constant_name, :taxable]
+    factory :shipping_constant_taxable,
+      traits: [:shipping, :constant_name, :taxable]
+    factory :invalid_billing_zip,
+      traits: [:billing, :constant_name, :invalid_zip]
+    factory :invalid_shipping_zip,
+      traits: [:shipping, :constant_name, :invalid_zip]
+    factory :shipping_US,
+      traits: [:shipping, :constant_name, :constant_address_US]
+    factory :shipping_AU,
+      traits: [:shipping, :constant_name, :constant_address_AU]
   end
 end
