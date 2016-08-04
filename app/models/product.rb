@@ -9,6 +9,8 @@ class Product < ActiveRecord::Base
   # line_item has database foreign key constraint
   has_many :line_items, inverse_of: :product
 
+  has_many :boms, inverse_of: :product, dependent: :destroy
+
   validates :model, :model_sort_order, :category, :category_sort_order,
             :short_description, :long_description, :image_1, presence: true 
             

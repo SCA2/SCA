@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730023517) do
+ActiveRecord::Schema.define(version: 20160804225858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,23 @@ ActiveRecord::Schema.define(version: 20160730023517) do
   end
 
   add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
+
+  create_table "bom_items", force: :cascade do |t|
+    t.integer  "quantity"
+    t.string   "reference"
+    t.integer  "bom_id"
+    t.integer  "component_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "boms", force: :cascade do |t|
+    t.integer  "product_id"
+    t.string   "revision"
+    t.string   "pdf"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at"
@@ -119,22 +136,23 @@ ActiveRecord::Schema.define(version: 20160730023517) do
   add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "model",               limit: 255
+    t.string   "model",                   limit: 255
     t.text     "short_description"
     t.text     "long_description"
-    t.string   "image_1",             limit: 255
-    t.string   "image_2",             limit: 255
+    t.string   "image_1",                 limit: 255
+    t.string   "image_2",                 limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "category",            limit: 255
+    t.string   "category",                limit: 255
     t.integer  "category_sort_order"
     t.integer  "model_sort_order"
     t.text     "notes"
-    t.string   "bom",                 limit: 255
-    t.string   "schematic",           limit: 255
-    t.string   "assembly",            limit: 255
-    t.string   "specifications",      limit: 255
-    t.boolean  "active",                          default: true, null: false
+    t.string   "bom",                     limit: 255
+    t.string   "schematic",               limit: 255
+    t.string   "assembly",                limit: 255
+    t.string   "specifications",          limit: 255
+    t.boolean  "active",                              default: true, null: false
+    t.integer  "{:foreign_key=>true}_id"
   end
 
   add_index "products", ["model"], name: "index_products_on_model", using: :btree
