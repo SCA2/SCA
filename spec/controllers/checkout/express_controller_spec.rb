@@ -19,7 +19,7 @@ describe Checkout::ExpressController do
         expect(response.content_type).to eq('text/html')
       end
       it 'redirects to Paypal' do
-        expect(response).to redirect_to("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-510077922K4506933")
+        expect(response).to redirect_to("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-9TY08414RW333532Y")
       end
     end
 
@@ -46,9 +46,9 @@ describe Checkout::ExpressController do
         product = create(:product)
         option = create(:option, product: product)
         create(:line_item, cart: @cart, product: product, option: option)
-        create(:order, cart: @cart, express_token: 'EC-2DE04126418084114')
+        create(:order, cart: @cart, express_token: 'EC-9TY08414RW333532Y')
         session[:cart_id] = @cart.id
-        get :edit, checkout_id: @cart, token: 'EC-2DE04126418084114'
+        get :edit, checkout_id: @cart, token: 'EC-9TY08414RW333532Y'
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect

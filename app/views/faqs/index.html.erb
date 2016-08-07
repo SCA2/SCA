@@ -3,7 +3,7 @@
 <div class="box_2">
 	<div class="row">
 		<div class="small-9 columns">
-			<% @categories.each do |cat| %>
+			<% categories.each do |cat| %>
 				<%= render partial: "accordion", locals: {title: cat.category_name, faqs: cat.faqs.order(:question_weight)} %>
 			<% end %>
 		 	<% if signed_in_admin? %>

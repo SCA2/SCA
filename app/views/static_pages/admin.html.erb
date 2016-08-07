@@ -7,6 +7,7 @@
 				<p><%= link_to "View Users", users_path %></br>
         <%= link_to "View Orders", orders_path %></br>
         <%= link_to "View FAQs Categories", faqs_categories_path %></p>
+        <%= link_to "View Components", components_path %></p>
   			<%= form_tag(sales_tax_orders_path(@orders), method: "get") do %>
           <fieldset>
             <%= label_tag(:from, "From:") %>

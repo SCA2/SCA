@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-feature 'standard checkout', :vcr, js: true do
+feature 'standard paypal checkout', :vcr, js: true do
   before(:each) do
     @credit_card = {
       card_type: 'Visa',
-      card_number: '4032038036005571',
-      expiration_month: '12',
-      expiration_year: '2019',
+      card_number: '4032034105891439',
+      expiration_month: '6',
+      expiration_year: '2021',
       cvv: '123',
-      email: 'sales-buyer@seventhcircleaudio.com'
+      email: 'sales-buyer-2@seventhcircleaudio.com'
     }
 
     @state = 'California'
@@ -42,6 +42,7 @@ feature 'standard checkout', :vcr, js: true do
     fill_in_credit_card
     click_button('Place Order')
     expect(page).to have_content('Transaction ID')
+    expect(page).to have_content('0 Items')
   end
 
   scenario 'as a signed-in user' do
@@ -74,6 +75,7 @@ feature 'standard checkout', :vcr, js: true do
     fill_in_credit_card
     click_button('Place Order')
     expect(page).to have_content('Transaction ID')
+    expect(page).to have_content('0 Items')
     test_sign_out(true)
   end
 

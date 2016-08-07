@@ -31,6 +31,7 @@ feature 'admin dashboard' do
       expect(page).to have_content('View Users')
       expect(page).to have_content('View Orders')
       expect(page).to have_content('View FAQs')
+      expect(page).to have_content('View Components')
     end
 
     scenario 'view orders', :vcr do
@@ -126,6 +127,13 @@ feature 'admin dashboard' do
       within('div.sales-tax') { expect(page).to have_content('374') }
       within('div.sales-tax') { expect(page).to have_content('45') }
       within('div.sales-tax') { expect(page).to have_content('29') }
+    end
+
+    scenario 'view components' do
+      component = create(:component)
+      visit '/admin'
+      click_link 'View Components'
+      expect(page).to have_content(component.value)
     end
   end
 end

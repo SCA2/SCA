@@ -1,17 +1,13 @@
 module Checkout
-  class AddressesController < ApplicationController
+  class AddressesController < Checkout::CheckoutController
     
-    include ProductUtilities
-
     before_action :set_no_cache
-    before_action :set_products
-    before_action :set_checkout_cart
     before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
     before_action :save_progress
 
     def new
-      @order = Order.find_or_create_by(cart_id: @cart.id)
+      @order = Order.find_or_create_by(cart_id: cart.id)
       @order.update(express_token: nil)
       bad_state_redirect; return if performed?
       assign_address('billing')
@@ -19,12 +15,12 @@ module Checkout
     end
 
     def create
-      @order = @cart.order
+      @order = cart.order
       bad_state_redirect; return if performed?
       copy_billing_to_shipping if use_billing_for_shipping?
       if @order.update(order_params)
         flash[:success] = 'Addresses saved!'
-        redirect_to new_checkout_shipping_path(@cart)
+        redirect_to new_checkout_shipping_path(cart)
       else
         render 'new'
       end

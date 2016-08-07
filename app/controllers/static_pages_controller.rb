@@ -1,9 +1,5 @@
-class StaticPagesController < ApplicationController
+class StaticPagesController < BaseController
   
-  include ProductUtilities
-  
-  before_action :set_cart, :set_products
-
   def admin  
   end
   

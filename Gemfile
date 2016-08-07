@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 gem 'rails'
+gem 'haml', '~> 4.0.6'
 gem 'foundation-rails'
 gem 'bcrypt-ruby'
 gem 'will_paginate'

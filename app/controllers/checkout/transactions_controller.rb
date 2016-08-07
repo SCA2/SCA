@@ -1,27 +1,17 @@
 module Checkout
-  class TransactionsController < ApplicationController
-
-    include ProductUtilities
-    
-    before_action :set_checkout_cart, :set_products
-    before_action :empty_cart_redirect
+  class TransactionsController < Checkout::CheckoutController
 
     before_action :set_no_cache
-    before_action :set_products
-    before_action :set_checkout_cart
-    before_action :set_checkout_order
     before_action :empty_cart_redirect
+    before_action :bad_state_redirect
 
     def new
-      bad_state_redirect; return if performed?
-      @transaction = @order.transactions.last
+      @transaction = order.transactions.last
       if order_params[:success] == 'true'
-        @cart.inventory
-        @cart.save
-        UserMailer.order_received(@order).deliver_now
-        session[:cart_id] = nil
-        session[:progress] = nil
-        set_cart
+        cart.inventory
+        cart.save
+        UserMailer.order_received(order).deliver_now
+        forget_cart
         render 'success'
       else
         render 'failure'
@@ -31,10 +21,16 @@ module Checkout
   private
 
     def bad_state_redirect
-      unless @order.notifiable?
+      unless order.notifiable?
         flash[:alert] = 'Sorry, there was a problem submitting your payment.'
-        redirect_to new_checkout_payment_path(@order)
+        redirect_to new_checkout_payment_path(order)
       end
+    end
+
+    def forget_cart
+      @cart = nil
+      session[:cart_id] = nil
+      session[:progress] = nil
     end
 
     def order_params

@@ -1,0 +1,30 @@
+%table.confirm-cart(style="width: 100%")
+  %tr#header
+    %th#line ID
+    %th#line Value
+    %th#item Marking
+    %th#item Description
+    %th#item Mfr
+    %th#item Mfr Number
+    %th#item Vendor
+    %th#item Vendor Number
+    %th#item Stock
+    %th#item Lead Time
+    %th#item Action
+
+  - @components.each_with_index do |component, index|
+    %tr
+      %td.item-cell= link_to component.id, component
+      %td.item-cell= component.value
+      %td.item-cell= component.marking
+      %td.item-cell= component.description
+      %td.item-cell= component.mfr
+      %td.item-cell= component.mfr_part_number
+      %td.item-cell= component.vendor
+      %td.item-cell= component.vendor_part_number
+      %td.item-cell= component.stock
+      %td.item-cell= component.lead_time
+      %td.item-cell
+        = link_to "view", component
+        &nbsp; | &nbsp;
+        = link_to "delete", component, method: :delete, data: { confirm: "Are you sure?" }

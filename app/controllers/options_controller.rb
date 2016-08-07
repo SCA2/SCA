@@ -1,9 +1,5 @@
-class OptionsController < ApplicationController
+class OptionsController < BaseController
 
-  include ProductUtilities
-
-  before_action :set_cart, :set_products
-  
   before_action :signed_in_admin
   before_action :set_option, only: [:edit, :update, :destroy]
 

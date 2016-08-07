@@ -1,13 +1,13 @@
-<% provide(:title, @faq) %>
+<% provide(:title, faq) %>
 
 <div class="box_2">
 	<div class="row">
 		<div class="small-9 columns">
-			<%= form_for(@faq) do |faq| %>
-				<%= render 'shared/errors', object: faq.object %>
-				<%= render 'form', f: faq, legend: 'Edit FAQ ' << @faq.id.to_s %>
+			<%= form_for(faq) do |fq| %>
+				<%= render 'shared/errors', object: fq.object %>
+				<%= render 'form', f: fq, legend: 'Edit FAQ ' << faq.id.to_s %>
 				<div class="admin-box">
-					<%= faq.submit 'Update', class: 'button admin' %>
+					<%= fq.submit 'Update', class: 'button admin' %>
 					<%= link_to 'Quit', faqs_path, class: 'button admin' %>
 				</div>
 			<% end %>

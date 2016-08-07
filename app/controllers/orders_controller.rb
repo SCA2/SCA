@@ -1,8 +1,5 @@
-class OrdersController < ApplicationController
+class OrdersController < BaseController
 
-  include ProductUtilities
-  
-  before_action :set_cart, :set_products
   before_action :admin_user
 
   def index

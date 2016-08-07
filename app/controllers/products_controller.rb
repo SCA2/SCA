@@ -1,8 +1,5 @@
-class ProductsController < ApplicationController
+class ProductsController < BaseController
   
-  include ProductUtilities
-
-  before_action :set_cart, :set_products
   before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
@@ -62,14 +59,39 @@ class ProductsController < ApplicationController
     redirect_to products_path, alert: alert
   end
 
-  private
+private
 
-    def product_params
-      params.require(:product).permit(:model, :model_sort_order,
-      :category, :category_sort_order, :options,
-      :short_description, :long_description, :notes,
-      :image_1, :image_2, 
-      :specifications, :bom, :schematic, :assembly)
+  def product_params
+    params.require(:product).permit(:model, :model_sort_order,
+    :category, :category_sort_order, :options,
+    :short_description, :long_description, :notes,
+    :image_1, :image_2, 
+    :specifications, :bom, :schematic, :assembly)
+  end
+
+  def set_product
+    @product = find_product
+    redirect_to products_path and return if @product.nil?
+    if @product.options.any?
+      @option = view_context.get_current_option(@product)
+    else
+      flash[:alert] = 'Product must have at least one option!'
+      redirect_to new_product_option_path(@product)
     end
+  end
+
+  def find_product
+    if products && params[:id]
+      product_models = products.select(:model).to_ary
+      product_models = product_models.sort_by { |record| record.model.length }
+      product_models = product_models.reverse.map { |record| record.model.downcase }
+      product_models.each do |model|
+        if params[:id].downcase.include? model
+          return get_product(model)
+        end
+      end
+    end
+    return nil
+  end
 
 end

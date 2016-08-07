@@ -1,10 +1,6 @@
-class SliderImagesController < ApplicationController
+class SliderImagesController < BaseController
   
-  include ProductUtilities
-
-  before_action :set_cart, :set_products
   before_action :signed_in_admin
-  before_action :set_slider_image, only: [:update, :destroy]
 
   def index
     @slider_images = SliderImage.order(:id)
@@ -24,7 +20,7 @@ class SliderImagesController < ApplicationController
   end
 
   def update
-    if @slider_image.update(slider_image_params)
+    if slider_image.update(slider_image_params)
       redirect_to slider_images_url, notice: 'Slider image ' + @slider_image.id.to_s + ' was successfully updated.'
     else
       render 'index', alert: 'Unable to update slider image ' + @slider_image.id.to_s
@@ -32,13 +28,13 @@ class SliderImagesController < ApplicationController
   end
 
   def destroy
-    @slider_image.destroy
+    slider_image.destroy
     redirect_to slider_images_url
   end
 
   private
-    def set_slider_image
-      @slider_image = SliderImage.find(params[:id])
+    def slider_image
+      @slider_image ||= SliderImage.find(params[:id])
     end
 
     def slider_image_params

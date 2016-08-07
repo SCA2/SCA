@@ -2,7 +2,7 @@
 	<legend><%= legend %></legend>
 	<div class="field">
 		<%= f.label :faqs_category, 'FAQ Category' %>
- 		<%= f.collection_select :faqs_category_id, @categories.all, :id, :category_name %>
+ 		<%= f.collection_select :faqs_category_id, categories.all, :id, :category_name %>
 	</div>
 	<div class="field">
 		<%= f.label :question_weight, 'Question Weight' %>

@@ -51,7 +51,8 @@ class OrderShipper
 
   def usps_rates
     usps = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'], password: ENV['USPS_PASSWORD'])
-    get_rates_from_shipper(usps).select do |rate|
+    rates = get_rates_from_shipper(usps)
+    rates.select do |rate|
       rate = rate.service_name.to_s
       if rate.include?('Hold')
         false

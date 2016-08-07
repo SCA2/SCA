@@ -1,8 +1,4 @@
- class SessionsController < ApplicationController
-  
-  include ProductUtilities
-  
-  before_action :set_cart, :set_products
+ class SessionsController < BaseController
   
   def new
   end

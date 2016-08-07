@@ -1,0 +1,22 @@
+%li= link_to "Home", home_path
+%li.has-dropdown
+  = link_to "Products", products_path
+  %ul.dropdown
+    - product_categories.each do |k, v|
+      %li.has-dropdown
+        = link_to v, '#'
+        %ul.dropdown
+          - products.where("category = ?", k).each do |p|
+            %li= link_to p.model + ' ' + p.category, product_path(p)
+%li= link_to "FAQ", faqs_path
+%li= link_to "Forums", forums_path
+%li.has-dropdown
+  = link_to "Support", support_path
+  %ul.dropdown
+    %li= link_to "Assembly Tips",		tips_path
+    %li= link_to "Troubleshooting",	troubleshooting_path
+    %li= link_to "Repairs",					repairs_path
+    %li= link_to "Resources",				resources_path
+    %li= link_to "Contact",					contact_path
+
+

@@ -39,15 +39,15 @@ describe FaqsController do
     describe 'GET #edit' do
 
       let(:user) { create(:user, :admin => true) }
-      let(:faq) { create(:faq) }
+      let(:fq) { create(:faq) }
       before { test_sign_in(user, false) }
 
-      it "assigns the requested faq to @faq" do
-        get :edit, id: faq
-        expect(assigns(:faq)).to eq faq
+      it "assigns the requested faq" do
+        get :edit, id: fq
+        expect(fq).to eq subject.faq
       end
       it "renders the :edit template" do
-        get :edit, id: faq
+        get :edit, id: fq
         expect(response).to render_template :edit        
       end
     end

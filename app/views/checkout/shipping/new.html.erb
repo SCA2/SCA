@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="small-9 columns main">
 			<%= render 'shared/progress_bar' %>
-			<%= form_for @order, url: checkout_shipping_path(id: @order) do |f| %>
+			<%= form_for order, url: checkout_shipping_path(id: order) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<%if !@ups_rates.empty? %> 
 					<fieldset id="shipper">
@@ -45,10 +45,10 @@
 					</fieldset>
 				<% end %> 
 				<div class="button-box">
-					<% if @order.express_token %>
+					<% if order.express_token %>
 					<%= link_to 'Back to PayPal', @paypal_url, class: 'button user' %>
 					<% else %>
-					<%= link_to 'Back to Addresses', new_checkout_address_path(@cart), class: 'button user' %>
+					<%= link_to 'Back to Addresses', new_checkout_address_path(cart), class: 'button user' %>
 					<% end %>
 					<%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>

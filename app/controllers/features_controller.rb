@@ -1,8 +1,5 @@
-class FeaturesController < ApplicationController
+class FeaturesController < BaseController
 
-  include ProductUtilities
-
-  before_action :set_cart, :set_products  
   before_action :signed_in_admin
   before_action :set_feature, only: [:edit, :update, :destroy]
 

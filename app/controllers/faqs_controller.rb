@@ -1,11 +1,8 @@
-class FaqsController < ApplicationController
+class FaqsController < BaseController
   
-  include ProductUtilities
-
-  before_action :set_cart, :set_products
   before_action :signed_in_admin, except: :index
-  before_action :set_categories
-  before_action :set_faq, only: [:edit, :update, :destroy]
+
+  helper_method :faq, :categories
 
   def index
   end
@@ -28,7 +25,7 @@ class FaqsController < ApplicationController
   end
 
   def update
-    if @faq.update(faq_params)
+    if faq.update(faq_params)
       flash[:success] = "Success! Faq #{@faq.question_weight} updated."
       redirect_to faqs_path
     else
@@ -37,19 +34,19 @@ class FaqsController < ApplicationController
   end
 
   def destroy
-    @faq.destroy
+    faq.destroy
     redirect_to faqs_url
   end
 
+  def categories
+    @categories ||= FaqsCategory.order(:category_weight)
+  end
+
+  def faq
+    @faq ||= Faq.find(params[:id])
+  end
+
   private
-
-    def set_categories
-      @categories = FaqsCategory.order(:category_weight)
-    end
-
-    def set_faq
-      @faq = Faq.find(params[:id])
-    end
 
     def faq_params
       params.require(:faq).permit(:faqs_category_id, :question, :question_weight, :answer)

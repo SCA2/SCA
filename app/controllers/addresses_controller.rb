@@ -1,8 +1,5 @@
-class AddressesController < ApplicationController
+class AddressesController < BaseController
 
-  include ProductUtilities
-  before_action :set_cart, :set_products
-  
   before_action :set_addressable, except: :subregion_options
   before_action :set_address, only: [:show, :update]
   

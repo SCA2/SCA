@@ -1,16 +1,12 @@
-class LineItemsController < ApplicationController
-  
-  include ProductUtilities
+class LineItemsController < BaseController
   
   def create
-    set_cart
     product = get_product(line_item_params[:product_id])
     option = Option.find(line_item_params[:option_id])
-    @line_item = @cart.add_product(product, option)
+    line_item = cart.add_product(product, option)
     
     respond_to do |format|
-      if @line_item.save
-        set_cart
+      if line_item.save
         format.html { redirect_to products_path }
         format.js
       else
@@ -18,7 +14,8 @@ class LineItemsController < ApplicationController
       end
     end
   rescue
-    redirect_to products_path, notice: 'Sorry, there was a problem with the cart.'
+    flash[:alert] = 'Sorry, there was a problem with the cart.'
+    redirect_to products_path
   end
   
   private
