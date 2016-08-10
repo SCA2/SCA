@@ -1,4 +1,8 @@
 = provide(:title, 'Components')
 .box_2
+  %p
+    = link_to "New Component", new_component_path
+    &nbsp;|&nbsp;
+    = link_to "Import Components", new_component_import_path
   .row
     .small-12.columns= render 'components'

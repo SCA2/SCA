@@ -39,6 +39,18 @@ def fill_in_product(product)
   fill_in "Assembly Instructions URL:", with: product.assembly
 end
 
+def fill_in_component(component)
+  fill_in "Mfr", with: component.mfr
+  fill_in "Mfr Part Number", with: component.mfr_part_number
+  fill_in "Vendor", with: component.vendor
+  fill_in "Vendor Part Number", with: component.vendor_part_number
+  fill_in "Value", with: component.value
+  fill_in "Marking", with: component.marking
+  fill_in "Description", with: component.description
+  fill_in "Stock", with: component.stock
+  fill_in "Lead Time", with: component.lead_time
+end
+
 def fill_in_option(option)
   fill_in "Option:", with: option.model
   fill_in "Description:", with: option.description

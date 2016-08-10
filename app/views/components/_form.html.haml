@@ -1,0 +1,60 @@
+.row
+  .small-2.columns &nbsp
+  .small-8.columns
+    %fieldset
+      %legend= legend
+      .field
+        .row
+          .small-3.columns
+            = f.label :mfr, 'Mfr'
+          .small-9.columns
+            = f.text_field :mfr
+      .field
+        .row
+          .small-3.columns
+            = f.label :mfr_part_number, 'Mfr Part Number'
+          .small-9.columns
+            = f.text_field :mfr_part_number
+      .field
+        .row
+          .small-3.columns
+            = f.label :vendor, 'Vendor'
+          .small-9.columns
+            = f.text_field :vendor
+      .field
+        .row
+          .small-3.columns
+            = f.label :vendor_part_number, 'Vendor Part Number'
+          .small-9.columns
+            = f.text_field :vendor_part_number
+      .field
+        .row
+          .small-3.columns
+            = f.label :value, 'Value'
+          .small-9.columns
+            = f.text_field :value
+      .field
+        .row
+          .small-3.columns
+            = f.label :marking, 'Marking'
+          .small-9.columns
+            = f.text_field :marking
+      .field
+        .row
+          .small-3.columns
+            = f.label :description, 'Description'
+          .small-9.columns
+            = f.text_field :description
+      .field
+        .row
+          .small-3.columns
+            = f.label :stock, 'Stock'
+          .small-9.columns
+            = f.number_field :stock, in: 0..100000
+      .field
+        .row
+          .small-3.columns
+            = f.label :lead_time, 'Lead Time'
+          .small-9.columns
+            = f.number_field :lead_time, in: 1..365
+  .small-2.columns &nbsp

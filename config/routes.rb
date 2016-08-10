@@ -24,7 +24,8 @@ SCA::Application.routes.draw do
     end
   end
 
-  resources :components, only: [:index, :show, :destroy]
+  resources :components, only: [:new, :create, :index, :edit, :update, :destroy]
+  resources :component_imports, only: [:index, :new, :create]
 
   get 'products/*id', to: 'products#show', format: false
 
