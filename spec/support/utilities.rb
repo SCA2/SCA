@@ -74,6 +74,18 @@ def fill_in_feature(feature)
   fill_in "Description:", with: feature.description
 end
 
+def fill_in_bom(bom)
+  select(bom.product.model, from: "Product")
+  fill_in "Revision", with: bom.revision
+  fill_in "PDF URL", with: bom.pdf
+end
+
+def fill_in_bom_item(item)
+  fill_in "Quantity", with: item.quantity
+  fill_in "Reference", with: item.reference
+  select(item.component.mfr_part_number, from: "bom_creator_bom_items_attributes_0_component")
+end
+
 RSpec::Matchers.define :have_error_message do |message|
   match do |page|
     expect(page).to have_selector('div.alert-box.alert', text: message)

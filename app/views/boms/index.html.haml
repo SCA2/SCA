@@ -1,0 +1,8 @@
+= provide(:title, 'BOMs')
+.box_2
+  %p
+    = link_to "New BOM", new_bom_path
+    &nbsp;|&nbsp;
+    = link_to "Import BOMs", new_bom_import_path
+  .row
+    .small-12.columns= render 'boms'

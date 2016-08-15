@@ -1,0 +1,12 @@
+- if !@bc.bom_items.empty?
+  - part = item.component
+  .field
+    .row
+      .small-1.columns= f.index + 1
+      .small-2.columns= f.number_field :quantity, value: item.quantity
+      .small-2.columns= f.text_field :reference, value: item.reference
+      .small-3.columns= link_to part.mfr_part_number, part
+      .small-3.columns= link_to part.description, part
+      .small-1.columns= part.stock
+      .small-1.columns= part.lead_time
+      .small-1.columns= f.check_box :_destroy

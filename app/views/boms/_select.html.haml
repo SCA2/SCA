@@ -1,0 +1,7 @@
+.field
+  .row
+    .small-1.columns= f.index + 1
+    .small-2.columns= f.number_field :quantity, placeholder: 'Quantity'
+    .small-2.columns= f.text_field :reference, placeholder: 'Reference'
+    .small-7.columns
+      = f.select :component, options_from_collection_for_select(@bc.components, :id, :mfr_part_number)

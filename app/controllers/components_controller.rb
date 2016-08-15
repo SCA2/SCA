@@ -34,8 +34,9 @@ class ComponentsController < BaseController
   end
 
   def destroy
+    component_id = component.id
     component.destroy
-    redirect_to components_path
+    redirect_to components_path, notice: "Component #{component_id} deleted"
   end
 
   def component

@@ -5,6 +5,24 @@ describe Bom do
   it { should respond_to(:revision) }
   it { should respond_to(:pdf) }  
   it { should respond_to(:bom_items) }  
+  it { should respond_to(:lines) }  
+  it { should respond_to(:stock) }  
+
+  describe 'bom_item methods' do
+    it 'can report number of bom_items' do
+      bom = create(:bom)
+      create(:bom_item, bom: bom, reference: 1)
+      create(:bom_item, bom: bom, reference: 2)
+      expect(bom.lines).to eq 2
+    end
+
+    # it 'can report stock' do
+    #   bom = create(:bom)
+    #   item_1 = double (:bom_item, bom: bom, reference: 1)
+    #   item_2 = double (:bom_item, bom: bom, reference: 1)
+    #   expect(bom.stock).to eq item_1.stock
+    # end
+  end
 
   describe 'bom_item associations' do
     it 'can have multiple bom_items' do
