@@ -5,7 +5,7 @@
     .small-10.columns
       %fieldset
         %legend= "BOM #{@bc.product_model} Rev #{@bc.revision}"
-        = form_for(@bc, url: bom_path(@bc.id), method: :put) do |bc_form|
+        = form_for(@bc, url: update_item_bom_path(@bc.id), method: :put) do |bc_form|
           = render 'shared/errors', object: bc_form.object
           = render 'form', f: bc_form
           = bc_form.fields_for :bom_items do |item_fields|

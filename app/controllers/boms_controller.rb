@@ -38,6 +38,17 @@ class BomsController < BaseController
     end
   end
 
+  def update_item
+    @bc = BomCreator.new(bom_id)
+    if @bc.update(bom_params)
+      flash[:success] = "BOM #{@bc.product_model} Rev #{@bc.revision} updated"
+      redirect_to edit_bom_path(@bc.id)
+    else
+      @bc.new_item = nil
+      render 'new_item'
+    end
+  end
+
   def destroy
     bom = Bom.find(bom_id)
     name = "#{bom.product.model} Rev #{bom.revision}"

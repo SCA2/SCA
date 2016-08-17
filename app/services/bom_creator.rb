@@ -2,16 +2,12 @@ class BomCreator
 
   include ActiveModel::Model
 
-  attr_reader :bom, :products, :components, :new_item
-  attr_accessor :product, :component, :revision, :pdf, :quantity, :reference
+  attr_reader :products, :components
+  attr_accessor :bom, :new_item
 
   delegate :bom_items, :bom_items_attributes=, to: :bom, prefix: false
-  
-  validates :product, :revision, :pdf, presence: true
-
-  def persisted?
-    false
-  end
+  delegate :product, :revision, :pdf, to: :bom, prefix: false
+  delegate :quantity, :reference, :component, to: :bom_item, prefix: false
 
   def model_name
     ActiveModel::Name.new(self, nil, 'BomCreator')
@@ -38,22 +34,60 @@ class BomCreator
           v[:component] = Component.find(v[:component])
         end
       end
+      k = (bom_items_params.length - 1).to_s
+      v = bom_items_params[k]
+      quantity = v[:quantity]
+      reference = v[:reference]
+      component = v[:component]
     end
   end
 
   def parse_product(params = nil)
     if params[:product] && params[:product].class == String
-      @product = Product.find(params[:product])
-      params[:product] = @product
+      @bom.product = Product.find(params[:product])
+      params[:product] = bom.product
     end
   end
 
   def set_attributes(params)
     return nil unless params
-    @revision = params[:revision]
-    @pdf = params[:pdf]
+    @bom.revision = params[:revision]
+    @bom.pdf = params[:pdf]
     parse_product(params)
     parse_bom_items(params)
+  end
+
+  def get_errors
+    if @bom.errors.any?
+      @bom.errors.full_messages.each { |e| errors[:base] << e }
+      false
+    else
+      true
+    end
+  end
+
+  def save(params)
+    set_attributes(params)
+    if valid?
+      @bom.save
+      get_errors
+    else
+      false
+    end
+  end
+
+  def update(params)
+    set_attributes(params)
+    if valid?
+      @bom.update(params)
+      get_errors
+    else
+      false
+    end
+  end
+
+  def selected
+    @selected = @bom.product ? @bom.product.id : 0
   end
 
   def id
@@ -63,29 +97,5 @@ class BomCreator
   def product_model
     @bom.product.model
   end
-
-  def save(params)
-    action(params) { |params| @bom = Bom.create(params) }
-  end
-
-  def update(params)
-    action(params) { |params| @bom.update(params) }
-  end
-
-  def selected
-    @selected = @bom.product ? @bom.product.id : 0
-  end
-
-private
-
-  def action(params)
-    set_attributes(params)
-    if valid?
-      yield params
-      true
-    else
-      false
-    end
-  end
-
+  
 end
