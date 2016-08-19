@@ -1,0 +1,42 @@
+= provide(:title, 'Contact Us')
+.box_2
+  .row
+    .small-9.columns
+      %h5.section-header
+        E-Mail Addresses
+      %p
+        %script(type="text/javascript")
+          var user1 = "sales";
+          var user3 = "support";
+          var user4 = "rma";
+
+          var domain = "seventhcircleaudio.com";
+          var subject1 = "Sales Inquiry";
+          var subject3 = "Assembly Question";
+          var subject4 = "RMA Request";
+
+          document.write('<p class="asmtext">Sales Inquiries: ');
+          document.write('<a href=\"mailto:' + user1 + '@' + domain + '?subject=' + subject1 + '\">'); 
+          document.write('sales (at) seventhcircleaudio.com</a></p>');
+
+          document.write('<p class="asmtext">Assembly Questions: ');
+          document.write('<a href=\"mailto:' + user3 + '@' + domain + '?subject=' + subject3 + '\">'); 
+          document.write('support (at) seventhcircleaudio.com</a></p>');
+
+          document.write('<p class="asmtext">RMA Request: ');
+          document.write('<a href=\"mailto:' + user4 + '@' + domain + '?subject=' + subject4 + '\">'); 
+          document.write('rma (at) seventhcircleaudio.com</a></p>');
+			 
+      %h5.section-header
+        Mailing Address
+
+      %p.asmtext
+        Seventh Circle Audio<br>
+        1714 Franklin Street<br>
+        Suite B1<br>
+        Oakland, CA  94612<br>
+        (510) 972-8346<br>
+        (510) 97A-UDIO
+
+    .small-3.columns
+      = render 'layouts/sidebar_left'
