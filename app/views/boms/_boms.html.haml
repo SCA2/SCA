@@ -10,7 +10,7 @@
 
   - @boms.each_with_index do |bom, index|
     %tr
-      %td.item-cell= link_to bom.id, edit_bom_path(bom)
+      %td.item-cell= link_to bom.id, bom_path(bom)
       %td.item-cell= bom.product.model
       %td.item-cell= bom.revision
       %td.item-cell= bom.pdf

@@ -14,21 +14,21 @@ describe Component do
   describe 'bom_item associations' do
     it 'has many bom_items' do
       component = create(:component)
-      create(:bom_item, component: component, reference: 1)
-      create(:bom_item, component: component, reference: 2)
+      create(:bom_item, component: component, reference: 'C1')
+      create(:bom_item, component: component, reference: 'C2')
       expect(component.bom_items.count).to eq 2
     end
 
     it 'does not destroy associated bom_items' do
       component = create(:component)
-      create(:bom_item, component: component, reference: 1)
-      create(:bom_item, component: component, reference: 2)
+      create(:bom_item, component: component, reference: 'L1')
+      create(:bom_item, component: component, reference: 'L2')
       expect {component.destroy}.to raise_exception(ActiveRecord::DeleteRestrictionError)
     end
 
     it 'is not destroyed with associated bom_item' do
       component = create(:component)
-      bom_item = create(:bom_item, component: component, reference: 1)
+      bom_item = create(:bom_item, component: component, reference: 'U1')
       expect {bom_item.destroy}.not_to change {Component.count}
     end
   end

@@ -6,4 +6,8 @@ class Component < ActiveRecord::Base
   def self.permitted_attributes
     self.column_names - ['id', 'created_at', 'updated_at']
   end
+
+  def selection_name
+    "#{mfr_part_number}, #{value}, #{description}"
+  end
 end

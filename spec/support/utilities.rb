@@ -81,8 +81,8 @@ def fill_in_bom(bom)
 end
 
 def fill_in_bom_item(item)
-  fill_in "Quantity", with: item.quantity
-  fill_in "Reference", with: item.reference
+  fill_in "Qty", with: item.quantity
+  fill_in "Ref", with: item.reference
   select(item.component.mfr_part_number, from: "bom_creator_bom_items_attributes_0_component")
 end
 

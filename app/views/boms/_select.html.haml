@@ -1,7 +1,11 @@
 .field
   .row
-    .small-1.columns= f.index + 1
-    .small-2.columns= f.number_field :quantity, placeholder: 'Quantity'
-    .small-2.columns= f.text_field :reference, placeholder: 'Reference'
-    .small-7.columns
-      = f.select :component, options_from_collection_for_select(@bc.components, :id, :mfr_part_number)
+    .small-12.columns.bom-row
+      .index= f.index + 1
+      .quantity= f.number_field :quantity, placeholder: 'Qty'
+      .reference= f.text_field :reference, placeholder: 'Ref'
+      .select
+        = f.select :component, options_from_collection_for_select(@bc.components, :id, :selection_name, @bc.selected_component(f.index))
+      .stock= @bc.stock(f.index)
+      .lead-time= @bc.lead_time(f.index)
+      .destroy= f.check_box :_destroy

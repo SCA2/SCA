@@ -61,6 +61,7 @@ feature "BOMs" do
       visit boms_path
       find(:link_or_button, bom.id).click
       expect(page).to have_content("BOM #{bom.product.model} Rev #{bom.revision}")
+      find(:link_or_button, 'Edit').click
       bom.pdf = 'new pdf url'
       fill_in_bom(bom)
       find(:link_or_button, 'Update').click

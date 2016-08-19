@@ -24,10 +24,10 @@ SCA::Application.routes.draw do
     end
   end
 
-  resources :boms, except: :show do
+  resources :boms do
     member do
       get 'new_item'
-      put 'update_item'
+      put 'create_item'
     end
   end
   resources :bom_imports, only: :new

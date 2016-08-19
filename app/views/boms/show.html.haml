@@ -1,0 +1,12 @@
+= provide(:title, "BOM #{@bc.id}")
+.box_2
+  .row
+    .small-12.columns
+      %fieldset
+        %legend= "BOM #{@bc.product_model} Rev #{@bc.revision} -- #{@bc.pdf}"
+        = render 'shared/errors', object: @bc.bom
+        = render partial: 'boms/bom_item', collection: @bc.bom_items
+        .admin-box
+          = link_to "Edit", edit_bom_path(@bc.id), class: "button admin"
+          = link_to "Quit", boms_path, class: "button admin"
+          = link_to "Delete", bom_path(@bc.id), method: :delete, class: "button admin", data: { confirm: 'Are you sure?' }

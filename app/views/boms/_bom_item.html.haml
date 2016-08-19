@@ -1,12 +1,11 @@
-- if !@bc.bom_items.empty?
-  - part = item.component
-  .field
-    .row
-      .small-1.columns= f.index + 1
-      .small-2.columns= f.number_field :quantity, value: item.quantity
-      .small-2.columns= f.text_field :reference, value: item.reference
-      .small-3.columns= link_to part.mfr_part_number, part
-      .small-3.columns= link_to part.description, part
-      .small-1.columns= part.stock
-      .small-1.columns= part.lead_time
-      .small-1.columns= f.check_box :_destroy
+.field
+  .row
+    .small-12.columns.bom-row
+      - part = @bc.component(bom_item_counter)
+      .index= bom_item_counter + 1
+      .quantity= @bc.quantity(bom_item_counter)
+      .reference= @bc.reference(bom_item_counter)
+      .mfr-part-number= link_to part.mfr_part_number, edit_component_path(part)
+      .description= link_to part.description, edit_component_path(part)
+      .stock= @bc.stock(bom_item_counter)
+      .lead-time= @bc.lead_time(bom_item_counter)

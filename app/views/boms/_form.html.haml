@@ -1,18 +1,13 @@
-.field
-  .row
-    .small-3.columns
+.row
+  .small-3.columns
+    .field
       = f.label :product, 'Product'
-    .small-9.columns
-      = f.select :product, options_from_collection_for_select(@bc.products, :id, :model, @bc.selected)
-.field
-  .row
-    .small-3.columns
+      = f.select :product, options_from_collection_for_select(@bc.products, :id, :model, @bc.selected_product)
+  .small-3.columns
+    .field
       = f.label :revision, 'Revision'
-    .small-9.columns
       = f.text_field :revision
-.field
-  .row
-    .small-3.columns
+  .small-6.columns
+    .field
       = f.label :pdf, 'PDF URL'
-    .small-9.columns
       = f.text_field :pdf

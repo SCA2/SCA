@@ -1,18 +1,14 @@
 = provide(:title, "BOM #{@bc.id}")
 .box_2
   .row
-    .small-1.columns &nbsp;
-    .small-10.columns
+    .small-12.columns
       %fieldset
         %legend= "BOM #{@bc.product_model} Rev #{@bc.revision}"
-        = form_for(@bc, url: update_item_bom_path(@bc.id), method: :put) do |bc_form|
+        = form_for(@bc, url: create_item_bom_path(@bc.id), method: :put) do |bc_form|
           = render 'shared/errors', object: bc_form.object
           = render 'form', f: bc_form
           = bc_form.fields_for :bom_items do |item_fields|
-            = render 'bom_item', f: item_fields, item: @bc.bom_items[item_fields.index]
-          = bc_form.fields_for :bom_items, @bc.new_item do |item_fields|
             = render 'select', f: item_fields
           .admin-box
             = bc_form.submit "Update", class: "button admin"
-            = link_to "Quit", boms_path, class: "button admin"
-    .small-1.columns &nbsp;
+            = link_to "Quit", edit_bom_path(@bc.id), class: "button admin"

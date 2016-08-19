@@ -6,12 +6,12 @@ class BomsController < BaseController
     @boms = Bom.all
   end
 
-  def new
-    @bc = BomCreator.new
+  def show
+    @bc = BomCreator.new(bom_id)
   end
 
-  def new_item
-    @bc = BomCreator.new(bom_id)
+  def new
+    @bc = BomCreator.new
   end
 
   def create
@@ -38,13 +38,17 @@ class BomsController < BaseController
     end
   end
 
-  def update_item
+  def new_item
+    @bc = BomCreator.new(bom_id)
+    @bc.new_item
+  end
+
+  def create_item
     @bc = BomCreator.new(bom_id)
     if @bc.update(bom_params)
       flash[:success] = "BOM #{@bc.product_model} Rev #{@bc.revision} updated"
       redirect_to edit_bom_path(@bc.id)
     else
-      @bc.new_item = nil
       render 'new_item'
     end
   end
