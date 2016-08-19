@@ -1,8 +1,5 @@
-class FaqsCategoriesController < ApplicationController
+class FaqsCategoriesController < BaseController
   
-  include ProductUtilities
-
-  before_action :set_cart, :set_products
   before_action :signed_in_admin
   before_action :set_faqs_category, only: [:edit, :update, :destroy]
 
