@@ -1,0 +1,39 @@
+%footer.footer
+  .footer
+    %p
+      Please read our
+      = link_to 'Terms of Service, ', terms_path
+      = link_to 'Privacy Policy, ', privacy_path
+      and
+      = link_to 'Conditions Statement.', conditions_path
+      %br
+      Prices and specifications are subject to change without notice.
+    %p
+      %i
+        All trademarks used in these pages are the property of their respective owners.
+    %p
+      Copyright &copy;
+      = Date.today.year
+      Seventh Circle Audio
+      %br
+      Unauthorized Use Prohibited
+    %p
+      - if current_user
+        Logged in as
+        = current_user.email
+        = link_to "Log out", signout_path, method: :delete
+      - else
+        = link_to "Log in", signin_path
+    %p
+      - if signed_in_admin?
+        = link_to "Admin", admin_path
+
+  %script
+    type="text/javascript"
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+  %script
+    type="text/javascript">
+    var pageTracker = _gat._getTracker("UA-5745785-1");
+    pageTracker._trackPageview();
