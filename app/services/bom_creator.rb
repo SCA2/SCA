@@ -2,11 +2,11 @@ class BomCreator
 
   include ActiveModel::Model
 
-  attr_reader :products, :components
+  attr_reader :products, :options, :components
   attr_accessor :bom, :items
 
   delegate :bom_items, :bom_items_attributes=, to: :bom, prefix: false
-  delegate :product, :revision, :pdf, to: :bom, prefix: false
+  delegate :product, :option, :revision, :pdf, to: :bom, prefix: false
   delegate :quantity, :reference, :component, to: :bom_item, prefix: false
 
   def model_name
@@ -14,16 +14,21 @@ class BomCreator
   end
 
   def initialize(id = nil)
+    @products = Product.all
+    @components = Component.all
     if id
       @bom = Bom.find(id)
       @product = @bom.product
       @revision = @bom.revision
       @pdf = @bom.pdf
+      @selected_product = @product
+      @selected_option = @selected_product.options.first
     else
       @bom = Bom.new
+      @selected_product = @products.first
+      @selected_option = @selected_product.options.first
     end
-    @products = Product.all
-    @components = Component.all
+    @options = @selected_product.options
   end
 
   def parse_bom_items(params = nil)
@@ -46,8 +51,15 @@ class BomCreator
 
   def parse_product(params = nil)
     if params[:product] && params[:product].class == String
-      @bom.product = Product.find(params[:product])
-      params[:product] = bom.product
+      @selected_product = Product.find(params[:product])
+    end
+  end
+
+  def parse_option(params = nil)
+    if params[:option] && params[:option].class == String
+      @bom.option = Option.find(params[:option])
+      params[:option] = @bom.option
+      @selected_option = @bom.option
     end
   end
 
@@ -56,6 +68,7 @@ class BomCreator
     @bom.revision = params[:revision]
     @bom.pdf = params[:pdf]
     parse_product(params)
+    parse_option(params)
     parse_bom_items(params)
   end
 
@@ -89,7 +102,16 @@ class BomCreator
   end
 
   def selected_product
-    @selected = @bom.product ? @bom.product.id : 0
+    @selected_product ? @selected_product.id : 0
+  end
+
+  def selected_option
+    @selected_option ? @selected_option.id : 0
+  end
+
+  def set_selected_product(product_id)
+    @selected_product = Product.find(product_id)
+    @options = @selected_product.options
   end
 
   def selected_component(index)
@@ -129,6 +151,10 @@ class BomCreator
 
   def product_model
     @bom.product.model
+  end
+  
+  def option_model
+    @bom.option.model
   end
   
 end

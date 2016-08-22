@@ -25,12 +25,15 @@ SCA::Application.routes.draw do
   end
 
   resources :boms do
+    collection do
+      get 'update_option'
+    end
     member do
       get 'new_item'
       put 'create_item'
     end
   end
-  resources :bom_imports, only: :new
+  resources :bom_importers, only: [:new, :create]
   resources :components, except: :show
   resources :component_imports, only: [:index, :new, :create]
 

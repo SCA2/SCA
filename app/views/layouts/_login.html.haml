@@ -1,0 +1,11 @@
+%table.login
+  - if signed_in?
+    %tr
+      %td= link_to "Log Out",	signout_path, method: "delete"
+    %tr
+      %td= link_to "My Account", current_user
+  - else
+    %tr
+      %td= link_to "Log In", signin_path
+    %tr
+      %td= link_to "Create Account", signup_path

@@ -14,21 +14,31 @@ describe Component do
   describe 'bom_item associations' do
     it 'has many bom_items' do
       component = create(:component)
-      create(:bom_item, component: component, reference: 'C1')
-      create(:bom_item, component: component, reference: 'C2')
+      bom1 = build_stubbed(:bom)
+      bom2 = build_stubbed(:bom)
+      create(:bom_item, bom: bom1, component: component)
+      create(:bom_item, bom: bom2, component: component)
       expect(component.bom_items.count).to eq 2
+    end
+
+    it 'is unique within a bom' do
+      component = create(:component)
+      bom = build_stubbed(:bom)
+      create(:bom_item, bom: bom, component: component)
+      expect{create(:bom_item, bom: bom, component: component)}.to raise_exception ActiveRecord::RecordInvalid
     end
 
     it 'does not destroy associated bom_items' do
       component = create(:component)
-      create(:bom_item, component: component, reference: 'L1')
-      create(:bom_item, component: component, reference: 'L2')
+      bom = build_stubbed(:bom)
+      create(:bom_item, bom: bom, component: component)
       expect {component.destroy}.to raise_exception(ActiveRecord::DeleteRestrictionError)
     end
 
     it 'is not destroyed with associated bom_item' do
       component = create(:component)
-      bom_item = create(:bom_item, component: component, reference: 'U1')
+      bom = build_stubbed(:bom)
+      bom_item = create(:bom_item, bom: bom, component: component)
       expect {bom_item.destroy}.not_to change {Component.count}
     end
   end

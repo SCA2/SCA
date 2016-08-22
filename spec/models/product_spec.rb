@@ -29,7 +29,6 @@ describe Product do
   it { should respond_to(:features) }
   it { should respond_to(:line_items) }
   it { should respond_to(:options) }
-  it { should respond_to(:boms) }
 
   it "is invalid without a model" do
     expect(Product.new(model: nil)).to have(1).errors_on(:model)
@@ -165,35 +164,4 @@ describe Product do
       expect {product.destroy}.to change {Product.count}.by(-1)
     end
   end
-
-  describe 'bom associations' do
-    it 'can have multiple boms' do
-      product = create(:product)
-      create(:bom, product: product, revision: 1)
-      create(:bom, product: product, revision: 2)
-      expect(product.boms.count).to eq 2
-    end
-
-    it 'should return boms sorted by revision number' do
-      product = create(:product)
-      rev_2 = create(:bom, product: product, revision: 2)
-      rev_1 = create(:bom, product: product, revision: 1)
-      rev_3 = create(:bom, product: product, revision: 3)
-      expect(product.boms.to_a).to eq [rev_1, rev_2, rev_3]
-    end
-    
-    it 'should destroy associated boms' do
-      product = create(:product)
-      create(:bom, product: product, revision: 10)
-      create(:bom, product: product, revision: 20)
-      expect {product.destroy}.to change {Bom.count}.by(-2)
-    end
-
-    it 'is not destroyed with associated bom' do
-      product = create(:product)
-      bom = create(:bom, product: product, revision: 10)
-      expect {bom.destroy}.not_to change {Product.count}
-    end
-  end
-
 end

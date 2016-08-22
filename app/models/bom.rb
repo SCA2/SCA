@@ -1,12 +1,21 @@
 class Bom < ActiveRecord::Base
-  belongs_to :product, inverse_of: :boms
+  belongs_to :option, inverse_of: :bom
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 
-  validates :product, :revision, :pdf, presence: true
+  validates :option, :revision, :pdf, presence: true
+  validates :option, uniqueness: true
 
   accepts_nested_attributes_for :bom_items, allow_destroy: true
 
   default_scope -> { order :revision }
+
+  def self.permitted_attributes
+    self.column_names - ['id', 'created_at', 'updated_at']
+  end
+
+  def product
+    option.product if option
+  end
 
   def lines
     bom_items.count

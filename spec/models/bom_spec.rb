@@ -10,7 +10,7 @@ describe Bom do
 
   describe 'bom_item methods' do
     it 'can report number of bom_items' do
-      bom = create(:bom)
+      bom = build_stubbed(:bom)
       create(:bom_item, bom: bom, reference: 'R1')
       create(:bom_item, bom: bom, reference: 'R2')
       expect(bom.lines).to eq 2
@@ -26,14 +26,14 @@ describe Bom do
 
   describe 'bom_item associations' do
     it 'can have multiple bom_items' do
-      bom = create(:bom)
+      bom = build_stubbed(:bom)
       create(:bom_item, bom: bom, reference: 'R1')
       create(:bom_item, bom: bom, reference: 'R2')
       expect(bom.bom_items.count).to eq 2
     end
 
     it 'should return bom_items sorted by reference number' do
-      bom = create(:bom)
+      bom = build_stubbed(:bom)
       rev_2 = create(:bom_item, bom: bom, reference: 'R2')
       rev_1 = create(:bom_item, bom: bom, reference: 'R1')
       rev_3 = create(:bom_item, bom: bom, reference: 'R3')
@@ -41,14 +41,16 @@ describe Bom do
     end
     
     it 'should destroy associated bom_items' do
-      bom = create(:bom)
+      product = build_stubbed(:product)
+      option = build_stubbed(:option, product: product)
+      bom = create(:bom, option: option)
       create(:bom_item, bom: bom, reference: 'C1')
       create(:bom_item, bom: bom, reference: 'C2')
       expect {bom.destroy}.to change {BomItem.count}.by(-2)
     end
 
     it 'is not destroyed with associated bom_item' do
-      bom = create(:bom)
+      bom = build_stubbed(:bom)
       bom_item = create(:bom_item, bom: bom, reference: 'D1')
       expect {bom_item.destroy}.not_to change {Bom.count}
     end

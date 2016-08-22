@@ -1,0 +1,41 @@
+= provide(:title, 'BOM Import')
+.box_2
+
+  %h3 Bom Import
+
+  %p A CSV file can be used to import records. The first row should contain column headers. The following headers are allowed.
+
+  %ul
+    - Bom.columns.each do |column|
+      - if column.name.in? [*Bom.permitted_attributes]
+        %li
+          %strong= column.name
+          &ndash;
+          = column.type.to_s.titleize
+          type
+
+  %p Subsequent rows should contain BOM items. Row 4 should contain column headers. The following headers are allowed.
+
+  %ul
+    - BomItem.columns.each do |column|
+      - if column.name.in? [*BomItem.permitted_attributes]
+        %li
+          %strong= column.name
+          &ndash;
+          = column.type.to_s.titleize
+          type
+
+  %p If an existing <strong>product</strong> and <strong>option</strong> are supplied the matching BOM it will be updated.
+
+  = form_for @bom_importer do |f|
+    - if @bom_importer.errors.any?
+      #error_explanation
+        %h2= pluralize(@bom_importer.errors.count, "error")
+        prohibited this import from completing:
+        %ul
+        - @bom_importer.errors.full_messages.each do |msg|
+          %li= msg
+
+    %fieldset
+      = f.file_field :file
+      = f.submit "Import"

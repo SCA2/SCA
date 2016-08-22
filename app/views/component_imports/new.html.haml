@@ -1,27 +1,30 @@
-%h1 Component Import
+= provide(:title, 'Component Import')
+.box_2
 
-%p A CSV or EXCEL file can be used to import records. The first row should contain column headers. The following headers are allowed.
+  %h3 Component Import
 
-%ul
-  - Component.columns.each do |column|
-    - if column.name.in? ["id", *Component.permitted_attributes]
-      %li
-        %strong= column.name
-        &ndash;
-        = column.type.to_s.titleize
-        type
+  %p A CSV or EXCEL file can be used to import records. The first row should contain column headers. The following headers are allowed.
 
-%p If a <strong>mfr_part_number</strong> is supplied it will update the matching record instead of creating a new one.
+  %ul
+    - Component.columns.each do |column|
+      - if column.name.in? ["id", *Component.permitted_attributes]
+        %li
+          %strong= column.name
+          &ndash;
+          = column.type.to_s.titleize
+          type
 
-= form_for @component_import do |f|
-  - if @component_import.errors.any?
-    #error_explanation
-      %h2= pluralize(@component_import.errors.count, "error")
-      prohibited this import from completing:
-      %ul
-      - @component_import.errors.full_messages.each do |msg|
-        %li= msg
+  %p If a <strong>mfr_part_number</strong> is supplied it will update the matching record instead of creating a new one.
 
-  %fieldset
-    = f.file_field :file
-    = f.submit "Import"
+  = form_for @component_import do |f|
+    - if @component_import.errors.any?
+      #error_explanation
+        %h2= pluralize(@component_import.errors.count, "error")
+        prohibited this import from completing:
+        %ul
+        - @component_import.errors.full_messages.each do |msg|
+          %li= msg
+
+    %fieldset
+      = f.file_field :file
+      = f.submit "Import"

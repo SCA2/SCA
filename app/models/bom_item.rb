@@ -8,4 +8,8 @@ class BomItem < ActiveRecord::Base
   validates :reference, format: { with: /\A[a-z]+\d+((,(| )|(-|( - )))[a-z]+\d+)*\z/i }
 
   default_scope -> { order :reference }
+
+  def self.permitted_attributes
+    self.column_names - ['id', 'created_at', 'updated_at']
+  end
 end

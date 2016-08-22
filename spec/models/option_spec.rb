@@ -43,7 +43,8 @@ describe Option do
   it { should respond_to(:component_stock) }
   it { should respond_to(:active) }
   it { should respond_to(:active?) }
-  
+  it { should respond_to(:bom) }
+
   it { expect(@option.product).to eql product }
 
   describe 'when product_id is not present' do
@@ -235,6 +236,35 @@ describe Option do
       line = create(:line_item, cart: cart, product: product, option: option)
       line.destroy
       expect {option.destroy}.to change {Option.count}.by(-1)
+    end
+  end
+
+  describe 'bom associations' do
+    it 'can create a bom' do
+      product = create(:product)
+      option = create(:option, product: product)
+      expect{create(:bom, option: option)}.to change {Bom.count}.by(1)
+    end
+
+    it 'has one unique bom' do
+      product = create(:product)
+      option = create(:option, product: product)
+      create(:bom, option: option)
+      expect{create(:bom, option: option)}.to raise_error ActiveRecord::RecordInvalid
+    end
+
+    it 'should destroy associated bom' do
+      product = create(:product)
+      option = create(:option, product: product)
+      create(:bom, option: option)
+      expect {option.destroy}.to change {Bom.count}.by(-1)
+    end
+
+    it 'is not destroyed with associated bom' do
+      product = create(:product)
+      option = create(:option, product: product)
+      bom = create(:bom, option: option)
+      expect {bom.destroy}.not_to change {Option.count}
     end
   end
 

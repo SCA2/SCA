@@ -60,6 +60,12 @@ class BomsController < BaseController
     redirect_to boms_path, notice: "BOM #{name} deleted"
   end
 
+  def update_option
+    @bc = BomCreator.new
+    @bc.set_selected_product(params[:product_id])
+    render json: @bc.options.to_json
+  end
+
 private
 
   def bom_id
@@ -67,6 +73,6 @@ private
   end
 
   def bom_params
-    params.require(:bom_creator).permit(:product, :revision, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
+    params.require(:bom_creator).permit(:option, :revision, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
   end
 end

@@ -25,7 +25,9 @@ feature "BOMs" do
     after(:all) { DatabaseCleaner.clean_with(:truncation) }
 
     scenario 'view boms index' do
-      bom = create(:bom)
+      product = create(:product)
+      option = create(:option, product: product)
+      bom = create(:bom, option: option)
       visit '/admin'
       click_link 'View BOMs'
       expect(page).to have_content(bom.revision)
@@ -33,7 +35,8 @@ feature "BOMs" do
 
     scenario 'add a new BOM' do
       product = create(:product, model: 'A12')
-      bom = build_stubbed(:bom, product: product)
+      option = create(:option, product: product)
+      bom = build_stubbed(:bom, option: option)
       visit boms_path
       expect(page).to have_selector(:link_or_button, 'New BOM')
       first(:link_or_button, 'New BOM').click
@@ -46,7 +49,8 @@ feature "BOMs" do
 
     scenario 'view bom edit page' do
       product = create(:product, model: 'A12')
-      bom = create(:bom, product: product, revision: '1.0', pdf: 'url')
+      option = create(:option, product: product)
+      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
       visit edit_bom_path(bom)
       expect(page).to have_select('Product')
       expect(page).to have_content('A12')
@@ -57,10 +61,10 @@ feature "BOMs" do
     scenario 'update an existing BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, product: product, revision: '1.0', pdf: 'url')
+      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
       visit boms_path
       find(:link_or_button, bom.id).click
-      expect(page).to have_content("BOM #{bom.product.model} Rev #{bom.revision}")
+      expect(page).to have_content("BOM #{bom.product.model + bom.option.model} Rev #{bom.revision}")
       find(:link_or_button, 'Edit').click
       bom.pdf = 'new pdf url'
       fill_in_bom(bom)
@@ -72,7 +76,7 @@ feature "BOMs" do
     scenario 'add a component to a BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, product: product, revision: '1.0', pdf: 'url')
+      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
       component = create(:component)
       item = build_stubbed(:bom_item, quantity: 2, reference: 'R1', component: component)
       visit new_item_bom_path(bom)
@@ -81,7 +85,9 @@ feature "BOMs" do
     end
 
     scenario 'delete a BOM' do
-      bom = create(:bom)
+      product = create(:product)
+      option = create(:option, product: product)
+      bom = create(:bom, option: option)
       bom_id = bom.id
       visit boms_path
       expect { click_link 'delete' }.to change(Bom, :count).by(-1)

@@ -5,6 +5,8 @@ class Option < ActiveRecord::Base
   # line_item has database foreign key constraint
   has_many :line_items, inverse_of: :option
 
+  has_one :bom, inverse_of: :option, dependent: :destroy
+
   default_scope -> { order('sort_order ASC') }
   
   validates :product_id, :model, :description, :upc,

@@ -3,7 +3,7 @@
   .row
     .small-12.columns
       %fieldset
-        %legend= "BOM #{@bc.product_model} Rev #{@bc.revision} -- #{@bc.pdf}"
+        %legend= "BOM #{@bc.product_model + @bc.option_model} Rev #{@bc.revision}"
         = render 'shared/errors', object: @bc.bom
         = render partial: 'boms/bom_item', collection: @bc.bom_items
         .admin-box
