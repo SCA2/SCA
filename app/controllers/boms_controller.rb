@@ -61,9 +61,8 @@ class BomsController < BaseController
   end
 
   def update_option
-    @bc = BomCreator.new
-    @bc.set_selected_product(params[:product_id])
-    render json: @bc.options.to_json
+    filter = OptionFilter.new(params[:product_id])
+    render json: filter.options.to_json
   end
 
 private

@@ -16,12 +16,17 @@ describe Bom do
       expect(bom.lines).to eq 2
     end
 
-    # it 'can report stock' do
-    #   bom = create(:bom)
-    #   item_1 = double (:bom_item, bom: bom, reference: 1)
-    #   item_2 = double (:bom_item, bom: bom, reference: 1)
-    #   expect(bom.stock).to eq item_1.stock
-    # end
+    it 'can report stock' do
+      option = build_stubbed(:option)
+      bom = create(:bom, option: option)
+      component_1 = create(:component, stock: 5)
+      component_2 = create(:component, stock: 6)
+      component_3 = create(:component, stock: 7)
+      item_1 = create(:bom_item, bom: bom, component: component_1, quantity: 1)
+      item_2 = create(:bom_item, bom: bom, component: component_2, quantity: 1)
+      item_3 = create(:bom_item, bom: bom, component: component_3, quantity: 2)
+      expect(bom.stock).to eq 3
+    end
   end
 
   describe 'bom_item associations' do

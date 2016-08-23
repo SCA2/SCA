@@ -1,0 +1,9 @@
+%tr
+  - part = @bc.component(bom_item_counter)
+  %td.index= bom_item_counter + 1
+  %td.quantity= @bc.quantity(bom_item_counter)
+  %td.reference= @bc.reference(bom_item_counter)
+  %td.mfr-part-number= link_to part.mfr_part_number, edit_component_path(part)
+  %td.description= link_to part.description, edit_component_path(part)
+  %td.stock= link_to @bc.stock(bom_item_counter), edit_component_path(part)
+  %td.lead-time= link_to @bc.lead_time(bom_item_counter), edit_component_path(part)

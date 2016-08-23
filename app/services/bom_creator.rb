@@ -2,8 +2,7 @@ class BomCreator
 
   include ActiveModel::Model
 
-  attr_reader :products, :options, :components
-  attr_accessor :bom, :items
+  attr_reader :products, :options, :components, :bom, :items
 
   delegate :bom_items, :bom_items_attributes=, to: :bom, prefix: false
   delegate :product, :option, :revision, :pdf, to: :bom, prefix: false
@@ -107,11 +106,6 @@ class BomCreator
 
   def selected_option
     @selected_option ? @selected_option.id : 0
-  end
-
-  def set_selected_product(product_id)
-    @selected_product = Product.find(product_id)
-    @options = @selected_product.options
   end
 
   def selected_component(index)

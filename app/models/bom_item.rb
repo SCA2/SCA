@@ -12,4 +12,8 @@ class BomItem < ActiveRecord::Base
   def self.permitted_attributes
     self.column_names - ['id', 'created_at', 'updated_at']
   end
+
+  def stock
+    component.stock / quantity
+  end
 end

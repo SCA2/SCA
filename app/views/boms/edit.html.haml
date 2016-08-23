@@ -7,8 +7,9 @@
         = form_for(@bc, url: bom_path(@bc.id), method: :put) do |bc_form|
           = render 'shared/errors', object: bc_form.object
           = render 'form', f: bc_form
-          = bc_form.fields_for :bom_items, @bc.items do |item_fields|
-            = render 'select', f: item_fields
+          = render layout: 'edit_headers' do
+            = bc_form.fields_for :bom_items, @bc.items do |item_fields|
+              = render 'select', f: item_fields
           = link_to "Add Item", new_item_bom_path(@bc.id)
           .admin-box
             = bc_form.submit "Update", class: "button admin"

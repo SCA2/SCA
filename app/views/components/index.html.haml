@@ -5,4 +5,6 @@
     &nbsp;|&nbsp;
     = link_to "Import Components", new_component_import_path
   .row
-    .small-12.columns= render 'components'
+    .small-12.columns
+      = render layout: 'component_headers' do
+        = render @components

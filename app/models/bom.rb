@@ -22,5 +22,7 @@ class Bom < ActiveRecord::Base
   end
 
   def stock
+    items = Bom.includes(bom_items: [:component]).find(id).bom_items
+    items.map {|i| i.component.stock / i.quantity}.min
   end
 end

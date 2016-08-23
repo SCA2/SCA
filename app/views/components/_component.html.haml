@@ -1,0 +1,8 @@
+%tr
+  %td= link_to component.mfr_part_number, edit_component_path(component)
+  %td= component.value
+  %td= component.marking
+  %td= component.description
+  %td= component.mfr
+  %td= component.stock
+  %td= link_to "delete", component, method: :delete, data: { confirm: "Are you sure?" }

@@ -45,6 +45,9 @@ class ComponentImport
       row = Hash[[header, spreadsheet.row(i)].transpose]
       component = Component.find_by(mfr_part_number: row["mfr_part_number"]) || Component.new
       component.attributes = row.to_hash.slice(*Component.permitted_attributes)
+      component.vendor_part_number = component.mfr_part_number unless component.vendor_part_number
+      component.stock = 0 unless component.stock
+      component.lead_time = 0 unless component.lead_time
       component
     end
   end
