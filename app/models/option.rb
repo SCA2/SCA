@@ -43,10 +43,10 @@ class Option < ActiveRecord::Base
   def stock_message
     if assembled_stock > 0
       "#{assembled_stock} can ship today"
-    elsif partial_stock > 0
-      "#{partial_stock} can ship in 3 to 5 days"
+    elsif bom && bom.stock > 0
+      "#{bom.stock} can ship in 3 to 5 days"
     elsif component_stock > 0
-      "#{component_stock} can ship in 1 to 2 weeks"
+      "#{partial_stock} can ship in 3 to 5 days"
     else
       "Please email for lead time"
     end

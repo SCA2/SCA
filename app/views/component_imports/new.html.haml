@@ -7,7 +7,7 @@
 
   %ul
     - Component.columns.each do |column|
-      - if column.name.in? ["id", *Component.permitted_attributes]
+      - if column.name.in? [*Component.permitted_attributes]
         %li
           %strong= column.name
           &ndash;

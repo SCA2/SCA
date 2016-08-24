@@ -13,6 +13,8 @@ class Component < ActiveRecord::Base
   end
 
   def selection_name
-    "#{mfr_part_number}, #{value}, #{description}"
+    name = mfr_part_number.strip
+    name += ", #{value.strip}" if !value.strip.empty?
+    name += ", #{description.strip}" if !description.strip.empty?
   end
 end
