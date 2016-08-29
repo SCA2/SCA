@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160820230446) do
+ActiveRecord::Schema.define(version: 20160826215556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20160820230446) do
 
   create_table "boms", force: :cascade do |t|
     t.string   "revision"
-    t.string   "pdf"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "option_id"
@@ -129,7 +128,7 @@ ActiveRecord::Schema.define(version: 20160820230446) do
     t.integer  "shipping_height"
     t.integer  "assembled_stock"
     t.integer  "partial_stock"
-    t.integer  "component_stock"
+    t.integer  "kit_stock"
     t.boolean  "active",                      default: true, null: false
   end
 

@@ -5,7 +5,7 @@ class BomCreator
   attr_reader :products, :options, :components, :bom, :items
 
   delegate :bom_items, :bom_items_attributes=, to: :bom, prefix: false
-  delegate :product, :option, :revision, :pdf, to: :bom, prefix: false
+  delegate :product, :option, :revision, to: :bom, prefix: false
   delegate :quantity, :reference, :component, to: :bom_item, prefix: false
 
   def model_name
@@ -19,7 +19,6 @@ class BomCreator
       @bom = Bom.find(id)
       @product = @bom.product
       @revision = @bom.revision
-      @pdf = @bom.pdf
       @selected_product = @product
       @selected_option = @selected_product.options.first
     else
@@ -65,7 +64,6 @@ class BomCreator
   def set_attributes(params)
     return nil unless params
     @bom.revision = params[:revision]
-    @bom.pdf = params[:pdf]
     parse_product(params)
     parse_option(params)
     parse_bom_items(params)

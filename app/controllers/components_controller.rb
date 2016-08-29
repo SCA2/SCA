@@ -37,6 +37,8 @@ class ComponentsController < BaseController
     component_id = component.id
     component.destroy
     redirect_to components_path, notice: "Component #{component_id} deleted"
+  rescue
+    @boms = Bom.joins(:bom_items).where(bom_items: { component: component })
   end
 
   def component

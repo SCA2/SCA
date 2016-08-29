@@ -18,7 +18,7 @@ describe Option do
 							  shipping_weight: 3,
                 assembled_stock: 8,
                 partial_stock: 8,
-							  component_stock: 100)
+							  kit_stock: 8)
 	end
   
   subject { @option }
@@ -40,7 +40,7 @@ describe Option do
   it { should respond_to(:shipping_height) }
   it { should respond_to(:assembled_stock) }
   it { should respond_to(:partial_stock) }
-  it { should respond_to(:component_stock) }
+  it { should respond_to(:kit_stock) }
   it { should respond_to(:active) }
   it { should respond_to(:active?) }
   it { should respond_to(:bom) }
@@ -117,8 +117,8 @@ describe Option do
     it { should_not be_valid }
   end
 
-  describe 'with no component_stock' do
-    before { @option.component_stock = nil }
+  describe 'with no kit_stock' do
+    before { @option.kit_stock = nil }
     it { should_not be_valid }
   end
 
@@ -269,21 +269,6 @@ describe Option do
   end
 
   describe 'calculations' do  
-    it 'calculates shipping volume' do
-      @option.shipping_length = 2
-      @option.shipping_width = 2
-      @option.shipping_height = 2
-      expect(@option.shipping_volume).to eq(8)
-    end
-
-    it 'recalculates stock' do
-      @option.assembled_stock = 0
-      @option.partial_stock = 0
-      @option.component_stock = 100
-      @option.subtract_stock(1)
-      expect(@option.component_stock).to eq(99)
-    end
-
     it 'calculates price_in_cents' do
       @option.price = 1
       expect(@option.price_in_cents).to eq(100)
@@ -294,24 +279,140 @@ describe Option do
       expect(@option.discount_in_cents).to eq(100)
     end
 
-    it 'sells an in-stock item' do
+    it 'calculates shipping volume' do
+      @option.shipping_length = 2
+      @option.shipping_width = 2
+      @option.shipping_height = 2
+      expect(@option.shipping_volume).to eq(8)
+    end
+
+    it 'subtracts from components and adds to kits' do
+      @option.assembled_stock = 0
+      @option.partial_stock = 0
+      @option.kit_stock = 1
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 100)
+      cmp_2 = create(:component, stock: 200)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+      @option.make_kits(2)
+      expect(@option.component_stock).to eq(98)
+      expect(@option.kit_stock).to eq(3)
+      expect(@option.partial_stock).to eq(0)
+      expect(@option.assembled_stock).to eq(0)
+    end
+
+    it 'subtracts from kits and adds to partial assemblies' do
+      @option.assembled_stock = 0
+      @option.partial_stock = 1
+      @option.kit_stock = 3
+      @option.make_partials(2)
+      expect(@option.kit_stock).to eq(1)
+      expect(@option.partial_stock).to eq(3)
+      expect(@option.assembled_stock).to eq(0)
+    end
+
+    it 'subtracts from partials and adds to complete assemblies' do
+      @option.assembled_stock = 0
+      @option.partial_stock = 2
+      @option.kit_stock = 3
+      @option.make_completes(2)
+      expect(@option.kit_stock).to eq(3)
+      expect(@option.partial_stock).to eq(0)
+      expect(@option.assembled_stock).to eq(2)
+    end
+
+    it 'recalculates kit stock' do
+      @option.assembled_stock = 0
+      @option.partial_stock = 0
+      @option.kit_stock = 0
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 100)
+      cmp_2 = create(:component, stock: 200)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+      @option.subtract_stock(1)
+      expect(@option.component_stock).to eq(99)
+    end
+
+    it 'recalculates assembled stock' do
+      @option.model = 'KA'
+      @option.assembled_stock = 0
+      @option.partial_stock = 0
+      @option.kit_stock = 0
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 100)
+      cmp_2 = create(:component, stock: 200)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+      @option.subtract_stock(1)
+      expect(@option.component_stock).to eq(99)
+    end
+
+    it 'sells an in-stock kit' do
       @option.assembled_stock = 8
       @option.partial_stock = 8
-      @option.component_stock = 25
+      @option.kit_stock = 8
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 25)
+      cmp_2 = create(:component, stock: 50)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
       @option.subtract_stock(1)
-      expect(@option.assembled_stock).to eq(7)
+      expect(@option.assembled_stock).to eq(8)
       expect(@option.partial_stock).to eq(8)
+      expect(@option.kit_stock).to eq(7)
       expect(@option.component_stock).to eq(25)
     end
 
-    it 'sells an out-of-stock item' do
+    it 'sells an out-of-stock kit' do
       @option.assembled_stock = 1
       @option.partial_stock = 1
-      @option.component_stock = 25
+      @option.kit_stock = 1
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 25)
+      cmp_2 = create(:component, stock: 50)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+      @option.subtract_stock(2)
+      expect(@option.assembled_stock).to eq(1)
+      expect(@option.partial_stock).to eq(1)
+      expect(@option.kit_stock).to eq(0)
+      expect(@option.component_stock).to eq(24)
+    end
+
+    it 'sells an in-stock module' do
+      @option.model = 'KA'
+      @option.assembled_stock = 8
+      @option.partial_stock = 8
+      @option.kit_stock = 8
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 25)
+      cmp_2 = create(:component, stock: 50)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+      @option.subtract_stock(1)
+      expect(@option.assembled_stock).to eq(7)
+      expect(@option.partial_stock).to eq(8)
+      expect(@option.kit_stock).to eq(8)
+      expect(@option.component_stock).to eq(25)
+    end
+
+    it 'sells an out-of-stock module' do
+      @option.model = 'KA'
+      @option.assembled_stock = 1
+      @option.partial_stock = 1
+      @option.kit_stock = 1
+      bom = create(:bom, option: @option)
+      cmp_1 = create(:component, stock: 25)
+      cmp_2 = create(:component, stock: 50)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
       @option.subtract_stock(4)
       expect(@option.assembled_stock).to eq(0)
       expect(@option.partial_stock).to eq(0)
-      expect(@option.component_stock).to eq(23)
+      expect(@option.kit_stock).to eq(0)
+      expect(@option.component_stock).to eq(24)
     end
   end
 end

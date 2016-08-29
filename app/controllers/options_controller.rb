@@ -26,6 +26,12 @@ class OptionsController < BaseController
 
   def update
     if @option.update(option_params)
+      if @option.is_a_kit?
+        @option.make_kits(option_params[:kits_to_make])
+      else
+        @option.make_partials(option_params[:partials_to_make])
+        @option.make_assembled(option_params[:assembled_to_make])
+      end
       flash[:notice] = "Success! Option #{ @option.model } updated."
       redirect_to @product
     else
@@ -53,9 +59,12 @@ class OptionsController < BaseController
     end
 
     def option_params
-      params.require(:option).permit( :model, :options, :description, :price, :discount, :upc, :active,
-                                      :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
-                                      :assembled_stock, :partial_stock, :component_stock, :sort_order)
+      params.
+      require(:option).
+      permit(:model, :options, :description, :price, :discount, :upc, :active, :sort_order,
+        :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
+        :kit_stock, :partial_stock, :assembled_stock,
+        :kits_to_make, :partials_to_make, :assembled_to_make)
     end
     
 end

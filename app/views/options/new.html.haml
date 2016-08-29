@@ -1,0 +1,11 @@
+= provide(:title, "New #{@product.model} option")
+
+.box_2
+	.row
+		.small-12.columns
+			= form_for [@product, @option] do |f|
+				= render 'shared/errors', object: f.object
+				= render partial: 'form', locals: { f: f, p: @product, legend: "Create #{@product.model} option"}
+				.admin-box
+					= f.submit "Create", class: "button admin"
+					= link_to "Quit", product_path(@product), class: "button admin"

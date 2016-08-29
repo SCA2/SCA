@@ -19,13 +19,45 @@ describe Bom do
     it 'can report stock' do
       option = build_stubbed(:option)
       bom = create(:bom, option: option)
-      component_1 = create(:component, stock: 5)
-      component_2 = create(:component, stock: 6)
-      component_3 = create(:component, stock: 7)
-      item_1 = create(:bom_item, bom: bom, component: component_1, quantity: 1)
-      item_2 = create(:bom_item, bom: bom, component: component_2, quantity: 1)
-      item_3 = create(:bom_item, bom: bom, component: component_3, quantity: 2)
+      cmp_1 = create(:component, stock: 5)
+      cmp_2 = create(:component, stock: 6)
+      cmp_3 = create(:component, stock: 7)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
       expect(bom.stock).to eq 3
+    end
+
+    it 'can subtract stock' do
+      option = build_stubbed(:option)
+      bom = create(:bom, option: option)
+      cmp_1 = create(:component, stock: 5)
+      cmp_2 = create(:component, stock: 6)
+      cmp_3 = create(:component, stock: 7)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
+      bom.subtract_stock(2)
+      expect(bom.stock).to eq 1
+      expect(cmp_1.reload.stock).to eq 3
+      expect(cmp_2.reload.stock).to eq 4
+      expect(cmp_3.reload.stock).to eq 3
+    end
+
+    it 'can add stock' do
+      option = build_stubbed(:option)
+      bom = create(:bom, option: option)
+      cmp_1 = create(:component, stock: 5)
+      cmp_2 = create(:component, stock: 6)
+      cmp_3 = create(:component, stock: 7)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
+      bom.add_stock(2)
+      expect(bom.stock).to eq 5
+      expect(cmp_1.reload.stock).to eq 7
+      expect(cmp_2.reload.stock).to eq 8
+      expect(cmp_3.reload.stock).to eq 11
     end
   end
 

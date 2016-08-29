@@ -6,13 +6,14 @@
   %p A CSV file can be used to import records. The first row should contain column headers. The following headers are allowed.
 
   %ul
-    - Bom.columns.each do |column|
-      - if column.name.in? [*Bom.permitted_attributes]
-        %li
-          %strong= column.name
-          &ndash;
-          = column.type.to_s.titleize
-          type
+    %li
+      %strong revision
+      &ndash;
+      String type
+    %li
+      %strong option
+      &ndash;
+      String type
 
   %p Subsequent rows should contain BOM items. Row 4 should contain column headers. The following headers are allowed.
 

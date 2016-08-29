@@ -14,7 +14,7 @@ FactoryGirl.define do
     shipping_height { [3, 6].at(rand(0..1)) }
     assembled_stock { rand(0..250) }
     partial_stock { rand(0..250) }
-    component_stock { rand (0..250) }
+    kit_stock { rand (0..250) }
     active { true }
 
     trait :ka do

@@ -1,8 +1,7 @@
 %tr
   %td= link_to bom.id, bom_path(bom)
-  %td= bom.product.model
+  %td= bom.product_name
   %td= bom.revision
-  %td= bom.pdf
   %td= bom.lines
   %td= bom.stock
   %td= link_to "delete", bom, method: :delete, data: { confirm: "Are you sure?" }

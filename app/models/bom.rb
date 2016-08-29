@@ -2,7 +2,7 @@ class Bom < ActiveRecord::Base
   belongs_to :option, inverse_of: :bom
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 
-  validates :option, :revision, :pdf, presence: true
+  validates :option, :revision, presence: true
   validates :option, uniqueness: true
 
   accepts_nested_attributes_for :bom_items, allow_destroy: true
@@ -17,12 +17,40 @@ class Bom < ActiveRecord::Base
     option.product if option
   end
 
+  def product_name
+    product.model + option.model
+  end
+
   def lines
     bom_items.count
   end
 
   def stock
-    items = Bom.includes(bom_items: [:component]).find(id).bom_items
     items.map {|i| i.component.stock / i.quantity}.min
+  end
+
+  def subtract_stock(items, n)
+    self.transaction do
+      items.each do |i|
+        new_stock = i.component.stock - n * i.quantity
+        i.component.update!(stock: new_stock)
+      end
+    end
+  end
+
+  def add_stock(n)
+    return if n < 0
+    self.transaction do
+      items.each do |i|
+        new_stock = i.component.stock + n * i.quantity
+        i.component.update!(stock: new_stock)
+      end
+    end
+  end
+
+private
+
+  def items
+    @items ||= Bom.includes(bom_items: [:component]).find(self.id).bom_items
   end
 end

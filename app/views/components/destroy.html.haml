@@ -1,0 +1,7 @@
+= provide(:title, "Destroy Component")
+.box_2
+  .row
+    .small-12.columns
+      %p Component #{component.mfr_part_number} is in the following BOMs.
+      = render layout: 'boms/bom_headers' do
+        = render @boms

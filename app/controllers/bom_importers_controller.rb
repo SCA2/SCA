@@ -10,6 +10,8 @@ class BomImportersController < BaseController
     else
       render :new
     end
+  rescue
+    redirect_to new_bom_importer_path, alert: "Please choose a file."
   end
 
 private

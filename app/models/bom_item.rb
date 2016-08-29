@@ -5,7 +5,7 @@ class BomItem < ActiveRecord::Base
   validates :component, uniqueness: { scope: :bom }
   validates :quantity, :reference, :component, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
-  validates :reference, format: { with: /\A[a-z]+\d+((,(| )|(-|( - )))[a-z]+\d+)*\z/i }
+  validates :reference, format: { with: /\A[a-z]+\d+((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+)*\z/i }
 
   default_scope -> { order :reference }
 
