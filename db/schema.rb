@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826215556) do
+ActiveRecord::Schema.define(version: 20160829173234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,9 +126,7 @@ ActiveRecord::Schema.define(version: 20160826215556) do
     t.integer  "shipping_length"
     t.integer  "shipping_width"
     t.integer  "shipping_height"
-    t.integer  "assembled_stock"
-    t.integer  "partial_stock"
-    t.integer  "kit_stock"
+    t.integer  "assembled_stock",             default: 0
     t.boolean  "active",                      default: true, null: false
   end
 
@@ -166,6 +164,8 @@ ActiveRecord::Schema.define(version: 20160826215556) do
     t.string   "specifications",          limit: 255
     t.boolean  "active",                              default: true, null: false
     t.integer  "{:foreign_key=>true}_id"
+    t.integer  "partial_stock",                       default: 0
+    t.integer  "kit_stock",                           default: 0
   end
 
   add_index "products", ["model"], name: "index_products_on_model", using: :btree

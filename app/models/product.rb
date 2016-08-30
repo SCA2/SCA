@@ -11,17 +11,22 @@ class Product < ActiveRecord::Base
 
   validates :model, :model_sort_order, :category, :category_sort_order,
             :short_description, :long_description, :image_1, presence: true 
-            
+
   def to_param
     model.upcase
   end
 
-  def product_stock_count
-    @product_stock_count ||= get_product_stock_count
-  end
-
   def bom_count
     @bom_count ||= get_bom_count
+  end
+
+  def common_stock_count
+    @common_stock_count ||= get_common_stock_count
+  end
+
+  def common_stock_items
+    items = BomItem.includes(:component, bom: [option: :product])
+    items.where(products: {model: model})
   end
 
 private
@@ -31,9 +36,8 @@ private
     boms.where(products: {model: model}).distinct.count
   end
 
-  def get_product_stock_count
-    items = BomItem.includes(:component, bom: [option: :product])
-    items = items.where(products: {model: model})
+  def get_common_stock_count
+    items = common_stock_items
     items = items.group_by {|i| i.component_id}
     items = items.select {|k,v| v.length == bom_count}
     items.map {|k,v| v[0].component.stock / v[0].quantity }.min
