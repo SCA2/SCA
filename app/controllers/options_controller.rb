@@ -4,28 +4,26 @@ class OptionsController < BaseController
   before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
-    @option_editor = OptionEditor.new(params)
+    @option_editor = OptionEditor.new(all_params)
   end
 
 
   def edit
-    @option_editor = OptionEditor.new(params)
+    @option_editor = OptionEditor.new(all_params)
   end
 
   def create
-    @product = get_product(params[:product_id])
-    @option = @product.options.build(option_params)
-
-    if @option.save
-      flash[:notice] = "Success! Option #{ @option.model } created."
-      redirect_to new_product_option_path(@product)
+    @option_editor = OptionEditor.new(all_params)
+    if @option_editor.save
+      flash[:notice] = "Success! Option #{@option_editor.option_model} created."
+      redirect_to new_bom_path(@option_editor.product)
     else
       render action: 'new'
     end
   end
 
   def update
-    @option_editor = OptionEditor.new(params)
+    @option_editor = OptionEditor.new(all_params)
     if @option_editor.save
       flash[:notice] = "Success! Option #{ @option_editor.option_model } updated."
       redirect_to @product
@@ -53,11 +51,9 @@ private
     end
   end
 
-  def option_editor_params
-    params.
-    require(:option_editor).
-    permit(:model, :description, :price, :discount, :upc, :active, :sort_order,
-      :shipping_weight, :shipping_length, :shipping_width, :shipping_height,
-      :kit_stock, :partial_stock, :assembled_stock, :kits_to_make, :partials_to_make, :assembled_to_make)
+  def all_params
+    params.permit(:id, :product_id, option_editor: [:model, :description, :price, :discount, :upc, :active, :sort_order, :shipping_weight, :shipping_length, :shipping_width, :shipping_height, :assembled_stock, :kit_stock, :partial_stock, :kits_to_make, :partials_to_make, :assembled_to_make])
   end
+
+
 end

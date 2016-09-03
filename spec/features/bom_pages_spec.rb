@@ -50,33 +50,30 @@ feature "BOMs" do
     scenario 'view bom edit page' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
+      bom = create(:bom, option: option, revision: '1.0')
       visit edit_bom_path(bom)
       expect(page).to have_select('Product')
       expect(page).to have_content('A12')
       expect(page).to have_field('Revision', with: '1.0')
-      expect(page).to have_field('PDF URL', with: 'url')
     end
 
     scenario 'update an existing BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
+      bom = create(:bom, option: option, revision: '1.0')
       visit boms_path
       find(:link_or_button, bom.id).click
       expect(page).to have_content("BOM #{bom.product.model + bom.option.model} Rev #{bom.revision}")
       find(:link_or_button, 'Edit').click
-      bom.pdf = 'new pdf url'
       fill_in_bom(bom)
       find(:link_or_button, 'Update').click
       expect(page).to have_content("BOM #{bom.product.model} Rev #{bom.revision} updated")
-      expect(page).to have_field('PDF URL', with: 'new pdf url')
     end
 
     scenario 'add a component to a BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0', pdf: 'url')
+      bom = create(:bom, option: option, revision: '1.0')
       component = create(:component)
       item = build_stubbed(:bom_item, quantity: 2, reference: 'R1', component: component)
       visit new_item_bom_path(bom)

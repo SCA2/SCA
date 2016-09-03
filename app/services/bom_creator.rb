@@ -2,11 +2,11 @@ class BomCreator
 
   include ActiveModel::Model
 
-  attr_reader :products, :options, :components, :bom, :items
-
   delegate :bom_items, :bom_items_attributes=, to: :bom, prefix: false
   delegate :product, :option, :revision, to: :bom, prefix: false
   delegate :quantity, :reference, :component, to: :bom_item, prefix: false
+
+  attr_reader :products, :options, :components, :bom, :items
 
   def model_name
     ActiveModel::Name.new(self, nil, 'BomCreator')

@@ -41,7 +41,7 @@ module ProductsHelper
     else
       div_class << " odd"
     end
-    return ("class=" << "'" << div_class << "'").html_safe
+    div_class.html_safe
   end
   
 end

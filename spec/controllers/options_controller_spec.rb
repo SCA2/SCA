@@ -4,19 +4,17 @@ describe OptionsController do
 
   let!(:product) { create(:product) }
   let!(:option) { create(:option, product: product) }
-  let(:valid_attributes) { attributes_for(:option, product: product, model: "KA-2H", description: "Option description", sort_order: 1) }
-  let(:invalid_attributes) { attributes_for(:option, product: product, sort_order: nil) }
+  let!(:bom) { create(:bom, option: option) }
+  let!(:bom_item) { create(:bom_item, bom: bom) }
+
+  let(:valid_attributes) { attributes_for(:option_editor, product: product, option: option) }
+  let(:invalid_attributes) { attributes_for(:bad_editor, product: product, option: option) }
 
   shared_examples('admin access to options') do
     describe "GET #new" do
-      it "assigns a new option as @option" do
-        get :new, id: option, product_id: product
-        expect(assigns(:option)).to be_a_new(Option)
-      end
-
-      it "associates option with product" do
-        get :new, id: option, product_id: product
-        expect(product.options.last).to eq(Option.last)
+      it "renders the 'new' template" do
+        get :new, product_id: product
+        expect(response).to render_template("new")
       end
     end
   
@@ -31,30 +29,19 @@ describe OptionsController do
       describe "with valid params" do
         it "creates a new Option" do
           expect {
-            post :create, { option: valid_attributes, product_id: product }
+            post :create, option_editor: valid_attributes, product_id: product
           }.to change(Option, :count).by(1)
         end
   
-        it "assigns a newly created option as @option" do
-          post :create, { option: valid_attributes, product_id: product }
-          expect(assigns(:option)).to be_a(Option)
-          expect(assigns(:option)).to be_persisted
-        end
-  
         it "redirects to new option path" do
-          post :create, { option: valid_attributes, product_id: product }
+          post :create, valid_attributes
           expect(response).to redirect_to(new_product_option_path(product))
         end
       end
   
       describe "with invalid params" do
-        it "assigns a newly created but unsaved option as @option" do
-          post :create, { option: invalid_attributes, product_id: product }
-          expect(assigns(:option)).to be_a_new(Option)
-        end
-  
         it "re-renders the 'new' template" do
-          post :create, { option: invalid_attributes, product_id: product }
+          post :create, invalid_attributes
           expect(response).to render_template("new")
         end
       end
@@ -62,32 +49,15 @@ describe OptionsController do
   
     describe "PATCH #update" do
       describe "with valid params" do
-        it "assigns the requested option as @option" do
-          patch :update, id: option.to_param, option: valid_attributes, product_id: product
-          expect(assigns(:option)).to eq(option)
-        end
-  
-        it "changes option's attributes" do
-          patch :update, id: option, option: { description: 'New description' }, product_id: product
-          option.reload
-          expect(option.description).to eq('New description')
-        end
-
         it "redirects to the option" do
-          patch :update, id: option.to_param, option: valid_attributes, product_id: product
+          patch :update, valid_attributes
           expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
-        it "does not change option's attributes" do
-          patch :update, id: option, option: { description: nil }, product_id: product
-          option.reload
-          expect(option.description).not_to eq('New description')
-        end
-
         it "re-renders the 'edit' template" do
-          patch :update, id: option.to_param, option: invalid_attributes, product_id: product
+          patch :update, invalid_attributes
           expect(response).to render_template("edit")
         end
       end

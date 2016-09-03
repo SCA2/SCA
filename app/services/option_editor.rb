@@ -6,7 +6,8 @@ class OptionEditor
   delegate :price, :discount, :sort_order, :active, to: :option
   delegate :shipping_length, :shipping_width, to: :option 
   delegate :shipping_height, :shipping_weight, to: :option
-  delegate :assembled_stock, :is_a_kit?, to: :option
+  delegate :option_stock_items, :option_stock_count, to: :option
+  delegate :assembled_stock, to: :option
 
   delegate :bom_count, :common_stock_items, :common_stock_count, to: :product
   delegate :kit_stock, :partial_stock, to: :product
@@ -14,11 +15,10 @@ class OptionEditor
   attr_accessor :kits_to_make, :partials_to_make, :assembled_to_make
   attr_reader :product, :option, :bom
 
-  REORDER_LIMIT = 25
-
   validates :product_id, :model, :description, :upc, presence: true
   validates :price, :discount, :sort_order, presence: true
-  validates :shipping_length, :shipping_width, :shipping_height, :shipping_weight, presence: true
+  validates :shipping_length, :shipping_width, presence: true
+  validates :shipping_height, :shipping_weight, presence: true
 
   validates_inclusion_of :active, in: [true, false]
 
@@ -70,8 +70,8 @@ class OptionEditor
   validates :assembled_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-    less_than_or_equal_to: :min_stock
-  }, unless: :is_a_kit?
+    less_than_or_equal_to: :limiting_stock
+  }, unless: (:is_a_kit? || :new_option?)
 
   def initialize(params)
     if params[:id]
@@ -86,12 +86,18 @@ class OptionEditor
     end
 
     if params[:option_editor]
-      @product.attributes = product_params(params)
-      @option.attributes = option_params(params)
-      @kits_to_make = param_to_i editor_params(params)[:kits_to_make]
-      @partials_to_make = param_to_i editor_params(params)[:partials_to_make]
-      @assembled_to_make = param_to_i editor_params(params)[:assembled_to_make]
+      # @product.attributes = product_params(params)
+      # @option.attributes = option_params(params)
+      @product.update(product_params(params))
+      @option.update(option_params(params))
+      @kits_to_make = editor_params(params, :kits_to_make)
+      @partials_to_make = editor_params(params, :partials_to_make)
+      @assembled_to_make = editor_params(params, :assembled_to_make)
     end
+  end
+
+  def is_a_kit?
+    @option.model.include?('KF') if @option.model
   end
   
   def model_name
@@ -110,116 +116,81 @@ class OptionEditor
     @option.model
   end
 
-  def subtract_stock(quantity)
-    if is_a_kit?
-      product.kit_stock -= quantity
-      if product.kit_stock < 0
-        bom.subtract_stock(-product.kit_stock)
-        product.kit_stock = 0
-      end
-    else
-      option.assembled_stock -= quantity
-      if option.assembled_stock < 0
-        product.partial_stock += option.assembled_stock
-        option.assembled_stock = 0
-      end
-      if product.partial_stock < 0
-        bom.subtract_stock(-product.partial_stock)
-        product.partial_stock = 0
-      end
-    end
+  def new_option?
+    @option.new_record?
   end
 
-  def make_kits(n = 0)
+  def make_kits(qty = 0)
+    return unless bom
     return if !is_a_kit?
-    return if n > common_stock_count
-    bom.subtract_stock(product_stock_items, n)
-    product.kit_stock += n
+    return if qty > common_stock_count
+    bom.subtract_stock(product_stock_items, qty)
+    product.kit_stock += qty
   end
 
-  def make_partials(n = 0)
+  def make_partials(qty = 0)
+    return unless bom
     return if is_a_kit?
-    return if n > common_stock_count
-    bom.subtract_stock(product_stock_items, n)
-    product.partial_stock += n
+    return if qty > common_stock_count
+    bom.subtract_stock(product_stock_items, qty)
+    product.partial_stock += qty
   end
 
-  def make_assembled(n = 0)
+  def make_assembled(qty = 0)
+    return unless bom
     return if is_a_kit?
-    return if n > min_stock
-    bom.subtract_stock(option_stock_items, n)
-    option.assembled_stock += n
-    product.partial_stock -= n
+    return if qty > limiting_stock
+    bom.subtract_stock(option_stock_items, qty)
+    option.assembled_stock += qty
+    product.partial_stock -= qty
   end
 
-  def reorder?
-    common_stock_count < REORDER_LIMIT
-  end
-
-  def min_stock
+  def limiting_stock
     option_stock_count < partial_stock ? option_stock_count : partial_stock
   end
 
-  def option_stock_count
-    @option_stock_count ||= get_option_stock_count
-  end
-
-  def option_stock_items
-    @option_stock_items ||= get_option_stock_items
-  end
-
   def product_stock_items
+    return 0 unless bom
     bom.bom_items - option_stock_items
   end
 
   def save
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
+    return false unless @product && @option && valid?
+    persist!
+    true
+  end
+
+  def save!
+    save
   end
 
 private
 
-  def get_option_stock_count
-    items = option_stock_items
-    items.map {|i| i.component.stock / i.quantity }.min
-  end
-
-  def get_option_stock_items
-    items = common_stock_items
-    items = items.group_by {|i| i.component_id}
-    items = items.reject {|k,v| v.length == bom_count}
-    items = items.flat_map {|k,v| v}
-    items.select {|i| i.bom_id == bom.id}
-  end
-
   def persist!
-    if @option.is_a_kit?
-      make_kits(kits_to_make)
-    else
-      make_partials(partials_to_make)
-      make_assembled(assembled_to_make)
+    unless @option.new_record?
+      if @option.is_a_kit?
+        make_kits(kits_to_make)
+      else
+        make_partials(partials_to_make)
+        make_assembled(assembled_to_make)
+      end
     end
     @product.save!
     @option.save!
   end
 
   def option_params(params)
-    params.require(:option_editor).
-    permit(:model, :description, :price, :discount, :upc, :active, :sort_order, :shipping_weight, :shipping_length, :shipping_width, :shipping_height, :assembled_stock)
+    keys = [:model, :description, :price, :discount, :upc, :active, :sort_order, :shipping_weight, :shipping_length, :shipping_width, :shipping_height, :assembled_stock]
+    params[:option_editor].select {|k,v| keys.include?(k.to_sym)}
   end
 
   def product_params(params)
-    params.require(:option_editor).
-    permit(:kit_stock, :partial_stock)
+    keys = [:kit_stock, :partial_stock]
+    params[:option_editor].select {|k,v| keys.include?(k.to_sym)}
   end
 
-  def editor_params(params)
-    params.require(:option_editor).
-    permit(:kits_to_make, :partials_to_make, :assembled_to_make)
+  def editor_params(params, key)
+    param_to_i params[:option_editor][key]
   end
 
   def param_to_i(param)

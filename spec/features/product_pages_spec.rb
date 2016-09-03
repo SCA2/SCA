@@ -8,7 +8,10 @@ feature "Products" do
       3.times do
         product = create(:product)
         create(:feature, product: product)
-        create(:option, product: product)
+        option = create(:option, product: product)
+        bom = create(:bom, option: option)
+        component = create(:component)
+        create(:bom_item, bom: bom, component: component)
       end
     end
     after(:all) { DatabaseCleaner.clean_with(:truncation) }
@@ -41,7 +44,9 @@ feature "Products" do
     context "with no products" do    
 
       let(:product) { build(:product) }
-      let(:option)  { build(:option) }
+      let(:option)  { create(:option) }
+      let(:bom)     { create(:bom, option: option) }
+      let(:bom_item){ create(:bom_item, bom: bom) }
       
       scenario 'add a product' do
         visit products_path
@@ -51,7 +56,7 @@ feature "Products" do
         fill_in_product(product)
         find(:link_or_button, 'Create').click
         expect(page).to have_content('Product must have at least one option!')
-        fill_in_option(option)
+        fill_in_new_option(option)
         find(:link_or_button, 'Create').click
         expect(page).to have_title(product.model)
         expect(page).to have_content('Success!')
@@ -64,7 +69,8 @@ feature "Products" do
         3.times do
           product = create(:product)
           create(:feature, product: product)
-          create(:option, product: product)
+          option = create(:option, product: product)
+          create(:bom, option: option)
         end
       end
       
@@ -104,7 +110,7 @@ feature "Products" do
 
       scenario 'add a product option' do
         click_link 'New Option'
-        fill_in_option(option)
+        fill_in_new_option(option)
         expect { click_button 'Create' }.to change(Option, :count).by(1)
       end
 

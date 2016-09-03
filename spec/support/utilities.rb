@@ -51,7 +51,7 @@ def fill_in_component(component)
   fill_in "Lead Time", with: component.lead_time
 end
 
-def fill_in_option(option)
+def fill_in_new_option(option)
   fill_in "Option:", with: option.model
   fill_in "Description:", with: option.description
   fill_in "Price:", with: option.price
@@ -62,9 +62,24 @@ def fill_in_option(option)
   fill_in "Shipping Length:", with: option.shipping_length
   fill_in "Shipping Width:", with: option.shipping_width
   fill_in "Shipping Height:", with: option.shipping_height
-  fill_in "Assembled Stock:", with: option.assembled_stock
+  check "Active:"
+end
+
+def fill_in_existing_option(option)
+  fill_in "Option:", with: option.model
+  fill_in "Description:", with: option.description
+  fill_in "Price:", with: option.price
+  fill_in "UPC:", with: option.upc
+  fill_in "Shipping Weight:", with: option.shipping_weight
+  fill_in "Sort Order:", with: option.sort_order
+  fill_in "Discount:", with: option.discount
+  fill_in "Shipping Length:", with: option.shipping_length
+  fill_in "Shipping Width:", with: option.shipping_width
+  fill_in "Shipping Height:", with: option.shipping_height
+  fill_in "Partial Stock to Make:", with: 0
   fill_in "Partial Stock:", with: option.partial_stock
-  fill_in "Component Stock:", with: option.component_stock
+  fill_in "Assembled Stock:", with: option.assembled_stock
+  fill_in "Assembled Stock to Make:", with: 0
   check "Active:"
 end
 
@@ -77,7 +92,6 @@ end
 def fill_in_bom(bom)
   select(bom.product.model, from: "Product")
   fill_in "Revision", with: bom.revision
-  fill_in "PDF URL", with: bom.pdf
 end
 
 def fill_in_bom_item(item)

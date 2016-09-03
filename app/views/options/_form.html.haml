@@ -10,6 +10,7 @@
     .field
       = f.label :upc, 'UPC:'
       = f.text_field :upc
+
   .field_row
     .field
       = f.label :price, 'Price:'
@@ -23,6 +24,7 @@
     .checkbox_field
       = f.label :active, 'Active:'
       = f.check_box :active
+
   .field_row
     .field
       = f.label :shipping_length, 'Shipping Length:'
@@ -36,6 +38,7 @@
     .field
       = f.label :shipping_weight, 'Shipping Weight:'
       = f.number_field :shipping_weight
+
   - if @option_editor.is_a_kit?
     .field_row
       .field
@@ -47,6 +50,10 @@
       .field
         = f.label :kit_stock, 'Kit Stock:'
         = f.number_field :kit_stock
+
+        = f.hidden_field :partials_to_make, value: 0
+        = f.hidden_field :assembled_to_make, value: 0
+
   - else
     .field_row
       .field
@@ -68,3 +75,5 @@
       .field
         = f.label :partial_stock, 'Partial Stock:'
         = f.number_field :partial_stock
+
+        = f.hidden_field :kits_to_make, value: 0

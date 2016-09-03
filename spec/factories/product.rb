@@ -15,6 +15,8 @@ FactoryGirl.define do
     schematic { Faker::Internet.url }
     assembly { Faker::Internet.url }
     specifications { Faker::Internet.url }
+    partial_stock 0
+    kit_stock 0
 
     trait :constant_urls do
       image_1 'url/to/image_1'

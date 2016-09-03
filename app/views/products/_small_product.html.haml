@@ -1,0 +1,15 @@
+%div(class="#{ get_product_div_class(index) }")
+  .text-box(id="text-box-#{ @product.id.to_s }")
+    = link_to @product.model, product_path(@product), class: :model
+    .description(id="short-description-#{ @product.id.to_s }")
+      = @product.short_description.html_safe
+    .notes(id="notes-#{ @product.id.to_s }")
+      = @product.notes.html_safe
+    = render 'options/option'
+    = render 'options/admin'
+  .image-box(id="image-box-#{ @product.id.to_s }")
+    = link_to image_tag(@product.image_1), product_path(@product)		
+- if signed_in_admin?
+  .admin-box
+    = link_to 'Edit Product', edit_product_path(@product), class: "button admin"
+    = link_to 'Delete Product', @product, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' }

@@ -3,7 +3,6 @@ require 'rails_helper'
 describe Bom do
   it { should respond_to(:product) }
   it { should respond_to(:revision) }
-  it { should respond_to(:pdf) }  
   it { should respond_to(:bom_items) }  
   it { should respond_to(:lines) }  
   it { should respond_to(:stock) }  
@@ -37,7 +36,7 @@ describe Bom do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      bom.subtract_stock(2)
+      bom.subtract_stock(bom.bom_items, 2)
       expect(bom.stock).to eq 1
       expect(cmp_1.reload.stock).to eq 3
       expect(cmp_2.reload.stock).to eq 4

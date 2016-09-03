@@ -1,0 +1,13 @@
+= provide(:title, @product.model)
+.box_2
+  .row
+    .small-9.columns
+      = render 'shared/errors', :object => @product
+      = render 'large_product'
+      - if signed_in_admin?
+        .admin-box
+          = link_to 'New Product', new_product_path, class: "button admin"
+          = link_to 'Edit Product', edit_product_path(@product), class: "button admin"
+          = link_to 'Delete Product', @product, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' }
+    .small-3.columns
+      = render 'layouts/sidebar_left'

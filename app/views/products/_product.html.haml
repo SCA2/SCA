@@ -1,0 +1,8 @@
+- @product = product
+- @option = get_current_option(product)
+
+- if first_in_category?(@products, product)
+  - count = @products.where(category: product.category).count
+  %h5.section-header= product.category.pluralize(count)
+
+= render 'small_product', index: product_counter 

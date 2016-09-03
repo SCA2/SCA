@@ -1,0 +1,26 @@
+.product.large
+  .image-box.top
+    = link_to image_tag @product.image_1, class: "product-image"
+  %h5.section-header
+    = @product.model + ' ' + @product.category
+  .text-box
+    .description
+      = @product.long_description.html_safe
+
+    .notes
+      = @product.notes.html_safe
+
+    = render 'options/option'
+    = render 'options/admin'
+  %h5.section-header Features
+  .features-box
+    - if @product.features.any?
+      - @product.features.each do |feature|
+        = render 'feature', f: feature, p: @product
+
+  - if signed_in_admin?
+    .admin-box
+      = link_to 'New Feature', new_product_feature_path(@product), class: "button admin"
+
+  .image-box.bottom
+    = link_to image_tag @product.image_2, class: "product-image"

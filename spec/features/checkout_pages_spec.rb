@@ -15,7 +15,8 @@ feature 'standard paypal checkout', :vcr, js: true do
     @address = build(:billing_constant_taxable)
     @product = create(:n72)
     create(:feature, product: @product)
-    create(:ka, product: @product)
+    option = create(:ka, product: @product)
+    create(:bom, option: option)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }

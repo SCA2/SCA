@@ -6,8 +6,12 @@ class Option < ActiveRecord::Base
 
   default_scope -> { order('sort_order ASC') }
   
-  delegate :common_stock_count, to: :product, prefix: false
-  delegate :partial_stock, :kit_stock, to: :product, prefix: false
+  delegate :common_stock_items, :common_stock_count, to: :product
+  delegate :partial_stock, :kit_stock, to: :product
+  delegate :partial_stock=, :kit_stock=, to: :product
+
+  validates :model, uniqueness: { scope: :product_id }
+  validates :sort_order, uniqueness: { scope: :product_id }
 
   def price_in_cents
     self.price * 100
@@ -27,6 +31,32 @@ class Option < ActiveRecord::Base
 
   def is_a_kit?
     model.include?('KF')
+  end
+
+  def component_stock
+    bom.stock
+  end
+
+  def subtract_stock(quantity)
+    if is_a_kit?
+      product.kit_stock -= quantity
+      bom.subtract_stock(option_stock_items, quantity)
+      if product.kit_stock < 0
+        bom.subtract_stock(common_stock_items, -product.kit_stock)
+        product.kit_stock = 0
+      end
+    else
+      self.assembled_stock -= quantity
+      bom.subtract_stock(option_stock_items, quantity)
+      if self.assembled_stock < 0
+        product.partial_stock += self.assembled_stock
+        self.assembled_stock = 0
+      end
+      if product.partial_stock < 0
+        bom.subtract_stock(common_stock_items, -product.partial_stock)
+        product.partial_stock = 0
+      end
+    end
   end
 
   def stock_message
@@ -52,5 +82,30 @@ class Option < ActiveRecord::Base
       end
     end
   end
+
+  def option_stock_count
+    @option_stock_count ||= get_option_stock_count
+    @option_stock_count ? @option_stock_count : 0
+  end
+
+  def option_stock_items
+    @option_stock_items ||= get_option_stock_items
+    @option_stock_items ? @option_stock_items : 0
+  end
+
+private
+
+  def get_option_stock_count
+    items = option_stock_items
+    items.map {|i| i.component.stock / i.quantity }.min
+  end
+
+  def get_option_stock_items
+    items = product.common_stock_items
+    items = items.group_by {|i| i.component_id}
+    items = items.reject {|k,v| v.length == product.bom_count}
+    items = items.flat_map {|k,v| v}
+    items.select {|i| i.bom_id == bom.id}
+  end  
 end
 

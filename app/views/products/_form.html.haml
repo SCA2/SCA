@@ -1,0 +1,50 @@
+%fieldset
+  %legend= legend
+  .field_row
+    .field
+      = f.label :model, 'Model:'
+      = f.text_field :model
+    .field
+      = f.label :model_sort_order, 'Model Sort Order:'
+      = f.number_field :model_sort_order, in: 1..100
+    .field
+      = f.label :category, 'Category:'
+      = f.select :category, options_from_collection_for_select(Product.categories, 'category', 'category', f.object.category)
+    .field
+      = f.hidden_field :category_url, value: update_category_sort_order_products_path
+      = f.label :category_sort_order, 'Category Sort Order:'
+      = f.number_field :category_sort_order, in: 1..100, value: Product.get_category_sort_order(Product.categories.first.category)
+
+  .field
+    = f.label :short_description, 'Short Description:'
+    = f.text_area :short_description, style: "height: 5em"
+  .field
+    = f.label :long_description, 'Long Description:'
+    = f.text_area :long_description, style: "height: 15em"
+  .field
+    = f.label :notes, 'Notes:'
+    = f.text_area :notes, style: "height: 2em"
+
+  .field_row
+    .field
+      = f.label :image_1, 'Image_1 URL:'
+      = f.text_field :image_1
+    .field
+      = f.label :image_2, 'Image_2 URL:'
+      = f.text_field :image_2
+
+  .field_row
+    .field
+      = f.label :specifications, 'Specifications URL:'
+      = f.text_field :specifications
+    .field
+      = f.label :schematic, 'Schematic URL:'
+      = f.text_field :schematic
+
+  .field_row
+    .field
+      = f.label :bom, 'BOM URL:'
+      = f.text_field :bom
+    .field
+      = f.label :assembly, 'Assembly Instructions URL:'
+      = f.text_field :assembly

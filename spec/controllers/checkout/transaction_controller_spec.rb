@@ -6,6 +6,8 @@ describe Checkout::TransactionsController do
       @cart = create(:cart)
       product = create(:n72)
       option = create(:ka, product: product)
+      bom = create(:bom, option: option)
+      create(:bom_item, bom: bom)
       create(:line_item, cart: @cart, product: product, option: option)
       @order = create(:order, cart: @cart, express_token: nil)
       create(:billing_constant_taxable, addressable: @order)

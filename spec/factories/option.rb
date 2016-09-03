@@ -13,8 +13,6 @@ FactoryGirl.define do
     shipping_width { [4, 9, 12].at(rand(0..2)) }
     shipping_height { [3, 6].at(rand(0..1)) }
     assembled_stock { rand(0..250) }
-    partial_stock { rand(0..250) }
-    kit_stock { rand (0..250) }
     active { true }
 
     trait :ka do
@@ -28,8 +26,6 @@ FactoryGirl.define do
 
     trait :in_stock do
       assembled_stock 8
-      partial_stock 12
-      component_stock 100
       active { true }
     end
 

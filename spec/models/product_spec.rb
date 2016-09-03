@@ -25,6 +25,8 @@ describe Product do
   it { should respond_to(:schematic) }
   it { should respond_to(:assembly) }
   it { should respond_to(:specifications) }
+  it { should respond_to(:partial_stock) }
+  it { should respond_to(:kit_stock) }
 
   it { should respond_to(:features) }
   it { should respond_to(:line_items) }

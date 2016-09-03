@@ -1,0 +1,9 @@
+.feature-box
+  .caption-box
+    = f.caption
+  .description-box
+    = f.description.html_safe
+- if signed_in_admin?
+  .admin-box
+    = link_to "edit", edit_product_feature_path(p, f), class: 'button admin'
+    = link_to "delete", product_feature_path(p, f), method: :delete, data: { confirm: "You sure?" }, class: 'button admin'

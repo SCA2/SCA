@@ -1,20 +1,17 @@
 .row
-  .small-2.columns
+  .small-4.columns
     .field
       = f.hidden_field :url, value: update_option_boms_path
       = f.label :product, 'Product'
       = f.select :product, options_from_collection_for_select(@bc.products, :id, :model, @bc.selected_product)
-  .small-2.columns
+  .small-4.columns
     .field
       = f.label :option, 'Option'
       - if @bc.options
         = f.select :option, options_from_collection_for_select(@bc.options, :id, :model, @bc.selected_option)
       -else
         = f.select :option, 'none', {}, {disabled: true}
-  .small-2.columns
+  .small-4.columns
     .field
       = f.label :revision, 'Revision'
       = f.text_field :revision
-  .small-6.columns
-    .field
-      = &nbsp;

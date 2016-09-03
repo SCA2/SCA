@@ -1,5 +1,6 @@
 class ProductsController < BaseController
   
+  before_action :delete_orphans, only: [:index]
   before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
@@ -59,6 +60,11 @@ class ProductsController < BaseController
     redirect_to products_path, alert: alert
   end
 
+  def update_category_sort_order
+    order = Product.get_category_sort_order(params[:category])
+    render json: order.to_json
+  end
+
 private
 
   def product_params
@@ -92,6 +98,10 @@ private
       end
     end
     return nil
+  end
+
+  def delete_orphans
+    Product.delete_products_without_options if signed_in_admin?
   end
 
 end
