@@ -1,9 +1,9 @@
-= provide(:title, "BOM #{@bc.id}")
+= provide(:title, "BOM #{@bc.product_model + @bc.option_model}")
 .box_2
   .row
     .small-12.columns
       %fieldset
-        %legend= "BOM #{@bc.product_model} Rev #{@bc.revision}"
+        %legend= "BOM #{@bc.product_model + @bc.option_model}"
         = form_for(@bc, url: bom_path(@bc.id), method: :put) do |bc_form|
           = render 'shared/errors', object: bc_form.object
           = render 'form', f: bc_form

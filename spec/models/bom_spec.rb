@@ -1,35 +1,38 @@
 require 'rails_helper'
 
 describe Bom do
+
+  let(:bom) { create(:bom) }
+
+  subject { bom }
+
   it { should respond_to(:product) }
-  it { should respond_to(:revision) }
   it { should respond_to(:bom_items) }  
   it { should respond_to(:lines) }  
   it { should respond_to(:stock) }  
 
   describe 'bom_item methods' do
     it 'can report number of bom_items' do
-      bom = build_stubbed(:bom)
-      create(:bom_item, bom: bom, reference: 'R1')
-      create(:bom_item, bom: bom, reference: 'R2')
+      bom = create(:bom)
+      create(:bom_item, bom: bom)
+      create(:bom_item, bom: bom)
       expect(bom.lines).to eq 2
     end
 
     it 'can report stock' do
-      option = build_stubbed(:option)
-      bom = create(:bom, option: option)
+      bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
       cmp_3 = create(:component, stock: 7)
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
+      # byebug
       expect(bom.stock).to eq 3
     end
 
     it 'can subtract stock' do
-      option = build_stubbed(:option)
-      bom = create(:bom, option: option)
+      bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
       cmp_3 = create(:component, stock: 7)
@@ -44,8 +47,7 @@ describe Bom do
     end
 
     it 'can add stock' do
-      option = build_stubbed(:option)
-      bom = create(:bom, option: option)
+      bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
       cmp_3 = create(:component, stock: 7)

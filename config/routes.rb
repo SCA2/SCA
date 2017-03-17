@@ -3,6 +3,7 @@ SCA::Application.routes.draw do
   resources :slider_images, :users
 
   resources :faqs_categories, except: [:show]
+  resources :product_categories, except: [:show]
   resources :faqs, except: [:show]
 
   resources :sessions, only: [:new, :create, :destroy]

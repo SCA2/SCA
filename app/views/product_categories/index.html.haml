@@ -1,0 +1,14 @@
+= provide(:title, 'Product Categories Index')
+
+.box_2
+  .row
+    .small-9.columns
+      %h5 Product Categories
+      %ul.users
+        = render layout: 'category_headers' do
+          = render partial: 'category', collection: @categories
+      .admin-box
+        = link_to "New Product Category",	new_product_category_path, class: 'button admin'
+        = link_to "Quit",	admin_path, class: 'button admin'
+    .small-3.columns
+      = render 'layouts/sidebar_left'

@@ -42,8 +42,8 @@
   - if @option_editor.is_a_kit?
     .field_row
       .field
-        = f.label :common_stock_count, 'Common Stock Available:'
-        = f.number_field :common_stock_count, readonly: true
+        = f.label :common_stock, 'Common Stock Available:'
+        = f.number_field :common_stock, readonly: true
       .field
         = f.label :kit_stock, 'Kits to make:'
         = f.number_field :kits_to_make, value: 0
@@ -67,8 +67,8 @@
         = f.number_field :assembled_stock
     .field_row
       .field
-        = f.label :common_stock_count, 'Component Stock Available:'
-        = f.number_field :common_stock_count, readonly: true
+        = f.label :common_stock, 'Component Stock Available:'
+        = f.number_field :common_stock, readonly: true
       .field
         = f.label :partials_to_make, 'Partial Stock to Make:'
         = f.number_field :partials_to_make, value: 0

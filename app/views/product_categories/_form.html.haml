@@ -1,0 +1,9 @@
+%fieldset
+  %legend= legend
+  .field_row
+    .field
+      = f.label :name, 'Category Name:'
+      = f.text_field :name
+    .field
+      = f.label :sort_order, 'Sort Order:'
+      = f.number_field :sort_order, in: 1..100

@@ -1,0 +1,14 @@
+= provide(:title, 'FAQ Categories Index')
+
+.box_2
+  .row
+    .small-9.columns
+      %h5 FAQ Categories
+      %ul.users
+        = render layout: 'category_headers' do
+          = render partial: 'category', collection: @categories
+      .admin-box
+        = link_to "New FAQ Category", new_faqs_category_path, class: 'button admin'
+        = link_to "Quit", admin_path, class: 'button admin'
+    .small-3.columns
+      = render 'layouts/sidebar_left'

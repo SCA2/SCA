@@ -5,7 +5,8 @@ class ProductsController < BaseController
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
   def index
-    @products = Product.order(:category_sort_order, :model_sort_order)
+    # @products = Product.order(:category_sort_order, :model_sort_order)
+    @products = Product.joins(:product_category).order(:product_category_id, :model_sort_order)
   end
 
   def show
@@ -68,11 +69,11 @@ class ProductsController < BaseController
 private
 
   def product_params
-    params.require(:product).permit(:model, :model_sort_order,
-    :category, :category_sort_order, :options,
-    :short_description, :long_description, :notes,
-    :image_1, :image_2, 
-    :specifications, :bom, :schematic, :assembly)
+    params.require(:product).permit(:product_category_id, 
+      :model, :model_sort_order, :options,
+      :short_description, :long_description, :notes,
+      :image_1, :image_2, :specifications,
+      :bom, :schematic, :assembly)
   end
 
   def set_product

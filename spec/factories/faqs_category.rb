@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryGirl.define do
   factory :faqs_category do
-    category_name { ['Ordering', 'General', 'Support', 'Assembly'].at(rand(0..3)) }
-    category_weight { rand(1..100) }
+    sequence(:category_name) {|n| "Category-#{n}" }
+    sequence(:category_weight) {|n| "#{(n % 100) + 1}" }
   end
   
   factory :invalid_faqs_category, class: 'FaqsCategory' do

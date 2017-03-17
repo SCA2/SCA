@@ -6,7 +6,8 @@ feature "Products" do
 
     before(:all) do
       3.times do
-        product = create(:product)
+        category = create(:product_category)
+        product = create(:product, product_category: category)
         create(:feature, product: product)
         option = create(:option, product: product)
         bom = create(:bom, option: option)
@@ -43,10 +44,11 @@ feature "Products" do
 
     context "with no products" do    
 
-      let(:product) { build(:product) }
-      let(:option)  { create(:option) }
-      let(:bom)     { create(:bom, option: option) }
-      let(:bom_item){ create(:bom_item, bom: bom) }
+      let!(:category)  { create(:product_category) }
+      let!(:product)   { build(:product, product_category: category) }
+      let!(:option)    { create(:option) }
+      let!(:bom)       { create(:bom, option: option) }
+      let!(:bom_item)  { create(:bom_item, bom: bom) }
       
       scenario 'add a product' do
         visit products_path
@@ -58,7 +60,7 @@ feature "Products" do
         expect(page).to have_content('Product must have at least one option!')
         fill_in_new_option(option)
         find(:link_or_button, 'Create').click
-        expect(page).to have_title(product.model)
+        expect(page).to have_title("BOM #{product.model + option.model}")
         expect(page).to have_content('Success!')
       end
     end
@@ -67,7 +69,8 @@ feature "Products" do
 
       before(:all) do
         3.times do
-          product = create(:product)
+          category = create(:product_category)
+          product = create(:product, product_category: category)
           create(:feature, product: product)
           option = create(:option, product: product)
           create(:bom, option: option)

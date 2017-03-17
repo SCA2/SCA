@@ -1,0 +1,13 @@
+= provide(:title, 'New FAQ category')
+
+.box_2
+  .row
+    .small-9.columns
+      = form_for @category do |category|
+        = render 'shared/errors', object: category.object
+        = render 'form', f: category, legend: 'New FAQ Category'
+        .admin-box
+          = category.submit 'Create', class: 'button admin'
+          = link_to 'Quit', faqs_categories_path, class: 'button admin'
+    .small-3.columns
+      = render 'layouts/sidebar_left'

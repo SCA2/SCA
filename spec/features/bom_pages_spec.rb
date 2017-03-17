@@ -30,7 +30,7 @@ feature "BOMs" do
       bom = create(:bom, option: option)
       visit '/admin'
       click_link 'View BOMs'
-      expect(page).to have_content(bom.revision)
+      expect(page).to have_content(bom.option.model)
     end
 
     scenario 'add a new BOM' do
@@ -43,37 +43,36 @@ feature "BOMs" do
       expect(page).to have_content('New BOM')
       fill_in_bom(bom)
       find(:link_or_button, 'Create').click
-      expect(page).to have_content("BOM #{product.model} Rev #{bom.revision} created")
+      expect(page).to have_content("BOM #{product.model + option.model} created")
       expect(page).to have_content(bom.product.model)
     end
 
     scenario 'view bom edit page' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0')
+      bom = create(:bom, option: option)
       visit edit_bom_path(bom)
       expect(page).to have_select('Product')
       expect(page).to have_content('A12')
-      expect(page).to have_field('Revision', with: '1.0')
     end
 
     scenario 'update an existing BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0')
+      bom = create(:bom, option: option)
       visit boms_path
       find(:link_or_button, bom.id).click
-      expect(page).to have_content("BOM #{bom.product.model + bom.option.model} Rev #{bom.revision}")
+      expect(page).to have_content("BOM #{bom.product.model + bom.option.model}")
       find(:link_or_button, 'Edit').click
       fill_in_bom(bom)
       find(:link_or_button, 'Update').click
-      expect(page).to have_content("BOM #{bom.product.model} Rev #{bom.revision} updated")
+      expect(page).to have_content("BOM #{bom.product.model + bom.option.model} updated")
     end
 
     scenario 'add a component to a BOM' do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
-      bom = create(:bom, option: option, revision: '1.0')
+      bom = create(:bom, option: option)
       component = create(:component)
       item = build_stubbed(:bom_item, quantity: 2, reference: 'R1', component: component)
       visit new_item_bom_path(bom)

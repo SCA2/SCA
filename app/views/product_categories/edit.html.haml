@@ -1,0 +1,13 @@
+= provide(:title, @category.name)
+
+.box_2
+	.row
+		.small-9.columns
+			= form_for @category do |category|
+				= render 'shared/errors', object: category.object
+				= render 'form', f: category, legend: 'Edit Product Category'
+				.admin-box
+					= category.submit 'Update', class: 'button admin'
+					= link_to 'Quit', product_categories_path, class: 'button admin'
+		.small-3.columns
+			= render 'layouts/sidebar_left'

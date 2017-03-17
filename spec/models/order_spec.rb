@@ -2,9 +2,7 @@ require 'rails_helper'
 
 describe Order do
 
-  it "has a valid factory", :vcr do
-    expect(build(:order)).to be_valid
-  end
+  let(:order) { build(:order) }
 
   it { should respond_to(:cart) }
   it { should respond_to(:addresses) }

@@ -12,7 +12,7 @@ describe "FAQ page" do
   it { is_expected.not_to have_content("<div class='section_header'>Support</div>") }
 
   context "faq page as user" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { create(:user) }
 
     before { test_sign_in user }
     before { visit faqs_path }
@@ -22,7 +22,7 @@ describe "FAQ page" do
   end
   
   context "faq page as admin" do
-    let(:admin) { FactoryGirl.create(:admin) }
+    let(:admin) { create(:admin) }
 
     before { test_sign_in admin }
     before { visit faqs_path }

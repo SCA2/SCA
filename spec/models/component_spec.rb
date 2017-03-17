@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Component do
+
   it { should respond_to(:value) }
   it { should respond_to(:marking) }
   it { should respond_to(:description) }

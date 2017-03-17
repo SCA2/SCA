@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe OptionsController do
 
-  let!(:product) { create(:product) }
+  let(:product) { create(:product) }
   let!(:option) { create(:option, product: product) }
   let!(:bom) { create(:bom, option: option) }
   let!(:bom_item) { create(:bom_item, bom: bom) }
@@ -29,13 +29,13 @@ describe OptionsController do
       describe "with valid params" do
         it "creates a new Option" do
           expect {
-            post :create, option_editor: valid_attributes, product_id: product
+            post :create, option_editor: valid_attributes[:option_editor], product_id: product
           }.to change(Option, :count).by(1)
         end
   
-        it "redirects to new option path" do
-          post :create, valid_attributes
-          expect(response).to redirect_to(new_product_option_path(product))
+        it "redirects to new bom path" do
+          post :create, option_editor: valid_attributes[:option_editor], product_id: product
+          expect(response).to redirect_to(edit_bom_path(Bom.last.id))
         end
       end
   

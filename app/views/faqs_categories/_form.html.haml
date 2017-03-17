@@ -1,0 +1,9 @@
+%fieldset
+  %legend= legend
+  .field_row
+    .field
+      = f.label :category_name, 'Category Name:'
+      = f.text_field :category_name
+    .field
+      = f.label :category_weight, 'Category Weight:'
+      = f.number_field :category_weight, in: 1..100

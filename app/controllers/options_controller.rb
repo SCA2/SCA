@@ -16,7 +16,7 @@ class OptionsController < BaseController
     @option_editor = OptionEditor.new(all_params)
     if @option_editor.save
       flash[:notice] = "Success! Option #{@option_editor.option_model} created."
-      redirect_to new_bom_path(@option_editor.product)
+      redirect_to edit_bom_path(@option_editor.bom)
     else
       render action: 'new'
     end

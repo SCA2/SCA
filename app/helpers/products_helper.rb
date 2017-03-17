@@ -14,22 +14,6 @@ module ProductsHelper
     extended_model = product.model + option.model + ', ' + option.description
   end
 
-  def first_in_category?(products, product)
-    if products && product
-      category = product.category
-      sort_order = product.model_sort_order
-      return !products.where('category = ? and model_sort_order < ?', category, sort_order).exists?
-    end
-  end
-
-  def last_in_category?(products, product)
-    if products && product
-      category = product.category
-      sort_order = product.model_sort_order
-      return !products.where('category = ? and model_sort_order > ?', category, sort_order).exists?
-    end
-  end
-  
   def get_price(option)
     cents_to_dollars(option.price_in_cents, precision: 0)
   end

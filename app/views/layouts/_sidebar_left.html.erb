@@ -13,7 +13,7 @@
 		<ul class="custom-side-nav">
 			<h6><b>Products</b></h6>
 		    <% product_categories.each do |k, v| %>
-		      <li><%= link_to(v, '#', data: { dropdown: "#{k.gsub(/\s+/, "")}" }) %>
+		      <li><%= link_to(v, '#', data: { dropdown: "#{k.gsub(/\s+/, '')}" }) %>
 		        <ul id='<%="#{k.gsub(/\s+/, '')}"%>' class="f-dropdown" data-dropdown-content>
 		          <% @products.where("category = ?", k).each do |p| %>
 		      			<li><%= link_to p.model + ' ' + p.category, product_path(p) %></li>

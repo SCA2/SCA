@@ -17,7 +17,7 @@ class BomsController < BaseController
   def create
     @bc = BomCreator.new
     if @bc.save(bom_params)
-      flash[:success] = "BOM #{@bc.product_model} Rev #{@bc.revision} created"
+      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} created"
       redirect_to boms_path
     else
       render 'new'
@@ -31,7 +31,7 @@ class BomsController < BaseController
   def update
     @bc = BomCreator.new(bom_id)
     if @bc.update(bom_params)
-      flash[:success] = "BOM #{@bc.product_model} Rev #{@bc.revision} updated"
+      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} updated"
       redirect_to edit_bom_path(@bc.id)
     else
       render 'edit'
@@ -46,7 +46,7 @@ class BomsController < BaseController
   def create_item
     @bc = BomCreator.new(bom_id)
     if @bc.update(bom_params)
-      flash[:success] = "BOM #{@bc.product_model} Rev #{@bc.revision} updated"
+      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} updated"
       redirect_to edit_bom_path(@bc.id)
     else
       render 'new_item'
@@ -55,7 +55,7 @@ class BomsController < BaseController
 
   def destroy
     bom = Bom.find(bom_id)
-    name = "#{bom.product.model} Rev #{bom.revision}"
+    name = "#{bom.product.model + bom.option.model}"
     bom.destroy
     redirect_to boms_path, notice: "BOM #{name} deleted"
   end
@@ -72,6 +72,6 @@ private
   end
 
   def bom_params
-    params.require(:bom_creator).permit(:option, :revision, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
+    params.require(:bom_creator).permit(:option, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
   end
 end

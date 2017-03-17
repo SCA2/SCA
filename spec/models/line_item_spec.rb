@@ -2,16 +2,10 @@ require 'rails_helper'
 
 describe LineItem do
 
-  before do
-    @cart = create(:cart)
-    @line_item = build_stubbed(:line_item, cart: @cart)
-  end
+  let(:cart) { create(:cart) }
+  let(:line_item) { build_stubbed(:line_item, cart: cart) }
 
-  it "has a valid factory" do
-    expect(@line_item).to be_valid
-  end
-
-  subject { @line_item }
+  subject { line_item }
   
   it { should be_valid }
 
@@ -31,17 +25,17 @@ describe LineItem do
   it { should respond_to(:extended_weight) }
   
   describe 'when product_id is not present' do
-    before { @line_item.product_id = nil }
+    before { line_item.product_id = nil }
     it { should_not be_valid }
   end
   
   describe 'when option_id is not present' do
-    before { @line_item.option_id = nil }
+    before { line_item.option_id = nil }
     it { should_not be_valid }
   end
 
   describe 'when cart_id is not present' do
-    before { @line_item.cart_id = nil }
+    before { line_item.cart_id = nil }
     it { should_not be_valid }
   end
 

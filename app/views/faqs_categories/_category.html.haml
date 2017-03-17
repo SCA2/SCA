@@ -1,0 +1,5 @@
+%tr
+  %td= link_to category.category_name, edit_faqs_category_path(category)
+  %td= category.category_weight
+  %td= link_to "edit", edit_faqs_category_path(category), method: :get
+  %td= link_to "delete", category, method: :delete, data: { confirm: "Are you sure?" }

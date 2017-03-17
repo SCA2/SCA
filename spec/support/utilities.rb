@@ -27,7 +27,6 @@ def fill_in_product(product)
   fill_in "Model:", with: product.model
   fill_in "Model Sort Order:", with: product.model_sort_order
   select product.category, from: "Category:"
-  fill_in "Category Sort Order:", with: product.category_sort_order
   fill_in "Short Description:", with: product.short_description
   fill_in "Long Description:", with: product.long_description
   fill_in "Notes:", with: product.notes
@@ -37,6 +36,16 @@ def fill_in_product(product)
   fill_in "Schematic URL:", with: product.schematic
   fill_in "BOM URL:", with: product.bom
   fill_in "Assembly Instructions URL:", with: product.assembly
+end
+
+def fill_in_product_category(category)
+  fill_in "Category Name:", with: category.name 
+  fill_in "Sort Order:", with: category.sort_order
+end
+
+def fill_in_faqs_category(category)
+  fill_in "Category Name:", with: category.category_name 
+  fill_in "Category Weight:", with: category.category_weight
 end
 
 def fill_in_component(component)
@@ -91,7 +100,6 @@ end
 
 def fill_in_bom(bom)
   select(bom.product.model, from: "Product")
-  fill_in "Revision", with: bom.revision
 end
 
 def fill_in_bom_item(item)

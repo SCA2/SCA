@@ -9,7 +9,6 @@ describe ProductsController do
   shared_examples('guest access to products') do
     describe "GET index" do
       it "assigns all products as @products" do
-        product = Product.create! valid_attributes
         get :index, {}
         expect(assigns(:products)).to eq([product])
       end

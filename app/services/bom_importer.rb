@@ -44,7 +44,6 @@ class BomImporter
     product = Product.find_by(model: spreadsheet.a2.strip)
     option = Option.find_by(product: product, model: spreadsheet.b2.strip)
     attributes[:option_id] = option.id
-    attributes[:revision] = spreadsheet.c2.strip
     bom = Bom.find_by(option: option) || Bom.new
     bom.attributes = attributes
     header = spreadsheet.row(4)

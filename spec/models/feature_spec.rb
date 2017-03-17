@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Feature do
   
-  let(:feature) { FactoryGirl.create(:feature) }
+  let(:feature) { build(:feature) }
 
   subject { feature }
 

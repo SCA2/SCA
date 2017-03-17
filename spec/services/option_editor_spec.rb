@@ -93,7 +93,6 @@ describe OptionEditor do
     cmp_2 = create(:component, stock: 200)
     create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
     create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-    # byebug
     attributes = attributes_for(:option_editor, product: product, option: option)
     attributes[:option_editor][:model] = 'KF'
     attributes[:option_editor][:kit_stock] = 1
@@ -103,7 +102,7 @@ describe OptionEditor do
     editor = create(:option_editor, attributes)
     product.reload
     option.reload
-    expect(product.common_stock_count).to eq(98)
+    expect(product.common_stock).to eq(98)
     expect(product.kit_stock).to eq(3)
     expect(product.partial_stock).to eq(0)
     expect(option.assembled_stock).to eq(0)
@@ -127,7 +126,6 @@ describe OptionEditor do
     editor.save
     product.reload
     option.reload
-    # expect(product.common_stock_count).to eq(95)
     expect(product.kit_stock).to eq(0)
     expect(product.partial_stock).to eq(6)
     expect(option.assembled_stock).to eq(0)

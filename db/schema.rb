@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160903182608) do
+ActiveRecord::Schema.define(version: 20160905195050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20160903182608) do
   end
 
   create_table "boms", force: :cascade do |t|
-    t.string   "revision"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "option_id"
@@ -145,6 +144,13 @@ ActiveRecord::Schema.define(version: 20160903182608) do
 
   add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
 
+  create_table "product_categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "sort_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string   "model",                   limit: 255
     t.text     "short_description"
@@ -165,9 +171,11 @@ ActiveRecord::Schema.define(version: 20160903182608) do
     t.integer  "{:foreign_key=>true}_id"
     t.integer  "partial_stock",                       default: 0
     t.integer  "kit_stock",                           default: 0
+    t.integer  "product_category_id"
   end
 
   add_index "products", ["model"], name: "index_products_on_model", using: :btree
+  add_index "products", ["product_category_id"], name: "index_products_on_product_category_id", using: :btree
 
   create_table "slider_images", force: :cascade do |t|
     t.string   "name",        limit: 255

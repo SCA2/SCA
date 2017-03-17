@@ -1,5 +1,7 @@
 class Product < ActiveRecord::Base
-  
+
+  belongs_to :product_category, inverse_of: :products
+
   has_many :features, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :features
   
@@ -9,11 +11,11 @@ class Product < ActiveRecord::Base
   # line_item has database foreign key constraint
   has_many :line_items, inverse_of: :product
 
+  # validates :product_category, presence: true
   validates :model, :model_sort_order, presence: true
-  validates :category, :category_sort_order, presence: true
   validates :short_description, :long_description, :image_1, presence: true 
 
-  validates :model_sort_order, :category_sort_order, numericality: {
+  validates :model_sort_order, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: 100
@@ -21,21 +23,27 @@ class Product < ActiveRecord::Base
 
   validates :model_sort_order, uniqueness: { scope: :model }
 
-  def self.categories
-    Product.select(:category).distinct.order(:category)
-  end
-
-  def self.get_category_sort_order(category)
-    Product.where(category: category).first.category_sort_order
-  end
-
-  def self.set_category_sort_order(category, order)
-    Product.where(category: category).update_all(category_sort_order: order)
+  def self.update_product_category
+    Product.all.each do |p|
+      c = ProductCategory.find_by(name: p.category)
+      p.update(product_category: c)
+    end
   end
 
   def self.delete_products_without_options
     products = Product.includes(:options).where(options: {product_id: nil})
     Product.destroy(products) if products.length > 0
+  end
+
+  def first_in_category?
+    Product.joins(:product_category).
+    where("product_categories.id=?", product_category.id).
+    order(:model_sort_order).first == self
+  end
+
+  def category
+    return "Uncategorized" unless product_category
+    product_category.name
   end
 
   def to_param
@@ -47,9 +55,9 @@ class Product < ActiveRecord::Base
     @bom_count ? @bom_count : 0
   end
 
-  def common_stock_count
-    @common_stock_count ||= get_common_stock_count
-    @common_stock_count ? @common_stock_count : 0
+  def common_stock
+    @common_stock ||= get_common_stock
+    @common_stock ? @common_stock : 0
   end
 
   def common_stock_items
@@ -64,7 +72,7 @@ private
     boms.where(products: {model: model}).distinct.count
   end
 
-  def get_common_stock_count
+  def get_common_stock
     items = common_stock_items
     items = items.group_by {|i| i.component_id}
     items = items.select {|k,v| v.length == bom_count}

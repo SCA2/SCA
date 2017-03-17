@@ -2,11 +2,11 @@ class ComponentImport
 
   require 'roo'
 
-  extend ActiveModel::Model
-  include ActiveModel::Conversion
-  include ActiveModel::Validations
+  include ActiveModel::Model
 
   attr_accessor :file
+
+  FIRST_COMPONENT_ROW = 2
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -41,23 +41,25 @@ class ComponentImport
   def load_imported_components
     spreadsheet = open_spreadsheet
     header = spreadsheet.row(1)
-    (2..spreadsheet.last_row).map do |i|
+    temp = Component.new
+    (FIRST_COMPONENT_ROW..spreadsheet.last_row).map do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      component = Component.find_by(mfr_part_number: row["mfr_part_number"]) || Component.new
-      component.attributes = row.to_hash.slice(*Component.permitted_attributes)
+      temp.attributes = row.to_hash.slice(*Component.permitted_attributes)
+      component = Component.find_by(mfr_part_number: row['mfr_part_number']) || Component.new
+      stock = component.stock ? component.stock + temp.stock : temp.stock
+      component.attributes = temp.attributes
+      component.stock = stock
       component.vendor_part_number = component.mfr_part_number unless component.vendor_part_number
-      component.stock = 0 unless component.stock
       component.lead_time = 0 unless component.lead_time
       component
     end
   end
 
   def open_spreadsheet
-    case File.extname(file.original_filename)
-    when ".csv" then Roo::CSV.new(file.path)
-    when ".xls" then Roo::Excel.new(file.path)
-    when ".xlsx" then Roo::Excelx.new(file.path)
-    else raise "Unknown file type: #{file.original_filename}"
+    if File.extname(file.original_filename) == ".csv"
+      Roo::CSV.new(file.path)
+    else
+      raise "Unsupported file type: #{file.original_filename}"
     end
   end
 end

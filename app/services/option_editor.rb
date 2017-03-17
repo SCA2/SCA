@@ -6,10 +6,10 @@ class OptionEditor
   delegate :price, :discount, :sort_order, :active, to: :option
   delegate :shipping_length, :shipping_width, to: :option 
   delegate :shipping_height, :shipping_weight, to: :option
-  delegate :option_stock_items, :option_stock_count, to: :option
+  delegate :option_stock_items, :option_stock, to: :option
   delegate :assembled_stock, to: :option
 
-  delegate :bom_count, :common_stock_items, :common_stock_count, to: :product
+  delegate :bom_count, :common_stock_items, :common_stock, to: :product
   delegate :kit_stock, :partial_stock, to: :product
 
   attr_accessor :kits_to_make, :partials_to_make, :assembled_to_make
@@ -58,13 +58,13 @@ class OptionEditor
   validates :kits_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-    less_than_or_equal_to: :common_stock_count
+    less_than_or_equal_to: :common_stock
   }, if: :is_a_kit?
   
   validates :partials_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-    less_than_or_equal_to: :common_stock_count
+    less_than_or_equal_to: :common_stock
   }, unless: :is_a_kit?
   
   validates :assembled_to_make, numericality: {
@@ -81,15 +81,14 @@ class OptionEditor
     elsif params[:product_id]
       @product = Product.find_by(model: params[:product_id])
       @option = Option.new(product: @product)
+      @bom = Bom.new(option: @option)
     else
       return nil
     end
 
     if params[:option_editor]
-      # @product.attributes = product_params(params)
-      # @option.attributes = option_params(params)
-      @product.update(product_params(params))
-      @option.update(option_params(params))
+      @product.attributes = product_params(params)
+      @option.attributes = option_params(params)
       @kits_to_make = editor_params(params, :kits_to_make)
       @partials_to_make = editor_params(params, :partials_to_make)
       @assembled_to_make = editor_params(params, :assembled_to_make)
@@ -122,8 +121,8 @@ class OptionEditor
 
   def make_kits(qty = 0)
     return unless bom
-    return if !is_a_kit?
-    return if qty > common_stock_count
+    return unless is_a_kit?
+    return if qty > common_stock
     bom.subtract_stock(product_stock_items, qty)
     product.kit_stock += qty
   end
@@ -131,7 +130,7 @@ class OptionEditor
   def make_partials(qty = 0)
     return unless bom
     return if is_a_kit?
-    return if qty > common_stock_count
+    return if qty > common_stock
     bom.subtract_stock(product_stock_items, qty)
     product.partial_stock += qty
   end
@@ -146,11 +145,15 @@ class OptionEditor
   end
 
   def limiting_stock
-    option_stock_count < partial_stock ? option_stock_count : partial_stock
+    if option_stock_items.count > 0
+      option_stock < partial_stock ? option_stock : partial_stock
+    else
+      partial_stock
+    end
   end
 
   def product_stock_items
-    return 0 unless bom
+    return [] unless bom
     bom.bom_items - option_stock_items
   end
 
@@ -177,6 +180,7 @@ private
     end
     @product.save!
     @option.save!
+    @bom.save!
   end
 
   def option_params(params)

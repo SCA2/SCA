@@ -39,10 +39,12 @@ private
   end
 
   def get_product_categories
-    categories = Product.order(:category_sort_order).select(:category, :category_sort_order).distinct
-    categories.map do |pc|
-      count = products.where(category: pc.category).count
-      [pc.category, pc.category.pluralize(count)]
+    categories = ProductCategory.all.order(:sort_order)
+    categories = categories.map {|e| [e.name, e.sort_order]}.to_h
+    # categories = Product.order(:category_sort_order).select(:category, :category_sort_order).distinct
+    categories.map do |k, c|
+      count = products.where(category: k).count
+      [k, k.pluralize(count)]
     end
   end
 

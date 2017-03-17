@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe Product do
 
-  it "has a valid factory" do
-    expect(FactoryGirl.build(:product)).to be_valid
-  end
+  let(:product) { build(:product) }
+  let(:cart) { build_stubbed(:cart) }
+  let(:option) { build_stubbed(:option) }
 
-  let(:product) { FactoryGirl.build(:product) }
-  let(:cart) { FactoryGirl.build_stubbed(:cart) }
-  let(:option) { FactoryGirl.build_stubbed(:option) }
+  subject { product }
+
+  it { should be_valid }
 
   it { should respond_to(:model) }
   it { should respond_to(:short_description) }
@@ -17,8 +17,6 @@ describe Product do
   it { should respond_to(:image_2) }
   it { should respond_to(:created_at) }
   it { should respond_to(:updated_at) }
-  it { should respond_to(:category) }
-  it { should respond_to(:category_sort_order) }
   it { should respond_to(:model_sort_order) }
   it { should respond_to(:notes) }
   it { should respond_to(:bom) }
@@ -37,15 +35,7 @@ describe Product do
   end
 
   it "is invalid without a model_sort_order" do
-    expect(Product.new(model_sort_order: nil)).to have(1).errors_on(:model_sort_order)
-  end
-
-  it "is invalid without a category" do
-    expect(Product.new(category: nil)).to have(1).errors_on(:category)
-  end
-
-  it "is invalid without a category_sort_order" do
-    expect(Product.new(category_sort_order: nil)).to have(1).errors_on(:category_sort_order)
+    expect(Product.new(model_sort_order: nil)).to have(2).errors_on(:model_sort_order)
   end
 
   it "is invalid without a short_description" do
@@ -66,8 +56,8 @@ describe Product do
 
   describe 'feature associations' do
 
-    let(:first_feature) { FactoryGirl.create(:feature, sort_order: 10) }
-    let(:last_feature)  { FactoryGirl.create(:feature, sort_order: 100) }
+    let(:first_feature) { create(:feature, sort_order: 10) }
+    let(:last_feature)  { create(:feature, sort_order: 100) }
 
     before do
       product.features << first_feature
@@ -96,22 +86,22 @@ describe Product do
   describe 'option associations' do
     it 'can have multiple options' do
       product = create(:product)
-      create(:option, product: product, sort_order: 10)
-      create(:option, product: product, sort_order: 20)
+      create(:option, product: product, model: 'a', sort_order: 10)
+      create(:option, product: product, model: 'b', sort_order: 20)
       expect(product.options.count).to eq 2
     end
 
     it 'should have the options sorted by sort_order' do
       product = create(:product)
-      option_1 = create(:option, product: product, sort_order: 10)
-      option_2 = create(:option, product: product, sort_order: 20)
+      option_1 = create(:option, product: product, model: 'a', sort_order: 10)
+      option_2 = create(:option, product: product, model: 'b', sort_order: 20)
       expect(product.options.to_a).to eq [option_1, option_2]
     end
     
     it 'should destroy associated options' do
       product = create(:product)
-      create(:option, product: product, sort_order: 10)
-      create(:option, product: product, sort_order: 20)
+      create(:option, product: product, model: 'a', sort_order: 10)
+      create(:option, product: product, model: 'b', sort_order: 20)
       expect {product.destroy}.to change {Option.count}.by(-2)
     end
 

@@ -2,12 +2,12 @@ class Bom < ActiveRecord::Base
   belongs_to :option, inverse_of: :bom
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 
-  validates :option, :revision, presence: true
+  validates :option, presence: true
   validates :option, uniqueness: true
 
   accepts_nested_attributes_for :bom_items, allow_destroy: true
 
-  default_scope -> { order :revision }
+  scope :sorted, -> { joins(option: :product).order('products.model', 'options.model') }
 
   def self.permitted_attributes
     self.column_names - ['id', 'created_at', 'updated_at']
