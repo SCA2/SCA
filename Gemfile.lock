@@ -147,11 +147,9 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
-    nokogiri (1.6.8)
+    nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
     pg (0.18.4)
-    pkg-config (1.1.7)
     poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -196,7 +194,7 @@ GEM
     roadie-rails (1.0.4)
       rails (>= 3.0, < 4.3)
       roadie (~> 3.0)
-    roo (2.4.0)
+    roo (2.7.1)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
     rspec-collection_matchers (1.1.2)
@@ -218,7 +216,7 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    rubyzip (1.2.0)
+    rubyzip (1.2.1)
     safe_yaml (1.0.4)
     sass (3.3.14)
     sass-rails (5.0.1)
@@ -302,7 +300,7 @@ DEPENDENCIES
   pry
   rails
   roadie-rails (~> 1.0.4)
-  roo (~> 2.4.0)
+  roo (~> 2.7.1)
   rspec-collection_matchers
   rspec-rails
   sass-rails

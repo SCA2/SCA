@@ -1,0 +1,10 @@
+mfr_part_number,mfr,value,description,marking,vendor,vendor_part_number,stock,lead_time
+C315C471J1G5TA,Kemet,470pF,C0G Ceramic,471J,Digi-Key,399-4182-ND,29,7
+C315C104M5U5TA,Kemet,.1uF,X7R Ceramic,104K,Digi-Key,399-4151-ND,20,7
+ECQ-V1H474JL,Panasonic,470nF,Polyester Film,474,Digi-Key,P4671-ND,10,7
+T356K226K035AT,Kemet,22uF/35V,Tantalum Electrolytic,226 35,Digi-Key,399-3670-ND,20,7
+EEU-FC1V220,Panasonic,22uF/35V,Radial Electrolytic,22uF 35V,Digi-Key,P11230-ND,20,7
+EEU-FC1J101L,Panasonic,100uF/63V,Radial Electrolytic,100uF 63V,Digi-Key,P10342-ND,20,7
+EEU-FC1A471,Panasonic,470uF/10V,Radial Electrolytic,470uF 10V,Digi-Key,P10221-ND,10,7
+ECO-S1HA152BA,Panasonic,1500uF/50V,Radial Electrolytic,1500uF 50V,Digi-Key,P7468-ND,20,7
+NC3FBHR-2,Neutrik, ,XLR-Female, ,Brill,NC3FBHR-2,10,7
