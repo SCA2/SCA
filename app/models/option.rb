@@ -102,8 +102,9 @@ class Option < ActiveRecord::Base
 private
 
   def get_option_stock
-    items = option_stock_items
-    items.map {|i| i.component.stock / i.quantity }.min
+    # items = option_stock_items
+    # items.map {|i| i.component.stock / i.quantity }.min
+    bom.stock
   end
 
   def get_option_stock_items

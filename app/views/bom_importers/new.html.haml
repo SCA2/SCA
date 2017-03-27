@@ -3,7 +3,7 @@
 
   %h3 Bom Import
 
-  %p A CSV file can be used to import records. The first row should contain column headers. The following headers are allowed.
+  %p An XLSX file can be used to import records. The first row should contain column headers. The following headers are allowed.
 
   %ul
     %li
@@ -22,9 +22,10 @@
           = column.type.to_s.titleize
           type
 
-  %p If an existing <strong>product</strong> and <strong>option</strong> are supplied the matching BOM it will be updated.
+  %p If an existing <strong>product</strong> and <strong>option</strong> are supplied the matching BOM will be updated.
 
   = form_for @bom_importer do |f|
+    = render 'bom_importers/form', f: f
     - if @bom_importer.errors.any?
       #error_explanation
         %h2= pluralize(@bom_importer.errors.count, "error")

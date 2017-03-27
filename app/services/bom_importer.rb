@@ -4,12 +4,30 @@ class BomImporter
 
   include ActiveModel::Model
 
-  attr_accessor :file
+  # delegate :product, :option, to: :bom
 
-  FIRST_COMPONENT_ROW = 5
+  attr_accessor :product, :option, :file, :url
+  attr_reader :products, :options, :bom
+
+  FIRST_COMPONENT_ROW = 2
 
   def initialize(attributes = {})
-    attributes.each { |name, value| send("#{name}=", value) }
+    @imported_components = nil
+    @imported_bom_items = nil
+    @products = Product.joins(options: :bom).distinct.order(:model_sort_order)
+    if attributes.empty?
+      @bom = Bom.new
+      @product = @products.first
+      @option = product.options.first
+    else
+      attributes.each { |name, value| send("#{name}=", value) }
+      @product = Product.find(attributes[:product])
+      @option = Option.find(attributes[:option])
+      @bom = @option.bom
+      @spreadsheet = open_spreadsheet
+      @spreadsheet.default_sheet = select_sheet(@spreadsheet)
+    end
+    @options = @product.options.joins(:bom).order(:sort_order)
   end
 
   def persisted?
@@ -21,49 +39,94 @@ class BomImporter
   end
 
   def save
-    if imported_bom.valid?
-      imported_bom.save!
-      true
+    if imported_components.map(&:valid?).all?
+      imported_components.each(&:save!)
     else
-      imported_bom.bom_items.each_with_index do |item, index|
-        item.errors.full_messages.each do |message|
-          errors.add :base, "Line: #{index + FIRST_COMPONENT_ROW}, #{message}"
+      imported_components.each_with_index do |component, index|
+        component.errors.full_messages.each do |message|
+          errors.add :base, "Line #{index + FIRST_COMPONENT_ROW}: #{message}"
         end
       end
-      false
+      return false
+    end
+
+    @bom.bom_items << imported_bom_items
+    if imported_bom_items.map(&:valid?).all?
+      imported_bom_items.each(&:save!)
+    else
+      imported_bom_items.each_with_index do |item, index|
+        item.errors.full_messages.each do |message|
+          errors.add :base, "Line #{index + FIRST_COMPONENT_ROW}:, #{message}"
+        end
+      end
+      return false
+    end
+    true
+  end
+
+  def imported_components
+    @imported_components ||= import_components_from_spreadsheet
+  end
+
+  def import_components_from_spreadsheet
+    header = normalize_header(@spreadsheet.row(1))
+    (FIRST_COMPONENT_ROW..@spreadsheet.last_row).map do |i|
+      row = Hash[[header, @spreadsheet.row(i)].transpose]
+      create_or_update_component(row)
     end
   end
 
-  def imported_bom
-    @imported_bom ||= load_imported_bom
+  def create_or_update_component(row)
+    attributes = row.to_hash.slice(*Component.permitted_attributes)
+    component = Component.find_by(mfr_part_number: attributes[:mfr_part_number.to_s])
+    if component
+      id = component.id
+      component.attributes = attributes
+      component.id = id
+    else
+      component = Component.new(attributes)
+    end
+    component
   end
 
-  def load_imported_bom
-    spreadsheet = open_spreadsheet
-    attributes = {}
-    product = Product.find_by(model: spreadsheet.a2.strip)
-    option = Option.find_by(product: product, model: spreadsheet.b2.strip)
-    attributes[:option_id] = option.id
-    bom = Bom.find_by(option: option) || Bom.new
-    bom.attributes = attributes
-    header = spreadsheet.row(4)
-    (FIRST_COMPONENT_ROW..spreadsheet.last_row).map do |i|
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      next unless component = Component.find_by(mfr_part_number: row["mfr_part_number"])
-      bom_item = bom.bom_items.find_by(component: component) || BomItem.new
+  def imported_bom_items
+    @imported_bom_items ||= import_bom_items_from_spreadsheet
+  end
+
+  def import_bom_items_from_spreadsheet
+    header = normalize_header(@spreadsheet.row(1))
+    (FIRST_COMPONENT_ROW..@spreadsheet.last_row).map do |i|
+      byebug
+      row = Hash[[header, @spreadsheet.row(i)].transpose]
+      component = create_or_update_component(row)
       row["component_id"] = component.id
       row["bom_id"] = bom.id
+      bom_item = @bom.bom_items.find_by(component: component) || BomItem.new
       bom_item.attributes = row.to_hash.slice(*BomItem.permitted_attributes)
-      bom.bom_items << bom_item
+      bom_item
     end
-    bom
   end
 
   def open_spreadsheet
-    if File.extname(file.original_filename) == ".csv"
-      Roo::CSV.new(file.path)
+    if File.extname(file.original_filename) == ".xlsx"
+      Roo::Spreadsheet.open(file.path, extension: :xlsx)
     else
       raise "Unsupported file type: #{file.original_filename}"
     end
   end
+
+  def select_sheet(spreadsheet)
+    sheets = spreadsheet.sheets.select { |s| /#{@product.model}R\d*_BOM/.match(s) }
+    sheets.empty? ? spreadsheet.sheets.first : sheets.first
+  end
+
+  def normalize_header(header)
+    header.map do |h|
+      name = h.to_s.downcase.gsub(/ /, '_')
+      name = 'mfr' if name == 'manufacturer'
+      name = 'quantity' if name == 'qty'
+      name
+    end
+  end
+
 end

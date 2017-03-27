@@ -1,4 +1,4 @@
-class ComponentImport
+class ComponentImporter
 
   require 'roo'
 

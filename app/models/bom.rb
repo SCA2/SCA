@@ -26,7 +26,8 @@ class Bom < ActiveRecord::Base
   end
 
   def stock
-    items.map {|i| i.component.stock / i.quantity}.min
+    stock = items.map { |i| i.quantity.zero? ? nil : i.component.stock / i.quantity }
+    stock.reject { |i| i.nil? }.min
   end
 
   def subtract_stock(items, n)
