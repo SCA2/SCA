@@ -15,7 +15,7 @@ class OrderCalculator
 
 private
 
-  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.5) # as percent
+  SALES_TAX = HashWithIndifferentAccess.new(CA: 9.25) # as percent
 
   def shipping_cost
     @shipping_cost ||= @order.shipping_cost
