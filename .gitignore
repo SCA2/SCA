@@ -22,6 +22,9 @@
 /config/deploy/production.rb
 /config/deploy/staging.rb
 
+# Ignore application configuration
+/config/application.yml
+
 # Ignore secrets
 server.txt
 

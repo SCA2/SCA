@@ -42,9 +42,8 @@ module StripeWrapper
       begin
         response = Stripe::Customer.create(
           email:        options[:email],
-          plan:         options[:plan_id] || '1',
           source:       options[:source],
-          description:  options[:description] || 'MyFlix Basic'
+          description:  options[:description] || 'Cart Purchase'
         )
         new(response: response)
       rescue Stripe::CardError => e

@@ -68,7 +68,7 @@ describe StripeWrapper do
 
         it 'creates customer', :vcr do
           response = StripeWrapper::Customer.create(
-            plan:         '1',
+            # plan:         '1',
             source:       good_token,
           )
           expect(response).to be_successful
@@ -76,7 +76,7 @@ describe StripeWrapper do
 
         it 'returns customer token', :vcr do
           response = StripeWrapper::Customer.create(
-            plan:         '1',
+            # plan:         '1',
             source:       good_token,
           )
           expect(response.customer_token).to be_present
