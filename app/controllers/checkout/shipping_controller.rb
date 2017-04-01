@@ -22,7 +22,7 @@ module Checkout
         shipper = OrderShipper.new(order)
         shipper.get_rates_from_params(order_params[:shipping_method])
         flash[:success] = 'Shipping method saved!'
-        redirect_to new_checkout_confirmation_path(cart)
+        redirect_to new_checkout_payment_path(cart)
       else
         flash.now[:alert] = 'Please select a shipping method!'
         render 'new'

@@ -6,7 +6,7 @@ class OrderPurchaser
     @order = order
     @cart = order.cart
     @total = order.total
-    @credit_card = valid_card.credit_card if valid_card
+    @stripe_token = valid_card.stripe_token if valid_card
   end
 
   def purchase

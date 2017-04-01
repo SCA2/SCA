@@ -6,9 +6,13 @@ module Checkout
     before_action :empty_cart_redirect
 
     def new
-      unless order.confirmable? && params[:accept_terms]
-        flash[:alert] = 'Sorry, there was a problem confirming your order.'
-        redirect_to new_checkout_confirmation_path(cart) and return
+      unless order.shipping_method
+        flash[:alert] = 'Shipping method is missing!'
+        redirect_to new_checkout_shipping_path(cart) and return
+      end
+      unless order.shipping_cost
+        flash[:alert] = 'Shipping cost is missing!'
+        redirect_to new_checkout_shipping_path(cart) and return
       end
       @card = CardValidator.new(order)
       @card.email = current_user.email if signed_in?
@@ -36,6 +40,7 @@ module Checkout
       end
 
       @card = CardValidator.new(order, order_params)
+      byebug
       if @card.valid?
         @card.save
       else
@@ -55,7 +60,7 @@ module Checkout
 
     def order_params
       params.require(:card_validator).
-      permit(:card_type, :card_number, :card_expires_on,  :card_verification, :email).
+      permit(:stripe_token, :email).
       merge(ip_address: request.remote_ip)
     end
   end

@@ -6,7 +6,7 @@
 			<%= render 'shared/progress_bar' %>
 			<%= form_for @card, url: checkout_payment_path(@cart) do |f| %>
 				<%= render 'shared/errors', object: f.object %>
-				<%= render 'payment_form', f: f, legend: 'Card Info' %>
+				<%= render 'payment_form', f: f, legend: 'Payment Information' %>
 				<div class="button-box">
 					<%= link_to 'Back to Confirmation', new_checkout_confirmation_path(@cart), class: 'button user' %>
 					<%= f.submit 'Place Order', class: 'button user' %>

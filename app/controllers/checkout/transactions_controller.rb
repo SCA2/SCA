@@ -6,6 +6,10 @@ module Checkout
     before_action :bad_state_redirect
 
     def new
+      unless order.confirmable? && params[:accept_terms]
+        flash[:alert] = 'Sorry, there was a problem confirming your order.'
+        redirect_to new_checkout_confirmation_path(cart) and return
+      end
       @transaction = order.transactions.last
       if order_params[:success] == 'true'
         cart.inventory
