@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   
   has_secure_password
   validates :password, length: { minimum: 5 }, on: :create
+  validates :password, confirmation: true
+  validates :password_confirmation, presence: true
   
   def User.new_remember_token
     begin
