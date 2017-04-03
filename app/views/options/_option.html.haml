@@ -4,7 +4,7 @@
       = f.select :options, (options_for_select get_extended_models(@product), @option.id), {}, class: 'select-option', id: "select-#{@product.id.to_s}"
     .actions-box
       .add(id="add-#{@product.id.to_s}")
-        = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', remote: :true
+        = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', disabled: @option.bom.blank?, remote: :true
       .price(id="price-#{@product.id.to_s}")
         = get_price(@option)
       .stock(id="stock-#{@product.id.to_s}")

@@ -21,25 +21,33 @@ class Order < ActiveRecord::Base
   end
 
   def shippable?
+    addressable? &&
     billing_address &&
-    shipping_address &&
-    addressable?
+    shipping_address
+  end
+
+  def payable?
+    shippable? && shipping_method && shipping_cost
   end
 
   def confirmable?
-    shipping_method && shipping_cost && shippable?
+    payable? && (express_token.present? || stripe_token.present?)
   end
 
-  def standard_purchase?
-    express_token.blank? && confirmable?
+  def stripe_purchase?
+    stripe_token.present? && express_token.blank? && payable?
   end
 
   def express_purchase?
-    !express_token.blank? && confirmable?
+    express_token.present? && stripe_token.blank? && payable?
+  end
+
+  def transactable?(accepted)
+    confirmable? && accepted == '1'
   end
 
   def notifiable?
-    email && confirmable?
+    email.present? && confirmable?
   end
 
   def total

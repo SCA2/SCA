@@ -36,20 +36,20 @@ class Option < ActiveRecord::Base
   def subtract_stock(quantity)
     if is_a_kit?
       product.kit_stock -= quantity
-      bom.subtract_stock(option_stock_items, quantity)
+      bom.subtract_stock(option_stock_items, quantity) if bom
       if product.kit_stock < 0
-        bom.subtract_stock(common_stock_items, -product.kit_stock)
+        bom.subtract_stock(common_stock_items, -product.kit_stock) if bom
         product.kit_stock = 0
       end
     else
       self.assembled_stock -= quantity
-      bom.subtract_stock(option_stock_items, quantity)
+      bom.subtract_stock(option_stock_items, quantity) if bom
       if self.assembled_stock < 0
         product.partial_stock += self.assembled_stock
         self.assembled_stock = 0
       end
       if product.partial_stock < 0
-        bom.subtract_stock(common_stock_items, -product.partial_stock)
+        bom.subtract_stock(common_stock_items, -product.partial_stock) if bom
         product.partial_stock = 0
       end
     end

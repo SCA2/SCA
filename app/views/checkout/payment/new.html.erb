@@ -4,12 +4,12 @@
 	<div class="row">
 		<div class="small-9 columns main">
 			<%= render 'shared/progress_bar' %>
-			<%= form_for @card, url: checkout_payment_path(@cart) do |f| %>
+			<%= form_for @card, url: checkout_payment_path(@cart), method: 'patch' do |f| %>
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'payment_form', f: f, legend: 'Payment Information' %>
 				<div class="button-box">
-					<%= link_to 'Back to Confirmation', new_checkout_confirmation_path(@cart), class: 'button user' %>
-					<%= f.submit 'Place Order', class: 'button user' %>
+          <%= link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button user' %>
+          <%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>
 		</div>

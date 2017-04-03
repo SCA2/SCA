@@ -4,7 +4,7 @@ class Component < ActiveRecord::Base
   validates :mfr_part_number, :stock, :lead_time, presence: true
   validates :mfr_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
   validates :vendor_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
-  validates :stock, numericality: { only_integer: true, greater_than: -1 }
+  validates :stock, numericality: { only_integer: true }
   validates :lead_time, numericality: { only_integer: true, greater_than: 0 }
 
   default_scope -> { order :mfr_part_number }

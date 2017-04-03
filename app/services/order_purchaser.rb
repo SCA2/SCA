@@ -2,28 +2,38 @@ class OrderPurchaser
 
   require 'active_merchant/billing/rails'
 
-  def initialize(order, valid_card = nil)
+  def initialize(order)
     @order = order
     @cart = order.cart
     @total = order.total
-    @stripe_token = valid_card.stripe_token if valid_card
   end
 
   def purchase
     response = process_purchase
-    @order.transactions.create!(action: "purchase", amount: @total, response: response)
-    @cart.update(purchased_at: Time.zone.now) if response.success?
-    response.success?
+    record_transaction(response)
+    response.successful?
   rescue StandardError => e
     @order.transactions.create(exception_params(e))
     false
   end
   
 private
+
+  def record_transaction(response)
+    @order.transactions.create!(
+      action: "stripe purchase",
+      amount: response.amount,
+      success: response.successful?,
+      authorization: response.id,
+      message: response.description,
+      params: response.params
+    )
+    @cart.update(purchased_at: Time.zone.now) if response.successful?
+  end
   
   def process_purchase
-    if @order.standard_purchase?
-      STANDARD_GATEWAY.purchase(@total, @credit_card, standard_purchase_options)
+    if @order.stripe_purchase?
+      StripeWrapper::Charge.create(stripe_purchase_options)
     else
       EXPRESS_GATEWAY.purchase(@total, express_purchase_options)
     end
@@ -40,17 +50,14 @@ private
     }
   end
   
-  def standard_purchase_options
-    billing = @order.billing_address
+  def stripe_purchase_options
     {
-      ip: @order.ip_address,
-      billing_address: {
-        name:       billing.first_name + ' ' + billing.last_name,
-        address1:   billing.address_1,
-        city:       billing.city,
-        state_code: billing.state_code,
-        country:    billing.country,
-        zip:        billing.post_code
+      amount:       @total,
+      currency:     'usd',
+      description:  "Order: #{@order.id}, Cart: #{@cart.id}",
+      source:       @order.stripe_token,
+      metadata: {
+        ip: @order.ip_address,
       }
     }
   end

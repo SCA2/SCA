@@ -62,9 +62,9 @@ SCA::Application.routes.draw do
     resource :express,        only: [:new, :edit],          controller: 'checkout/express'
     resources :addresses,     only: [:new, :create],        controller: 'checkout/addresses'
     resource :shipping,       only: [:new, :update],        controller: 'checkout/shipping'
+    resource :payment,        only: [:new, :update],        controller: 'checkout/payment'
     resource :confirmation,   only: [:new, :update],        controller: 'checkout/confirmation'
-    resource :payment,        only: [:new, :edit, :create], controller: 'checkout/payment'
-    resources :transactions,  only: [:new],                 controller: 'checkout/transactions'
+    resources :transactions,  only: [:new, :update],        controller: 'checkout/transactions'
   end
 
   root to: "static_pages#home"

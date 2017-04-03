@@ -37,6 +37,18 @@ describe StripeWrapper do
           expect(response).to be_successful
         end
 
+        it 'responds to stripe charge object methods', :vcr do
+          response = StripeWrapper::Charge.create(
+            amount:       999,
+            source:       good_token,
+            description:  'a valid charge'
+          )
+          expect(response.id).to eq 'ch_1A4HisFC0i7e7XIPnzQ1axhj'
+          expect(response.object).to eq 'charge'
+          expect(response.amount).to eq 999
+          expect(response.currency).to eq 'usd'
+        end
+
       end
       
       context 'with invalid card' do
@@ -68,7 +80,6 @@ describe StripeWrapper do
 
         it 'creates customer', :vcr do
           response = StripeWrapper::Customer.create(
-            # plan:         '1',
             source:       good_token,
           )
           expect(response).to be_successful
@@ -76,7 +87,6 @@ describe StripeWrapper do
 
         it 'returns customer token', :vcr do
           response = StripeWrapper::Customer.create(
-            # plan:         '1',
             source:       good_token,
           )
           expect(response.customer_token).to be_present
@@ -88,7 +98,6 @@ describe StripeWrapper do
 
         it 'does not create customer', :vcr do
           response = StripeWrapper::Customer.create(
-            plan:         '1',
             source:       bad_token,
           )
           expect(response).to_not be_successful
@@ -96,7 +105,6 @@ describe StripeWrapper do
 
         it 'captures the error message', :vcr do
           response = StripeWrapper::Customer.create(
-            plan:         '1',
             source:       bad_token,
           )
           expect(response.error_message).to eq "Your card was declined."

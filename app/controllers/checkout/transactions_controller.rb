@@ -6,28 +6,34 @@ module Checkout
     before_action :bad_state_redirect
 
     def new
-      unless order.confirmable? && params[:accept_terms]
-        flash[:alert] = 'Sorry, there was a problem confirming your order.'
-        redirect_to new_checkout_confirmation_path(cart) and return
-      end
-      @transaction = order.transactions.last
-      if order_params[:success] == 'true'
+      if OrderPurchaser.new(order).purchase
+        @transaction = order.transactions.last
+        flash[:success] = 'Thank you for your order!'
         cart.inventory
         cart.save
-        UserMailer.order_received(order).deliver_now
+        send_mail
         forget_cart
         render 'success'
-      else
+      elsif order.stripe_purchase?
+        @transaction = order.transactions.last
+        flash[:alert] = 'Sorry, we had a problem with your credit card payment.'
+        render 'failure'
+      elsif order.express_purchase?
+        @transaction = order.transactions.last
+        flash[:alert] = 'Sorry, there was a problem with your PayPal Express payment.'
         render 'failure'
       end
     end
 
   private
+    def send_mail
+      UserMailer.order_received(order).deliver_now
+    end
 
     def bad_state_redirect
-      unless order.notifiable?
-        flash[:alert] = 'Sorry, there was a problem submitting your payment.'
-        redirect_to new_checkout_payment_path(order)
+      unless order.transactable?(order_params[:accept_terms])
+        flash[:alert] = 'Sorry, there was a problem confirming your order.'
+        redirect_to new_checkout_confirmation_path(order)
       end
     end
 
@@ -38,7 +44,7 @@ module Checkout
     end
 
     def order_params
-      params.permit(:id, :success)
+      params.permit(:accept_terms)
     end
   end
 end

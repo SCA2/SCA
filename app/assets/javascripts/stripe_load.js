@@ -1,14 +1,15 @@
 $(document).ready(function() {
 
-  // Create a Stripe client
+  // Get the public key from the meta tag
   const stripe_pk = $('meta[name="stripe-public-key"]').attr('content');
+
+  // Create a Stripe client
   var stripe = Stripe(stripe_pk);
 
   // Create an instance of Elements
   var elements = stripe.elements();
 
-  // Custom styling can be passed to options when creating an Element.
-  // (Note that this demo uses a wider set of styles than the guide below.)
+  // Custom styling (overrides CSS)
   var style = {
     base: {
       fontSmoothing: 'antialiased',
@@ -22,50 +23,57 @@ $(document).ready(function() {
     }
   };
 
-  // Create an instance of the card Element
-  let userPostalCode = document.getElementById('card-element')
-  userPostalCode = userPostalCode ? userPostalCode.dataset.postcode : '90210';
-  var card = elements.create('card', {value: {postalCode: userPostalCode}, style: style});
+  const cardElement = document.getElementById('card-element');
+  const errorElement = document.getElementById('card-errors');
+  const form = document.getElementById('new_card_tokenizer');
 
-  // Add an instance of the card Element into the `card-element` <div>
-  card.mount('#card-element');
+  if(cardElement && errorElement && form) {
 
-  // Handle real-time validation errors from the card Element.
-  var errorDisplayDiv = document.getElementById('card-errors');
+    var values = function() {
+      let userPostalCode = cardElement.dataset.postcode || '90210';
+      return({postalCode: userPostalCode});
+    };
 
-  card.addEventListener('change', function(event) { displayError(event) });
+    // Create an instance of the card Element
+    var card = elements.create('card', {value: values(), style: style});
 
-  var displayError = function(event) {
-    if (event.error) {
-      errorDisplayDiv.textContent = event.error.message;
-    } else {
-      errorDisplayDiv.textContent = '';
-    }
+    // Add an instance of the card Element into the `card-element` <div>
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) { displayError(event) });
+
+    var displayError = function(event) {
+      if (event.error) {
+        errorElement.textContent = event.error.message;
+      } else {
+        errorElement.textContent = '';
+      }
+    };
+
+    // Handle form submission
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          // Inform the user if there was an error
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+          console.log(result.error.message);
+        } else {
+          // Send the token to your server
+          submitForm(result.token);
+        }
+      });
+    });
   };
 
-  // Handle form submission
-  var form = document.getElementById('new_card_validator');
-
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    stripe.createToken(card).then(function(result) {
-      if (result.error) {
-        // Inform the user if there was an error
-        var errorElement = document.getElementById('card-errors');
-        errorElement.textContent = result.error.message;
-        console.log(result.error.message);
-      } else {
-        // Send the token to your server
-        submitForm(result.token);
-      }
-    });
-  });
-
   var submitForm = function(stripe_token) {
-    let hiddenInput = document.getElementById('card_validator_stripe_token');
+    let hiddenInput = document.getElementById('card_tokenizer_stripe_token');
     hiddenInput.setAttribute('value', stripe_token.id);
-    // alert('submitting token: ' + stripe_token.id);
+    // alert('Submitting token: ' + stripe_token.id);
     form.submit();
   }
+
 });

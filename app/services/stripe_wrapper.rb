@@ -1,12 +1,14 @@
 module StripeWrapper
 
-  class Charge
+  class Charge < SimpleDelegator
     
     attr_reader :response, :error_message
 
     def initialize(response: nil, error_message: nil)
       @response = response
+      super(@response) if @response
       @error_message = error_message
+      super(@error_message) if @error_message
     end
 
     def self.create(options={})
@@ -15,7 +17,8 @@ module StripeWrapper
           amount:       options[:amount],
           currency:     options[:currency] || 'usd',
           source:       options[:source],
-          description:  options[:description]
+          description:  options[:description],
+          metadata:     options[:metadata]
         )
         new(response: response)
       rescue Stripe::CardError => e
@@ -25,7 +28,19 @@ module StripeWrapper
     end
   
     def successful?
-      @response && @response.status == 'succeeded'
+      @response && status == 'succeeded'
+    end
+
+    def authorization
+      @response && id
+    end
+
+    def message
+      @response && description
+    end
+
+    def params
+      @response && source.to_hash
     end
   end
 

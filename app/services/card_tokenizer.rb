@@ -1,4 +1,4 @@
-class CardValidator
+class CardTokenizer
 
   include ActiveModel::Model
 
@@ -20,11 +20,11 @@ class CardValidator
   end
 
   def self.model_name
-    ActiveModel::Name.new(self, nil, 'CardValidator')
+    ActiveModel::Name.new(self, nil, 'CardTokenizer')
   end
 
   def save
-    @order.update(email: email, ip_address: ip_address)
+    @order.update(email: email, ip_address: ip_address, stripe_token: stripe_token)
   end
   
 end  

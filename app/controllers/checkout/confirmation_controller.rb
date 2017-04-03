@@ -32,34 +32,11 @@ module Checkout
       if TermsValidator.new(order_params).valid?
         sales_tax = OrderCalculator.new(order).sales_tax
         order.update(sales_tax: sales_tax)
-        flash[:success] = 'Order confirmed!'
-        redirect_to paypal_redirect
+        redirect_to new_checkout_transaction_path(cart, accept_terms: '1')
       else
         flash[:alert] = 'You must accept terms to proceed!'
         redirect_to new_checkout_confirmation_path(cart)
       end 
-    end
-
-    def create
-      unless order.standard_purchase?
-        flash[:alert] = 'Sorry, there was a problem with your payment details.'
-        redirect_to new_checkout_confirmation_path(cart) and return
-      end
-
-      @card = CardValidator.new(order, order_params)
-      if @card.valid?
-        @card.save
-      else
-        render 'new' and return
-      end
-
-      if OrderPurchaser.new(order, @card).purchase
-        flash[:success] = 'Thank you for your order!'
-        redirect_to new_checkout_transaction_path(cart, success: true)
-      else
-        flash[:alert] = 'Sorry, we had a problem with your credit card payment.'
-        redirect_to new_checkout_transaction_path(cart, success: false)
-      end
     end
 
   private
@@ -68,14 +45,6 @@ module Checkout
       unless order.confirmable?
         flash[:alert] = 'Sorry, there was a problem confirming your order.'
         redirect_to new_checkout_confirmation_path(cart)
-      end
-    end
-
-    def paypal_redirect
-      if order.express_token.to_s.length > 1
-        edit_checkout_payment_path(cart)
-      else
-        new_checkout_payment_path(cart, accept_terms: '1')
       end
     end
 
