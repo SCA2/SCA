@@ -37,6 +37,8 @@ features:
   component table
   send 'reorder limit' email
 
+refactor:
+  rewrite orders.js.coffee in straight js
 
 testing:
   discount

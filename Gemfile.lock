@@ -94,6 +94,7 @@ GEM
     chromedriver-helper (1.1.0)
       archive-zip (~> 0.7.0)
       nokogiri (~> 1.6)
+    cliver (0.3.2)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -164,6 +165,11 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     pg (0.18.4)
+    poltergeist (1.9.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -276,6 +282,9 @@ GEM
       crack (>= 0.3.2)
       hashdiff
     websocket (1.2.4)
+    websocket-driver (0.6.4)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     will_paginate (3.0.7)
     will_paginate-foundation (5.3.4)
       will_paginate (>= 3.0.3)
@@ -312,6 +321,7 @@ DEPENDENCIES
   letter_opener
   mail (~> 2.6.3)
   pg
+  poltergeist
   pry
   rails
   roadie-rails (~> 1.0.4)

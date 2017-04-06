@@ -2,11 +2,12 @@
 
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
-# require 'rubygems'
+require 'spec_helper'
 require 'rspec/rails'
 require 'capybara'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'factory_girl_rails'
 
 require 'simplecov'
@@ -74,9 +75,24 @@ Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.javascript_driver = :selenium_chrome
+# register phantomjs driver:
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, debug: false, timeout: 180, js_errors: true,
+    phantomjs_options: [
+      '--debug=no',
+      '--load-images=no',
+      '--ignore-ssl-errors=yes',
+      '--ssl-protocol=TLSv1',
+      '--local-to-remote-url-access=yes'
+    ]
+  )
+end
 
 Capybara.configure do |config|  
-  config.default_max_wait_time = 10 # seconds
+  config.default_max_wait_time = 2 # seconds
   config.default_driver        = :selenium
 end
+
+# set defaults:
+Capybara.javascript_driver = :selenium_chrome
+Capybara.default_driver = :poltergeist

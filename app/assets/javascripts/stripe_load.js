@@ -35,7 +35,7 @@ $(document).ready(function() {
     };
 
     // Create an instance of the card Element
-    var card = elements.create('card', {value: values(), style: style});
+    var card = elements.create('card', {hidePostalCode: true, value: values(), style: style});
 
     // Add an instance of the card Element into the `card-element` <div>
     card.mount('#card-element');
