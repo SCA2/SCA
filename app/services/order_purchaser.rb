@@ -35,7 +35,7 @@ private
     if @order.stripe_purchase?
       StripeWrapper::Charge.create(stripe_purchase_options)
     else
-      EXPRESS_GATEWAY.purchase(@total, express_purchase_options)
+      # EXPRESS_GATEWAY.purchase(@total, express_purchase_options)
     end
   end
 
