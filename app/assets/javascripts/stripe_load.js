@@ -30,7 +30,7 @@ $(document).ready(function() {
   if(cardElement && errorElement && form) {
 
     var values = function() {
-      let userPostalCode = cardElement.dataset.postcode || '90210';
+      var userPostalCode = cardElement.dataset.postcode || '90210';
       return({postalCode: userPostalCode});
     };
 
