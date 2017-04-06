@@ -23,11 +23,16 @@ describe "PasswordResets" do
   end
 
   it "updates the user password when confirmation matches" do
-    user = create(:user, :password_reset_token => "something", :password_reset_sent_at => 1.hour.ago)
+    
+    user = create(:user,
+      password_reset_token: "reset_token",
+      password_reset_sent_at: 1.hour.ago
+    )
+    
     visit edit_password_reset_path(user.password_reset_token)
     expect(page).to have_content("Change Password")
-    fill_in "user_password", :with => "foobar"
-    fill_in "user_password_confirmation", :with => "foobar"
+    fill_in "user_password", with: "foobar"
+    fill_in "user_password_confirmation", with: "foobar"
     click_button "Save Password"
     expect(page).to have_content("Password reset!")
   end

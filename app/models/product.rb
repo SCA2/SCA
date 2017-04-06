@@ -61,8 +61,18 @@ class Product < ActiveRecord::Base
   end
 
   def common_stock_items
-    items = BomItem.includes(:component, bom: [option: :product])
-    items.where(products: {model: model})
+    BomItem.find_by_sql("
+      SELECT * FROM bom_items
+      WHERE bom_items.component_id IN (
+        SELECT components.id FROM bom_items
+        JOIN components ON bom_items.component_id = components.id
+        JOIN boms ON bom_items.bom_id = boms.id
+        JOIN options ON boms.option_id = options.id
+        JOIN products ON options.product_id = products.id
+        GROUP BY components.id
+        HAVING COUNT(bom_items.id) > #{options.count > 1 ? 1 : 0}
+      )
+    ")
   end
 
 private
@@ -74,8 +84,7 @@ private
 
   def get_common_stock
     items = common_stock_items
-    items = items.group_by {|i| i.component_id}
-    items = items.select {|k,v| v.length == bom_count}
-    items.map {|k,v| v[0].component.stock / v[0].quantity }.min
+    items = items.reject {|i| i.quantity.zero? }
+    items.map {|i| i.component.stock / i.quantity }.min
   end
 end

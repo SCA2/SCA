@@ -3,21 +3,7 @@ require 'rails_helper'
 describe Option do
 
   let(:product) { create(:product) }
-  let(:option) { build(:option,
-    product: product,
-	  model: 'A12KF',
-    active: true,
-	  description: 'Description',
-    upc: 123456789,
-    sort_order: 10,
-	  price: 249,
-    discount: 20,
-    shipping_length: 8,
-    shipping_width: 3,
-    shipping_height: 2,
-	  shipping_weight: 3,
-    assembled_stock: 8)
-	}
+  let(:option) { build(:option, product: product) }
   
   subject { option }
   
@@ -51,15 +37,9 @@ describe Option do
   end
 
   describe 'product associations' do
-    it 'product association does not constrain product delete' do
-      product = create(:product)
-      option = create(:option, product: product)
-      expect {product.destroy}.to change {Product.count}.by(-1)
-    end
-    
     it 'is destroyed with associated product' do
       product = create(:product)
-      option = create(:option, product: product)
+      create(:option, product: product)
       expect {product.destroy}.to change {Option.count}.by(-1)
     end
     
@@ -161,98 +141,82 @@ describe Option do
       option.shipping_height = 2
       expect(option.shipping_volume).to eq(8)
     end
+  end
 
-    it 'recalculates kit stock' do
-      option.assembled_stock = 0
-      option.partial_stock = 0
-      option.kit_stock = 0
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 100)
-      cmp_2 = create(:component, stock: 200)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(1)
-      expect(option.common_stock).to eq(99)
+  describe 'option type' do
+
+    it 'self-identifies as kit' do
+      option.model = 'KF-2S'
+      expect(option.is_kit?).to be true
+      expect(option.is_assembled?).to be false
     end
 
-    it 'recalculates assembled stock' do
-      option.model = 'KA'
-      option.assembled_stock = 0
-      option.partial_stock = 0
-      option.kit_stock = 0
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 100)
-      cmp_2 = create(:component, stock: 200)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(1)
-      expect(option.common_stock).to eq(99)
+    it 'self-identifies as assembled' do
+      option.model = 'KA-2H'
+      expect(option.is_kit?).to be false
+      expect(option.is_assembled?).to be true
+    end
+  end  
+
+  describe 'inventory' do
+
+    let(:product) { create(:product) }
+    let(:option) { build(:option, product: product) }
+
+    let(:kf_2s) { build(:option, product: product) }
+    let(:kf_2h) { build(:option, product: product) }
+
+    let(:c_1) { build(:component, stock: 10) }
+    let(:c_2) { build(:component, stock: 10) }
+    let(:c_3) { build(:component, stock: 10) }
+
+    # common_stock = components common to all product options / quantity
+    # option_stock = components unique to this option / quantity
+    # limiting_stock = minimum of common_stock and option_stock
+
+    it 'reports correct common stock' do
+      allow(kf_2s).to receive(:is_kit?) {true}
+
+      kf_2s.kit_stock = 0
+
+      create(:bom, option: kf_2s)
+      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 2)
+      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 1)
+
+      expect(kf_2s.common_stock).to eq(5)
     end
 
-    it 'sells an in-stock kit' do
-      option.assembled_stock = 8
-      option.partial_stock = 8
-      option.kit_stock = 8
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 25)
-      cmp_2 = create(:component, stock: 50)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(1)
-      expect(option.assembled_stock).to eq(8)
-      expect(option.partial_stock).to eq(8)
-      expect(option.kit_stock).to eq(7)
-      expect(option.common_stock).to eq(25)
+    it 'reports correct option stock for single option' do
+      allow(kf_2s).to receive(:is_kit?) {true}
+
+      kf_2s.kit_stock = 0
+
+      create(:bom, option: kf_2s)
+      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 2)
+      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 1)
+
+      expect(kf_2s.option_stock).to eq(5)
     end
 
-    it 'sells an out-of-stock kit' do
-      option.assembled_stock = 1
-      option.partial_stock = 1
-      option.kit_stock = 1
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 25)
-      cmp_2 = create(:component, stock: 50)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(2)
-      expect(option.assembled_stock).to eq(1)
-      expect(option.partial_stock).to eq(1)
-      expect(option.kit_stock).to eq(0)
-      expect(option.common_stock).to eq(24)
-    end
+    it 'reports correct common and option stock for multiple options' do
+      allow(kf_2s).to receive(:is_kit?) {true}
+      allow(kf_2h).to receive(:is_kit?) {true}
 
-    it 'sells an in-stock module' do
-      option.model = 'KA'
-      option.assembled_stock = 8
-      option.partial_stock = 8
-      option.kit_stock = 8
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 25)
-      cmp_2 = create(:component, stock: 50)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(1)
-      expect(option.assembled_stock).to eq(7)
-      expect(option.partial_stock).to eq(8)
-      expect(option.kit_stock).to eq(8)
-      expect(option.common_stock).to eq(25)
-    end
+      kf_2s.kit_stock = 0
+      kf_2h.kit_stock = 0
 
-    it 'sells an out-of-stock module' do
-      option.model = 'KA'
-      option.assembled_stock = 1
-      option.partial_stock = 1
-      option.kit_stock = 1
-      bom = create(:bom, option: option)
-      cmp_1 = create(:component, stock: 25)
-      cmp_2 = create(:component, stock: 50)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
-      option.subtract_stock(4)
-      expect(option.assembled_stock).to eq(0)
-      expect(option.partial_stock).to eq(0)
-      expect(option.kit_stock).to eq(1)
-      expect(option.common_stock).to eq(23)
-    end    
+      create(:bom, option: kf_2s)
+      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 1)
+      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 2)
+
+      create(:bom, option: kf_2h)
+      create(:bom_item, bom: kf_2h.bom, component: c_1, quantity: 1)
+      create(:bom_item, bom: kf_2h.bom, component: c_3, quantity: 3)
+
+      expect(kf_2s.common_stock).to eq(10)
+      expect(kf_2h.common_stock).to eq(10)
+      expect(kf_2s.option_stock).to eq(5)
+      expect(kf_2h.option_stock).to eq(3)
+    end
   end
 end

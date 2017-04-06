@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-feature 'standard paypal checkout', :vcr, js: true do
+feature 'standard stripe checkout', :vcr do
   before(:each) do
     @credit_card = {
-      card_type: 'Visa',
-      card_number: '4032034105891439',
-      expiration_month: '6',
-      expiration_year: '2021',
+      card_number: '4242424242424242',
+      expiration_month: '01',
+      expiration_year: "#{DateTime.now.year + 1}",
       cvv: '123',
       email: 'sales-buyer-2@seventhcircleaudio.com'
     }
@@ -21,9 +20,9 @@ feature 'standard paypal checkout', :vcr, js: true do
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }
 
-  scenario 'as a guest' do
+  scenario 'as a guest', js: true do
     visit product_path(@product)
-    click_button('Add to Cart')
+    accept_confirm { click_button('Add to Cart') }
     expect(page).to have_content('1 Items')
     visit cart_path(Cart.last)
     click_link('Checkout')
@@ -36,24 +35,24 @@ feature 'standard paypal checkout', :vcr, js: true do
     expect(page).to have_content('UPS Options')
     find("input[id^='order_shipping_method_ups_ground']").click
     click_button('Continue Checkout')
+    expect(page).to have_content('Payment Information')
+    fill_in_credit_card
+    click_button('Continue Checkout')
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
-    click_button('Continue Checkout')
-    expect(page).to have_content('Card Info')
-    fill_in_credit_card
     click_button('Place Order')
     expect(page).to have_content('Transaction ID')
     expect(page).to have_content('0 Items')
   end
 
-  scenario 'as a signed-in user' do
+  scenario 'as a signed-in user', js: true do
     user = create(:user)
     create(:billing_constant_taxable, addressable: user)
     create(:shipping_constant_taxable, addressable: user)
     test_sign_in(user, true)
 
     visit product_path(@product)
-    click_button('Add to Cart')
+    accept_confirm { click_button('Add to Cart') }
     expect(page).to have_content('1 Items')
     visit cart_path(Cart.last)
     click_link('Checkout')
@@ -66,14 +65,14 @@ feature 'standard paypal checkout', :vcr, js: true do
     expect(page).to have_content('UPS Options')
     find("input[id^='order_shipping_method_ups_ground']").click
     click_button('Continue Checkout')
+    expect(page).to have_content('Payment Information')
+    fill_in_credit_card
+    click_button('Continue Checkout')
     expect(page).to have_content(user.addresses.first.address_1)
     expect(page).to have_content(user.addresses.last.address_1)
     expect(page).to have_content('UPS Ground')
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
-    click_button('Continue Checkout')
-    expect(page).to have_content('Card Info')
-    fill_in_credit_card
     click_button('Place Order')
     expect(page).to have_content('Transaction ID')
     expect(page).to have_content('0 Items')
@@ -82,12 +81,12 @@ feature 'standard paypal checkout', :vcr, js: true do
 
   def fill_in_billing
     within('div#billing') do
+      first('#order_addresses_attributes_0_country option', minimum: 1).select_option
       fill_in('First name', with: @address.first_name)
       fill_in('Last name', with: @address.last_name)
       fill_in('Address 1', with: @address.address_1)
       fill_in('Address 2', with: @address.address_2)
       fill_in('City', with: @address.city)
-      first('#order_addresses_attributes_0_country option').select_option
       fill_in('Post Code', with: @address.post_code)
       fill_in('Telephone', with: @address.telephone)
       select(@state, from: 'order_addresses_attributes_0_state_code')
@@ -96,12 +95,12 @@ feature 'standard paypal checkout', :vcr, js: true do
 
   def fill_in_shipping  
     within('div#shipping') do
+      first('#order_addresses_attributes_1_country option', minimum: 1).select_option
       fill_in('First name', with: @address.first_name)
       fill_in('Last name', with: @address.last_name)
       fill_in('Address 1', with: @address.address_1)
       fill_in('Address 2', with: @address.address_2)
       fill_in('City', with: @address.city)
-      first('#order_addresses_attributes_1_country option').select_option
       fill_in('Post Code', with: @address.post_code)
       fill_in('Telephone', with: @address.telephone)
       select(@state, from: 'order_addresses_attributes_1_state_code')
@@ -110,12 +109,16 @@ feature 'standard paypal checkout', :vcr, js: true do
 
   def fill_in_credit_card
     within('fieldset#payment') do
-      select(@credit_card[:card_type], from: 'card_validator_card_type')
-      fill_in('card_validator_card_number', with: @credit_card[:card_number])
-      fill_in('card_validator_card_verification', with: @credit_card[:cvv])
-      select(@credit_card[:expiration_month], from: 'card_validator_card_expires_on_2i')
-      select(@credit_card[:expiration_year], from: 'card_validator_card_expires_on_1i')
-      fill_in('card_validator_email', with: @credit_card[:email])
+      stripe_iframe = find('#card-element > div > iframe')
+      Capybara.within_frame stripe_iframe do
+        find_field('cardnumber').send_keys(@credit_card[:card_number])
+        find_field('MM / YY').send_keys(
+          @credit_card[:expiration_month] + @credit_card[:expiration_year]
+        )
+        find_field('CVC').send_keys(@credit_card[:cvv])
+      end
+      fill_in('card_tokenizer_email', with: @credit_card[:email])
     end
   end
 end
+

@@ -29,69 +29,48 @@ class Option < ActiveRecord::Base
     self.active
   end
 
-  def is_a_kit?
+  def is_kit?
     model.include?('KF')
   end
 
-  def subtract_stock(quantity)
-    if is_a_kit?
-      product.kit_stock -= quantity
-      bom.subtract_stock(option_stock_items, quantity) if bom
-      if product.kit_stock < 0
-        bom.subtract_stock(common_stock_items, -product.kit_stock) if bom
-        product.kit_stock = 0
-      end
-    else
-      self.assembled_stock -= quantity
-      bom.subtract_stock(option_stock_items, quantity) if bom
-      if self.assembled_stock < 0
-        product.partial_stock += self.assembled_stock
-        self.assembled_stock = 0
-      end
-      if product.partial_stock < 0
-        bom.subtract_stock(common_stock_items, -product.partial_stock) if bom
-        product.partial_stock = 0
-      end
-    end
+  def is_assembled?
+    model.include?('KA')
   end
 
   def stock_message
-    if is_a_kit?
-      if kit_stock > 0
-        "#{limiting_stock(kit_stock)} can ship today"
-      elsif common_stock > 0
-        "#{limiting_stock(common_stock)} can ship in 3 to 5 days"
+    if is_kit?
+      if kit_stock > 8
+        "In stock"
+      elsif kit_stock > 0
+        "#{kit_stock} can ship today"
+      elsif limiting_stock > 0
+        "#{limiting_stock} can ship in 3 to 5 days"
       else
         "Please email for lead time"
       end
     else
-      if assembled_stock > 0
+      if assembled_stock > 8
+        "In stock"
+      elsif assembled_stock > 0
         "#{assembled_stock} can ship today"
       elsif partial_stock > 0
-        "#{limiting_stock(partial_stock)} can ship in 3 to 5 days"
-      elsif common_stock > 0
-        "#{limiting_stock(common_stock)} can ship in 1 to 2 weeks"
+        "#{partial_stock} can ship in 3 to 5 days"
+      elsif limiting_stock > 0
+        "#{limiting_stock} can ship in 1 to 2 weeks"
       else
         "Please email for lead time"
       end
     end
   end
 
-  def limiting_stock(stock)
-    if has_optional_items?
-      option_stock < stock ? option_stock : stock
-    else
-      stock
-    end
+  def limiting_stock
+    return 0 unless bom
+    [common_stock, option_stock].min
   end
 
   def option_stock
     @option_stock ||= get_option_stock
     @option_stock ? @option_stock : 0
-  end
-
-  def has_optional_items?
-    option_stock_items.count > 0
   end
 
   def option_stock_items
@@ -102,17 +81,17 @@ class Option < ActiveRecord::Base
 private
 
   def get_option_stock
-    # items = option_stock_items
-    # items.map {|i| i.component.stock / i.quantity }.min
-    bom.stock
+    if product.options.count == 1
+      common_stock
+    else
+      items = option_stock_items
+      items = items.reject { |i| i.quantity.zero? }
+      items.map { |i| i.component.stock / i.quantity }.min
+    end
   end
 
   def get_option_stock_items
-    items = product.common_stock_items
-    items = items.group_by {|i| i.component_id}
-    items = items.reject {|k,v| v.length == product.bom_count}
-    items = items.flat_map {|k,v| v}
-    items.select {|i| i.bom_id == bom.id}
+    bom.bom_items - common_stock_items
   end  
 end
 

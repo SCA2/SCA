@@ -71,8 +71,8 @@ describe Checkout::ConfirmationController do
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
       end
-      it 'redirects to payment path' do
-        expect(response).to redirect_to new_checkout_payment_path(@cart, accept_terms: '1')
+      it 'redirects to transaction path' do
+        expect(response).to redirect_to new_checkout_transaction_path(@cart, accept_terms: '1')
       end
     end
 
@@ -93,8 +93,8 @@ describe Checkout::ConfirmationController do
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
       end
-      it 'redirects to payment path' do
-        expect(response).to redirect_to edit_checkout_payment_path(@cart)
+      it 'redirects to transaction path' do
+        expect(response).to redirect_to new_checkout_transaction_path(@cart, accept_terms: '1')
       end
     end
 

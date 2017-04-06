@@ -15,8 +15,7 @@ describe Order do
   it { should respond_to(:addressable?) }
   it { should respond_to(:shippable?) }
   it { should respond_to(:confirmable?) }
-  it { should respond_to(:notifiable?) }
-  it { should respond_to(:standard_purchase?) }
+  it { should respond_to(:stripe_purchase?) }
   it { should respond_to(:express_purchase?) }
 
   it { should respond_to(:purchased_at) }

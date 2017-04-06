@@ -83,7 +83,7 @@ describe Checkout::ShippingController do
         expect(response).to have_http_status :redirect
       end
       it 'redirects to products path' do
-        expect(response).to redirect_to new_checkout_confirmation_path(@cart)
+        expect(response).to redirect_to new_checkout_payment_path(@cart)
       end
     end
 

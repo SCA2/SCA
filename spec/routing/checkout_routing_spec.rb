@@ -39,8 +39,7 @@ end
 describe Checkout::PaymentController do
   describe :routing do
     it { expect(get('/checkout/1/payment/new')).to  route_to('checkout/payment#new', checkout_id: '1') }
-    it { expect(get('/checkout/1/payment/edit')).to route_to('checkout/payment#edit', checkout_id: '1') }
-    it { expect(post('/checkout/1/payment')).to     route_to('checkout/payment#create', checkout_id: '1') }
+    it { expect(patch('/checkout/1/payment')).to    route_to('checkout/payment#update', checkout_id: '1') }
   end
 end
 

@@ -11,11 +11,11 @@ class CardTokenizer
 
   def initialize(order, params = nil)
     @order = order
-    @postcode = @order.billing_address.post_code
     unless params.nil?
       @stripe_token = params[:stripe_token]
       @email = params[:email]
       @ip_address = params[:ip_address]
+      @postcode = params[:postcode]
     end
   end
 

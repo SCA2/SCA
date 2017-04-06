@@ -206,7 +206,7 @@ describe "User pages" do
       it { is_expected.to have_title('Update profile') }
       it { is_expected.to have_content("Logged in as #{user.email}") }
       it { is_expected.to have_link('Log Out', href: signout_path) }
-      it { is_expected.to have_content('There are 2 errors on the page:') }
+      it { is_expected.to have_content('There are 3 errors on the page:') }
 
     end
   end

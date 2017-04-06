@@ -14,6 +14,7 @@ class OptionsController < BaseController
 
   def create
     @option_editor = OptionEditor.new(all_params)
+    handle_inventory
     if @option_editor.save
       flash[:notice] = "Success! Option #{@option_editor.option_model} created."
       redirect_to edit_bom_path(@option_editor.bom)
@@ -24,6 +25,7 @@ class OptionsController < BaseController
 
   def update
     @option_editor = OptionEditor.new(all_params)
+    handle_inventory
     if @option_editor.save
       flash[:notice] = "Success! Option #{ @option_editor.option_model } updated."
       redirect_to @product
@@ -40,6 +42,15 @@ class OptionsController < BaseController
   end
 
 private
+  def handle_inventory
+    option = @option_editor.option
+    inv_calc = InventoryCalculator.new(option: option)
+    unless option.new_record?
+      inv_calc.make_kits(quantity: @option_editor.kits_to_make)
+      inv_calc.make_partials(quantity: @option_editor.partials_to_make)
+      inv_calc.make_assemblies(quantity: @option_editor.assembled_to_make)
+    end
+  end
 
   def set_option
     @product = get_product(params[:product_id])

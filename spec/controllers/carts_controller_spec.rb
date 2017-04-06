@@ -49,7 +49,7 @@ describe CartsController do
     describe "DELETE #destroy", :vcr do
 
       let!(:cart) { create(:cart) }
-      let!(:order) { create(:paypal_order, cart: cart) }
+      let!(:order) { create(:stripe_order, cart: cart) }
 
       it "destroys the requested cart" do
         session[:cart_id] = cart.id

@@ -6,10 +6,10 @@ class OptionEditor
   delegate :price, :discount, :sort_order, :active, to: :option
   delegate :shipping_length, :shipping_width, to: :option 
   delegate :shipping_height, :shipping_weight, to: :option
-  delegate :option_stock_items, :option_stock, to: :option
-  delegate :assembled_stock, to: :option
+  delegate :assembled_stock, :limiting_stock, to: :option
+  delegate :is_kit?, :is_assembled?, to: :option
 
-  delegate :bom_count, :common_stock_items, :common_stock, to: :product
+  delegate :common_stock, to: :product
   delegate :kit_stock, :partial_stock, to: :product
 
   attr_accessor :kits_to_make, :partials_to_make, :assembled_to_make
@@ -43,35 +43,35 @@ class OptionEditor
   validates :kit_stock, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-  }, if: :is_a_kit?
+  }, if: :is_kit?
 
   validates :partial_stock, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-  }, unless: :is_a_kit?
+  }, if: :is_assembled?
 
   validates :assembled_stock, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
-  }, unless: :is_a_kit?
+  }, if: :is_assembled?
 
   validates :kits_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: :common_stock
-  }, if: :is_a_kit?
+  }, if: :is_kit?
   
   validates :partials_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: :common_stock
-  }, unless: :is_a_kit?
+  }, if: :is_assembled?
   
   validates :assembled_to_make, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: :limiting_stock
-  }, unless: (:is_a_kit? || :new_option?)
+  }, unless: (:is_kit? || :new_option?)
 
   def initialize(params)
     if params[:id]
@@ -95,10 +95,6 @@ class OptionEditor
     end
   end
 
-  def is_a_kit?
-    @option.model.include?('KF') if @option.model
-  end
-  
   def model_name
     ActiveModel::Name.new(self, nil, 'OptionEditor')
   end
@@ -119,44 +115,6 @@ class OptionEditor
     @option.new_record?
   end
 
-  def make_kits(qty = 0)
-    return unless bom
-    return unless is_a_kit?
-    return if qty > common_stock
-    bom.subtract_stock(product_stock_items, qty)
-    product.kit_stock += qty
-  end
-
-  def make_partials(qty = 0)
-    return unless bom
-    return if is_a_kit?
-    return if qty > common_stock
-    bom.subtract_stock(product_stock_items, qty)
-    product.partial_stock += qty
-  end
-
-  def make_assembled(qty = 0)
-    return unless bom
-    return if is_a_kit?
-    return if qty > limiting_stock
-    bom.subtract_stock(option_stock_items, qty)
-    option.assembled_stock += qty
-    product.partial_stock -= qty
-  end
-
-  def limiting_stock
-    if option_stock_items.count > 0
-      option_stock < partial_stock ? option_stock : partial_stock
-    else
-      partial_stock
-    end
-  end
-
-  def product_stock_items
-    return [] unless bom
-    bom.bom_items - option_stock_items
-  end
-
   def save
     return false unless @product && @option && valid?
     persist!
@@ -170,14 +128,6 @@ class OptionEditor
 private
 
   def persist!
-    unless @option.new_record?
-      if @option.is_a_kit?
-        make_kits(kits_to_make)
-      else
-        make_partials(partials_to_make)
-        make_assembled(assembled_to_make)
-      end
-    end
     @product.save!
     @option.save!
     @bom.save!

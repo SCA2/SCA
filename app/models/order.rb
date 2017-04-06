@@ -31,7 +31,11 @@ class Order < ActiveRecord::Base
   end
 
   def confirmable?
-    payable? && (express_token.present? || stripe_token.present?)
+    payable? && token_present? && email.present?
+  end
+
+  def token_present?
+    express_token.present? || stripe_token.present?
   end
 
   def stripe_purchase?
@@ -44,10 +48,6 @@ class Order < ActiveRecord::Base
 
   def transactable?(accepted)
     confirmable? && accepted == '1'
-  end
-
-  def notifiable?
-    email.present? && confirmable?
   end
 
   def total

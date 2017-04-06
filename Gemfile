@@ -43,7 +43,8 @@ group :test do
   gem 'webmock'
   gem 'faker'
   gem 'capybara'
-  gem 'poltergeist'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'simplecov', require: false

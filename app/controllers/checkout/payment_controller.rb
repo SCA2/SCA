@@ -29,9 +29,9 @@ module Checkout
       if @card.valid?
         @card.save
         flash[:success] = 'Card token saved!'
-        redirect_to new_checkout_confirmation_path(cart) and return
+        redirect_to new_checkout_confirmation_path(cart)
       else
-        render 'new' and return
+        render 'new'
       end
     end
 

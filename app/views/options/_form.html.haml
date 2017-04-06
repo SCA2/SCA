@@ -39,7 +39,7 @@
       = f.label :shipping_weight, 'Shipping Weight:'
       = f.number_field :shipping_weight
 
-  - if @option_editor.is_a_kit?
+  - if @option_editor.is_kit?
     .field_row
       .field
         = f.label :common_stock, 'Common Stock Available:'
