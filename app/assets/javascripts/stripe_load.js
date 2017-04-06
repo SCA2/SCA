@@ -70,7 +70,7 @@ $(document).ready(function() {
   };
 
   var submitForm = function(stripe_token) {
-    let hiddenInput = document.getElementById('card_tokenizer_stripe_token');
+    var hiddenInput = document.getElementById('card_tokenizer_stripe_token');
     hiddenInput.setAttribute('value', stripe_token.id);
     // alert('Submitting token: ' + stripe_token.id);
     form.submit();
