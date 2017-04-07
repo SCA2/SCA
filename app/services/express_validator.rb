@@ -1,12 +1,12 @@
 class ExpressValidator
 
-  require 'active_merchant/billing/rails'
+  # require 'active_merchant/billing/rails'
 
   def initialize(order, params)
     return false unless order && !order.purchased?
     return false unless params && params[:token]
     @order = order
-    @details ||= EXPRESS_GATEWAY.details_for(params[:token])
+    # @details ||= EXPRESS_GATEWAY.details_for(params[:token])
     set_ip_address(params)
     set_express_token(params)
     set_express_id
