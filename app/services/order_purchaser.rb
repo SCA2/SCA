@@ -1,6 +1,6 @@
 class OrderPurchaser
 
-  require 'active_merchant/billing/rails'
+  # require 'active_merchant/billing/rails'
 
   def initialize(order)
     @order = order
