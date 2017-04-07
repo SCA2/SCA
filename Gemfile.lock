@@ -291,7 +291,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_shipping
-  active_utils
   bcrypt-ruby
   byebug
   capistrano (~> 3.5.0)
