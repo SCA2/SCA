@@ -69,4 +69,10 @@ class InventoryCalculator
     sell_assemblies(quantity: quantity)
   end
 
+  def save_inventory
+    @product.save!
+    @option.save!
+    @bom.save!
+  end
+
 end

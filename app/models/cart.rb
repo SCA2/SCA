@@ -113,6 +113,7 @@ class Cart < ActiveRecord::Base
     line_items.each do |item|
       calculator = InventoryCalculator.new(option: item.option)
       calculator.subtract_stock(quantity: item.quantity)
+      calculator.save_inventory
     end
   end
 
