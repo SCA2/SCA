@@ -1,10 +1,14 @@
 To do:
 
 bugs:
+  can't edit my boms!
+  not deducting stock when cart purchased
+  bom edit doesn't remember product and option
+  no stripe transaction id in confirmation email
   usps only for international
-  reorder paypal express checkout
   reset password email links to localhost
   login session does not validate password confirm
+  x reorder paypal express checkout
   x can't back up to paypal
   x no package discount w/ A12KF
   x missing oneshot docs

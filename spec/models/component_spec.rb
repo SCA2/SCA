@@ -44,4 +44,20 @@ describe Component do
     end
   end
 
+  describe 'selection name' do
+    it 'returns a name for a select list' do
+      component = create(:component, mfr_part_number: 'mfr', value: 'value', description: 'description')
+      expect(component.selection_name).to eq 'mfr, value, description'
+    end
+
+    it 'handles missing value' do
+      component = create(:component, mfr_part_number: 'mfr', value: nil, description: 'description')
+      expect(component.selection_name).to eq 'mfr, description'
+    end
+
+    it 'handles missing value and description' do
+      component = create(:component, mfr_part_number: 'mfr', value: nil, description: '')
+      expect(component.selection_name).to eq 'mfr'
+    end
+  end
 end
