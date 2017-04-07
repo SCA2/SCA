@@ -14,6 +14,7 @@ class BomImporter
   def initialize(attributes = {})
     @imported_components = nil
     @imported_bom_items = nil
+    @spreadsheet = nil
     @products = Product.joins(options: :bom).distinct.order(:model_sort_order)
     if attributes.empty?
       @bom = Bom.new
@@ -44,7 +45,7 @@ class BomImporter
     else
       imported_components.each_with_index do |component, index|
         component.errors.full_messages.each do |message|
-          errors.add :base, "Line #{index + FIRST_COMPONENT_ROW}: #{message}"
+          errors.add :base, "Item #{index + FIRST_COMPONENT_ROW - 1}: #{message}"
         end
       end
       return false
@@ -56,7 +57,7 @@ class BomImporter
     else
       imported_bom_items.each_with_index do |item, index|
         item.errors.full_messages.each do |message|
-          errors.add :base, "Line #{index + FIRST_COMPONENT_ROW}:, #{message}"
+          errors.add :base, "Item #{index + FIRST_COMPONENT_ROW - 1}:, #{message}"
         end
       end
       return false
@@ -96,7 +97,6 @@ class BomImporter
   def import_bom_items_from_spreadsheet
     header = normalize_header(@spreadsheet.row(1))
     (FIRST_COMPONENT_ROW..@spreadsheet.last_row).map do |i|
-      byebug
       row = Hash[[header, @spreadsheet.row(i)].transpose]
       component = create_or_update_component(row)
       row["component_id"] = component.id
@@ -122,9 +122,12 @@ class BomImporter
 
   def normalize_header(header)
     header.map do |h|
-      name = h.to_s.downcase.gsub(/ /, '_')
-      name = 'mfr' if name == 'manufacturer'
-      name = 'quantity' if name == 'qty'
+      name = h.to_s.strip.downcase.gsub(/ /, '_')
+      name = 'mfr' if name.include?('manufacturer')
+      name = 'quantity' if name.include?('qty')
+      name = 'reference' if name.include?('ref')
+      name = 'mfr_part_number' if name.include?("man's_number")
+      name = 'vendor' if name.include?('source')
       name
     end
   end

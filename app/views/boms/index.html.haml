@@ -3,7 +3,7 @@
   %p
     = link_to "New BOM", new_bom_path
     &nbsp;|&nbsp;
-    = link_to "Import BOMs", new_bom_importer_path
+    = link_to_if(@boms.count > 0, "Import BOMs", new_bom_importer_path)
   .row
     .small-12.columns
       = render layout: 'bom_headers' do

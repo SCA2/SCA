@@ -3,7 +3,7 @@ class Component < ActiveRecord::Base
 
   validates :mfr_part_number, :stock, :lead_time, presence: true
   validates :mfr_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
-  validates :vendor_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
+  validates :vendor_part_number, uniqueness: { message: "%{attribute} is taken" }, on: :create, if: Proc.new { vendor_part_number.present? }
   validates :stock, numericality: { only_integer: true }
   validates :lead_time, numericality: { only_integer: true, greater_than: 0 }
 
