@@ -44,16 +44,4 @@ SCA::Application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = false
-  
-  #Paypal
-  # config.after_initialize do
-  #   ActiveMerchant::Billing::Base.mode = :test
-  #   paypal_options = {
-  #     login:      ENV['PAYPAL_DEV_LOGIN'],
-  #     password:   ENV['PAYPAL_DEV_PASSWORD'],
-  #     signature:  ENV['PAYPAL_DEV_SIGNATURE']
-  #   }
-  #   ::STANDARD_GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
-  #   ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-  # end
 end

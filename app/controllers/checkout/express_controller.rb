@@ -8,8 +8,9 @@ module Checkout
     def new
       @order = Order.find_or_create_by(cart_id: cart.id)
       bad_state_redirect; return if performed?
-      response = EXPRESS_GATEWAY.setup_purchase(cart.subtotal, express_options)
-      redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+      # response = EXPRESS_GATEWAY.setup_purchase(cart.subtotal, express_options)
+      # redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+      redirect_to products_path
     end
     
     def edit
