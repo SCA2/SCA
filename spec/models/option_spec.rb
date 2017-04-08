@@ -160,63 +160,71 @@ describe Option do
 
   describe 'inventory' do
 
-    let(:product) { create(:product) }
-    let(:option) { build(:option, product: product) }
+    let(:prod_1) { create(:product) }
+    let(:prod_2) { create(:product) }
 
-    let(:kf_2s) { build(:option, product: product) }
-    let(:kf_2h) { build(:option, product: product) }
+    let(:op_1) { build(:option, product: prod_1) }
+    let(:op_2) { build(:option, product: prod_1) }
+    let(:op_3) { build(:option, product: prod_2) }
+    let(:op_4) { build(:option, product: prod_2) }
 
-    let(:c_1) { build(:component, stock: 10) }
-    let(:c_2) { build(:component, stock: 10) }
-    let(:c_3) { build(:component, stock: 10) }
+    let(:c_1) { build(:component, stock: 6) }
+    let(:c_2) { build(:component, stock: 6) }
+    let(:c_3) { build(:component, stock: 6) }
 
     # common_stock = components common to all product options / quantity
     # option_stock = components unique to this option / quantity
     # limiting_stock = minimum of common_stock and option_stock
 
     it 'reports correct common stock' do
-      allow(kf_2s).to receive(:is_kit?) {true}
+      allow(op_1).to receive(:is_kit?) {true}
+      allow(op_3).to receive(:is_assembled?) {true}
 
-      kf_2s.kit_stock = 0
+      op_1.kit_stock = 0
 
-      create(:bom, option: kf_2s)
-      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 2)
-      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 1)
+      create(:bom, option: op_1)
+      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 2)
+      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 1)
 
-      expect(kf_2s.common_stock).to eq(5)
+      create(:bom, option: op_3)
+      create(:bom_item, bom: op_3.bom, component: c_1, quantity: 3)
+      create(:bom_item, bom: op_3.bom, component: c_3, quantity: 1)
+
+      expect(op_1.common_stock).to eq(2)
+      expect(op_3.common_stock).to eq(2)
     end
 
     it 'reports correct option stock for single option' do
-      allow(kf_2s).to receive(:is_kit?) {true}
+      allow(op_1).to receive(:is_kit?) {true}
 
-      kf_2s.kit_stock = 0
+      op_1.kit_stock = 0
 
-      create(:bom, option: kf_2s)
-      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 2)
-      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 1)
+      create(:bom, option: op_1)
+      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 2)
+      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 1)
 
-      expect(kf_2s.option_stock).to eq(5)
+      expect(op_1.option_stock).to eq(3)
     end
 
     it 'reports correct common and option stock for multiple options' do
-      allow(kf_2s).to receive(:is_kit?) {true}
-      allow(kf_2h).to receive(:is_kit?) {true}
+      allow(op_1).to receive(:is_kit?) {true}
+      allow(op_2).to receive(:is_kit?) {true}
 
-      kf_2s.kit_stock = 0
-      kf_2h.kit_stock = 0
+      op_1.kit_stock = 0
+      op_2.kit_stock = 0
 
-      create(:bom, option: kf_2s)
-      create(:bom_item, bom: kf_2s.bom, component: c_1, quantity: 1)
-      create(:bom_item, bom: kf_2s.bom, component: c_2, quantity: 2)
+      create(:bom, option: op_1)
+      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 1)
+      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 2)
 
-      create(:bom, option: kf_2h)
-      create(:bom_item, bom: kf_2h.bom, component: c_1, quantity: 1)
-      create(:bom_item, bom: kf_2h.bom, component: c_3, quantity: 3)
+      create(:bom, option: op_2)
+      create(:bom_item, bom: op_2.bom, component: c_1, quantity: 1)
+      create(:bom_item, bom: op_2.bom, component: c_3, quantity: 3)
 
-      expect(kf_2s.common_stock).to eq(10)
-      expect(kf_2h.common_stock).to eq(10)
-      expect(kf_2s.option_stock).to eq(5)
-      expect(kf_2h.option_stock).to eq(3)
+      expect(op_1.common_stock).to eq(6)
+      expect(op_2.common_stock).to eq(6)
+      expect(op_1.option_stock).to eq(3)
+      expect(op_2.option_stock).to eq(2)
     end
   end
 end

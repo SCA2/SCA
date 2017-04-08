@@ -61,6 +61,12 @@ class Product < ActiveRecord::Base
   end
 
   def common_stock_items
+    @common_stock_items ||= get_common_stock_items
+  end
+
+private
+
+  def get_common_stock_items
     BomItem.find_by_sql("
       SELECT * FROM bom_items
       WHERE bom_items.component_id IN (
@@ -69,13 +75,12 @@ class Product < ActiveRecord::Base
         JOIN boms ON bom_items.bom_id = boms.id
         JOIN options ON boms.option_id = options.id
         JOIN products ON options.product_id = products.id
+        WHERE options.product_id = #{self.id}
         GROUP BY components.id
-        HAVING COUNT(bom_items.id) > #{options.count > 1 ? 1 : 0}
+        HAVING COUNT(bom_items.id) = #{options.count}
       )
     ")
   end
-
-private
 
   def get_bom_count
     boms = Bom.includes(:bom_items, [option: :product])

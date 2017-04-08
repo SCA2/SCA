@@ -50,10 +50,6 @@ describe Product do
     expect(Product.new(image_1: nil)).to have(1).errors_on(:image_1)
   end
 
-  describe 'category sorting'
-
-  describe 'model sorting'
-
   describe 'feature associations' do
 
     let(:first_feature) { create(:feature, sort_order: 10) }
@@ -154,6 +150,49 @@ describe Product do
       line = create(:line_item, product: product, option: option, cart: cart)
       line.destroy
       expect {product.destroy}.to change {Product.count}.by(-1)
+    end
+  end
+
+  describe 'inventory' do
+
+    let(:prod_1) { create(:product) }
+    let(:op_1) { build(:option, product: prod_1) }
+    let(:op_2) { build(:option, product: prod_1) }
+
+    let(:prod_2) { create(:product) }
+    let(:op_3) { build(:option, product: prod_2) }
+    let(:op_4) { build(:option, product: prod_2) }
+
+    let(:c_1) { build(:component, stock: 6) }
+    let(:c_2) { build(:component, stock: 6) }
+    let(:c_3) { build(:component, stock: 6) }
+
+    # common_stock = components common to all product options / quantity
+    # option_stock = components unique to this option / quantity
+    # limiting_stock = minimum of common_stock and option_stock
+
+    it 'reports correct common stock' do
+      allow(op_1).to receive(:is_kit?) {true}
+      allow(op_2).to receive(:is_kit?) {true}
+
+      op_1.kit_stock = 0
+
+      create(:bom, option: op_1)
+      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 2)
+      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 1)
+
+      create(:bom, option: op_2)
+      create(:bom_item, bom: op_2.bom, component: c_1, quantity: 3)
+      create(:bom_item, bom: op_2.bom, component: c_3, quantity: 1)
+
+      create(:bom, option: op_3)
+      create(:bom_item, bom: op_3.bom, component: c_3, quantity: 1)
+
+      # byebug
+
+      expect(op_1.common_stock).to eq(2)
+      expect(op_2.common_stock).to eq(2)
+      expect(op_3.common_stock).to eq(6)
     end
   end
 end
