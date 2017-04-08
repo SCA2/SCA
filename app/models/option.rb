@@ -48,7 +48,7 @@ class Option < ActiveRecord::Base
       else
         "Please email for lead time"
       end
-    else
+    elsif is_assembled?
       if assembled_stock > 8
         "In stock"
       elsif assembled_stock > 0
@@ -60,6 +60,8 @@ class Option < ActiveRecord::Base
       else
         "Please email for lead time"
       end
+    else
+      "Please email for lead time"
     end
   end
 

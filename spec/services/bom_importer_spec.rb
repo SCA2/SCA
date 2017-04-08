@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 describe BomImporter do
-  let(:order) { build(:order) }
-  
-  subject { BomImporter.new(order, {}) }
+
+  before do
+    create(:product)
+  end
+
+  subject { BomImporter.new }
   
   it { should respond_to(:product) }
   it { should respond_to(:products) }
