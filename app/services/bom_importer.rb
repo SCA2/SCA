@@ -4,8 +4,6 @@ class BomImporter
 
   include ActiveModel::Model
 
-  # delegate :product, :option, to: :bom
-
   attr_accessor :product, :option, :file, :url
   attr_reader :products, :options, :bom
 
@@ -41,15 +39,26 @@ class BomImporter
   end
 
   def save
-    if imported_components.map(&:valid?).all?
-      imported_components.each(&:save!)
-    else
+    if imported_components.map(&:invalid?).any?
       imported_components.each_with_index do |component, index|
         component.errors.full_messages.each do |message|
           errors.add :base, "Item #{index + FIRST_COMPONENT_ROW - 1}: #{message}"
         end
       end
       return false
+    end
+
+    Component.transaction do
+      begin
+        imported_components.each_with_index do |component, index|
+          component.save!
+        end
+      rescue => e
+        component.errors.full_messages.each do |message|
+          errors.add :base, "Item #{index + FIRST_COMPONENT_ROW - 1}: #{message}"
+        end
+        return false
+      end
     end
 
     @bom.bom_items << imported_bom_items
@@ -117,7 +126,7 @@ class BomImporter
   end
 
   def select_sheet(spreadsheet)
-    sheets = spreadsheet.sheets.select { |s| /#{@product.model}R\d*_BOM/.match(s) }
+    sheets = spreadsheet.sheets.select { |s| /#{@product.model}\d*_BOM/.match(s) }
     sheets.empty? ? spreadsheet.sheets.first : sheets.first
   end
 

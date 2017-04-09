@@ -13,6 +13,7 @@ class InventoryCalculator
     @option = option
     @product = @option.product
     @bom = @option.bom
+    return unless @product && @option && @bom
   rescue
     return false
   end

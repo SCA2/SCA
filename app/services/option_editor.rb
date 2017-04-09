@@ -78,6 +78,7 @@ class OptionEditor
       @option = Option.find(params[:id])
       @product = @option.product
       @bom = @option.bom
+      return unless @product && @option && @bom
     elsif params[:product_id]
       @product = Product.find_by(model: params[:product_id])
       @option = Option.new(product: @product)

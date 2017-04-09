@@ -25,8 +25,8 @@ class OptionsController < BaseController
 
   def update
     @option_editor = OptionEditor.new(all_params)
-    handle_inventory
     if @option_editor.save
+      handle_inventory
       flash[:notice] = "Success! Option #{ @option_editor.option_model } updated."
       redirect_to @product
     else
