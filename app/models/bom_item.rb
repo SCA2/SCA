@@ -3,11 +3,11 @@ class BomItem < ActiveRecord::Base
   belongs_to :component, inverse_of: :bom_items
   
   validates :component, uniqueness: { scope: :bom }
-  validates :quantity, :reference, :component, presence: true
+  validates :quantity, :component, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: -1 }
   validates :reference, format: {
     with: /\A[a-z]+\d+(\s+\(optional\))?((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+(\s+\(Optional\))?)*\z/i
-  }
+  }, if: 'reference.present?'
 
   default_scope -> { order :reference }
 

@@ -1,11 +1,11 @@
 To do:
 
 bugs:
-  not deducting stock when cart purchased
-  bom edit doesn't remember product and option
+  bom import not selecting named sheet
   no stripe transaction id in confirmation email
   reset password email links to localhost
   login session does not validate password confirm
+  x not deducting stock when cart purchased
   x usps only for international
   x reorder paypal express checkout
   x can't back up to paypal
