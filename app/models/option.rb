@@ -38,7 +38,6 @@ class Option < ActiveRecord::Base
   end
 
   def stock_message
-    # byebug
     if is_kit?
       if kit_stock > 8
         "In stock"

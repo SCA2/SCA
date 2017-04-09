@@ -99,7 +99,6 @@ def fill_in_feature(feature)
 end
 
 def fill_in_bom(bom)
-  select(bom.product.model, from: "Product")
 end
 
 def fill_in_bom_item(item)

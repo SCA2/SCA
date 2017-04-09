@@ -190,7 +190,7 @@ describe Option do
       create(:bom_item, bom: op_3.bom, component: c_1, quantity: 3)
       create(:bom_item, bom: op_3.bom, component: c_3, quantity: 1)
 
-      expect(op_1.common_stock).to eq(2)
+      expect(op_1.common_stock).to eq(3)
       expect(op_3.common_stock).to eq(2)
     end
 

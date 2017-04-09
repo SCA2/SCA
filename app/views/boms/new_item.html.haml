@@ -6,7 +6,6 @@
         %legend= "BOM #{@bc.product_model + @bc.option_model}"
         = form_for(@bc, url: create_item_bom_path(@bc.id), method: :put) do |bc_form|
           = render 'shared/errors', object: bc_form.object
-          = render 'form', f: bc_form
           = render layout: 'edit_headers' do
             = bc_form.fields_for :bom_items do |item_fields|
               = render 'select', f: item_fields

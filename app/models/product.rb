@@ -78,6 +78,13 @@ private
         WHERE options.product_id = #{self.id}
         GROUP BY components.id
         HAVING COUNT(bom_items.id) = #{options.count}
+      ) AND bom_items.bom_id IN (
+        SELECT boms.id FROM bom_items
+        JOIN components ON bom_items.component_id = components.id
+        JOIN boms ON bom_items.bom_id = boms.id
+        JOIN options ON boms.option_id = options.id
+        JOIN products ON options.product_id = products.id
+        WHERE options.product_id = #{self.id}
       )
     ")
   end

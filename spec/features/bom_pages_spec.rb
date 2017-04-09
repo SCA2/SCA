@@ -52,7 +52,6 @@ feature "BOMs" do
       option = create(:option, product: product)
       bom = create(:bom, option: option)
       visit edit_bom_path(bom)
-      expect(page).to have_select('Product')
       expect(page).to have_content('A12')
     end
 
@@ -60,6 +59,7 @@ feature "BOMs" do
       product = create(:product, model: 'A12')
       option = create(:option, product: product)
       bom = create(:bom, option: option)
+      create(:bom_item, bom: bom)
       visit boms_path
       find(:link_or_button, bom.id).click
       expect(page).to have_content("BOM #{bom.product.model + bom.option.model}")
