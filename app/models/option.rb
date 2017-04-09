@@ -38,6 +38,7 @@ class Option < ActiveRecord::Base
   end
 
   def stock_message
+    # byebug
     if is_kit?
       if kit_stock > 8
         "In stock"
@@ -61,16 +62,21 @@ class Option < ActiveRecord::Base
         "Please email for lead time"
       end
     else
-      "Please email for lead time"
+      "#{limiting_stock} can ship today"
     end
   end
 
   def limiting_stock
     return 0 unless bom
-    [common_stock, option_stock].min
+    if common_stock_items.present?
+      [common_stock, option_stock].min
+    else
+      option_stock
+    end
   end
 
   def option_stock
+    return 0 unless bom
     @option_stock ||= get_option_stock
     @option_stock ? @option_stock : 0
   end
