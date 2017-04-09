@@ -51,11 +51,13 @@ class Product < ActiveRecord::Base
   end
 
   def common_stock
+    return 0 unless bom
     @common_stock ||= get_common_stock
     @common_stock ? @common_stock : 0
   end
 
   def common_stock_items
+    return [] unless bom
     @common_stock_items ||= get_common_stock_items
   end
 

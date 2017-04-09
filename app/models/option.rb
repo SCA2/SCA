@@ -67,8 +67,10 @@ class Option < ActiveRecord::Base
 
   def limiting_stock
     return 0 unless bom
-    if common_stock_items.present?
+    if common_stock_items.present? && option_stock_items.present?
       [common_stock, option_stock].min
+    elsif common_stock_items.present?
+      common_stock
     else
       option_stock
     end
