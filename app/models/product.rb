@@ -50,11 +50,6 @@ class Product < ActiveRecord::Base
     model.upcase
   end
 
-  # def bom_count
-  #   @bom_count ||= get_bom_count
-  #   @bom_count ? @bom_count : 0
-  # end
-
   def common_stock
     @common_stock ||= get_common_stock
     @common_stock ? @common_stock : 0
@@ -88,11 +83,6 @@ private
       )
     ")
   end
-
-  # def get_bom_count
-  #   boms = Bom.includes(:bom_items, [option: :product])
-  #   boms.where(products: {model: model}).distinct.count
-  # end
 
   def get_common_stock
     items = common_stock_items
