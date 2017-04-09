@@ -1,18 +1,5 @@
 require "rails_helper"
 
-describe Checkout::ExpressController do
-  describe :routing do
-    it { expect(get('/checkout/1/express/new')).to route_to('checkout/express#new', checkout_id: '1') }
-    it { expect(get('/checkout/1/express/edit')).to route_to('checkout/express#edit', checkout_id: '1') }
-
-    it { expect(post('/checkout/1/express')).to_not be_routable }
-    it { expect(put('/checkout/1/express/1')).to_not be_routable }
-    it { expect(get('/checkout/1/express')).to route_to('error_pages#unknown', id: 'checkout/1/express') }
-    it { expect(get('/checkout/1/express/1')).to route_to('error_pages#unknown', id: 'checkout/1/express/1') }
-    it { expect(delete('/checkout/1/express')).to_not be_routable }
-  end
-end
-
 describe Checkout::AddressesController do
   describe :routing do
     it { expect(get('/checkout/1/addresses/new')).to route_to('checkout/addresses#new', checkout_id: '1') }
