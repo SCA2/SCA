@@ -67,7 +67,13 @@ class Option < ActiveRecord::Base
         "Please email for lead time"
       end
     else
-      "#{limiting_stock} can ship today"
+      if limiting_stock > STOCK_CUTOFF
+        "Can ship today"
+      elsif limiting_stock > 0
+        "Only #{limiting_stock} left in stock"
+      else
+        "Please email for lead time"
+      end
     end
   end
 
