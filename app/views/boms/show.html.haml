@@ -6,7 +6,7 @@
         %legend= "BOM #{@bc.product_model + @bc.option_model}"
         = render 'shared/errors', object: @bc.bom
         = render layout: 'bom_items/bom_item_headers' do
-          = render @bc.bom_items.by_mfr_part_number
+          = render @bc.bom_items
         .admin-box
           = link_to "Edit", edit_bom_path(@bc.id), class: "button admin"
           = link_to "Quit", boms_path, class: "button admin"
