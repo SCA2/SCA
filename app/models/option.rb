@@ -13,6 +13,8 @@ class Option < ActiveRecord::Base
   validates :model, uniqueness: { scope: :product }
   validates :sort_order, uniqueness: { scope: :product }
 
+  STOCK_CUTOFF = 12
+
   def price_in_cents
     self.price * 100
   end
@@ -39,11 +41,11 @@ class Option < ActiveRecord::Base
 
   def stock_message
     if is_kit?
-      if kit_stock > 8
+      if kit_stock > STOCK_CUTOFF
         "Can ship today"
       elsif kit_stock > 0
-        "#{kit_stock} can ship today"
-      elsif limiting_stock > 8
+        "Only #{kit_stock} left in stock"
+      elsif limiting_stock > STOCK_CUTOFF
         "Can ship in 3 to 5 days"
       elsif limiting_stock > 0
         "#{limiting_stock} can ship in 3 to 5 days"
@@ -51,16 +53,16 @@ class Option < ActiveRecord::Base
         "Please email for lead time"
       end
     elsif is_assembled?
-      if assembled_stock > 8
+      if assembled_stock > STOCK_CUTOFF
         "Can ship today"
       elsif assembled_stock > 0
-        "#{assembled_stock} can ship today"
-      elsif partial_stock > 8
+        "Only #{assembled_stock} left in stock"
+      elsif partial_stock > STOCK_CUTOFF
         "Can ship in 3 to 5 days"
       elsif partial_stock > 0
         "#{partial_stock} can ship in 3 to 5 days"
       elsif limiting_stock > 0
-        "#{limiting_stock} can ship in 1 to 2 weeks"
+        "Can ship in 1 to 2 weeks"
       else
         "Please email for lead time"
       end
