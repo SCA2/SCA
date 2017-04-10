@@ -9,7 +9,8 @@ class BomItem < ActiveRecord::Base
     with: /\A[a-z]+\d+(\s+\(optional\))?((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+(\s+\(Optional\))?)*\z/i
   }, if: 'reference.present?'
 
-  default_scope -> { order :reference }
+  scope :by_reference, -> { order(reference: :asc) }
+  scope :by_mfr_part_number, -> { joins(:component).order('components.mfr_part_number') }
 
   def self.permitted_attributes
     self.column_names - ['id', 'created_at', 'updated_at']
