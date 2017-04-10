@@ -7,11 +7,13 @@ class BomImportersController < BaseController
     @bom_importer = BomImporter.new(import_params)
 
     unless @bom_importer.bom.present?
-      redirect_to new_bom_importer_path, alert: "That BOM doesn't exist. Do you need to create it?"
+      flash.now[:alert] = "That BOM doesn't exist. Do you need to create it?"
+      render :new
     end
     
     unless @bom_importer.file.present?
-      redirect_to new_bom_importer_path, alert: "Can't open that file."
+      flash.now[:alert] = "Can't open that file."
+      render :new
     end
 
     if @bom_importer.save
@@ -20,7 +22,7 @@ class BomImportersController < BaseController
       render :new
     end
   rescue
-    redirect_to new_bom_importer_path, alert: "Can't save the BOM."
+    flash.now[:alert] = "Can't save the BOM."
   end
 
   def update_option

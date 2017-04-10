@@ -40,9 +40,11 @@ class Option < ActiveRecord::Base
   def stock_message
     if is_kit?
       if kit_stock > 8
-        "In stock"
+        "Can ship today"
       elsif kit_stock > 0
         "#{kit_stock} can ship today"
+      elsif limiting_stock > 8
+        "Can ship in 3 to 5 days"
       elsif limiting_stock > 0
         "#{limiting_stock} can ship in 3 to 5 days"
       else
@@ -50,9 +52,11 @@ class Option < ActiveRecord::Base
       end
     elsif is_assembled?
       if assembled_stock > 8
-        "In stock"
+        "Can ship today"
       elsif assembled_stock > 0
         "#{assembled_stock} can ship today"
+      elsif partial_stock > 8
+        "Can ship in 3 to 5 days"
       elsif partial_stock > 0
         "#{partial_stock} can ship in 3 to 5 days"
       elsif limiting_stock > 0
@@ -83,6 +87,7 @@ class Option < ActiveRecord::Base
   end
 
   def option_stock_items
+    return [] unless bom
     @option_stock_items ||= get_option_stock_items
     @option_stock_items ? @option_stock_items : 0
   end
