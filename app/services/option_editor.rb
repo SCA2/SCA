@@ -15,7 +15,8 @@ class OptionEditor
   attr_accessor :kits_to_make, :partials_to_make, :assembled_to_make
   attr_reader :product, :option, :bom
 
-  validates :product_id, :model, :description, :upc, presence: true
+  validates :product, :option, :bom, presence: true
+  validates :model, :description, :upc, presence: true
   validates :price, :discount, :sort_order, presence: true
   validates :shipping_length, :shipping_width, presence: true
   validates :shipping_height, :shipping_weight, presence: true
@@ -78,7 +79,6 @@ class OptionEditor
       @option = Option.find(params[:id])
       @product = @option.product
       @bom = @option.bom
-      return unless @product && @option && @bom
     elsif params[:product_id]
       @product = Product.find_by(model: params[:product_id])
       @option = Option.new(product: @product)
@@ -117,9 +117,8 @@ class OptionEditor
   end
 
   def save
-    return false unless @product && @option && valid?
-    persist!
-    true
+    return persist! if valid?
+    false
   end
 
   def save!

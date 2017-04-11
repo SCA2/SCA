@@ -40,6 +40,7 @@ class Option < ActiveRecord::Base
   end
 
   def stock_message
+    # byebug
     if is_kit?
       if kit_stock > STOCK_CUTOFF
         "Can ship today"
