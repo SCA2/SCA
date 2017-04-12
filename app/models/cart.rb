@@ -1,8 +1,13 @@
 class Cart < ActiveRecord::Base
   
-  has_one :order, inverse_of: :cart
+  has_one :order, dependent: :destroy, inverse_of: :cart
   has_many :line_items, dependent: :destroy, inverse_of: :cart
   accepts_nested_attributes_for :line_items, allow_destroy: true
+
+  scope :old, -> { where("carts.created_at < ?", 1.week.ago) }
+  scope :unpurchased, -> { where(purchased_at: nil) }
+  scope :unordered, -> { joins("LEFT OUTER JOIN orders ON carts.id = orders.cart_id").where("orders.cart_id is null") }
+  scope :abandoned, -> { old.unpurchased.unordered }
   
   def add_product(product, option)
     current_item = line_items.find_by(product_id: product.id)
@@ -119,6 +124,10 @@ class Cart < ActiveRecord::Base
 
   def purchased?
     purchased_at && purchased_at < Time.zone.now
+  end
+
+  def self.destroy_abandoned
+    abandoned.destroy_all
   end
 
 end

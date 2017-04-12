@@ -35,9 +35,13 @@ class OptionsController < BaseController
   end
 
   def destroy
-    id = @option.id
-    @option.destroy
-    flash[:notice] = "Success! Option #{id} deleted."
+    if @option.line_items.any?
+      flash[:alert] = "Sorry, this option is still referenced by #{@option.line_items.count} line items. Delete those first."
+    else
+      id = @option.id
+      @option.destroy
+      flash[:notice] = "Success! Option #{id} deleted."
+    end
     redirect_to @product
   end
 
