@@ -23,10 +23,10 @@ gem 'carmen-rails'
 gem 'roo', '~> 2.7.1'
 gem 'stripe', '~> 2.1.0'
 gem 'figaro', '~> 1.1.1'
-gem 'capistrano', '~> 3.5.0'
-gem 'capistrano-bundler', '~> 1.1.4'
-gem 'capistrano-rails', '~> 1.1.6'
-gem 'capistrano-rbenv', '~> 2.0.4', require: false
+gem 'capistrano', '~> 3.8.0'
+gem 'capistrano-bundler', '~> 1.2.0'
+gem 'capistrano-rails', '~> 1.2.3'
+gem 'capistrano-rbenv', '~> 2.1.1', require: false
 
 group :development, :test do
   gem 'rspec-rails'
