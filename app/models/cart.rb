@@ -5,9 +5,9 @@ class Cart < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
   scope :old, -> { where("carts.created_at < ?", 1.week.ago) }
-  scope :unpurchased, -> { where(purchased_at: nil) }
-  scope :unordered, -> { joins("LEFT OUTER JOIN orders ON carts.id = orders.cart_id").where("orders.cart_id is null") }
-  scope :abandoned, -> { old.unpurchased.unordered }
+  scope :nil_purchased_at, -> { where(purchased_at: nil) }
+  scope :null_order, -> { joins("LEFT OUTER JOIN orders ON carts.id = orders.cart_id").where("orders.cart_id is null") }
+  scope :abandoned, -> { old.nil_purchased_at.null_order }
   
   def add_product(product, option)
     current_item = line_items.find_by(product_id: product.id)
