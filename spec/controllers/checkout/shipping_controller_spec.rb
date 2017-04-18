@@ -12,7 +12,7 @@ describe Checkout::ShippingController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart
+        get :new, params: { checkout_id: cart }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -33,7 +33,7 @@ describe Checkout::ShippingController do
         cart = create(:cart)
         create(:order, cart: cart, express_token: nil)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart
+        get :new, params: { checkout_id: cart }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -53,7 +53,7 @@ describe Checkout::ShippingController do
         create(:invalid_billing_zip, addressable: order)
         create(:invalid_shipping_zip, addressable: order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart
+        get :new, params: { checkout_id: @cart }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -75,9 +75,10 @@ describe Checkout::ShippingController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { shipping_method: "USPS Priority Mail 1-Day, 670" }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -96,9 +97,10 @@ describe Checkout::ShippingController do
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { shipping_method: "USPS Priority Mail 1-Day, 670" }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -118,9 +120,10 @@ describe Checkout::ShippingController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { shipping_method: "" }
+        }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok

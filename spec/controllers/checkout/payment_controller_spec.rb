@@ -15,7 +15,7 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart.id, accept_terms: true
+        get :new, params: { checkout_id: cart.id, accept_terms: true }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -44,7 +44,7 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart.id, accept_terms: true
+        get :new, params: { checkout_id: @cart.id, accept_terms: true }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -66,12 +66,13 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           card_tokenizer: {
             stripe_token: 'token',
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -89,12 +90,13 @@ describe Checkout::PaymentController do
         create(:line_item, cart: @cart, product: product, option: option)
         create(:order, cart: @cart, express_token: nil, shipping_cost: nil)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           card_tokenizer: {
             stripe_token: 'token',
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -114,12 +116,13 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           card_tokenizer: {
             stripe_token: nil,
             email: 'sales-buyer-2@seventhcircleaudio.com'
           }
+        }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -145,12 +148,13 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           card_tokenizer: {
             stripe_token: 'bad_token',
             email: 'sales-buyer@seventhcircleaudio.com'
           }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect

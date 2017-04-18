@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   
   has_secure_password
-  validates :password, length: { minimum: 5 }, on: :create
+  validates :password, length: { minimum: 5 }
   validates :password, confirmation: true
   validates :password_confirmation, presence: true
   

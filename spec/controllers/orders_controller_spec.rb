@@ -45,7 +45,7 @@ describe OrdersController do
         create(:address, address_type: 'billing', addressable: order)
         create(:address, address_type: 'shipping', addressable: order)
         session[:cart_id] = cart.id
-        get :show, id: order
+        get :show, params: { id: order }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -69,7 +69,7 @@ describe OrdersController do
         order = create(:order, cart: cart, express_token: nil)
         create(:address, address_type: 'billing', addressable: order)
         session[:cart_id] = cart.id
-        get :show, id: order
+        get :show, params: { id: order }
       end
       it "redirects with an invalid order" do
         expect(response).to redirect_to(orders_path)
@@ -83,7 +83,7 @@ describe OrdersController do
         create(:address, address_type: 'billing', addressable: order)
         create(:address, address_type: 'shipping', addressable: order)
         session[:cart_id] = cart.id
-        get :show, id: order
+        get :show, params: { id: order }
       end
       it 'redirects to home page' do
         expect(response).to redirect_to home_path
@@ -107,47 +107,47 @@ describe OrdersController do
       end
 
       it "destroys the requested order" do
-        expect { delete :destroy, {id: @order} }.to change { Order.count }.by(-1)
+        expect { delete :destroy, params: { id: @order }}.to change { Order.count }.by(-1)
       end
 
       it "destroys the associated cart" do
-        expect { delete :destroy, {id: @order} }.to change{ Cart.count }.by(-1)
+        expect { delete :destroy, params: { id: @order } }.to change{ Cart.count }.by(-1)
       end
 
       it "destroys the associated line_item" do
         product = create(:product)
         option = create(:option, product: product)
         create(:line_item, cart: @cart, product: product, option: option)
-        expect { delete :destroy, {id: @order} }.to change{ LineItem.count }.by(-1)
+        expect { delete :destroy, params: { id: @order } }.to change{ LineItem.count }.by(-1)
       end
 
       it "destroys the associated transaction" do
         create(:transaction, order: @order)
-        expect { delete :destroy, {id: @order} }.to change{ Transaction.count }.by(-1)
+        expect { delete :destroy, params: { id: @order } }.to change{ Transaction.count }.by(-1)
       end
 
       it "destroys the associated addresses" do
         create(:address, address_type: 'billing', addressable: @order)
         create(:address, address_type: 'shipping', addressable: @order)
-        expect { delete :destroy, {id: @order} }.to change{ Address.count }.by(-2)
+        expect { delete :destroy, params: { id: @order } }.to change{ Address.count }.by(-2)
       end
 
       it "does not destroy the associated product" do
         product = create(:product)
         option = create(:option, product: product)
         create(:line_item, cart: @cart, product: product, option: option)
-        expect { delete :destroy, {id: @order} }.not_to change{ Product.count }
+        expect { delete :destroy, params: { id: @order } }.not_to change{ Product.count }
       end
 
       it "does not destroy the associated option" do
         product = create(:product)
         option = create(:option, product: product)
         create(:line_item, cart: @cart, product: product, option: option)
-        expect { delete :destroy, {id: @order} }.not_to change{ Option.count }
+        expect { delete :destroy, params: { id: @order } }.not_to change{ Option.count }
       end
 
       it "redirects to the orders list" do
-        delete :destroy, {id: @order}
+        delete :destroy, params: { id: @order }
         expect(response).to redirect_to(orders_path)
       end
     end
@@ -157,7 +157,7 @@ describe OrdersController do
         @cart = create(:cart)
         @order = create(:order, cart: @cart, express_token: nil)
         session[:cart_id] = @cart.id
-        delete :destroy, {id: @order}
+        delete :destroy, params: { id: @order }
       end
       it 'redirects to home page' do
         expect(response).to redirect_to home_path
@@ -227,7 +227,7 @@ describe OrdersController do
         @cart = create(:cart)
         @order = create(:order, cart: @cart, express_token: nil)
         session[:cart_id] = @cart.id
-        get :delete_abandoned, id: @order
+        get :delete_abandoned, params: { id: @order }
       end
       it 'redirects to home page' do
         expect(response).to redirect_to home_path
@@ -248,7 +248,7 @@ describe OrdersController do
         @cart = create(:cart)
         @order = create(:order, cart: @cart, express_token: nil)
         session[:cart_id] = @cart.id
-        get :sales_tax, from: Date.yesterday, to: Date.today
+        get :sales_tax, params: { from: Date.yesterday, to: Date.today }
       end
 
       it "renders sales_tax" do
@@ -261,7 +261,7 @@ describe OrdersController do
         @cart = create(:cart)
         @order = create(:order, cart: @cart, express_token: nil)
         session[:cart_id] = @cart.id
-        get :sales_tax, from: Date.yesterday, to: Date.today
+        get :sales_tax, params: { from: Date.yesterday, to: Date.today }
       end
 
       it 'redirects to home page' do

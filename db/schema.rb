@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -31,9 +30,8 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.integer  "addressable_id"
     t.string   "addressable_type", limit: 255
     t.string   "address_type",     limit: 255
+    t.index ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
   end
-
-  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
 
   create_table "bom_items", force: :cascade do |t|
     t.integer  "quantity"
@@ -77,9 +75,8 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.datetime "updated_at"
     t.integer  "question_weight"
     t.integer  "faqs_category_id"
+    t.index ["faqs_category_id"], name: "index_faqs_on_faqs_category_id", using: :btree
   end
-
-  add_index "faqs", ["faqs_category_id"], name: "index_faqs_on_faqs_category_id", using: :btree
 
   create_table "faqs_categories", force: :cascade do |t|
     t.string  "category_name",   limit: 255
@@ -93,9 +90,8 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.datetime "updated_at"
     t.integer  "product_id"
     t.integer  "sort_order"
+    t.index ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order", using: :btree
   end
-
-  add_index "features", ["product_id", "sort_order"], name: "index_features_on_product_id_and_sort_order", using: :btree
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "product_id"
@@ -105,10 +101,9 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.integer  "quantity",   default: 1
     t.integer  "option_id"
     t.boolean  "remove",     default: false
+    t.index ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+    t.index ["product_id"], name: "index_line_items_on_product_id", using: :btree
   end
-
-  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
-  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
   create_table "options", force: :cascade do |t|
     t.string   "model",           limit: 255
@@ -141,9 +136,8 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.string   "use_billing",      limit: 255
     t.string   "ip_address"
     t.string   "stripe_token"
+    t.index ["cart_id"], name: "index_orders_on_cart_id", using: :btree
   end
-
-  add_index "orders", ["cart_id"], name: "index_orders_on_cart_id", using: :btree
 
   create_table "product_categories", force: :cascade do |t|
     t.string   "name"
@@ -173,10 +167,9 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.integer  "partial_stock",                       default: 0
     t.integer  "kit_stock",                           default: 0
     t.integer  "product_category_id"
+    t.index ["model"], name: "index_products_on_model", using: :btree
+    t.index ["product_category_id"], name: "index_products_on_product_category_id", using: :btree
   end
-
-  add_index "products", ["model"], name: "index_products_on_model", using: :btree
-  add_index "products", ["product_category_id"], name: "index_products_on_product_category_id", using: :btree
 
   create_table "slider_images", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -213,10 +206,9 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.boolean  "contact_sales"
     t.boolean  "contact_news"
     t.boolean  "contact_updates"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["remember_token"], name: "index_users_on_remember_token", using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
   add_foreign_key "line_items", "carts", name: "line_items_carts_fk", on_delete: :cascade
   add_foreign_key "line_items", "options", name: "line_items_options_fk", on_delete: :restrict

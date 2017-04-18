@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.4.1'
 
 gem 'rails'
 gem 'haml', '~> 4.0.6'
-gem 'foundation-rails'
-gem 'bcrypt-ruby'
+gem 'foundation-rails', '~> 5.5.3.2'
+gem 'bcrypt'
 gem 'will_paginate'
 gem 'will_paginate-foundation'
-gem 'mail', '~> 2.6.3'
+gem 'mail'
 gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
@@ -18,8 +18,8 @@ gem 'turbolinks'
 gem 'jbuilder'
 gem 'active_shipping'
 gem 'active_utils'
-gem 'roadie-rails', '~> 1.0.4'
-gem 'carmen-rails'
+gem 'roadie-rails'
+gem 'carmen-rails', :git => 'https://github.com/SCA2/carmen-rails'
 gem 'roo', '~> 2.7.1'
 gem 'stripe', '~> 2.1.0'
 gem 'figaro', '~> 1.1.1'
@@ -29,12 +29,12 @@ gem 'capistrano-rails', '~> 1.2.3'
 gem 'capistrano-rbenv', '~> 2.1.1', require: false
 
 group :development, :test do
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'factory_girl_rails'
   gem 'letter_opener'
   gem 'byebug'
-  gem 'pry'
 end
 
 group :test do

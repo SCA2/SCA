@@ -34,7 +34,7 @@ describe Order do
   it { should respond_to(:sales_tax) }
   it { should respond_to(:use_billing) }
 
-  describe 'cart associations', :vcr do
+  describe 'cart associations' do
     it 'belongs to one cart' do
       order = create(:order)
       cart = create(:cart, order: order)
@@ -48,13 +48,13 @@ describe Order do
     end
 
     it 'constrains destruction of associated cart' do
-      order = create(:order)
-      cart = create(:cart, order: order)
+      cart = create(:cart)
+      create(:order, cart: cart)
       expect {cart.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
     end
   end
 
-  describe 'transaction associations', :vcr do
+  describe 'transaction associations' do
     it 'can have multiple transactions' do
       order = create(:order)
       create(:transaction, order: order)
@@ -70,7 +70,7 @@ describe Order do
     end
   end
 
-  describe 'address associations', :vcr do
+  describe 'address associations' do
     it 'destroys assocated addresses' do
       order = create(:order)
       create(:address, address_type: 'billing', addressable: order)

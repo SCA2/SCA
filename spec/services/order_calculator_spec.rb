@@ -5,15 +5,15 @@ describe OrderCalculator do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:rate)      { 0.0925 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item,
+    let(:product)   { create(:product) }
+    let(:option)    { create(:option, price: price, product: product) }
+    let(:line_item) { create(:line_item,
       product: product,
       option: option,
       quantity: quantity)
     }
-    let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
-    let(:order)     { build_stubbed(:order, cart: cart) }
+    let(:cart)      { create(:cart, line_items: [line_item]) }
+    let(:order)     { create(:order, cart: cart) }
     let(:calculator) { OrderCalculator.new(order) }
 
     it 'calculates the correct value for CA' do
@@ -30,15 +30,15 @@ describe OrderCalculator do
   describe 'total' do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item,
+    let(:product)   { create(:product) }
+    let(:option)    { create(:option, price: price, product: product) }
+    let(:line_item) { create(:line_item,
         product: product,
         option: option,
         quantity: quantity)
     }
-    let(:cart)        { build_stubbed(:cart, line_items: [line_item]) }
-    let(:order)       { build_stubbed(:order, cart: cart, shipping_cost: 1500) }
+    let(:cart)        { create(:cart, line_items: [line_item]) }
+    let(:order)       { create(:order, cart: cart, shipping_cost: 1500) }
     let(:calculator)  { OrderCalculator.new(order) }
 
     it 'calculates the correct value' do

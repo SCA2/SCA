@@ -41,7 +41,7 @@ describe Checkout::TransactionsController do
         create(:shipping_constant_taxable, addressable: @order)
         create(:transaction, order: @order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart, accept_terms: '1'
+        get :new, params: { checkout_id: @cart, accept_terms: '1' }
       end
       
       it 'responds with status :ok', :vcr do
@@ -65,7 +65,7 @@ describe Checkout::TransactionsController do
         create(:shipping_constant_taxable, addressable: @order)
         create(:transaction, order: @order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart, success: 'false', accept_terms: '1'
+        get :new, params: { checkout_id: @cart, success: 'false', accept_terms: '1' }
       end
 
       it 'responds with status :ok', :vcr do
@@ -89,7 +89,7 @@ describe Checkout::TransactionsController do
         create(:shipping_constant_taxable, addressable: @order)
         create(:transaction, order: @order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart, accept_terms: '1'
+        get :new, params: { checkout_id: @cart, accept_terms: '1' }
       end
       it 'responds with status :redirect', :vcr do
         expect(response).to have_http_status :redirect

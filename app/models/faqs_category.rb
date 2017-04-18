@@ -12,7 +12,7 @@ class FaqsCategory < ActiveRecord::Base
     def check_for_faqs
       return true unless faqs.any?
       errors.add(:base, 'Category still has FAQs!')
-      return false
+      throw :abort
     end
 
 end

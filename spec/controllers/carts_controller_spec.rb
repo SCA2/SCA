@@ -5,7 +5,7 @@ describe CartsController do
     describe "GET #show" do
       context "with no cart in the session" do
         it "creates a new cart assigned to @cart" do
-          get :show, { id: 0 }
+          get :show, params: { id: 0 }
           expect(assigns(:cart)).to eq(Cart.last)
         end
       end
@@ -14,7 +14,7 @@ describe CartsController do
         it "assigns the requested cart as @cart" do
             cart = create(:cart)
             session[:cart_id] = cart.id
-            get :show, { id: cart }
+            get :show, params: { id: cart }
             expect(assigns(:cart)).to eq(cart)
           end
       end
@@ -23,7 +23,7 @@ describe CartsController do
     describe "PATCH #update" do
       context "with no cart in the session" do
         it "creates a new cart assigned to @cart" do
-          post :update, id: 0, cart: attributes_for(:cart)
+          post :update, params: { id: 0, cart: attributes_for(:cart) }
           expect(assigns(:cart)).to eq(Cart.last)
         end
       end
@@ -34,13 +34,13 @@ describe CartsController do
 
         it "updates the requested cart" do
           session[:cart_id] = cart.id
-          post :update, id: cart.id, cart: attributes_for(:cart)
+          post :update, params: { id: cart.id, cart: attributes_for(:cart) }
           expect(assigns(:cart)).to eq(cart)
         end
 
         it "redirects to the products list" do
           session[:cart_id] = cart.id
-          post :update, id: cart.id, cart: attributes_for(:cart)
+          post :update, params: { id: cart.id, cart: attributes_for(:cart) }
           expect(response).to redirect_to(cart)
         end
       end
@@ -53,12 +53,12 @@ describe CartsController do
 
       it "destroys the requested cart" do
         session[:cart_id] = cart.id
-        expect { delete :destroy, {id: cart} }.to change { Cart.count }.by(-1)
+        expect { delete :destroy, params: { id: cart } }.to change { Cart.count }.by(-1)
       end
 
       it "destroys the associated order" do
         session[:cart_id] = cart.id
-        expect { delete :destroy, {id: cart} }.to change{ Order.count }.by(-1)
+        expect { delete :destroy, params: { id: cart } }.to change{ Order.count }.by(-1)
       end
 
       it "destroys the associated line_item" do
@@ -66,12 +66,12 @@ describe CartsController do
         product = create(:product)
         option = create(:option, product: product)
         create(:line_item, cart: cart, product: product, option: option)
-        expect { delete :destroy, {id: cart} }.to change{ LineItem.count }.by(-1)
+        expect { delete :destroy, params: { id: cart } }.to change{ LineItem.count }.by(-1)
       end
 
       it "redirects to the products list" do
         session[:cart_id] = cart.id
-        delete :destroy, {id: cart}
+        delete :destroy, params: { id: cart }
         expect(response).to redirect_to(products_path)
       end
     end

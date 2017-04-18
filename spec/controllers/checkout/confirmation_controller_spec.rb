@@ -12,7 +12,7 @@ describe Checkout::ConfirmationController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart
+        get :new, params: { checkout_id: cart }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -42,7 +42,7 @@ describe Checkout::ConfirmationController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        get :new, checkout_id: @cart.id
+        get :new, params: { checkout_id: @cart.id }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -64,9 +64,10 @@ describe Checkout::ConfirmationController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { terms_validator: { accept_terms: '1' }}
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -86,9 +87,10 @@ describe Checkout::ConfirmationController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { terms_validator: { accept_terms: '1' }}
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -107,9 +109,10 @@ describe Checkout::ConfirmationController do
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { terms_validator: { accept_terms: '1' }}
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -129,9 +132,10 @@ describe Checkout::ConfirmationController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        post :update,
+        post :update, params: {
           checkout_id: @cart.id,
           order: { terms_validator: { accept_terms: '0' }}
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect

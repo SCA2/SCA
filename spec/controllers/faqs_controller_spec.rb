@@ -43,11 +43,11 @@ describe FaqsController do
       before { test_sign_in(user, false) }
 
       it "assigns the requested faq" do
-        get :edit, id: fq
+        get :edit, params: { id: fq }
         expect(fq).to eq subject.faq
       end
       it "renders the :edit template" do
-        get :edit, id: fq
+        get :edit, params: { id: fq }
         expect(response).to render_template :edit        
       end
     end
@@ -58,21 +58,20 @@ describe FaqsController do
       before { test_sign_in(user, false) }
       context "with valid attributes" do
         it "saves the new faq in the database" do
-          expect {post :create, faq: 
-            attributes_for(:faq, faqs_category_id: faqs_category.id)}.to change(Faq, :count).by(1)
+          expect { post :create, params: { faq: attributes_for(:faq, faqs_category_id: faqs_category.id) }}.to change(Faq, :count).by(1)
         end
         it "renders :new template" do
-          post :create, faq: attributes_for(:faq)
+          post :create, params: { faq: attributes_for(:faq) }
           expect(response).to render_template :new
         end
       end
       context "with invalid attributes" do
         it "does not save the new faq in the database" do
-          expect {post :create, faq: 
-            attributes_for(:invalid_faq)}.not_to change(Faq, :count)          
+          expect { post :create, params: { faq: 
+            attributes_for(:invalid_faq) }}.not_to change(Faq, :count)          
         end
         it "re-renders the :new template" do
-          post :create, faq: attributes_for(:invalid_faq)
+          post :create, params: { faq: attributes_for(:invalid_faq) }
           expect(response).to render_template :new
         end
       end
@@ -84,29 +83,35 @@ describe FaqsController do
       before { test_sign_in(user, false) }
       context "with valid attributes" do
         it "locates the requested @faq" do
-          patch :update, id: @faq, faq: attributes_for(:faq)
+          patch :update, params: { id: @faq, faq: attributes_for(:faq) }
           expect(assigns(:faq)).to eq(@faq)
         end
         it "changes @faq's attributes" do
-          patch :update, id: @faq, faq: attributes_for(:faq, question: 'Why?', answer: 'Because')
+          patch :update, params: {
+            id: @faq,
+            faq: attributes_for(:faq, question: 'Why?', answer: 'Because')
+          }
           @faq.reload
           expect(@faq.question).to eq('Why?')
           expect(@faq.answer).to eq('Because')
         end
         it "redirects to the index" do
-          patch :update, id: @faq, faq: attributes_for(:faq)
+          patch :update, params: { id: @faq, faq: attributes_for(:faq) }
           expect(response).to redirect_to faqs_path
         end
       end
       context "with invalid attributes" do
         it "does not change @faq's attributes" do
-          patch :update, id: @faq, faq: attributes_for(:faq, question_weight: 0, answer: 'Because')
+          patch :update, params: {
+            id: @faq,
+            faq: attributes_for(:faq, question_weight: 0, answer: 'Because')
+          }
           @faq.reload
           expect(@faq.question).to eq('Why?')
           expect(@faq.answer).not_to eq('Because')
         end
         it "re-renders the #edit template" do
-          patch :update, id: @faq, faq: attributes_for(:invalid_faq)
+          patch :update, params: { id: @faq, faq: attributes_for(:invalid_faq) }
           expect(response).to render_template :edit
         end
       end
@@ -117,10 +122,10 @@ describe FaqsController do
       let(:user) { create(:user, :admin => true) }
       before { test_sign_in(user, false) }
       it "deletes the faq from the database" do
-        expect { delete :destroy, id: @faq }.to change(Faq, :count).by(-1)
+        expect { delete :destroy, params: { id: @faq }}.to change(Faq, :count).by(-1)
       end
       it "redirects to faqs#index" do
-        delete :destroy, id: @faq
+        delete :destroy, params: { id: @faq }
         expect(response).to redirect_to faqs_path
       end
     end

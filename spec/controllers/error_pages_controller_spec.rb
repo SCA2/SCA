@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ErrorPagesController do
   context 'url contains no product name' do
     it 'redirects to product index' do
-      get :unknown, id: 'bogus'
+      get :unknown, params: { id: 'bogus' }
       expect(response).to render_template(file: "#{Rails.root}/public/404.html")
     end
   end
@@ -12,7 +12,7 @@ describe ErrorPagesController do
     it 'redirects to product page' do
       product = create(:n72)
       create(:ka, product: product)
-      get :unknown, id: 'asdfn72asdf'
+      get :unknown, params: { id: 'asdfn72asdf' }
       expect(response).to redirect_to product
     end
   end

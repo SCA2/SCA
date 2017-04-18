@@ -10,7 +10,7 @@ describe Checkout::AddressesController do
         create(:line_item, cart: cart, product: product, option: option)
         create(:order, cart: cart, express_token: nil)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart
+        get :new, params: { checkout_id: cart }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
@@ -31,7 +31,7 @@ describe Checkout::AddressesController do
         cart = create(:cart)
         create(:order, cart: cart, express_token: nil)
         session[:cart_id] = cart.id
-        get :new, checkout_id: cart
+        get :new, params: { checkout_id: cart }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -52,11 +52,12 @@ describe Checkout::AddressesController do
         create(:order, cart: @cart, express_token: nil)
         session[:cart_id] = @cart.id
         valid_address = attributes_for(:address)
-        post :create,
+        post :create, params: {
           checkout_id: @cart,
           order: { addresses_attributes:
             { "0" => valid_address, "1" => valid_address }
           }
+        }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -75,11 +76,12 @@ describe Checkout::AddressesController do
         create(:order, cart: cart, express_token: nil)
         session[:cart_id] = cart.id
         invalid_address = attributes_for(:address, first_name: nil)
-        post :create,
+        post :create, params: {
           checkout_id: cart,
           order: { addresses_attributes:
             { "0" => invalid_address, "1" => invalid_address }
           }
+        }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok

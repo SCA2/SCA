@@ -52,24 +52,40 @@
 // $button-disabled-opacity: 0.7;
 // $button-disabled-cursor: $cursor-default-value;
 
-.button {
-  @include button();
+input[type="submit"], button, .button {
+  // @include button();
   margin: 0;
   border: none;
   background-color: $brown-20;
+
   &:hover {
     background-color: $red-30;
   }
+
   &:visited {
     background-color: $brown-20;
   }
+
+  &:active {
+    background-color: $brown-20;
+  }
+
   &:visited:hover {
     background-color: $red-30;
   }
+
   &:focus {
     background-color: $brown-30;
     outline: $brown-30 auto 5px;
     outline-color: $brown-30;
+  }
+
+  &:disabled {
+    background-color: $red-30;
+  }
+
+  &:disabled:hover {
+    background-color: $red-30;
   }
 
   &.add {
