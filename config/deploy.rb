@@ -1,5 +1,7 @@
 # config valid only for current version of Capistrano
-lock '3.3.5'
+lock '3.8.0'
+
+set :rbenv_ruby, '2.4.1'
 
 set :application, 'SCA'
 set :repo_url, 'git@github.com:SCA2/SCA.git'
