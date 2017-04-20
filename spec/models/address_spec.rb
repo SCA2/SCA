@@ -26,9 +26,19 @@ describe Address do
 	end
 
 	it "is invalid without a state" do
-		address = build(:address, state_code: nil)
+    address = build(:address, state_code: nil)
+    expect(address).not_to be_valid
+  end
+
+  it "is a valid US address without a telephone number" do
+    address = build(:address, country: 'US', telephone: nil)
+    expect(address).to be_valid
+  end
+
+  it "is an invalid non-US address without a telephone number" do
+		address = build(:address, country: 'CA', telephone: nil)
 		expect(address).not_to be_valid
-	end
+  end
 
 	it "does not allow duplicate addresses per user" do
 		user = create(:user)
