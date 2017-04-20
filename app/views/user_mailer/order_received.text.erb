@@ -7,7 +7,7 @@ Your order confirmation is below.  Please save a copy for your records.
 
 --------------------------------------------------------------------------------
 <%= sprintf("%-38s  %-38s", "Order Date", @cart.purchased_at.to_s) %>
-<%= sprintf("%-38s  %-38s", "Transaction ID", @transaction.params['transaction_id'].to_s) %>
+<%= sprintf("%-38s  %-38s", "Authorization", @transaction.authorization) %>
 <%= sprintf("%-38s  %-38s", "Shipping Method", @order.shipping_method) %>
 --------------------------------------------------------------------------------
 

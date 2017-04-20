@@ -15,7 +15,7 @@
 		<td colspan="2">
 			<table class="address-table">
 				<tr class="field"><td class="text bold align-left">Order Date</td><td class="text align-left"><%= @cart.purchased_at.to_s %></td></tr>
-				<tr class="field"><td class="text bold align-left">Transaction ID</td><td class="text align-left"><%= @transaction.params['transaction_id'] %></td></tr>
+				<tr class="field"><td class="text bold align-left">Authorization</td><td class="text align-left"><%= @transaction.authorization %></td></tr>
 				<tr class="field"><td class="text bold align-left">Shipping Method</td><td class="text align-left"><%= @order.shipping_method %></td></tr>
 			</table>
 		</td>
