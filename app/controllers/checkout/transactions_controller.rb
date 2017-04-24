@@ -16,6 +16,7 @@ module Checkout
         cart.inventory
         cart.save
         send_mail
+        @cart = nil
         session[:cart_id] = nil
         render 'success'
       else

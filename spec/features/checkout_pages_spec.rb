@@ -76,7 +76,7 @@ feature 'standard stripe checkout', :vcr do
     click_button('Place Order')
     expect(page).to have_content('Authorization: 1A5hqpFC0i7e7XIPmZYcErJd')
     expect(page).to have_content('0 Items')
-    test_sign_out(true)
+    test_sign_out(use_capybara: true)
   end
 
   def fill_in_billing

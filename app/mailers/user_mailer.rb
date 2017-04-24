@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   helper :orders  # for cents_to_dollars()
 
-  default css: "mailers.scss"
+  default css: "assets/mailers.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"
   default date: Time.now.asctime
@@ -23,7 +23,8 @@ class UserMailer < ActionMailer::Base
   def order_received(order)
     @order = order
     @cart = order.cart
-    @transaction = order.transactions.first
+    @transaction = order.transactions.last
+    @transaction.authorization.gsub!('ch_', '')
     @billing = order.billing_address
     @shipping = order.shipping_address
     mail  to: order.email, 
@@ -34,7 +35,8 @@ class UserMailer < ActionMailer::Base
   def order_shipped(order)
     @order = order
     @cart = order.cart
-    @transaction = order.transactions.first
+    @transaction = order.transactions.last
+    @transaction.authorization.gsub!('ch_', '')
     @billing = order.billing_address
     @shipping = order.shipping_address
     mail  to: order.email, 

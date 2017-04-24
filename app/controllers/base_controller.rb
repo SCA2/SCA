@@ -23,8 +23,7 @@ private
   def get_cart
     cart = Cart.find_or_create_by(id: session[:cart_id])
     session[:cart_id] = cart.id
-    session.delete(:progess) if session[:progress]
-    session[:progress] = cart_path(cart)
+    session[:progress] = cart_path(cart) if cart.new_record?
     cart
   end
 

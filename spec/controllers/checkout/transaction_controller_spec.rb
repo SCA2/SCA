@@ -15,10 +15,10 @@ describe Checkout::TransactionsController do
 
     context 'as a guest with successful order purchase' do
       before do
-        @order = create(:order, cart: @cart, stripe_token: 'good_token', express_token: nil, confirmed: true)
-        create(:billing_constant_taxable, addressable: @order)
-        create(:shipping_constant_taxable, addressable: @order)
-        create(:transaction, order: @order)
+        order = create(:order, cart: @cart, stripe_token: 'good_token', express_token: nil, confirmed: true)
+        create(:billing_constant_taxable, addressable: order)
+        create(:shipping_constant_taxable, addressable: order)
+        create(:transaction, order: order)
         class_double("OrderPurchaser", new: instance_double("OrderPurchaser", purchase: true)).as_stubbed_const
         get :new, params: { checkout_id: @cart }
       end
@@ -44,10 +44,10 @@ describe Checkout::TransactionsController do
 
     context 'as a guest with unsuccessful order purchase' do
       before do
-        @order = create(:order, cart: @cart, stripe_token: 'bad_token', express_token: nil, confirmed: true)
-        create(:billing_constant_taxable, addressable: @order)
-        create(:shipping_constant_taxable, addressable: @order)
-        create(:transaction, order: @order)
+        order = create(:order, cart: @cart, stripe_token: 'bad_token', express_token: nil, confirmed: true)
+        create(:billing_constant_taxable, addressable: order)
+        create(:shipping_constant_taxable, addressable: order)
+        create(:transaction, order: order)
         class_double("OrderPurchaser", new: instance_double("OrderPurchaser", purchase: false)).as_stubbed_const
         get :new, params: { checkout_id: @cart }
       end
