@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   helper :orders  # for cents_to_dollars()
 
-  default css: "assets/mailers.scss"
+  default css: "~/SCA/current/app/assets/stylesheets/mailers.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"
   default date: Time.now.asctime
