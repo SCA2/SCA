@@ -21,9 +21,11 @@ class BaseController < ApplicationController
 private
 
   def get_cart
-    cart = Cart.find_or_create_by(id: session[:cart_id])
+    cart = Cart.find(session[:cart_id])
+  rescue ActiveRecord::RecordNotFound
+    cart = Cart.create
     session[:cart_id] = cart.id
-    session[:progress] = cart_path(cart) if cart.new_record?
+    session[:progress] = [cart_path(cart)]
     cart
   end
 

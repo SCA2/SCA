@@ -24,7 +24,7 @@ module Checkout
         flash[:alert] = 'Sorry, we had a problem with your credit card payment.'
         render 'failure'
       end
-      session[:progress] = nil
+      session[:progress] = []
     end
 
   private

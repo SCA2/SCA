@@ -22,7 +22,7 @@ class CartsController < BaseController
       cart.destroy
     end
     session[:cart_id] = nil
-    session[:progress] = nil
+    session[:progress] = []
     redirect_to products_url, notice: 'Your cart is empty!'
   end
   

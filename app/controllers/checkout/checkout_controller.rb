@@ -24,7 +24,7 @@ module Checkout
     end
 
     def save_progress
-      session[:progress] ||= []
+      # session[:progress] ||= []
       if !session[:progress].include?(request.path)
         session[:progress] << request.path
       end
