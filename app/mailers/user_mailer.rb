@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
 
-  helper :orders  # for cents_to_dollars()
+  helper :orders  # for cents_to_dollars
 
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"

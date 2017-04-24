@@ -2,11 +2,11 @@
 %li.has-dropdown
   = link_to "Products", products_path
   %ul.dropdown
-    - product_categories.each do |k, v|
+    - product_categories.each do |id, name|
       %li.has-dropdown
-        = link_to v, '#'
+        = link_to name, '#'
         %ul.dropdown
-          - products.where("category = ?", k).each do |p|
+          - products.where(product_category_id: id).each do |p|
             %li= link_to p.model + ' ' + p.category, product_path(p)
 %li= link_to "FAQ", faqs_path
 %li= link_to "Forums", forums_path

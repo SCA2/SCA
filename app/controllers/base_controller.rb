@@ -43,10 +43,8 @@ private
 
   def get_product_categories
     categories = ProductCategory.all.order(:sort_order)
-    categories = categories.map {|e| [e.name, e.sort_order]}.to_h
-    categories.map do |k, c|
-      count = products.where(category: k).count
-      [k, k.pluralize(count)]
+    categories.map do |c|
+      [c.id, c.name.pluralize(ProductCategory.joins(:products).where(id: c).count)]
     end
   end
 
