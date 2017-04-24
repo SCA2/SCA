@@ -18,7 +18,6 @@ gem 'turbolinks'
 gem 'jbuilder'
 gem 'active_shipping'
 gem 'active_utils'
-gem 'roadie-rails'
 gem 'carmen-rails', :git => 'https://github.com/SCA2/carmen-rails'
 gem 'roo', '~> 2.7.1'
 gem 'stripe', '~> 2.1.0'
@@ -29,7 +28,6 @@ gem 'capistrano-rails', '~> 1.2.3'
 gem 'capistrano-rbenv', '~> 2.1.1', require: false
 
 group :development, :test do
-  # gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'factory_girl_rails'

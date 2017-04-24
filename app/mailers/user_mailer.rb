@@ -1,10 +1,8 @@
 class UserMailer < ActionMailer::Base
 
-  include Roadie::Rails::Automatic
-
   helper :orders  # for cents_to_dollars()
 
-  default css: "~/SCA/current/app/assets/stylesheets/mailers.scss"
+  default css: "mailers.scss"
   default from: "sales@seventhcircleaudio.com"
   default return_path: "sales@seventhcircleaudio.com"
   default date: Time.now.asctime
