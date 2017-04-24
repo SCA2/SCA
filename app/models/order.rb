@@ -22,8 +22,8 @@ class Order < ActiveRecord::Base
 
   def shippable?
     addressable? &&
-    billing_address &&
-    shipping_address
+    billing_address.present? &&
+    shipping_address.present?
   end
 
   def payable?
@@ -46,8 +46,8 @@ class Order < ActiveRecord::Base
     express_token.present? && stripe_token.blank? && payable?
   end
 
-  def transactable?(accepted)
-    confirmable? && accepted == '1'
+  def transactable?
+    confirmable? && confirmed
   end
 
   def total

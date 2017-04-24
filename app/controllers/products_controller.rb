@@ -1,11 +1,9 @@
 class ProductsController < BaseController
-  
   before_action :delete_orphans, only: [:index]
   before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
   def index
-    # @products = Product.order(:category_sort_order, :model_sort_order)
     @products = Product.joins(:product_category).order(:product_category_id, :model_sort_order)
   end
 

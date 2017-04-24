@@ -4,9 +4,8 @@ describe CartsController do
   context 'all access' do
     describe "GET #show" do
       context "with no cart in the session" do
-        it "creates a new cart assigned to @cart" do
-          get :show, params: { id: 0 }
-          expect(assigns(:cart)).to eq(Cart.last)
+        it "creates a new cart" do
+          expect{ get :show, params: { id: 0 } }.to change{ Cart.count }.by(1)
         end
       end
 
@@ -15,16 +14,15 @@ describe CartsController do
             cart = create(:cart)
             session[:cart_id] = cart.id
             get :show, params: { id: cart }
-            expect(assigns(:cart)).to eq(cart)
+            expect(Cart.last).to eq(cart)
           end
       end
     end
 
     describe "PATCH #update" do
       context "with no cart in the session" do
-        it "creates a new cart assigned to @cart" do
-          post :update, params: { id: 0, cart: attributes_for(:cart) }
-          expect(assigns(:cart)).to eq(Cart.last)
+        it "creates a new cart" do
+          expect{ post :update, params: { id: 0, cart: attributes_for(:cart) } }.to change{ Cart.count }.by(1)
         end
       end
 
@@ -35,7 +33,7 @@ describe CartsController do
         it "updates the requested cart" do
           session[:cart_id] = cart.id
           post :update, params: { id: cart.id, cart: attributes_for(:cart) }
-          expect(assigns(:cart)).to eq(cart)
+          expect(Cart.find(cart.id)).to eq(cart)
         end
 
         it "redirects to the products list" do

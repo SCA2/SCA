@@ -8,7 +8,7 @@ describe "User pages" do
 
     let(:admin) { create(:admin) }
     before(:each) do
-      test_sign_in admin
+      test_sign_in(admin, use_capybara: true)
       visit admin_path
     end
 
@@ -23,7 +23,7 @@ describe "User pages" do
     let(:admin) { create(:admin) }
 
     before(:each) do
-      test_sign_in admin
+      test_sign_in(admin, use_capybara: true)
       visit users_path
     end
 
@@ -41,7 +41,7 @@ describe "User pages" do
     let(:admin) { create(:admin) }
 
     before(:each) do
-      test_sign_in admin
+      test_sign_in(admin, use_capybara: true)
       visit users_path
     end
 
@@ -62,7 +62,7 @@ describe "User pages" do
     let(:admin) { create(:admin) }
 
     before(:each) do
-      test_sign_in admin
+      test_sign_in(admin, use_capybara: true)
       visit users_path
     end
 
@@ -85,7 +85,7 @@ describe "User pages" do
       user.addresses << build(:address, address_type: 'billing')
       user.addresses << build(:address, address_type: 'shipping')
       user.save!
-      test_sign_in user
+      test_sign_in(user, use_capybara: true)
       visit user_path(user)
     end
 
@@ -161,7 +161,7 @@ describe "User pages" do
     let(:user) { create(:user) }
     
     before do
-      test_sign_in user
+      test_sign_in(user, use_capybara: true)
       visit edit_user_path(user)
     end
 

@@ -21,7 +21,7 @@ feature "faq category" do
   context "as an admin" do
 
     let(:admin) { create(:admin) }
-    before      { test_sign_in admin }
+    before      { test_sign_in(admin,use_capybara: true) }
     after(:all) { DatabaseCleaner.clean_with(:truncation) }
 
     scenario 'view faq categories index' do

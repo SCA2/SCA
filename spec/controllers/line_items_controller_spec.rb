@@ -8,7 +8,7 @@ describe LineItemsController do
   let(:valid_params)    { attributes_for(:line_item, cart: cart, product: product, option: option) }
   let(:invalid_params)  { attributes_for(:line_item, cart: nil, product: product, option: option) }
 
-  before { test_sign_out(false) }
+  before { test_sign_out(use_capybara: false) }
 
   describe "POST #create" do
     describe "with valid params" do
@@ -46,17 +46,6 @@ describe LineItemsController do
         }
 
         expect(cart.line_items.last).to eq(LineItem.last)
-      end
-
-      it "triggers an alert" do
-        post :create, params: {
-          line_item: valid_params,
-          format: 'js',
-          product_id: product.to_param,
-          option_id: option.to_param
-        }
-
-        expect(response).to render_template("create")
       end
 
       it "redirects to product index without 'js' format" do

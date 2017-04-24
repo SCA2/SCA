@@ -3,35 +3,35 @@ require 'rails_helper'
 describe ProductsController do
   
   let(:product) { create(:product) }
-  let(:option) { create(:option, product: product) }
+  let!(:option) { create(:option, product: product) }
   let(:valid_attributes) { build(:product).attributes }
   
   shared_examples('guest access to products') do
     describe "GET index" do
-      it "assigns all products as @products" do
+      it "is successful" do
         get :index
-        expect(assigns(:products)).to eq([product])
+        expect(response).to be_successful
       end
     end
   
     describe "GET show" do
-      it "assigns the requested product as @product" do
+      it "is successful" do
         get :show, params: { id: product.to_param }
-        expect(assigns(:product)).to eq(product)
+        expect(response).to be_successful
       end
 
       it "finds hard-coded products" do
         product = create(:product, model: 'A12')
         create(:option, product: product)
         get :show, params: { id: 'a12' }
-        expect(assigns(:product)).to eq(product)
+        expect(response).to be_successful
       end
 
       it "finds longest product name first in id string" do
         product = create(:product, model: 'CH02-SP')
         create(:option, product: product)
         get :show, params: { id: 'asdf/1234/n72a12bch02-sp' }
-        expect(assigns(:product)).to eq(product)
+        expect(response).to be_successful
       end
 
       it "redirects to products path with bogus id" do
@@ -45,7 +45,7 @@ describe ProductsController do
     describe "GET update_option" do
       it "assigns new option to @option" do
         get :update_option, params: { product: {options: option}, id: product, format: :js }, xhr: true
-        expect(assigns(:option)).to eq(option)
+        expect(response).to be_successful
       end
     end
   end  
@@ -54,14 +54,14 @@ describe ProductsController do
     describe "GET new" do
       it "assigns a new product as @product" do
         get :new
-        expect(assigns(:product)).to be_a_new(Product)
+        expect(response).to be_successful
       end
     end
   
     describe "GET edit" do
       it "assigns the requested product as @product" do
         get :edit, params: { id: product }
-        expect(assigns(:product)).to eq(product)
+        expect(response).to be_successful
       end
     end
   
@@ -71,12 +71,6 @@ describe ProductsController do
           expect {
             post :create, params: { product: valid_attributes }
           }.to change(Product, :count).by(1)
-        end
-  
-        it "assigns a newly created product as @product" do
-          post :create, params: { product: valid_attributes }
-          expect(assigns(:product)).to be_a(Product)
-          expect(assigns(:product)).to be_persisted
         end
   
         it "redirects to the created product" do
@@ -89,13 +83,13 @@ describe ProductsController do
         it "assigns a newly created but unsaved product as @product" do
           allow(product).to receive(:save).and_return(false)
           post :create, params: { product: { model_weight: 0 } }
-          expect(assigns(:product)).to be_a_new(Product)
+          expect(response).to be_successful
         end
   
         it "re-renders the 'new' template" do
           allow(product).to receive(:save).and_return(false)
           post :create, params: { product: { model_weight: 0 } }
-          expect(response).to render_template("new")
+          expect(response).to be_successful
         end
       end
     end
@@ -110,11 +104,6 @@ describe ProductsController do
           patch :update, params: { id: product, product: { model: 'bar' }}
           product.reload
           expect(product.model).to eq('bar')
-        end
-  
-        it "assigns the requested product as @product" do
-          patch :update, params: { id: product, product: valid_attributes}
-          expect(assigns(:product)).to eq(product)
         end
   
         it "redirects to the product" do
@@ -134,13 +123,13 @@ describe ProductsController do
         it "assigns the product as @product" do
           allow(product).to receive(:save).and_return(false)
           patch :update, params: { id: product, product: { model: nil }}
-          expect(assigns(:product)).to eq(product)
+          expect(response).to be_successful
         end
   
         it "re-renders the 'edit' template" do
           allow(product).to receive(:save).and_return(false)
           patch :update, params: { id: product.to_param, product: { model: nil }}
-          expect(response).to render_template("edit")
+          expect(response).to be_successful
         end
       end
     end
@@ -174,7 +163,7 @@ describe ProductsController do
 
   describe 'admin access to products' do
     let(:admin) { create(:admin) }
-    before { test_sign_in(admin, false) }
+    before { test_sign_in(admin, use_capybara: false) }
     it_behaves_like 'admin access to products'
     it_behaves_like 'guest access to products'
   end

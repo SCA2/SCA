@@ -14,7 +14,7 @@ describe "FAQ page" do
   context "faq page as user" do
     let(:user) { create(:user) }
 
-    before { test_sign_in user }
+    before { test_sign_in(user, use_capybara: true) }
     before { visit faqs_path }
 
     it { is_expected.to have_title('FAQ') }
@@ -24,7 +24,7 @@ describe "FAQ page" do
   context "faq page as admin" do
     let(:admin) { create(:admin) }
 
-    before { test_sign_in admin }
+    before { test_sign_in(admin, use_capybara: true) }
     before { visit faqs_path }
 
     it { is_expected.to have_title('FAQ') }

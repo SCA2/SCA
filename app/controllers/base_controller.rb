@@ -7,7 +7,7 @@ class BaseController < ApplicationController
   end
 
   def order
-    @order ||= cart.order
+    @order ||= get_order
   end
   
   def products
@@ -21,13 +21,15 @@ class BaseController < ApplicationController
 private
 
   def get_cart
-    cart = Cart.find(session[:cart_id])
-  rescue ActiveRecord::RecordNotFound
-    cart = Cart.create
+    cart = Cart.find_or_create_by(id: session[:cart_id])
     session[:cart_id] = cart.id
     session.delete(:progess) if session[:progress]
     session[:progress] = cart_path(cart)
     cart
+  end
+
+  def get_order
+    Order.find_or_create_by(cart_id: cart.id)
   end
 
   def get_products
@@ -41,7 +43,6 @@ private
   def get_product_categories
     categories = ProductCategory.all.order(:sort_order)
     categories = categories.map {|e| [e.name, e.sort_order]}.to_h
-    # categories = Product.order(:category_sort_order).select(:category, :category_sort_order).distinct
     categories.map do |k, c|
       count = products.where(category: k).count
       [k, k.pluralize(count)]

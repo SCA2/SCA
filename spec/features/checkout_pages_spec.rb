@@ -49,7 +49,7 @@ feature 'standard stripe checkout', :vcr do
     user = create(:user)
     create(:billing_constant_taxable, addressable: user)
     create(:shipping_constant_taxable, addressable: user)
-    test_sign_in(user, true)
+    test_sign_in(user, use_capybara: true)
 
     visit product_path(@product)
     accept_confirm { click_button('Add to Cart') }

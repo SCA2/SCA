@@ -16,17 +16,14 @@ module Checkout
         cart.inventory
         cart.save
         send_mail
-        forget_cart
+        session[:cart_id] = nil
         render 'success'
-      elsif order.stripe_purchase?
+      else
         @transaction = order.transactions.last
         flash[:alert] = 'Sorry, we had a problem with your credit card payment.'
         render 'failure'
-      elsif order.express_purchase?
-        @transaction = order.transactions.last
-        flash[:alert] = 'Sorry, there was a problem with your PayPal Express payment.'
-        render 'failure'
       end
+      session[:progress] = nil
     end
 
   private
@@ -35,20 +32,10 @@ module Checkout
     end
 
     def bad_state_redirect
-      unless order.transactable?(order_params[:accept_terms])
+      unless order.transactable?
         flash[:alert] = 'Sorry, there was a problem confirming your order.'
         redirect_to new_checkout_confirmation_path(order)
       end
-    end
-
-    def forget_cart
-      @cart = nil
-      session[:cart_id] = nil
-      session[:progress] = nil
-    end
-
-    def order_params
-      params.permit(:accept_terms)
     end
   end
 end

@@ -2,40 +2,31 @@ module Checkout
   class ConfirmationController < Checkout::CheckoutController
 
     before_action :set_no_cache
-    before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
+    before_action :cart_purchased_redirect
+    before_action :bad_state_redirect
     before_action :save_progress
 
     def new
-      unless @billing = order.billing_address
-        flash[:alert] = 'Billing address is missing!'
-        redirect_to new_checkout_address_path(cart) and return
-      end
-      unless @shipping = order.shipping_address
-        flash[:alert] = 'Shipping address is missing!'
-        redirect_to new_checkout_address_path(cart) and return
-      end
-      unless order.shipping_method
-        flash[:alert] = 'Shipping method is missing!'
-        redirect_to new_checkout_shipping_path(cart) and return
-      end
-      unless order.shipping_cost
-        flash[:alert] = 'Shipping cost is missing!'
-        redirect_to new_checkout_shipping_path(cart) and return
-      end
+      @billing = order.billing_address
+      @shipping = order.shipping_address
       @calculator = OrderCalculator.new(order)
       @terms = TermsValidator.new
     end
     
     def update
-      bad_state_redirect; return if performed?
-      if TermsValidator.new(order_params).valid?
+      @terms = TermsValidator.new(order_params)
+      if @terms.valid?
         sales_tax = OrderCalculator.new(order).sales_tax
-        order.update(sales_tax: sales_tax)
-        redirect_to new_checkout_transaction_path(cart, accept_terms: '1')
+        order.update(sales_tax: sales_tax, confirmed: true)
+        redirect_to new_checkout_transaction_path(cart)
       else
-        flash[:alert] = 'You must accept terms to proceed!'
-        redirect_to new_checkout_confirmation_path(cart)
+        flash.now[:alert] = 'You must accept terms to proceed!'
+        @terms.errors.clear
+        @billing = order.billing_address
+        @shipping = order.shipping_address
+        @calculator = OrderCalculator.new(order)
+        render :new
       end 
     end
 
@@ -43,8 +34,8 @@ module Checkout
 
     def bad_state_redirect
       unless order.confirmable?
-        flash[:alert] = 'Sorry, there was a problem confirming your order.'
-        redirect_to new_checkout_confirmation_path(cart)
+        flash[:alert] = 'Sorry, there was a problem with your payment.'
+        redirect_to new_checkout_payment_path(cart)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401181555) do
+ActiveRecord::Schema.define(version: 20170422201008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170401181555) do
     t.string   "use_billing",      limit: 255
     t.string   "ip_address"
     t.string   "stripe_token"
+    t.boolean  "confirmed"
     t.index ["cart_id"], name: "index_orders_on_cart_id", using: :btree
   end
 

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe Checkout::ConfirmationController do
   describe "GET #new" do
-    context 'as a guest with confirmable order', :vcr do
+    context 'as a guest with confirmable order' do
       before do
-        cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
+        cart = create(:cart)
         create(:line_item, cart: cart, product: product, option: option)
         order = create(:order, cart: cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
@@ -14,21 +14,15 @@ describe Checkout::ConfirmationController do
         session[:cart_id] = cart.id
         get :new, params: { checkout_id: cart }
       end
-      it 'responds with status :ok' do
-        expect(response).to have_http_status :ok
+      it 'is successful' do
+        expect(response).to be_successful
       end
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
       end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
-      end
     end
 
-    context 'as a guest with unconfirmable order', :vcr do
+    context 'as a guest with an unconfirmable order' do
       before do
         @cart = create(:cart)
         product = create(:n72)
@@ -48,7 +42,7 @@ describe Checkout::ConfirmationController do
         expect(response).to have_http_status :redirect
       end
       it 'redirects to products path' do
-        expect(response).to redirect_to new_checkout_shipping_path(@cart)
+        expect(response).to redirect_to new_checkout_payment_path(@cart)
       end
     end
   end
@@ -73,11 +67,11 @@ describe Checkout::ConfirmationController do
         expect(response).to have_http_status :redirect
       end
       it 'redirects to transaction path' do
-        expect(response).to redirect_to new_checkout_transaction_path(@cart, accept_terms: '1')
+        expect(response).to redirect_to new_checkout_transaction_path(@cart)
       end
     end
 
-    context 'as a guest with confirmable paypal express order', :vcr do
+    context 'as a guest with confirmable paypal express order' do
       before do
         @cart = create(:cart)
         product = create(:n72)
@@ -96,7 +90,7 @@ describe Checkout::ConfirmationController do
         expect(response).to have_http_status :redirect
       end
       it 'redirects to transaction path' do
-        expect(response).to redirect_to new_checkout_transaction_path(@cart, accept_terms: '1')
+        expect(response).to redirect_to new_checkout_transaction_path(@cart)
       end
     end
 
@@ -117,8 +111,8 @@ describe Checkout::ConfirmationController do
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
       end
-      it 'redirects to products path' do
-        expect(response).to redirect_to new_checkout_confirmation_path(@cart)
+      it 'redirects one step back (payments path)' do
+        expect(response).to redirect_to new_checkout_payment_path(@cart)
       end
     end
 
@@ -137,11 +131,8 @@ describe Checkout::ConfirmationController do
           order: { terms_validator: { accept_terms: '0' }}
         }
       end
-      it 'responds with status :redirect' do
-        expect(response).to have_http_status :redirect
-      end
-      it 'redirects to products path' do
-        expect(response).to redirect_to new_checkout_confirmation_path(@cart)
+      it 'responds with status :ok' do
+        expect(response).to have_http_status :ok
       end
       it 'displays flash alert' do
         expect(flash[:alert]).to eq('You must accept terms to proceed!')

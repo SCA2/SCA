@@ -11,7 +11,7 @@ feature 'admin dashboard' do
 
   context 'as a signed-in user' do
     let(:user) { create(:user) }
-    before { test_sign_in user }
+    before { test_sign_in(user, use_capybara: true) }
     
     scenario 'visit admin dashboard' do
       visit '/admin'
@@ -24,7 +24,7 @@ feature 'admin dashboard' do
     let(:admin) { create(:admin) }
     let(:cart) { create(:cart) }
 
-    before { test_sign_in admin }
+    before { test_sign_in(admin, use_capybara: true) }
     scenario 'visit admin dashboard' do
       visit '/admin'
       expect(page).to have_title('Admin')

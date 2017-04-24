@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Checkout::PaymentController do
   describe "GET #new" do
-    context 'as a guest with confirmed order' do
+    context 'as a guest with payable order' do
       before do
         cart = create(:cart)
         product = create(:n72)
@@ -15,19 +15,13 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = cart.id
-        get :new, params: { checkout_id: cart.id, accept_terms: true }
+        get :new, params: { checkout_id: cart.id }
       end
       it 'responds with status :ok' do
         expect(response).to have_http_status :ok
       end
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
-      end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
       end
     end
 
@@ -44,7 +38,7 @@ describe Checkout::PaymentController do
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
-        get :new, params: { checkout_id: @cart.id, accept_terms: true }
+        get :new, params: { checkout_id: @cart.id }
       end
       it 'responds with status :redirect' do
         expect(response).to have_http_status :redirect
@@ -56,7 +50,7 @@ describe Checkout::PaymentController do
   end
 
   describe "POST #update" do
-    context 'as a guest with confirmed order', :vcr do
+    context 'as a guest with confirmed order' do
       before do
         @cart = create(:cart)
         product = create(:n72)
@@ -82,7 +76,7 @@ describe Checkout::PaymentController do
       end
     end
 
-    context 'as a guest with unpayable order', :vcr do
+    context 'as a guest with unpayable order' do
       before do
         @cart = create(:cart)
         product = create(:n72)
@@ -130,15 +124,9 @@ describe Checkout::PaymentController do
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
       end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
-      end
     end
 
-    context 'as a guest with failed purchase', :vcr do
+    context 'as a guest with failed purchase' do
       before do
         @cart = create(:cart)
         product = create(:n72)

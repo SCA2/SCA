@@ -12,6 +12,7 @@ FactoryGirl.define do
     shipping_cost Faker::Commerce.price
     sales_tax { cart.subtotal * 0.095 }
     use_billing true
+    confirmed false
 
     trait :sales_buyer do
       email 'sales-buyer@seventhcircleaudio.com'

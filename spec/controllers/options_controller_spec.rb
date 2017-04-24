@@ -14,14 +14,14 @@ describe OptionsController do
     describe "GET #new" do
       it "renders the 'new' template" do
         get :new, params: { product_id: product }
-        expect(response).to render_template("new")
+        expect(response).to be_successful
       end
     end
   
     describe "GET #edit" do
       it "assigns the requested option as @option" do
         get :edit, params: { id: option, product_id: product }
-        expect(assigns(:option)).to eq(option)
+        expect(response).to be_successful
       end
     end
   
@@ -42,7 +42,7 @@ describe OptionsController do
       describe "with invalid params" do
         it "re-renders the 'new' template" do
           post :create, params: invalid_attributes
-          expect(response).to render_template("new")
+          expect(response).to be_successful
         end
       end
     end
@@ -58,7 +58,7 @@ describe OptionsController do
       describe "with invalid params" do
         it "re-renders the 'edit' template" do
           patch :update, params: invalid_attributes
-          expect(response).to render_template("edit")
+          expect(response).to be_successful
         end
       end
     end
@@ -80,7 +80,7 @@ describe OptionsController do
 
   describe 'admin access to options' do
     let(:admin) { create(:admin) }
-    before { test_sign_in(admin, false) }
+    before { test_sign_in(admin, use_capybara: false) }
     it_behaves_like 'admin access to options'
   end
 end

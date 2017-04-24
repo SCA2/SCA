@@ -29,7 +29,7 @@ gem 'capistrano-rails', '~> 1.2.3'
 gem 'capistrano-rbenv', '~> 2.1.1', require: false
 
 group :development, :test do
-  gem 'rails-controller-testing'
+  # gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'factory_girl_rails'

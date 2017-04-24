@@ -18,7 +18,7 @@ describe UsersController do
     describe 'GET #new' do
       it "renders form" do
         get :new
-        expect(response).to render_template(:new)
+        expect(response).to be_successful
       end
     end
     describe "POST #create" do
@@ -58,11 +58,11 @@ describe UsersController do
     end
 
     context 'user signed in' do
-      before { test_sign_in(user, false) }
+      before { test_sign_in(user, use_capybara: false) }
       describe 'GET #show' do
         it "requires login" do
           get :show, params: { id: user }
-          expect(response).to render_template(:show)
+          expect(response).to be_successful
         end
       end
       describe 'GET #show admin' do
@@ -98,11 +98,11 @@ describe UsersController do
 
   shared_examples 'full access' do
     context 'admin signed in' do
-      before { test_sign_in(admin, false) }
+      before { test_sign_in(admin, use_capybara: false) }
       describe 'GET #index' do
         it "requires login" do
           get :index
-          expect(response).to render_template(:index)
+          expect(response).to be_successful
         end
       end
       describe 'DELETE #destroy' do

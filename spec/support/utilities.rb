@@ -1,4 +1,4 @@
-def test_sign_in(user, use_capybara = true)
+def test_sign_in(user, use_capybara: true)
   if use_capybara
     visit signin_path
     fill_in "Email", with: user.email
@@ -13,7 +13,7 @@ def test_sign_in(user, use_capybara = true)
   end
 end
 
-def test_sign_out(use_capybara = true)
+def test_sign_out(use_capybara: true)
   if use_capybara
     click_link "Log Out"
   else

@@ -51,7 +51,7 @@ describe "Authentication" do
       
       let(:user) { create(:user) }
       
-      before { test_sign_in user }
+      before { test_sign_in(user, use_capybara: true) }
 
       it { is_expected.to have_title(user.name) }
       it { is_expected.to have_link('My Account',   href: user_path(user)) }

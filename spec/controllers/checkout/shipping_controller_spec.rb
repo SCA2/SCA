@@ -20,12 +20,6 @@ describe Checkout::ShippingController do
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
       end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
-      end
     end
 
     context 'as a guest with unshippable order', :vcr do
@@ -130,12 +124,6 @@ describe Checkout::ShippingController do
       end
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
-      end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
       end
       it 'displays flash alert' do
         expect(flash[:alert]).to eq('Please select a shipping method!')

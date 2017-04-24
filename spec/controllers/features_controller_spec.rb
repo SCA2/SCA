@@ -11,14 +11,14 @@ describe FeaturesController do
     describe "GET new" do
       it "assigns a new feature as @feature" do
         get :new, params: { id: feature, product_id: product.to_param }
-        expect(assigns(:feature)).to be_a_new(Feature)
+        expect(response).to be_successful
       end
     end
   
     describe "GET edit" do
       it "assigns the requested feature as @feature" do
         get :edit, params: { id: feature, product_id: product.to_param }
-        expect(assigns(:feature)).to eq(feature)
+        expect(response).to be_successful
       end
     end
   
@@ -30,12 +30,6 @@ describe FeaturesController do
           }.to change(Feature, :count).by(1)
         end
   
-        it "assigns a newly created feature as @feature" do
-          post :create, params: { feature: valid_attributes, product_id: product.to_param }
-          expect(assigns(:feature)).to be_a(Feature)
-          expect(assigns(:feature)).to be_persisted
-        end
-  
         it "redirects to new feature path" do
           post :create, params: { feature: valid_attributes, product_id: product.to_param }
           expect(response).to redirect_to(new_product_feature_path(product.to_param))
@@ -45,27 +39,13 @@ describe FeaturesController do
       describe "with invalid params" do
         it "assigns a newly created but unsaved feature as @feature" do
           post :create, params: { feature: invalid_attributes, product_id: product.to_param }
-          expect(assigns(:feature)).to be_a_new(Feature)
-        end
-  
-        it "re-renders the 'new' template" do
-          post :create, params: { feature: invalid_attributes, product_id: product.to_param }
-          expect(response).to render_template("new")
+          expect(response).to be_successful
         end
       end
     end
   
     describe "PATCH #update" do
       describe "with valid params" do
-        it "assigns the requested feature as @feature" do
-          patch :update, params: {
-            id: feature.to_param,
-            feature: valid_attributes,
-            product_id: product.to_param
-          }
-          expect(assigns(:feature)).to eq(feature)
-        end
-  
         it "changes feature's attributes" do
           patch :update, params: {
             id: feature,
@@ -95,7 +75,7 @@ describe FeaturesController do
 
         it "re-renders the 'edit' template" do
           patch :update, params: { id: feature.to_param, feature: invalid_attributes, product_id: product. to_param }
-          expect(response).to render_template("edit")
+          expect(response).to be_successful
         end
       end
     end
@@ -117,7 +97,7 @@ describe FeaturesController do
 
   describe 'admin access to features' do
     let(:admin) { create(:admin) }
-    before { test_sign_in(admin, false) }
+    before { test_sign_in(admin, use_capybara: false) }
     it_behaves_like 'admin access to features'
   end
 end

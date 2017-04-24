@@ -18,12 +18,6 @@ describe Checkout::AddressesController do
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
       end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
-      end
     end
 
     context 'as a guest with unaddressable order' do
@@ -88,12 +82,6 @@ describe Checkout::AddressesController do
       end
       it 'responds with content type html' do
         expect(response.content_type).to eq('text/html')
-      end
-      it 'renders the application layout' do
-        expect(response).to render_template(layout: 'layouts/application')
-      end
-      it 'renders the new template' do
-        expect(response).to render_template(:new)
       end
     end
   end

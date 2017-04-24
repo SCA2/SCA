@@ -2,23 +2,20 @@ module Checkout
   class AddressesController < Checkout::CheckoutController
     
     before_action :set_no_cache
-    before_action :cart_purchased_redirect
     before_action :empty_cart_redirect
+    before_action :cart_purchased_redirect
+    before_action :bad_state_redirect
     before_action :save_progress
 
     def new
-      @order = Order.find_or_create_by(cart_id: cart.id)
-      @order.update(express_token: nil)
-      bad_state_redirect; return if performed?
+      order.update(express_token: nil)
       assign_address('billing')
       assign_address('shipping')
     end
 
     def create
-      @order = cart.order
-      bad_state_redirect; return if performed?
       copy_billing_to_shipping if use_billing_for_shipping?
-      if @order.update(order_params)
+      if order.update(order_params)
         flash[:success] = 'Addresses saved!'
         redirect_to new_checkout_shipping_path(cart)
       else
@@ -29,23 +26,23 @@ module Checkout
   private
 
     def bad_state_redirect
-      unless @order.addressable?
+      unless order.addressable?
         flash[:alert] = 'Sorry, unable to continue checkout.'
         redirect_to products_path
       end
     end
 
     def assign_address(type)
-      unless @order.addresses.exists?(address_type: type)
+      unless order.addresses.exists?(address_type: type)
         if signed_in?
           address = current_user.addresses.find_by(address_type: type)
           if address
-            @order.addresses << address.dup
+            order.addresses << address.dup
           else
-            @order.addresses.build(address_type: type)
+            order.addresses.build(address_type: type)
           end
         else
-          @order.addresses.build(address_type: type)
+          order.addresses.build(address_type: type)
         end
       end
     end
@@ -55,18 +52,18 @@ module Checkout
     end
 
     def billing_address_exists?
-      @order.addresses.exists?(address_type: 'billing')
+      order.addresses.exists?(address_type: 'billing')
     end
 
     def shipping_address_exists?
-      @order.addresses.exists?(address_type: 'shipping')
+      order.addresses.exists?(address_type: 'shipping')
     end
 
     def copy_billing_to_shipping
       billing = params[:order][:addresses_attributes]['0'].dup
       billing[:address_type] = 'billing'
       if billing_address_exists?
-        billing[:id] = @order.addresses.find_by(address_type: 'billing').id
+        billing[:id] = order.addresses.find_by(address_type: 'billing').id
       else
         billing[:id] = nil
       end
@@ -74,7 +71,7 @@ module Checkout
       shipping = billing.dup
       shipping[:address_type] = 'shipping'
       if shipping_address_exists?
-        shipping[:id] = @order.addresses.find_by(address_type: 'shipping').id
+        shipping[:id] = order.addresses.find_by(address_type: 'shipping').id
       else
         shipping[:id] = nil
       end

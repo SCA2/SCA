@@ -6,7 +6,6 @@
 			<%= render 'shared/errors', object: @terms %>
 			<%= render 'shared/progress_bar' %>
 			<%= form_for @order, url: checkout_confirmation_path(@cart) do |form| %>
-				<%= form.hidden_field :express_token %>
 				<div class='review-box'>
 					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>
 					<%= render 'confirm_address', f: @shipping, legend: 'Shipping Address' %>
