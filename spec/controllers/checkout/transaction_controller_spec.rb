@@ -36,9 +36,9 @@ describe Checkout::TransactionsController do
         expect(session.keys).to include('cart_id')
         expect(session[:cart_id]).to eq(nil)
       end
-      it 'sets the session checkout progress to nil' do
+      it 'sets the session checkout progress to []' do
         expect(session.keys).to include('progress')
-        expect(session[:progress]).to eq(nil)
+        expect(session[:progress]).to eq([])
       end
     end
 
@@ -65,9 +65,9 @@ describe Checkout::TransactionsController do
         expect(session.keys).to include('cart_id')
         expect(session[:cart_id]).to eq(@cart.id)
       end
-      it 'sets the session checkout progress to nil' do
+      it 'sets the session checkout progress to []' do
         expect(session.keys).to include('progress')
-        expect(session[:progress]).to eq(nil)
+        expect(session[:progress]).to eq([])
       end
     end
 
