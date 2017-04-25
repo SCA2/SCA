@@ -71,9 +71,9 @@ SCA::Application.configure do
 
   config.action_mailer.default_url_options = {
     protocol: 'https',
-    host: ENV['MAILER_HOST']
+    host: 'seventhcircleaudio.com'
   }
-  
+
   config.action_mailer.smtp_settings = {
     address:              ENV['MAILER_ADDRESS'],
     port:                 ENV['MAILER_PORT'],
