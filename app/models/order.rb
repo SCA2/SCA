@@ -54,4 +54,12 @@ class Order < ActiveRecord::Base
     subtotal + shipping_cost + sales_tax
   end
 
+  def carrier
+    if shipping_method
+      shipping_method.strip.split(' ')[0]
+    else
+      ''
+    end
+  end
+
 end

@@ -7,5 +7,6 @@ FactoryGirl.define do
     authorization "authorization"
     message "message"
     params "params"
+    tracking_number "1ZY7V28300000000"
   end
 end

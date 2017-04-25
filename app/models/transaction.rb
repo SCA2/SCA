@@ -1,7 +1,10 @@
 class Transaction < ActiveRecord::Base
   belongs_to :order
   serialize :params
-  
+
+  validates :tracking_number, length: { minimum: 6 }, on: :update
+  validates :tracking_number, presence: true, on: :update
+
   def response=(response)
     if response
       self.success        = response.success?

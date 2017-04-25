@@ -56,13 +56,32 @@ feature 'admin dashboard' do
         line_item = create(:line_item, quantity: n + 1, product: product, option: option)
         cart = create(:cart, line_items: [line_item])
         order = create(:order, cart: cart)
-        order.addresses << create(:address, addressable: order, address_type: 'billing')
-        order.addresses << create(:address, addressable: order, address_type: 'shipping')
+        order.addresses << create(:billing, addressable: order)
+        order.addresses << create(:shipping, addressable: order)
         create(:transaction, order: order)
       end
       visit '/orders'
       click_link Order.last.id
       expect(page).to have_content('$300.00')
+    end
+
+    scenario 'send ship notification email' do
+      product = create(:product)
+      option = create(:option, product: product)
+      cart = create(:cart)
+      create(:line_item, cart: cart, product: product, option: option)
+      order = create(:order, cart: cart)
+      create(:billing, addressable: order)
+      create(:shipping, addressable: order)
+      create(:transaction, order: order)
+      visit '/orders'
+      click_link 'ship'
+      expect(page).to have_content('Tracking number')
+      fill_in 'Tracking number', with: '1ZYZV2830000000'
+      click_button 'Send'
+      expect(page).to have_title('Orders')
+      expect(page).to have_content('Tracking number sent!')
+      expect(order.transactions.last.tracking_number).to eq('1ZYZV2830000000')
     end
 
     scenario 'view orders between dates', :vcr do

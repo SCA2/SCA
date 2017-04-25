@@ -19,7 +19,7 @@
 			<td class="item-cell">
 				<%= link_to "view", order %>
 				&nbsp; | &nbsp;
-				<%= link_to "ship", order %>
+				<%= link_to "ship", get_tracking_number_order_path(order) %>
 				&nbsp; | &nbsp;
 				<%= link_to "delete", order, method: :delete, data: { confirm: "Are you sure?" } %>
 			</td>

@@ -43,8 +43,9 @@ private
 
   def get_product_categories
     categories = ProductCategory.all.order(:sort_order)
-    categories.map do |c|
-      [c.id, c.name.pluralize(ProductCategory.joins(:products).where(id: c).count)]
+    categories.map do |category|
+      count = ProductCategory.includes(:products).where(id: category).count
+      [category.id, category.name.pluralize(count)]
     end
   end
 

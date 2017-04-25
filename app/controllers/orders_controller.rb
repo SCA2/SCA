@@ -54,9 +54,39 @@ class OrdersController < BaseController
     @tax = SalesTaxCalculator.new(start..stop)
   end
 
+  def get_tracking_number
+    @order = Order.find(order_params)
+    @cart = @order.cart
+    @billing = @order.billing_address
+    @shipping = @order.shipping_address
+    @transaction = @order.transactions.last
+  end
+
+  def send_tracking_number
+    @order = Order.find(order_params)
+    @cart = @order.cart
+    @billing = @order.billing_address
+    @shipping = @order.shipping_address
+    @transaction = @order.transactions.last
+    if @transaction.update(tracking_number: transaction_params)
+      UserMailer.order_shipped(@order).deliver
+      flash[:success] = 'Tracking number sent!'
+      redirect_to(orders_path)
+    else
+      render 'get_tracking_number'
+    end
+  end
+
 private
+
   def order_params
     params.require(:id)
+  end
+
+  def transaction_params
+    params.require(:transaction).require(:tracking_number)
+  rescue ActionController::ParameterMissing
+    ''
   end
 
   def admin_user

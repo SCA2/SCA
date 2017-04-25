@@ -56,6 +56,10 @@ SCA::Application.routes.draw do
       get 'search'
       delete 'delete_abandoned'
     end
+    member do
+      get 'get_tracking_number'
+      patch 'send_tracking_number'
+    end
   end
 
   resources :checkout, only: [] do
