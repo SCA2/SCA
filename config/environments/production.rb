@@ -64,15 +64,16 @@ SCA::Application.configure do
   # Precompile for Foundation.
   config.assets.precompile += %w( vendor/modernizr.js )
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-  # config.action_mailer.logger.development
+  # Deliver mail immediately and raise delivery errors.
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.default_url_options = { protocol: 'https', host: ENV['MAILER_HOST'] }
-  config.action_mailer.default_url_options = { protocol: 'https', host: 'seventhcircleaudio.com' }
+
+  config.action_mailer.default_url_options = {
+    protocol: 'https',
+    host: ENV['MAILER_HOST']
+  }
+  
   config.action_mailer.smtp_settings = {
     address:              ENV['MAILER_ADDRESS'],
     port:                 ENV['MAILER_PORT'],
@@ -80,7 +81,8 @@ SCA::Application.configure do
     user_name:            ENV['GMAIL_USERNAME'],
     password:             ENV['GMAIL_PASSWORD'],
     authentication:       'plain',
-    enable_starttls_auto: true  }
+    enable_starttls_auto: true
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
