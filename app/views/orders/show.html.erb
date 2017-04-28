@@ -14,7 +14,7 @@
 				<%= render 'cart' %>
 				<div class="button-box">
 					<%= link_to 'Quit', orders_path, class: 'button user' %>
-					<%= link_to 'Ship', @order, class: 'button user' %>
+					<%= link_to 'Ship', get_tracking_number_order_path(order), class: 'button user' %>
 					<%= link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" } %>
 				</div>
 			<% end %>
