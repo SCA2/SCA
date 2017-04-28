@@ -62,7 +62,7 @@ SCA::Application.configure do
   config.assets.precompile += %w( search.js )
 
   # Precompile for html mail
-  # config.assets.precompile += %w( mailers.scss )
+  config.assets.precompile += %w( mailers.scss )
 
   # Precompile for Foundation.
   config.assets.precompile += %w( vendor/modernizr.js )
