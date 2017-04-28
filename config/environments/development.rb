@@ -13,6 +13,9 @@ SCA::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # Precompile for html mail
+  config.assets.precompile += %w( mailers.scss )
+
   # config.action_mailer.logger.development
   # config.action_mailer.preview_path = 'spec/mailers/previews'
   # config.action_mailer.delivery_method = :letter_opener

@@ -61,6 +61,9 @@ SCA::Application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   config.assets.precompile += %w( search.js )
 
+  # Precompile for html mail
+  # config.assets.precompile += %w( mailers.scss )
+
   # Precompile for Foundation.
   config.assets.precompile += %w( vendor/modernizr.js )
 
