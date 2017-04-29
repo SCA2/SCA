@@ -35,7 +35,8 @@ class Order < ActiveRecord::Base
 
   scope :abandoned, -> do
     joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart).
-    where(carts: {purchased_at: nil})
+    where(carts: {purchased_at: nil}).
+    order(created_at: :desc).distinct
   end
 
   def billing_address
@@ -94,14 +95,27 @@ class Order < ActiveRecord::Base
 
   def shipped_at
     if transactions && transactions.last && transactions.last.shipped_at
-      transactions.last.shipped_at
+      transactions.last.shipped_at.to_date.to_formatted_s(:db)
     else
-      created_at
+      'Not Shipped'
+    end
+  end
+
+  def tracking_number
+    if transactions && transactions.last && transactions.last.tracking_number
+      transactions.last.tracking_number
+    else
+      'Not Shipped'
     end
   end
 
   def name
     "#{addresses.billing_address.first_name} #{addresses.billing_address.last_name}"
+  end
+
+  def token
+    return stripe_token if stripe_token
+    return express_token if express_token
   end
 
 end

@@ -27,7 +27,7 @@ feature "faq category" do
     scenario 'view faq categories index' do
       faqs_category = create(:faqs_category)
       visit '/admin'
-      click_link 'View FAQs Categories'
+      click_link 'FAQs Categories'
       expect(page).to have_content(faqs_category.category_name)
       expect(page).to have_content(faqs_category.category_weight)
     end

@@ -113,7 +113,7 @@ private
   end
 
   def transaction_params
-    params.require(:transaction).require(:tracking_number)
+    params.require(:transaction).permit(:tracking_number)[:tracking_number]
   rescue ActionController::ParameterMissing
     ''
   end

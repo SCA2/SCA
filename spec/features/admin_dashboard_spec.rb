@@ -27,10 +27,12 @@ feature 'admin dashboard' do
     scenario 'visit admin dashboard' do
       visit '/admin'
       expect(page).to have_title('Admin')
-      expect(page).to have_content('View Users')
-      expect(page).to have_content('View Orders')
-      expect(page).to have_content('View FAQs')
-      expect(page).to have_content('View Components')
+      expect(page).to have_content('Components')
+      expect(page).to have_content('BOMs')
+      expect(page).to have_content('FAQs Categories')
+      expect(page).to have_content('Orders')
+      expect(page).to have_content('Product Categories')
+      expect(page).to have_content('Users')
     end
 
     scenario 'view all orders' do
@@ -160,8 +162,8 @@ feature 'admin dashboard' do
       create(:address, addressable: order, address_type: 'shipping')
       visit '/orders'
       expect(page).to have_title('Orders')
-      expect(page).to have_content('Delete abandoned')
-      expect { click_link 'Delete abandoned' }.to change(Order, :count).by(-1)
+      expect(page).to have_content('Delete Abandoned')
+      expect { click_link 'Delete Abandoned' }.to change(Order, :count).by(-1)
     end
 
     scenario 'does not delete completed orders' do
@@ -172,8 +174,8 @@ feature 'admin dashboard' do
       create(:transaction, order: order)
       visit '/orders'
       expect(page).to have_title('Orders')
-      expect(page).to have_content('Delete abandoned')
-      expect { click_link 'Delete abandoned' }.to change(Order, :count).by(0)
+      expect(page).to have_content('Delete Abandoned')
+      expect { click_link 'Delete Abandoned' }.to change(Order, :count).by(0)
     end
 
     scenario 'view sales tax', :vcr do

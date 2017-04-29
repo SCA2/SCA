@@ -1,0 +1,31 @@
+= provide(:title, 'Orders')
+
+.box_2
+  .row
+    .small-12.columns
+      .date-search
+        %p= link_to "All", orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Succeeded", successful_orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Failed", failed_orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Pending", pending_orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Shipped", shipped_orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Abandoned", abandoned_orders_path(@orders)
+        &nbsp; | &nbsp;
+        %p= link_to "Delete Abandoned",
+          delete_abandoned_orders_path(@orders),
+          method: :delete, data: { confirm: "Are you sure?" }
+      .date-search
+        = form_tag(search_orders_path(@orders), method: "get") do
+          %fieldset
+            = label_tag(:from, "From:")
+            = date_field_tag :from, Date.current
+          %fieldset
+            = label_tag(:to, "To:")
+            = date_field_tag :to, Date.current
+          = submit_tag("Search")
+      = render 'orders'

@@ -27,7 +27,7 @@ feature "product category" do
     scenario 'view product categories index' do
       product_category = create(:product_category)
       visit '/admin'
-      click_link 'View Product Categories'
+      click_link 'Product Categories'
       expect(page).to have_content(product_category.name)
       expect(page).to have_content(product_category.sort_order)
     end

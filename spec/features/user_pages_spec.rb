@@ -13,8 +13,8 @@ describe "User pages" do
     end
 
     it { is_expected.to have_title('Site Admin') }
-    it { is_expected.to have_content('View Users') }
-    it { is_expected.to have_content('View Orders') }
+    it { is_expected.to have_content('Users') }
+    it { is_expected.to have_content('Orders') }
 
   end
 

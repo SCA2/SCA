@@ -14,8 +14,8 @@
       <td class="item-cell"><%= order.email %></td>
       <td class="item-cell"><%= order.name %></td>
 			<td class="item-cell"><%= cents_to_dollars(order.subtotal) %></td>
-			<td class="item-cell"><%= order.created_at.to_formatted_s(:default) %></td>
-			<td class="item-cell"><%= order.shipped_at.to_formatted_s(:default) %></td>
+			<td class="item-cell"><%= order.created_at.to_date.to_formatted_s(:db) %></td>
+			<td class="item-cell"><%= order.shipped_at %></td>
 			<td class="item-cell">
 				<%= link_to "view", order %>
 				&nbsp; | &nbsp;

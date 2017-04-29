@@ -2,23 +2,29 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-12 columns main">
-			<%= render 'shared/errors', object: @order %>
-			<%= form_for @order, url: @redirect, method: :patch do |form| %>
-				<%= form.hidden_field :express_token %>
-				<div class='review-box'>
-					<%= render 'address', f: @billing, legend: 'Billing Address' %>
-					<%= render 'address', f: @shipping, legend: 'Shipping Address' %>
-					<%= render 'shipping', f: @order, legend: 'Shipping Method' %>
-				</div>
+    <div class="small-5 columns main">
+      <div class='row'>
+        <%= render 'address', f: @billing, legend: 'Billing Address' %>
+        <%= render 'address', f: @shipping, legend: 'Shipping Address' %>
+      </div>
+    </div>
+    <div class="small-7 columns main">
+      <div class='row'>
+        <%= render 'shipping', f: @order, legend: 'Shipping Method' %>
+        <%= render 'email', f: @order, legend: 'Email' %>
+        <%= render 'token', f: @order, legend: 'Card Token' %>
+      </div>
+    </div>
+    <div class="small-12 columns main">
+      <div class='row'>
 				<%= render 'cart' %>
-				<div class="button-box">
-					<%= link_to 'Quit', orders_path, class: 'button user' %>
-					<%= link_to 'Ship', get_tracking_number_order_path(order), class: 'button user' %>
-					<%= link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" } %>
-				</div>
-			<% end %>
-		</div>
+      </div>
+      <div class="button-box">
+        <%= link_to 'Quit', orders_path, class: 'button user' %>
+        <%= link_to 'Ship', get_tracking_number_order_path(order), class: 'button user' %>
+        <%= link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" } %>
+      </div>
+    </div>
 	</div>	
 </div>
 

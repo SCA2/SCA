@@ -1,9 +1,17 @@
 <fieldset class="confirm-shipper">
 	<legend><%= legend %></legend>
 	<table class="confirm-table">
+    <tr>
+      <td><%= f.shipping_method %></td>
+      <td><%= cents_to_dollars(f.shipping_cost, precision: 2) %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag :shipped_at %></td>
+      <td><%= f.shipped_at %></td>
+    </tr>
 		<tr>
-			<td><%= f.shipping_method %></td>
-			<td><%= cents_to_dollars(f.shipping_cost, precision: 2) %></td>
+			<td><%= label_tag :tracking_number %></td>
+			<td><%= f.tracking_number %></td>
 		</tr>
 	</table>
 </fieldset>

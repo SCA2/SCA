@@ -2,27 +2,42 @@
 
 <div class="box_2">
 	<div class="row">
-		<div class="small-12 columns main">
-      <%= render 'shared/errors', object: @order %>
-			<%= render 'shared/errors', object: @transaction %>
-      <%= form_for @order, url: send_tracking_number_order_path(@order), method: :patch do |form| %>
-        <div class='review-box'>
-          <%= render 'address', f: @billing, legend: 'Billing Address' %>
-          <%= render 'address', f: @shipping, legend: 'Shipping Address' %>
-          <%= render 'shipping', f: @order, legend: 'Shipping Method' %>
-        </div>
+		<%= render 'shared/errors', object: @transaction %>
+    <div class="small-5 columns main">
+      <div class='row'>
+        <%= render 'address', f: @billing, legend: 'Billing Address' %>
+        <%= render 'address', f: @shipping, legend: 'Shipping Address' %>
+      </div>
+    </div>
+    <div class="small-7 columns main">
+      <div class='row'>
+        <%= render 'shipping', f: @order, legend: 'Shipping Method' %>
+        <%= render 'email', f: @order, legend: 'Email' %>
+        <%= render 'token', f: @order, legend: 'Card Token' %>
+      </div>
+    </div>
+    <div class="small-12 columns main">
+      <div class='row'>
         <%= render 'cart' %>
-        <div class="button-box">
-          <%= fields_for @transaction do |f| %>
-            <tr class="field">
-              <td class="label"><%= f.label :tracking_number %></td>
-              <td class="input"><%= f.text_field :tracking_number %></td>
-            </tr>
-          <% end %>
-          <%= form.submit 'Send', class: 'button user' %>
-          <%= link_to 'Quit', orders_path, class: 'button user' %>
-        </div>
-			<% end %>
+        <%= form_for @order, url: send_tracking_number_order_path(@order), method: :patch do |form| %>
+          <div class="button-box">
+            <%= fields_for @transaction do |f| %>
+              <div class="small-2 columns">
+                <%= f.label :tracking_number, nil, class: "right inline" %>
+              </div>
+              <div class="small-7 columns">
+                <%= f.text_field :tracking_number %>
+              </div>
+            <% end %>
+            <div class="small-1 columns">
+              <%= form.submit 'Send', class: 'button user left inline' %>
+            </div>
+            <div class="small-2 columns">
+              <%= link_to 'Quit', orders_path, class: 'button user left inline' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
 		</div>
 	</div>	
 </div>

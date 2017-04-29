@@ -27,7 +27,7 @@ feature "Components" do
     scenario 'view components index' do
       component = create(:component)
       visit '/admin'
-      click_link 'View Components'
+      click_link 'Components'
       expect(page).to have_content(component.mfr_part_number)
     end
 
