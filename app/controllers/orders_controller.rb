@@ -73,8 +73,9 @@ class OrdersController < BaseController
       shipped_at: DateTime.current.in_time_zone
     )
       UserMailer.order_shipped(@order).deliver
-      flash[:success] = 'Tracking number sent!'
-      redirect_to(orders_path)
+      flash.now[:success] = 'Tracking number sent!'
+      @orders = Order.pending
+      render 'index'
     else
       render 'get_tracking_number'
     end
