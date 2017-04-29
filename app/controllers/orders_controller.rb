@@ -3,7 +3,7 @@ class OrdersController < BaseController
   before_action :admin_user
 
   def index
-    @orders = Order.order(:created_at)    
+    @orders = Order.order(created_at: :desc)
   end
   
   def show
@@ -68,13 +68,26 @@ class OrdersController < BaseController
     @billing = @order.billing_address
     @shipping = @order.shipping_address
     @transaction = @order.transactions.last
-    if @transaction.update(tracking_number: transaction_params)
+    if @transaction.update(
+      tracking_number: transaction_params,
+      shipped_at: DateTime.current.in_time_zone
+    )
       UserMailer.order_shipped(@order).deliver
       flash[:success] = 'Tracking number sent!'
       redirect_to(orders_path)
     else
       render 'get_tracking_number'
     end
+  end
+
+  def pending
+    @orders = Order.pending
+    render 'index'
+  end
+
+  def shipped
+    @orders = Order.shipped
+    render 'index'
   end
 
 private

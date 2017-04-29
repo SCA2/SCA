@@ -8,5 +8,6 @@ FactoryGirl.define do
     message "message"
     params "params"
     tracking_number "1ZY7V28300000000"
+    shipped_at Date.yesterday
   end
 end

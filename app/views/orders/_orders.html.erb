@@ -15,7 +15,7 @@
 			<td class="item-cell"><%= order.email %></td>
 			<td class="item-cell"><%= order.cart_id %></td>
 			<td class="item-cell"><%= order.created_at.to_formatted_s(:default) %></td>
-			<td class="item-cell"><%= order.created_at.to_formatted_s(:default) %></td>
+			<td class="item-cell"><%= order.shipped_at.to_formatted_s(:default) %></td>
 			<td class="item-cell">
 				<%= link_to "view", order %>
 				&nbsp; | &nbsp;

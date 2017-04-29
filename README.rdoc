@@ -5,5 +5,4 @@ Rails 5.0.1
 Ruby 2.4
 
 Postgresql 9.5.4
-
 <tt>rake doc:app</tt>.

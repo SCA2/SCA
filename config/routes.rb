@@ -52,9 +52,11 @@ SCA::Application.routes.draw do
 
   resources :orders, only: [:index, :show, :update, :destroy] do
     collection do
+      get 'pending'
+      get 'shipped'
+      delete 'delete_abandoned'
       get 'sales_tax'
       get 'search'
-      delete 'delete_abandoned'
     end
     member do
       get 'get_tracking_number'

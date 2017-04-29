@@ -62,4 +62,24 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def self.pending
+    Order.joins(:transactions).
+    where(transactions: {shipped_at: nil, tracking_number: nil}).
+    order(created_at: :desc)
+  end
+
+  def self.shipped
+    Order.joins(:transactions).
+    where.not(transactions: {shipped_at: nil, tracking_number: nil}).
+    order(created_at: :desc)
+  end
+
+  def shipped_at
+    if transactions && transactions.last.shipped_at
+      transactions.last.shipped_at
+    else
+      created_at
+    end
+  end
+
 end

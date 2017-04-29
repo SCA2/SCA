@@ -4,6 +4,13 @@
 	<div class="row">
 		<div class="small-12 columns">
       <div class="date-search">
+        <%= link_to "All", orders_path(@orders) %>
+        <%= link_to "Pending", pending_orders_path(@orders) %>
+        <%= link_to "Shipped", shipped_orders_path(@orders) %>
+        <%= link_to "Delete abandoned",
+          delete_abandoned_orders_path(@orders),
+          method: :delete, data: { confirm: "Are you sure?" }
+        %>
         <%= form_tag(search_orders_path(@orders), method: "get") do %>
           <fieldset>
             <%= label_tag(:from, "From:") %>
@@ -15,10 +22,6 @@
           </fieldset>
           <%= submit_tag("Search") %>
         <% end %>
-        <%= link_to "Delete abandoned orders",
-          delete_abandoned_orders_path(@orders),
-          method: :delete, data: { confirm: "Are you sure?" }
-        %>
       </div>
       <%= render 'orders' %>
 		</div>
