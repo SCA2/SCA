@@ -52,6 +52,8 @@ SCA::Application.routes.draw do
 
   resources :orders, only: [:index, :show, :update, :destroy] do
     collection do
+      get 'successful'
+      get 'failed'
       get 'pending'
       get 'shipped'
       delete 'delete_abandoned'

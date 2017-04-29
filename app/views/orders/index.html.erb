@@ -5,9 +5,11 @@
 		<div class="small-12 columns">
       <div class="date-search">
         <%= link_to "All", orders_path(@orders) %>
+        <%= link_to "Succeeded", successful_orders_path(@orders) %>
+        <%= link_to "Failed", failed_orders_path(@orders) %>
         <%= link_to "Pending", pending_orders_path(@orders) %>
         <%= link_to "Shipped", shipped_orders_path(@orders) %>
-        <%= link_to "Delete abandoned",
+        <%= link_to "Del Abandoned",
           delete_abandoned_orders_path(@orders),
           method: :delete, data: { confirm: "Are you sure?" }
         %>

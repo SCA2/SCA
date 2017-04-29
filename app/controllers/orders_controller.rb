@@ -80,6 +80,16 @@ class OrdersController < BaseController
     end
   end
 
+  def successful
+    @orders = Order.successful
+    render 'index'
+  end
+
+  def failed
+    @orders = Order.failed
+    render 'index'
+  end
+
   def pending
     @orders = Order.pending
     render 'index'

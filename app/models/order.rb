@@ -8,6 +8,28 @@ class Order < ActiveRecord::Base
 
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
+  scope :checked_out, -> do
+    Order.joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions).order(created_at: :desc).distinct
+  end
+
+  scope :successful, -> do
+    checked_out.where(transactions: {success: true}).order(created_at: :desc).distinct
+  end
+
+  scope :failed, -> do
+    checked_out.where.not(transactions: {success: true}).order(created_at: :desc).distinct
+  end
+
+  scope :pending, -> do
+    successful.where(transactions: {shipped_at: nil, tracking_number: nil}).
+    order(created_at: :desc).distinct
+  end
+
+  scope :shipped, -> do
+    pending.where.not(transactions: {shipped_at: nil, tracking_number: nil}).
+    order(created_at: :desc).distinct
+  end
+
   def billing_address
     addresses.billing_address
   end
@@ -62,20 +84,8 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def self.pending
-    Order.joins(:transactions).
-    where(transactions: {shipped_at: nil, tracking_number: nil}).
-    order(created_at: :desc)
-  end
-
-  def self.shipped
-    Order.joins(:transactions).
-    where.not(transactions: {shipped_at: nil, tracking_number: nil}).
-    order(created_at: :desc)
-  end
-
   def shipped_at
-    if transactions && transactions.last.shipped_at
+    if transactions && transactions.last && transactions.last.shipped_at
       transactions.last.shipped_at
     else
       created_at
