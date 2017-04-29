@@ -28,7 +28,9 @@ class Order < ActiveRecord::Base
   end
 
   scope :shipped, -> do
-    pending.where.not(transactions: {shipped_at: nil, tracking_number: nil}).
+    checked_out.
+    where(transactions: {success: true}).
+    where.not(transactions: {shipped_at: nil, tracking_number: nil}).
     order(created_at: :desc).distinct
   end
 
