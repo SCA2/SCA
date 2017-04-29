@@ -1,19 +1,19 @@
 <table class="confirm-cart" style="width: 100%">
 	<tr id="header">
-		<th id="line">Record</th>
 		<th id="line">Order ID</th>
-		<th id="item">Email</th>
-		<th id="item">Cart ID</th>
-		<th id="item">Created</th>
+    <th id="item">Email</th>
+    <th id="item">Customer</th>
+		<th id="item">Subtotal</th>
+		<th id="item">Received</th>
 		<th id="item">Shipped</th>
 		<th id="item">Action</th>		
 	</tr>
 	<% @orders.each_with_index do |order, index| %>
 		<tr>
-			<td class="line-cell"><%= index + 1 %></td>
 			<td class="item-cell"><%= link_to order.id, order %></td>
-			<td class="item-cell"><%= order.email %></td>
-			<td class="item-cell"><%= order.cart_id %></td>
+      <td class="item-cell"><%= order.email %></td>
+      <td class="item-cell"><%= order.name %></td>
+			<td class="item-cell"><%= cents_to_dollars(order.subtotal) %></td>
 			<td class="item-cell"><%= order.created_at.to_formatted_s(:default) %></td>
 			<td class="item-cell"><%= order.shipped_at.to_formatted_s(:default) %></td>
 			<td class="item-cell">

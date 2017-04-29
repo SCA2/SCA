@@ -5,14 +5,23 @@
 		<div class="small-12 columns">
       <div class="date-search">
         <%= link_to "All", orders_path(@orders) %>
+        &nbsp; | &nbsp;
         <%= link_to "Succeeded", successful_orders_path(@orders) %>
+        &nbsp; | &nbsp;
         <%= link_to "Failed", failed_orders_path(@orders) %>
+        &nbsp; | &nbsp;
         <%= link_to "Pending", pending_orders_path(@orders) %>
+        &nbsp; | &nbsp;
         <%= link_to "Shipped", shipped_orders_path(@orders) %>
-        <%= link_to "Del Abandoned",
+        &nbsp; | &nbsp;
+        <%= link_to "Abandoned", abandoned_orders_path(@orders) %>
+        &nbsp; | &nbsp;
+        <%= link_to "Delete Abandoned",
           delete_abandoned_orders_path(@orders),
           method: :delete, data: { confirm: "Are you sure?" }
         %>
+      </div>
+      <div class="date-search">
         <%= form_tag(search_orders_path(@orders), method: "get") do %>
           <fieldset>
             <%= label_tag(:from, "From:") %>

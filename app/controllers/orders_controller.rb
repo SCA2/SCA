@@ -101,6 +101,11 @@ class OrdersController < BaseController
     render 'index'
   end
 
+  def abandoned
+    @orders = Order.abandoned
+    render 'index'
+  end
+
 private
 
   def order_params

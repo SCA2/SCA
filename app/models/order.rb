@@ -33,6 +33,11 @@ class Order < ActiveRecord::Base
     order(created_at: :desc).distinct
   end
 
+  scope :abandoned, -> do
+    joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart).
+    where(carts: {purchased_at: nil})
+  end
+
   def billing_address
     addresses.billing_address
   end
@@ -93,6 +98,10 @@ class Order < ActiveRecord::Base
     else
       created_at
     end
+  end
+
+  def name
+    "#{addresses.billing_address.first_name} #{addresses.billing_address.last_name}"
   end
 
 end

@@ -56,6 +56,7 @@ SCA::Application.routes.draw do
       get 'failed'
       get 'pending'
       get 'shipped'
+      get 'abandoned'
       delete 'delete_abandoned'
       get 'sales_tax'
       get 'search'
