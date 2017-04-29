@@ -9,15 +9,19 @@ class Order < ActiveRecord::Base
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
   scope :checked_out, -> do
-    Order.joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions).order(created_at: :desc).distinct
+    Order.joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions)
   end
 
   scope :successful, -> do
-    checked_out.where(transactions: {success: true}).order(created_at: :desc).distinct
+    checked_out.
+    where('transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)').
+    where(transactions: {success: true}).order(created_at: :desc).distinct
   end
 
   scope :failed, -> do
-    checked_out.where.not(transactions: {success: true}).order(created_at: :desc).distinct
+    checked_out.
+    where('transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)').
+    where(transactions: {success: false}).order(created_at: :desc).distinct
   end
 
   scope :pending, -> do
