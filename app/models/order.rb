@@ -14,14 +14,16 @@ class Order < ActiveRecord::Base
 
   scope :successful, -> do
     checked_out.
-    where('transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)').
-    where(transactions: {success: true}).order(created_at: :desc).distinct
+    group(:id, 'transactions.success').
+    having('ANY(transactions.success = false)').
+    order(created_at: :desc).distinct
   end
 
   scope :failed, -> do
     checked_out.
-    where('transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)').
-    where(transactions: {success: false}).order(created_at: :desc).distinct
+    group(:id, 'transactions.success').
+    having('EVERY(transactions.success = false)').
+    order(created_at: :desc).distinct
   end
 
   scope :pending, -> do
