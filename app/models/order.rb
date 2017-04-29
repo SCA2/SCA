@@ -13,16 +13,12 @@ class Order < ActiveRecord::Base
   end
 
   scope :successful, -> do
-    checked_out.
-    group(:id, 'transactions.success').
-    having('ANY(transactions.success = false)').
+    checked_out.where(transactions: {success: true}).
     order(created_at: :desc).distinct
   end
 
   scope :failed, -> do
-    checked_out.
-    group(:id, 'transactions.success').
-    having('EVERY(transactions.success = false)').
+    where.not(id: checked_out.where(transactions: {success: true}).select(:id)).
     order(created_at: :desc).distinct
   end
 
