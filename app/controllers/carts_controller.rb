@@ -46,7 +46,6 @@ class CartsController < BaseController
   end
 
   def show_invoice
-    byebug
     @cart = Cart.find_by_invoice_token!(params[:id])
     if @cart.invoice_sent_at < 30.days.ago
       flash[:alert] = 'Your invoice link has expired. Please contact sales@seventhcircleaudio.com for help.'
