@@ -1,0 +1,38 @@
+.main-cart
+  = form_for cart do |cart_form|
+    %table.main-cart
+      %tr
+        %th#remove Remove
+        %th#item Item
+        %th#description Description
+        %th#quantity Quantity
+        %th#price Price
+        %th#ext Ext
+        = cart_form.fields_for :line_items do |line_form|
+          - line_item = cart.line_items[line_form.index]
+          %tr
+            - model = line_item.model
+            - item = line_item.category + ', ' + line_item.description
+            %td.remove-cell= line_form.check_box :_destroy 
+            %td.item-cell= link_to model, line_item.product
+            %td.description-cell= link_to item, line_item.product
+            %td.quantity-cell= line_form.number_field :quantity, value: line_item.quantity
+            %td.price-cell= cents_to_dollars(line_item.price, precision: 0)
+            %td.price-cell= cents_to_dollars(line_item.extended_price, precision: 0)
+          %tr
+            %td.divider-cell{colspan: 6}
+          %tr#discount-line
+            %td.total-cell{colspan: 5} Discount
+            %td.total-price-cell= cents_to_dollars(cart.discount, precision: 0)
+          %tr#total-line
+            %td.total-cell{colspan: 5} Subtotal
+            %td.total-price-cell= cents_to_dollars(cart.subtotal, precision: 0)
+    .actions
+      .checkout-box
+        = cart_form.submit 'Update cart', method: :patch, class: "button checkout"
+        = link_to 'Empty cart', cart_path, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' }
+        = link_to 'Keep shopping', products_path, class: "button checkout"
+        = link_to 'Checkout', new_checkout_address_path(cart), class: "button checkout"
+      - if signed_in_admin?
+        .admin-box
+          = link_to 'Send Invoice', new_invoice_cart_path(cart), class: "button admin"

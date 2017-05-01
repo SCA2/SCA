@@ -9,7 +9,7 @@ class Order < ActiveRecord::Base
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
   scope :checked_out, -> do
-    Order.joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions)
+    joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions)
   end
 
   scope :successful, -> do

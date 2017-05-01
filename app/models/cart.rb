@@ -130,4 +130,17 @@ class Cart < ActiveRecord::Base
     abandoned.destroy_all
   end
 
+  def send_invoice(customer: customer)
+    create_invoice_token
+    self.update_attribute(:invoice_sent_at, Time.now)
+    UserMailer.invoice(cart: self, customer: customer).deliver_now
+  end
+
+private
+
+  def create_invoice_token
+    tg = TokenGenerator.new(model_name: self, token_name: 'invoice_token')
+    self.invoice_token = tg.new_encrypted_token
+  end
+
 end

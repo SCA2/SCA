@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428220328) do
+ActiveRecord::Schema.define(version: 20170501014531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,10 @@ ActiveRecord::Schema.define(version: 20170428220328) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "purchased_at"
+    t.string   "invoice_token"
+    t.datetime "invoice_sent_at"
+    t.datetime "invoice_retrieved_at"
+    t.index ["invoice_token"], name: "index_carts_on_invoice_token", using: :btree
   end
 
   create_table "components", force: :cascade do |t|

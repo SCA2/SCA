@@ -40,4 +40,12 @@ class UserMailer < ActionMailer::Base
           bcc: "orders@seventhcircleaudio.com",
           subject: "Your Seventh Circle Audio order has shipped!"
   end
+
+  def invoice(cart: nil, customer: nil)
+    @customer = customer
+    @cart = cart
+    mail  to: @customer.email, 
+          bcc: "orders@seventhcircleaudio.com",
+          subject: "Your Seventh Circle Audio repair is complete!"
+  end
 end

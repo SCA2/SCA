@@ -15,7 +15,13 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :carts, only: [:show, :update, :destroy]
+  resources :carts, only: [:show, :update, :destroy] do
+    member do
+      get 'new_invoice'
+      post 'create_invoice'
+      get 'show_invoice'
+    end
+  end
   
   resources :products do
     resources :features, except: [:index, :show]

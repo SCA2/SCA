@@ -1,0 +1,19 @@
+
+Dear <%= @customer.name %>,
+
+Your repair is complete and ready to ship.  To pay this invoice, click the "Pay Now" button to be redirected to our web site, or copy the link below into your browser.  If you have any questions or encounter any further difficulties with your SCA equipment, please email sales@seventhcircleaudio.com us for support.  Thanks again for your business.
+
+--------------------------------------------------------------------------------
+<%= sprintf("%-5s%-12s%-43.43s%4s%8s%8s", "Line", "Item", "Description", "Qty", "Price", "Total") %>
+--------------------------------------------------------------------------------
+<% @cart.line_items.each_with_index do |line_item, index| %>
+  <% line = (index + 1).to_s %>
+  <% item = line_item.category + ', ' + line_item.description %>
+  <% price = cents_to_dollars(line_item.price, precision: 0) %>
+  <% ext = cents_to_dollars(line_item.extended_price, precision: 0) %>
+<%= sprintf("%-5s%-12s%-43.43s%4s%8s%8s", line, line_item.model, item, line_item.quantity, price, ext) %>
+<% end %>
+
+<%= sprintf("%71s%9s", "Package Discount", cents_to_dollars(@cart.discount, precision: 2)) %>
+<%= sprintf("%71s%9s", "Subtotal", cents_to_dollars(@cart.subtotal, precision: 2)) %>
+--------------------------------------------------------------------------------

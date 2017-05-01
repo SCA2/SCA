@@ -1,0 +1,37 @@
+<% provide(:title, 'Invoice Cart ' + cart.id.to_s) %>
+
+<div class="box_2">
+	<div class="row">
+		<%= render 'shared/errors', object: @customer %>
+    <div class="small-12 columns main">
+      <div class='row'>
+        <%= render 'cart' %>
+        <%= form_for @cart, url: create_invoice_cart_path(@cart), method: :post do |form| %>
+          <div class="button-box">
+            <%= form.fields_for @customer do |f| %>
+              <div class="small-2 columns">
+                <%= f.label :name, nil, class: "right inline" %>
+              </div>
+              <div class="small-3 columns">
+                <%= f.text_field :name %>
+              </div>
+              <div class="small-1 columns">
+                <%= f.label :email, nil, class: "right inline" %>
+              </div>
+              <div class="small-3 columns">
+                <%= f.text_field :email %>
+              </div>
+            <% end %>
+            <div class="small-1 columns">
+              <%= form.submit 'Send', class: 'button user left inline' %>
+            </div>
+            <div class="small-2 columns">
+              <%= link_to 'Quit', orders_path, class: 'button user left inline' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+		</div>
+	</div>	
+</div>
+
