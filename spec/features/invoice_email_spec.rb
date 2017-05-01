@@ -26,18 +26,20 @@ describe "Send invoice notification" do
     expect(page).to have_content("Send Invoice")
   end
 
-  it "collects customer email address" do
+  it "collects customer name and email address" do
     admin = create(:admin)
     user = create(:user)
     test_sign_in(admin, use_capybara: true)
     visit cart_path(@cart)
     click_link "Send Invoice"
-    fill_in "email", with: user.email
-    click_button "Send Invoice"
-    expect(current_path).to eq(cart_path(@cart))
-    expect(page).to have_content("Invoice sent!")
+    fill_in "Name", with: user.name
+    fill_in "Email", with: user.email
+    click_button "Send"
+    expect(current_path).to eq(products_path)
+    expect(page).to have_content("Invoice sent")
     expect(last_email.to).to include(user.email)
-    expect(last_email).to include(@cart.subtotal)
+    expect(last_email.body.encoded).to include(user.name)
+    expect(last_email.body.encoded).to include('Subtotal')
   end
 
   it "updates the user password when confirmation matches" do

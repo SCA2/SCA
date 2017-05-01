@@ -37,8 +37,8 @@ class CartsController < BaseController
       if @customer.valid?
         logger.debug "Mailer: " + @customer.inspect
         cart.send_invoice(customer: @customer)
-        flash.now[:success] = 'Invoice Sent!'
-        render 'show'
+        flash[:success] = 'Invoice sent'
+        redirect_to products_path
       else
         render 'new_invoice'
       end
