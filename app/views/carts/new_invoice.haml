@@ -1,0 +1,18 @@
+= provide(:title, "Invoice Cart #{cart.id.to_s}")
+
+.box_2
+  .row
+    .small-12.columns
+      = render 'shared/errors', object: @customer
+      = render 'invoice_header'
+      = form_for @cart, url: create_invoice_cart_path(@cart), method: :post do |form|
+        = render 'cart', cart_form: form
+        .actions
+          .row
+            = form.fields_for @customer do |f|
+              .small-2.columns= f.label :name, nil, class: "right inline"
+              .small-3.columns= f.text_field :name
+              .small-1.columns= f.label :email, nil, class: "right inline"
+              .small-3.columns= f.text_field :email
+              .small-1.columns= form.submit 'Send', class: 'button user left inline'
+              .small-2.columns= link_to 'Quit', orders_path, class: 'button user left inline'

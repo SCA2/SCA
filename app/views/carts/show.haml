@@ -1,0 +1,18 @@
+=provide(:title, "Cart " + @cart.id.to_s)
+
+.box_2
+  .row
+    .small-12.columns
+      = render 'shared/errors', object: @cart
+      = render 'shared/progress_bar'
+      = form_for cart do |form|
+        = render 'cart', cart_form: form
+        .actions
+          .checkout-box
+            = form.submit 'Update cart', method: :patch, class: "button checkout"
+            = link_to 'Empty cart', cart_path, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' }
+            = link_to 'Keep shopping', products_path, class: "button checkout"
+            = link_to 'Checkout', new_checkout_address_path(cart), class: "button checkout"
+          - if signed_in_admin?
+            .admin-box
+              = link_to 'Send Invoice', new_invoice_cart_path(cart), class: "button admin"
