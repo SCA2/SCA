@@ -37,6 +37,8 @@ class CartsController < BaseController
       if @customer.valid?
         logger.debug "Mailer: " + @customer.inspect
         cart.send_invoice(customer: @customer)
+        cart.save!
+        session[:cart_id] = nil
         flash[:success] = 'Invoice sent'
         redirect_to products_path
       else
@@ -54,6 +56,7 @@ class CartsController < BaseController
       flash[:alert] = 'That invoice has already been paid.'
       redirect_to root_url
     elsif @cart.update_attribute(:invoice_retrieved_at, DateTime.current)
+      session[:cart_id] = @cart.id
       redirect_to cart_path(@cart)
     else
       flash[:alert] = 'Sorry, we had a problem retrieving your invoice.'
