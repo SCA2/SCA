@@ -16,14 +16,14 @@ feature 'standard stripe checkout', :vcr do
     create(:feature, product: @product)
     option = create(:ka, product: @product)
     create(:bom, option: option)
-    cart = create(:cart)
+    cart = create(:cart, invoice_token: 'secret_token', invoice_sent_at: Time.now)
     create(:line_item, cart: cart, product: @product, option: option)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }
 
   scenario 'as a guest', js: true do
-    visit cart_path(Cart.last)
+    visit show_invoice_cart_path(Cart.last.invoice_token)
     expect(page).to have_content('1 Items')
     click_link('Checkout')
     expect(Order.count).to eq(1)

@@ -20,4 +20,26 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.order_shipped(order)
   end
 
+  class Customer
+    attr_accessor :name, :email
+    def initialize(name, email)
+      @name = name
+      @email = email
+    end
+  end
+
+  def invoice
+    cart = FactoryGirl.create(:cart)
+    product = FactoryGirl.create(:product, product_category_id: 1, model: 'M80', model_sort_order: '100')
+    option = FactoryGirl.create(:option, product: product)
+    line_item = FactoryGirl.create(:line_item, cart: cart, product: product, option: option, quantity: 1)
+    customer = Customer.new('Joe Tester', 'joe.tester@example.com')
+    mail = UserMailer.invoice(cart: cart, customer: customer)
+    cart.destroy
+    product.destroy
+    option.destroy
+    line_item.destroy
+    mail
+  end
+
 end
