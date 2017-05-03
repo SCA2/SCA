@@ -1,0 +1,14 @@
+= provide(:title, 'Sign in')
+
+.box_2
+	.row
+		.small-9.columns
+			.edit-profile
+				= form_for(:session, url: sessions_path) do |f|
+					.user-info
+						= render 'form', f: f
+					.button-box
+						= submit_tag 'Sign in', class: 'button user'
+						= link_to "Forgot your password?", new_password_reset_path, class: 'button user'
+		.small-3.columns
+			= render 'layouts/sidebar_left'

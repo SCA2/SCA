@@ -18,6 +18,7 @@ describe Order do
   it { should respond_to(:transactable?) }
   it { should respond_to(:stripe_purchase?) }
   it { should respond_to(:express_purchase?) }
+  it { should respond_to(:transactable?) }
 
   it { should respond_to(:purchased_at) }
   it { should respond_to(:subtotal) }
@@ -28,12 +29,17 @@ describe Order do
 
   it { should respond_to(:email) }
   it { should respond_to(:ip_address) }
+  it { should respond_to(:stripe_token) }
   it { should respond_to(:express_token) }
   it { should respond_to(:express_payer_id) }
   it { should respond_to(:shipping_method) }
   it { should respond_to(:shipping_cost) }
   it { should respond_to(:sales_tax) }
   it { should respond_to(:use_billing) }
+  it { should respond_to(:carrier) }
+  it { should respond_to(:shipped_at) }
+  it { should respond_to(:tracking_number) }
+  it { should respond_to(:name) }
 
   describe 'cart associations' do
     it 'belongs to one cart' do
