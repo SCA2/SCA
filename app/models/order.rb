@@ -110,7 +110,11 @@ class Order < ActiveRecord::Base
   end
 
   def name
-    "#{addresses.billing_address.first_name} #{addresses.billing_address.last_name}"
+    if billing_address.present?
+      "#{addresses.billing_address.first_name} #{addresses.billing_address.last_name}"
+    else
+      "Missing Name"
+    end
   end
 
   def token
