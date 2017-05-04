@@ -37,8 +37,10 @@ describe "Authentication" do
       
       before { click_button "Sign in" }
 
-      it { is_expected.to have_error_message('Invalid email or password') }
-      
+      it 'complains with no input' do
+        expect(page.body).to include('There are 4 errors on the page')
+      end
+
       describe "after visiting another page" do
         before { click_link "Home" }
         it { is_expected.not_to have_selector('div.alert-box') }
