@@ -3,7 +3,7 @@ module ProductsHelper
   def get_extended_models(product)
     extended_models = {}
     product.options.each do |option|
-      if option.active? || signed_in_admin?
+      if option.enabled? || signed_in_admin?
         extended_models[product.model + option.model + ', ' + option.description + ', ' + get_price(option)] = option.id
       end
     end

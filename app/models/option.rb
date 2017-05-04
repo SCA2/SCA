@@ -31,6 +31,14 @@ class Option < ActiveRecord::Base
     self.active
   end
 
+  def enabled?
+    active? && bom.present?
+  end
+
+  def disabled?
+    !enabled?
+  end
+
   def is_kit?
     model.include?('KF')
   end
@@ -40,8 +48,9 @@ class Option < ActiveRecord::Base
   end
 
   def stock_message
-    # byebug
-    if is_kit?
+    if disabled?
+      "Not available at this time"
+    elsif is_kit?
       if kit_stock > STOCK_CUTOFF
         "Can ship today"
       elsif kit_stock > 0
