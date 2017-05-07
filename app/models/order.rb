@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
 
   scope :checked_out, -> do
     where("shipping_method IS NOT NULL AND confirmed = true AND (stripe_token IS NOT NULL OR express_token IS NOT NULL)").
-    joins(:cart).where.not(carts: {purchased_at: nil}).
+    # joins(:cart).where.not(carts: {purchased_at: nil}).
     joins(:addresses).where(addresses: {address_type: 'billing'}).preload(:addresses).
     joins(:transactions).preload(:transactions)
   end
