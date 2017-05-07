@@ -11,9 +11,8 @@ class Order < ActiveRecord::Base
   scope :checked_out, -> do
     where("shipping_method IS NOT NULL AND confirmed = true AND (stripe_token IS NOT NULL OR express_token IS NOT NULL)").
     joins(:cart).where.not(carts: {purchased_at: nil}).
-    joins(:addresses).where(addresses: {address_type: 'billing'}).
-    joins(:transactions).preload(:transactions).
-    select('orders.*', 'addresses.first_name as first_name', 'addresses.last_name as last_name', 'transactions.*', 'transactions.created_at as received_at', 'transactions.shipped_at as shipped_at', 'transactions.amount as amount')
+    joins(:addresses).where(addresses: {address_type: 'billing'}).preload(:addresses).
+    joins(:transactions).preload(:transactions)
   end
 
   scope :successful, -> do
@@ -44,7 +43,20 @@ class Order < ActiveRecord::Base
   end
 
   def billing_address
-    addresses.billing_address
+    if addresses.loaded?
+      index = addresses.index {|a| a[:address_type] == 'billing'}
+      addresses[index]
+    else
+      addresses.billing_address
+    end
+  end
+
+  def name
+    if billing_address.present?
+      "#{billing_address.first_name} #{billing_address.last_name}"
+    else
+      "Missing Name"
+    end
   end
 
   def shipping_address
@@ -113,11 +125,11 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def name
-    if billing_address.present?
-      "#{addresses.billing_address.first_name} #{addresses.billing_address.last_name}"
+  def amount
+    if transactions && transactions.last && transactions.last.amount
+      transactions.last.amount
     else
-      "Missing Name"
+      '0'
     end
   end
 

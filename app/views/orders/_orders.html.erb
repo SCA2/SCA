@@ -12,9 +12,9 @@
 		<tr>
 			<td class="item-cell"><%= link_to order.id, order %></td>
       <td class="item-cell"><%= order.email %></td>
-      <td class="item-cell"><%= "#{order.first_name} #{order.last_name}" %></td>
+      <td class="item-cell"><%= order.name %></td>
 			<td class="item-cell"><%= cents_to_dollars(order.amount, {precision: 2}) %></td>
-			<td class="item-cell"><%= order.received_at.to_date.to_formatted_s(:db) %></td>
+			<td class="item-cell"><%= order.created_at.to_date.to_formatted_s(:db) %></td>
 			<td class="item-cell"><%= order.ship_date %></td>
 			<td class="item-cell">
 				<%= link_to "view", order %>
