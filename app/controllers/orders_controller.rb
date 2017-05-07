@@ -3,7 +3,7 @@ class OrdersController < BaseController
   before_action :admin_user
 
   def index
-    @orders = Order.checked_out
+    @orders = Order.checked_out.order(created_at: :asc).distinct
   end
   
   def show
