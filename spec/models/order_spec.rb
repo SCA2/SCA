@@ -37,7 +37,7 @@ describe Order do
   it { should respond_to(:sales_tax) }
   it { should respond_to(:use_billing) }
   it { should respond_to(:carrier) }
-  it { should respond_to(:shipped_at) }
+  it { should respond_to(:ship_date) }
   it { should respond_to(:tracking_number) }
   it { should respond_to(:name) }
 
@@ -83,6 +83,41 @@ describe Order do
       create(:address, address_type: 'billing', addressable: order)
       create(:address, address_type: 'shipping', addressable: order)
       expect {order.destroy}.to change {Address.count}.by(-2)
+    end
+  end
+
+  describe 'scopes' do
+    before do
+      5.times do
+        cart = create(:cart, purchased_at: Date.yesterday)
+        order = create(:order, cart: cart)
+        create(:billing, addressable: order)
+        create(:shipping, addressable: order)
+        create(:transaction, order: order)
+      end
+    end
+
+    describe 'checked_out' do
+      it 'finds orders with cart, addresses, shipping, confirmation, token, and transaction' do
+        expect(Order.checked_out.to_a.count).to eq(5)
+      end
+
+      it 'finds orders with successful transactions' do
+        Order.last.transactions.last.update_attribute(:success, false)
+        expect(Order.successful.to_a.count).to eq(4)
+      end
+
+      it 'finds orders with failed transactions' do
+        Order.last.transactions.last.update_attribute(:success, false)
+        expect(Order.failed.to_a.count).to eq(1)
+      end
+
+      it 'finds orders pending shipment' do
+        expect(Order.pending.to_a.count).to eq(0)
+        Order.last.transactions.last.update_attribute(:tracking_number, nil)
+        Order.last.transactions.last.update_attribute(:shipped_at, nil)
+        expect(Order.pending.to_a.count).to eq(1)
+      end
     end
   end
 end

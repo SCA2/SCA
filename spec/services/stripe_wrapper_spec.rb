@@ -43,7 +43,7 @@ describe StripeWrapper do
             source:       good_token,
             description:  'a valid charge'
           )
-          expect(response.id).to eq 'ch_1A4HisFC0i7e7XIPnzQ1axhj'
+          expect(response.id).to eq 'ch_1AGcCnFC0i7e7XIPRk5U9PpV'
           expect(response.object).to eq 'charge'
           expect(response.amount).to eq 999
           expect(response.currency).to eq 'usd'

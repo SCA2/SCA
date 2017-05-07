@@ -35,10 +35,10 @@ feature 'admin dashboard' do
       expect(page).to have_content('Users')
     end
 
-    scenario 'view all orders' do
+    scenario 'view checked-out orders' do
       orders = []
       3.times do
-        cart = create(:cart)
+        cart = create(:cart, purchased_at: Date.yesterday.noon)
         order = create(:order, cart: cart)
         create(:address, addressable: order, address_type: 'billing')
         create(:address, addressable: order, address_type: 'shipping')
@@ -58,7 +58,7 @@ feature 'admin dashboard' do
     scenario 'view pending orders' do
       orders = []
       3.times do
-        cart = create(:cart)
+        cart = create(:cart, purchased_at: Date.yesterday.noon)
         order = create(:order, cart: cart)
         create(:address, addressable: order, address_type: 'billing')
         create(:address, addressable: order, address_type: 'shipping')
@@ -66,7 +66,7 @@ feature 'admin dashboard' do
         orders << order
       end
       Order.last.transactions.last.update(
-        shipped_at: Date.yesterday.noon,
+        shipped_at: Date.today.noon,
         tracking_number: '1ZYZV2830000000'
       )
       visit '/orders'
@@ -79,7 +79,7 @@ feature 'admin dashboard' do
     scenario 'view shipped orders' do
       orders = []
       3.times do
-        cart = create(:cart)
+        cart = create(:cart, purchased_at: Date.yesterday.noon)
         order = create(:order, cart: cart)
         create(:address, addressable: order, address_type: 'billing')
         create(:address, addressable: order, address_type: 'shipping')
@@ -99,7 +99,7 @@ feature 'admin dashboard' do
 
     scenario 'visit a specific order' do
       3.times do
-        cart = create(:cart)
+        cart = create(:cart, purchased_at: Date.yesterday.noon)
         order = create(:order, cart: cart)
         product = create(:product)
         option = create(:option, price: 100, product: product)
@@ -116,7 +116,7 @@ feature 'admin dashboard' do
     scenario 'send ship notification email' do
       product = create(:product)
       option = create(:option, product: product)
-      cart = create(:cart)
+      cart = create(:cart, purchased_at: Date.yesterday.noon)
       create(:line_item, cart: cart, product: product, option: option)
       order = create(:order, cart: cart)
       create(:billing, addressable: order)

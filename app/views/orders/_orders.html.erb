@@ -3,19 +3,19 @@
 		<th id="line">Order ID</th>
     <th id="item">Email</th>
     <th id="item">Customer</th>
-		<th id="item">Subtotal</th>
+		<th id="item">Total</th>
 		<th id="item">Received</th>
 		<th id="item">Shipped</th>
 		<th id="item">Action</th>		
 	</tr>
-	<% @orders.each_with_index do |order, index| %>
+	<% @orders.each do |order| %>
 		<tr>
 			<td class="item-cell"><%= link_to order.id, order %></td>
       <td class="item-cell"><%= order.email %></td>
-      <td class="item-cell"><%= order.name %></td>
-			<td class="item-cell"><%= cents_to_dollars(order.subtotal) %></td>
-			<td class="item-cell"><%= order.created_at.to_date.to_formatted_s(:db) %></td>
-			<td class="item-cell"><%= order.shipped_at %></td>
+      <td class="item-cell"><%= "#{order.first_name} #{order.last_name}" %></td>
+			<td class="item-cell"><%= cents_to_dollars(order.amount, {precision: 2}) %></td>
+			<td class="item-cell"><%= order.received_at.to_date.to_formatted_s(:db) %></td>
+			<td class="item-cell"><%= order.ship_date %></td>
 			<td class="item-cell">
 				<%= link_to "view", order %>
 				&nbsp; | &nbsp;

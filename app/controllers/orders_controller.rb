@@ -3,7 +3,7 @@ class OrdersController < BaseController
   before_action :admin_user
 
   def index
-    @orders = Order.order(created_at: :desc)
+    @orders = Order.checked_out
   end
   
   def show
@@ -44,7 +44,7 @@ class OrdersController < BaseController
     start = params[:from].to_date.beginning_of_day
     stop = params[:to].to_date.end_of_day
     time_range = start..stop
-    @orders = Order.joins(:cart).where(carts: { purchased_at: time_range })
+    @orders = Order.checked_out.where(carts: { purchased_at: time_range })
     render 'index'
   end
 
@@ -74,7 +74,7 @@ class OrdersController < BaseController
     )
       UserMailer.order_shipped(@order).deliver
       flash.now[:success] = 'Tracking number sent!'
-      @orders = Order.pending
+      @orders = Order.shipped
       render 'index'
     else
       render 'get_tracking_number'

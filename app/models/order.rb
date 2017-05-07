@@ -9,34 +9,38 @@ class Order < ActiveRecord::Base
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
   scope :checked_out, -> do
-    joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart, :transactions)
+    where("shipping_method IS NOT NULL AND confirmed = true AND (stripe_token IS NOT NULL OR express_token IS NOT NULL)").
+    joins(:cart).where.not(carts: {purchased_at: nil}).
+    joins(:addresses).where(addresses: {address_type: 'billing'}).
+    joins(:transactions).preload(:transactions).
+    select('orders.*', 'addresses.first_name as first_name', 'addresses.last_name as last_name', 'transactions.*', 'transactions.created_at as received_at', 'transactions.shipped_at as shipped_at', 'transactions.amount as amount')
   end
 
   scope :successful, -> do
     checked_out.where(transactions: {success: true}).
-    order(created_at: :desc).distinct
+    order(created_at: :asc).distinct
   end
 
   scope :failed, -> do
-    where.not(id: checked_out.where(transactions: {success: true}).select(:id)).
-    order(created_at: :desc).distinct
+    checked_out.where(transactions: {success: false}).
+    order(created_at: :asc).distinct
   end
 
   scope :pending, -> do
     successful.where(transactions: {shipped_at: nil, tracking_number: nil}).
-    order(created_at: :desc).distinct
+    order(created_at: :asc).distinct
   end
 
   scope :shipped, -> do
-    checked_out.where(transactions: {success: true}).
-    where.not(transactions:{shipped_at: nil, tracking_number: nil}).
-    order(created_at: :desc).distinct
+    successful.where.not(transactions:{shipped_at: nil, tracking_number: nil}).
+    order(created_at: :asc)
   end
 
   scope :abandoned, -> do
-    joins('INNER JOIN addresses ON addresses.addressable_id = orders.id', :cart).
-    where(carts: {purchased_at: nil}).
-    order(created_at: :desc).distinct
+    where(stripe_token: nil, express_token: nil).
+    where('orders.created_at < ?', 1.month.ago).
+    joins(:cart).where(carts: {purchased_at: nil}).
+    order('orders.created_at asc')
   end
 
   def billing_address
@@ -93,7 +97,7 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def shipped_at
+  def ship_date
     if transactions && transactions.last && transactions.last.shipped_at
       transactions.last.shipped_at.to_date.to_formatted_s(:db)
     else
