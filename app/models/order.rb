@@ -9,8 +9,7 @@ class Order < ActiveRecord::Base
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
   scope :checked_out, -> do
-    where("shipping_method IS NOT NULL AND confirmed = true AND (stripe_token IS NOT NULL OR express_token IS NOT NULL)").
-    # joins(:cart).where.not(carts: {purchased_at: nil}).
+    where.not(shipping_method: nil).where(confirmed: true).
     joins(:addresses).where(addresses: {address_type: 'billing'}).preload(:addresses).
     joins(:transactions).preload(:transactions)
   end
@@ -36,10 +35,7 @@ class Order < ActiveRecord::Base
   end
 
   scope :abandoned, -> do
-    where(stripe_token: nil, express_token: nil).
-    where('orders.created_at < ?', 1.month.ago).
-    joins(:cart).where(carts: {purchased_at: nil}).
-    order('orders.created_at asc')
+    where.not(id: Order.checked_out).order(created_at: :asc)
   end
 
   def billing_address
