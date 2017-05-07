@@ -28,16 +28,9 @@ class OrdersController < BaseController
   end
 
   def delete_abandoned
-    orders = Order.order(:created_at)
-    orders.each do |order|
-      email = order.email
-      billing = order.billing_address
-      shipping = order.shipping_address
-      cart = order.cart  
-      transaction = order.transactions.last
-      order.destroy unless email && billing && shipping && cart && transaction
-    end
-    redirect_to orders_path and return
+    orders = Order.abandoned
+    orders.each { |order| order.destroy }
+    redirect_to orders_path
   end
 
   def search

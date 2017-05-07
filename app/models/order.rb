@@ -9,18 +9,21 @@ class Order < ActiveRecord::Base
   delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
 
   scope :checked_out, -> do
-    where.not(shipping_method: nil).where(confirmed: true).
-    joins(:addresses).where(addresses: {address_type: 'billing'}).preload(:addresses).
+    where.not(email: nil, shipping_method: nil, shipping_cost: nil).
+    joins(:cart).preload(:cart).
+    joins(:addresses).preload(:addresses).
     joins(:transactions).preload(:transactions)
   end
 
   scope :successful, -> do
     checked_out.where(transactions: {success: true}).
+    where.not(carts: {purchased_at: nil}).
     order(created_at: :asc).distinct
   end
 
   scope :failed, -> do
     checked_out.where(transactions: {success: false}).
+    where(carts: {purchased_at: nil}).
     order(created_at: :asc).distinct
   end
 
