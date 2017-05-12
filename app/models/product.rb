@@ -41,6 +41,12 @@ class Product < ActiveRecord::Base
     order(:model_sort_order).first == self
   end
 
+  def active_options
+    Option.where(options: {active: true}).
+    joins(:product).where(products: {id: id}).
+    order(:sort_order)
+  end
+
   def category
     return "Uncategorized" unless product_category
     product_category.name

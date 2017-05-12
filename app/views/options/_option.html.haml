@@ -1,5 +1,5 @@
 .options-box(id="options-box-#{@product.id.to_s}")
-  - if @product.options.any? { |option| option.enabled? } || signed_in_admin?
+  - if @product.options.any? { |option| option.enabled? || signed_in_admin? }
     = form_for :product, url: update_option_product_path(@product), method: :put, remote: true do |f|
       = f.select :options, (options_for_select get_extended_models(@product), @option.id), {}, class: 'select-option', id: "select-#{@product.id.to_s}"
     .actions-box

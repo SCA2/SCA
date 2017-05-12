@@ -2,36 +2,36 @@ module OptionsHelper
 
   def set_current_option(product, params)
     option_id = params[:options].to_i
-    begin
-      session[product.id][:current_option] = option_id
-    rescue
-      initialize_session_option(product)
+    session[product.id][:current_option] = option_id
+    if signed_in_admin?
+      product.options.find(option_id)
+    else
+      product.active_options.find(option_id)
     end
-    return_option(product, option_id)
+  rescue
+    initialize_session_option(product)
   end
 
   def get_current_option(product)
-    option_id = 0
-    begin
-      option_id = session[product.id][:current_option].to_i
-    rescue
-      initialize_session_option(product)
+    option_id = session[product.id][:current_option].to_i
+    if signed_in_admin?
+      return product.options.find(option_id)
+    else
+      return product.active_options.find(option_id)
     end
-    return_option(product, option_id)
+  rescue
+    initialize_session_option(product)
   end
 
   def initialize_session_option(product)
     session[product.id] = {}
-    session[product.id][:current_option] = product.options.first.id
-    option_id = session[product.id][:current_option].to_i
-  end
-
-  def return_option(product, option_id)
-    if product.options.exists?(option_id)
-      product.options.find(option_id)
-    else
-      product.options.first
+    if signed_in_admin? && product && product.options && product.options.first
+      option = product.options.first
+    elsif product && product.active_options && product.active_options.first
+      option = product.active_options.first
     end
+    session[product.id][:current_option] = option.id
+    option
   end
 
 end
