@@ -27,10 +27,11 @@ module OptionsHelper
     session[product.id] = {}
     if signed_in_admin? && product && product.options && product.options.first
       option = product.options.first
+      session[product.id][:current_option] = option.id
     elsif product && product.active_options && product.active_options.first
       option = product.active_options.first
+      session[product.id][:current_option] = option.id
     end
-    session[product.id][:current_option] = option.id
     option
   end
 
