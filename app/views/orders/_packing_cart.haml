@@ -1,0 +1,18 @@
+%fieldset
+  %legend Shipment Contents
+  %table.pack-table
+    %tr#header
+      %th.bold.align-center Line
+      %th.bold.align-left Item
+      %th.bold.align-left Description
+      %th.bold.align-center Quantity
+      %th.bold.align-right Price
+      %th.bold.align-right Ext
+    -@cart.line_items.each_with_index do |line_item, index|
+      %tr
+        %td.align-center= index + 1
+        %td.align-left= line_item.model
+        %td.align-left= line_item.category
+        %td.align-center= line_item.quantity
+        %td.align-right= cents_to_dollars(line_item.price, precision: 0)
+        %td.align-right= cents_to_dollars(line_item.extended_price, precision: 2)

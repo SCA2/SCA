@@ -70,6 +70,7 @@ SCA::Application.routes.draw do
     member do
       get 'get_tracking_number'
       patch 'send_tracking_number'
+      get 'packing_slip'
     end
   end
 

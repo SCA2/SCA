@@ -1,0 +1,70 @@
+@media print {
+
+  @page {
+    size: letter portrait;
+    margin: 0.1in;
+  }
+
+  $white: #FFFFFF;
+  $white_smoke: #F5F5F5;
+  $line_height: 0.65rem;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .small-6 {
+    width: 50%;
+  }
+
+  .small-12 {
+    width: 100%;
+  }
+
+  .columns {
+    display: inline-block;
+  }
+
+  fieldset {
+    &.confirm-address {
+      flex: 1 1 auto;
+    }
+  }
+
+  .bold         { font-weight: bold; }
+  .align-left   { text-align: left; }
+  .align-center { text-align: center; }
+  .align-right  { text-align: right; }
+  .dark         { background: $white_smoke !important; }
+  .gray         { color: #AAA !important; }
+
+  .pack-table {
+    color: #000;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+
+    th {
+      background-color: $white_smoke !important;
+      padding: 0.5em 1em 0.5em 1em;
+    }
+
+    tr {
+      line-height: $line_height;
+      &:nth-child(odd) {
+        background-color: $white_smoke !important;
+      }
+    }
+
+    td {
+      line-height: $line_height;
+    }
+
+    label { line-height: $line_height; }
+
+  }
+}

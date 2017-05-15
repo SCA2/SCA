@@ -12,6 +12,8 @@ class Order < ActiveRecord::Base
     where.not(email: nil, shipping_method: nil, shipping_cost: nil).
     joins(:cart).preload(:cart).
     joins(:addresses).preload(:addresses).
+    where(id: Address.select(:addressable_id).where(address_type: 'billing')).
+    where(id: Address.select(:addressable_id).where(address_type: 'shipping')).
     joins(:transactions).preload(:transactions)
   end
 

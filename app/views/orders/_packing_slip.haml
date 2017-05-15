@@ -1,0 +1,16 @@
+%fieldset.confirm-address
+  %legend= legend
+  %table.pack-table
+    %tr
+      %td{ style: "width: 30%" }= label_tag :order_id
+      %td{ style: "text-align: right" }= f.id
+    %tr
+      %td{ style: "width: 30%" }= label_tag :cart_id
+      %td{ style: "text-align: right" }= f.cart.id
+    %tr
+      %td{ style: "width: 30%" }= label_tag :purchased_at, 'Order Date'
+      %td{ style: "text-align: right" }= f.cart.purchased_at.to_date.to_s(:long)
+    %tr
+      %td{ colspan: 2 } &nbsp;
+    %tr
+      %td{ colspan: 2 } &nbsp;

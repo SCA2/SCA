@@ -133,6 +133,22 @@ feature 'admin dashboard' do
       expect(DateTime.current.in_time_zone.minus_with_coercion(order.transactions.last.shipped_at)).to be < 1
     end
 
+    scenario 'print packing slip' do
+      product = create(:product)
+      option = create(:option, product: product)
+      cart = create(:cart, purchased_at: Date.yesterday.noon)
+      create(:line_item, cart: cart, product: product, option: option)
+      order = create(:order, cart: cart)
+      create(:billing, addressable: order)
+      create(:shipping, addressable: order)
+      create(:transaction, order: order)
+      visit order_path(order)
+      click_link 'Packing Slip'
+      expect(page).to have_content('Packing Slip')
+      click_link 'Print'
+      expect(page).to have_content('Packing slip printed')
+    end
+
     scenario 'view orders between dates', :vcr do
       orders = []
       3.times do

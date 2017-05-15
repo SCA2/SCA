@@ -60,7 +60,7 @@ class Option < ActiveRecord::Base
       elsif limiting_stock > 0
         "#{limiting_stock} can ship in 3 to 5 days"
       else
-        "Please email for lead time"
+        "Please <a href='mailto:sales@seventhcircleaudio.com'>email</a> for lead time".html_safe
       end
     elsif is_assembled?
       if assembled_stock > STOCK_CUTOFF
@@ -74,7 +74,7 @@ class Option < ActiveRecord::Base
       elsif limiting_stock > 0
         "Can ship in 1 to 2 weeks"
       else
-        "Please email for lead time"
+        "Please <a href='mailto:sales@seventhcircleaudio.com'>email</a> for lead time".html_safe
       end
     else
       if limiting_stock > STOCK_CUTOFF

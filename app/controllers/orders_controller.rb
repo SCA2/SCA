@@ -55,6 +55,14 @@ class OrdersController < BaseController
     @transaction = @order.transactions.last
   end
 
+  def packing_slip
+    @order = Order.find(order_params)
+    @cart = @order.cart
+    @billing = @order.billing_address
+    @shipping = @order.shipping_address
+    flash.now[:success] = 'Packing slip printed'
+  end
+
   def send_tracking_number
     @order = Order.find(order_params)
     @cart = @order.cart

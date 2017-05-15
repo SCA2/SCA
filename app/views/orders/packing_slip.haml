@@ -1,0 +1,32 @@
+- provide(:title, "Packing Slip #{@order.id.to_s}")
+
+.box_2
+  .div#print_area
+    .row{ style: "margin-bottom: 25px" }
+      .small-6.columns.align-left
+        %h2.bold Seventh Circle Audio
+      .small-6.columns.align-right
+        %h3.gray Packing Slip
+    .row
+      .small-6.columns
+        = render 'company_info', legend: 'Return Address'
+      .small-6.columns
+        = render 'packing_slip', f: @order, legend: 'Order Info'
+    .row
+      .small-6.columns
+        = render 'packing_address', f: @billing, legend: 'Billing Address'
+      .small-6.columns
+        = render 'packing_address', f: @shipping, legend: 'Shipping Address'
+    .row
+      .small-12.columns
+        = render 'packing_cart'
+    .row{ style: "margin-bottom: 15px" }
+      .small-12.columns.align-center.dark
+        Please report any damaged or missing items to sales@seventhcircleaudio.com.
+    .row
+      .small-12.columns.bold.align-center
+        Thank you for your order.  We appreciate your business!
+  .button-box
+    - css = stylesheet_link_tag 'application', media: 'print'
+    = link_to 'Quit', orders_path, class: 'button user'
+    = link_to 'Print', '#', id: 'print_slip', data: {css: css}, class: 'button user'

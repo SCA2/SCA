@@ -99,7 +99,7 @@ describe Order do
 
     describe 'checked_out' do
       it 'finds orders with cart, addresses, shipping, confirmation, token, and transaction' do
-        expect(Order.checked_out.to_a.count).to eq(5)
+        expect(Order.checked_out.distinct.to_a.count).to eq(5)
       end
 
       it 'finds orders with successful transactions' do
@@ -109,6 +109,7 @@ describe Order do
 
       it 'finds orders with failed transactions' do
         Order.last.transactions.last.update_attribute(:success, false)
+        Order.last.cart.update_attribute(:purchased_at, nil)
         expect(Order.failed.to_a.count).to eq(1)
       end
 
@@ -117,6 +118,26 @@ describe Order do
         Order.last.transactions.last.update_attribute(:tracking_number, nil)
         Order.last.transactions.last.update_attribute(:shipped_at, nil)
         expect(Order.pending.to_a.count).to eq(1)
+      end
+    end
+
+    describe 'abandoned' do
+      it 'finds orders missing a transaction' do
+        expect(Order.abandoned.to_a.count).to eq(0)
+        Order.last.transactions.last.delete
+        expect(Order.abandoned.to_a.count).to eq(1)
+      end
+
+      it 'finds orders missing a billing address' do
+        expect(Order.abandoned.to_a.count).to eq(0)
+        Order.last.addresses.where(address_type: 'billing').take.delete
+        expect(Order.abandoned.to_a.count).to eq(1)
+      end
+
+      it 'finds orders missing a shipping address' do
+        expect(Order.abandoned.to_a.count).to eq(0)
+        Order.last.addresses.where(address_type: 'shipping').take.delete
+        expect(Order.abandoned.to_a.count).to eq(1)
       end
     end
   end
