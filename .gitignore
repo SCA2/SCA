@@ -40,3 +40,6 @@ sca.sublime-project
 
 # Ignore new byebug feature
 .byebug_history
+
+# Ignore local db backups
+*.bak
