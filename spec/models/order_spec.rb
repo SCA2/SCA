@@ -104,20 +104,20 @@ describe Order do
 
       it 'finds orders with successful transactions' do
         Order.last.transactions.last.update_attribute(:success, false)
-        expect(Order.successful.to_a.count).to eq(4)
+        expect(Order.successful.distinct.to_a.count).to eq(4)
       end
 
       it 'finds orders with failed transactions' do
         Order.last.transactions.last.update_attribute(:success, false)
         Order.last.cart.update_attribute(:purchased_at, nil)
-        expect(Order.failed.to_a.count).to eq(1)
+        expect(Order.failed.distinct.to_a.count).to eq(1)
       end
 
       it 'finds orders pending shipment' do
         expect(Order.pending.to_a.count).to eq(0)
         Order.last.transactions.last.update_attribute(:tracking_number, nil)
         Order.last.transactions.last.update_attribute(:shipped_at, nil)
-        expect(Order.pending.to_a.count).to eq(1)
+        expect(Order.pending.distinct.to_a.count).to eq(1)
       end
     end
 

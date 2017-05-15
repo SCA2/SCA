@@ -83,27 +83,27 @@ class OrdersController < BaseController
   end
 
   def successful
-    @orders = Order.successful
+    @orders = Order.successful.order(created_at: :asc).distinct
     render 'index'
   end
 
   def failed
-    @orders = Order.failed
+    @orders = Order.failed.order(created_at: :asc).distinct
     render 'index'
   end
 
   def pending
-    @orders = Order.pending
+    @orders = Order.pending.order(created_at: :asc).distinct
     render 'index'
   end
 
   def shipped
-    @orders = Order.shipped
+    @orders = Order.shipped.order(created_at: :asc).distinct
     render 'index'
   end
 
   def abandoned
-    @orders = Order.abandoned
+    @orders = Order.abandoned.order(created_at: :asc)
     render 'index'
   end
 

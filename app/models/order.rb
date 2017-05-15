@@ -19,28 +19,25 @@ class Order < ActiveRecord::Base
 
   scope :successful, -> do
     checked_out.where(transactions: {success: true}).
-    where.not(carts: {purchased_at: nil}).
-    order(created_at: :asc).distinct
+    where.not(carts: {purchased_at: nil})
   end
 
   scope :failed, -> do
     checked_out.where(transactions: {success: false}).
-    where(carts: {purchased_at: nil}).
-    order(created_at: :asc).distinct
+    where(carts: {purchased_at: nil})
   end
 
   scope :pending, -> do
-    successful.where(transactions: {shipped_at: nil, tracking_number: nil}).
-    order(created_at: :asc).distinct
+    successful.where(transactions: {shipped_at: nil, tracking_number: nil})
   end
 
   scope :shipped, -> do
-    successful.where.not(transactions:{shipped_at: nil, tracking_number: nil}).
-    order(created_at: :asc)
+    successful.where(transactions: {success: true}).
+    where(id: Transaction.select(:order_id).where.not(shipped_at: nil, tracking_number: nil))
   end
 
   scope :abandoned, -> do
-    where.not(id: Order.checked_out).order(created_at: :asc)
+    where.not(id: Order.checked_out)
   end
 
   def billing_address
