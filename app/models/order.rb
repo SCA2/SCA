@@ -28,7 +28,6 @@ class Order < ActiveRecord::Base
   end
 
   scope :pending, -> do
-    # successful.where(transactions: {shipped_at: nil, tracking_number: nil})
     successful.where.not(id: Transaction.select(:order_id).where.not(shipped_at: nil, tracking_number: nil))
   end
 

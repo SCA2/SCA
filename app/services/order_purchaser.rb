@@ -48,7 +48,7 @@ private
     {
       amount:       @total,
       currency:     'usd',
-      description:  "Order: #{@order.id}, Cart: #{@cart.id}",
+      description:  "Email: #{@order.email}, Order: #{@order.id}, Cart: #{@cart.id}",
       source:       @order.stripe_token,
       metadata: {
         ip: @order.ip_address,

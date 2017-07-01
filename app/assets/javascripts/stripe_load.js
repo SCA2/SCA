@@ -29,13 +29,18 @@ $(document).ready(function() {
 
   if(cardElement && errorElement && form) {
 
-    var values = function() {
-      var userPostalCode = cardElement.dataset.postcode || '90210';
-      return({postalCode: userPostalCode});
+    var cardData = {
+      name:             cardElement.dataset.name,
+      address_line1:    cardElement.dataset.line1,
+      address_line2:    cardElement.dataset.line2,
+      address_city:     cardElement.dataset.city,
+      address_state:    cardElement.dataset.state,
+      address_zip:      cardElement.dataset.zip,
+      address_country:  cardElement.dataset.country
     };
 
     // Create an instance of the card Element
-    var card = elements.create('card', {hidePostalCode: true, value: values(), style: style});
+    var card = elements.create('card', {hidePostalCode: true, style: style});
 
     // Add an instance of the card Element into the `card-element` <div>
     card.mount('#card-element');
@@ -54,8 +59,7 @@ $(document).ready(function() {
     // Handle form submission
     form.addEventListener('submit', function(event) {
       event.preventDefault();
-
-      stripe.createToken(card).then(function(result) {
+      stripe.createToken(card, cardData).then(function(result) {
         if (result.error) {
           // Inform the user if there was an error
           var errorElement = document.getElementById('card-errors');

@@ -8,8 +8,9 @@ describe CardTokenizer do
   
   it { should respond_to(:stripe_token) }
   it { should respond_to(:email) }
-  it { should respond_to(:postcode) }
   it { should respond_to(:ip_address) }
+  it { should respond_to(:name_on_card) }
+  it { should respond_to(:address) }
 
   describe 'save' do
     it 'updates the order' do
@@ -18,7 +19,6 @@ describe CardTokenizer do
         stripe_token: 'token',
         email: 'joe.tester@example.com',
         ip_address: '127.0.0.1',
-        postcode: '90210'
       }
 
       CardTokenizer.new(order, @params).save

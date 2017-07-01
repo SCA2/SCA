@@ -3,7 +3,17 @@
   <table class="address-table">
     <tr class="field">
       <td class="label"><%= label_tag 'card-element', "Credit or Debit Card" %></td>
-      <td class="input" id="card-element" data-postcode=<%= f.object.postcode %>></td>
+      <td
+        class="input"
+        id="card-element"
+        data-name="<%= f.object.name_on_card %>"
+        data-line1="<%= f.object.address.address_1 %>"
+        data-line2="<%= f.object.address.address_2 %>"
+        data-city="<%= f.object.address.city %>"
+        data-state="<%= f.object.address.state_code %>"
+        data-zip="<%= f.object.address.post_code %>"
+        data-country="<%= f.object.address.country %>">
+      </td>
     </tr>
     <tr class="field">
       <td></td>
