@@ -4,6 +4,7 @@
     %title= content_for?(:title) ? yield(:title) : "foundation-rails"
     %meta{ charset: "utf-8" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    =render 'layouts/sca_meta_tags'
 
     =tag :meta, name: 'stripe-public-key', content: ENV['STRIPE_PUBLIC_KEY']
     =csrf_meta_tags
