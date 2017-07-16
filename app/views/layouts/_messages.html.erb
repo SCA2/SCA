@@ -1,8 +1,0 @@
-<% flash.each do |name, msg| %>
-  <% if msg.is_a?(String) %>
-    <div data-alert class="<%= alert_div_class(name)%>">
-      <%= content_tag :div, msg %>
-      <a href="#" class="close">&times;</a>
-    </div>
-  <% end %>
-<% end %>
