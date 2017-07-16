@@ -96,13 +96,13 @@ $topbar-arrows: false;
   
     li > a {
       font-size: 0.9rem;
-      min-width: 11rem;
+      min-width: 10.75rem;
     }
   }
 }
 
 .top-bar-section .has-dropdown .dropdown li.has-dropdown > a:after {
-  content: '\0027A4' !important;
+  content: '\0025BA' !important;
 }
 
 .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
