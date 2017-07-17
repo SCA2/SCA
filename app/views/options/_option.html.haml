@@ -5,7 +5,7 @@
     .actions-box
       .add(id="add-#{@product.id.to_s}")
         - if signed_in_admin?
-          = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', remote: :true
+          = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', remote: :true, authenticity_token: true
         - else
           = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', disabled: @option.disabled?, remote: :true
       .price(id="price-#{@product.id.to_s}")

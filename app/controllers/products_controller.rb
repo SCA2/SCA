@@ -40,7 +40,7 @@ class ProductsController < BaseController
     @option = view_context.set_current_option(@product, product_params)
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js
+      format.js { render layout: false }
     end
   end
 
