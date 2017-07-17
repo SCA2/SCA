@@ -1,0 +1,32 @@
+.box_3
+  -if @product
+    %ul.custom-side-nav
+      %h6
+        %b= "#{@product.model} Documents"
+      %li= link_to 'Specifications', asset_path(@product.specifications)
+      %li= link_to 'Schematic', asset_path(@product.schematic)
+      %li= link_to 'Bill of Material', asset_path(@product.bom)
+      %li= link_to 'Assembly Instructions', asset_path(@product.assembly)
+
+  -if @products
+    %ul.custom-side-nav
+      %h6
+        %b Products
+      - product_categories.each do |k, v|
+        %li
+          = link_to(v, '#', data: { dropdown: "#{v.gsub(/\s+/, '')}" })
+          %ul.f-dropdown{ id: "#{v.gsub(/\s+/, '')}", data: { 'dropdown-content' => ''} }
+            - @products.where(product_category_id: k).each do |p|
+              %li= link_to p.model + ' ' + p.category, product_path(p)
+	
+  %ul.custom-side-nav
+    %h6
+      %b Support Links
+    %li= link_to 'Forums', forums_path
+    %li= link_to 'Assembly Tips', tips_path
+    %li= link_to 'Troubleshooting Tips', troubleshooting_path
+    %li= link_to 'Repair Policy', repairs_path
+    %li= link_to 'Shopping Cart', @cart
+    %li= link_to 'Web Resources', resources_path
+	
+  =link_to(image_tag('get_adobe_reader.gif', alt: 'Get Adobe Reader'), href="http://www.adobe.com/products/acrobat/readstep2.html")
