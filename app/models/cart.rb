@@ -1,4 +1,4 @@
-class Cart < ActiveRecord::Base
+class Cart < ApplicationRecord
   
   has_one :order, inverse_of: :cart
   has_many :line_items, dependent: :destroy, inverse_of: :cart
@@ -8,6 +8,9 @@ class Cart < ActiveRecord::Base
   scope :nil_purchased_at, -> { where(purchased_at: nil) }
   scope :null_order, -> { joins("LEFT OUTER JOIN orders ON carts.id = orders.cart_id").where("orders.cart_id is null") }
   scope :abandoned, -> { old.nil_purchased_at.null_order }
+  scope :invoices, -> { where.not(invoice_sent_at: nil) }
+  scope :invoices_pending, -> { invoices.where(purchased_at: nil) }
+  scope :invoices_paid, -> { invoices.where.not(purchased_at: nil) }
   
   def add_product(product, option)
     current_item = line_items.find_by(product_id: product.id)
@@ -132,16 +135,19 @@ class Cart < ActiveRecord::Base
 
   def send_invoice(customer: nil)
     return unless customer
-    create_invoice_token
-    self.update_attribute(:invoice_sent_at, Time.now)
-    UserMailer.invoice(cart: self, customer: customer).deliver_now
+    self.update(
+      invoice_name: customer.name,
+      invoice_email: customer.email,
+      invoice_token: create_invoice_token,
+      invoice_sent_at: Time.now
+    )
+    UserMailer.invoice(invoice: self, customer: customer).deliver_now
   end
 
 private
 
   def create_invoice_token
-    tg = TokenGenerator.new(model_name: self, token_name: 'invoice_token')
-    self.invoice_token = tg.new_encrypted_token
+    TokenGenerator.new(model_name: self, token_name: 'invoice_token').new_encrypted_token
   end
 
 end

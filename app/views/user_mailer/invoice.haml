@@ -3,19 +3,17 @@
 %table.email
   %tr.header
     %th.text.bold.align-right{colspan: 2}
-      Repair Invoice
+      Invoice
   %tr
     %td.text{colspan: 2}
       %p
         Dear
-        %b
-          = "#{@customer.name},"
+        %b= "#{ @customer.name },"
 
-      %p
-        Your repair is completed and ready to ship.  To pay this invoice, click the "Pay Now" link below to be redirected to our shopping cart.  If you have any questions or encounter any further difficulties with your SCA equipment, please email sales@seventhcircleaudio.com for support.  Thanks again for your business.
+      %p= "#{ @customer.body }"
   %tr
     %td.align-center{colspan: 2}
-      = link_to "Pay Now", show_invoice_cart_url(@cart.invoice_token)
+      = link_to "Pay Now", invoice_payment_url(@invoice.invoice_token)
   %tr
     %td.divider-lrg{colspan: 2}  
   %tr
@@ -29,7 +27,7 @@
       510-972-8346
     %td.text
       Invoice Number:
-      = @cart.id
+      = @invoice.id
       %br
       Created:
       = Date.today
@@ -47,7 +45,7 @@
           %th.text.bold.align-centerQuantity
           %th.text.bold.align-rightPrice
           %th.text.bold.align-rightTotal
-          - @cart.line_items.each_with_index do |line_item, index|
+          - @invoice.line_items.each_with_index do |line_item, index|
             %tr.field
               - item = line_item.category + ', ' + line_item.description
               %td.text.align-left
@@ -68,12 +66,12 @@
           %td.text.bold.align-right{colspan: 5}
             Package Discount
           %td.text.bold.align-right
-            = cents_to_dollars(@cart.discount, precision: 2)
+            = cents_to_dollars(@invoice.discount, precision: 2)
         %tr.contrast
           %td.text.bold.align-right{colspan: 5}
             Subtotal
           %td.text.bold.align-right
-            = cents_to_dollars(@cart.subtotal, precision: 2)
+            = cents_to_dollars(@invoice.subtotal, precision: 2)
   %tr
     %td.footer{colspan: 2}
       Please email sales@seventhcircleaudio.com with questions about this invoice.                               

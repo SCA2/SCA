@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :product do
     association :product_category
     model {['A12', 'C84', 'J99', 'N72', 'T15', 'D11', 'B16', 'CH02', 'PC01'].at(rand(0..8))}
@@ -18,12 +18,12 @@ FactoryGirl.define do
     kit_stock 0
 
     trait :constant_urls do
-      image_1 'url/to/image_1'
-      image_2 'url/to/image_2'
-      bom 'url/to/bom'
-      schematic 'url/to/schematic'
-      assembly 'url/to/assembly'
-      specifications 'url/to/specifications'
+      image_1 'A12/A12R17/images/A12-1-M.jpg'
+      image_2 'A12/A12R17/images/A12-SP-M.jpg'
+      bom 'A12/A12R17/docs/a12_bom.pdf'
+      schematic 'A12/A12R17/docs/a12_sch.pdf'
+      assembly 'A12/A12R17/docs/a12_asmbly.pdf'
+      specifications 'A12/A12R17/docs/a12_asmbly.pdf'
     end
 
     trait :constant_descriptions do

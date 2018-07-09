@@ -6,8 +6,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 
 require 'simplecov'
 SimpleCov.start 'rails'
@@ -28,8 +27,8 @@ RSpec.configure do |config|
   # Force expect syntax
   config.expect_with :rspec do |c| c.syntax = :expect end
 
-  # Include Factory Girl syntax to simplify calls to factories
-  config.include FactoryGirl::Syntax::Methods
+  # Include Factory Bot syntax to simplify calls to factories
+  config.include FactoryBot::Syntax::Methods
 
   # Include rails url helpers
   config.include Rails.application.routes.url_helpers
@@ -70,8 +69,15 @@ RSpec.configure do |config|
   config.before(:each) { reset_email }
 end
 
-Capybara.register_driver :selenium_chrome do |app|
+Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.javascript_driver = :selenium_chrome
+Capybara.register_driver :headless_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox]
+  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :headless_chrome

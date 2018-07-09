@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :option, class: 'Option' do
     sequence(:model)  { |n| "M#{n}" }
     description { Faker::Lorem.sentence.to_s }

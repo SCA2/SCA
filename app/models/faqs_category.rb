@@ -1,4 +1,4 @@
-class FaqsCategory < ActiveRecord::Base
+class FaqsCategory < ApplicationRecord
 
   has_many :faqs, inverse_of: :faqs_category, dependent: :destroy
   before_destroy :check_for_faqs, prepend: true

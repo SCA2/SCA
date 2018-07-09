@@ -1,0 +1,20 @@
+= provide(:title, 'Invoices')
+
+.box_2
+  .row
+    .small-12.columns
+      .date-search
+        %p= link_to "All", invoices_path(@invoices)
+        &nbsp; | &nbsp;
+        %p= link_to "Pending", pending_invoices_path(@invoices)
+        &nbsp; | &nbsp;
+        %p= link_to "Paid", paid_invoices_path(@invoices)
+        = form_tag(search_invoices_path(@invoices), method: "get") do
+          %fieldset
+            = label_tag(:from, "From:")
+            = date_field_tag :from, Date.current
+          %fieldset
+            = label_tag(:to, "To:")
+            = date_field_tag :to, Date.current
+          = submit_tag("Search")
+      = render 'invoices'

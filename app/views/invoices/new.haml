@@ -1,0 +1,26 @@
+= provide(:title, "Invoice Cart #{@invoice.id.to_s}")
+
+.box_2
+  .row
+    .small-12.columns
+      = render 'shared/errors', object: @customer
+      = form_for @invoice, url: invoices_path, method: :post do |form|
+        = form.hidden_field :invoice_id, value: @invoice.id
+        = render 'invoice', form: form
+        .actions
+          = form.fields_for @customer do |f|
+            .row
+              .small-2.columns= f.label :name, nil, class: "right inline"
+              .small-3.columns= f.text_field :name
+              .small-1.columns= f.label :email, nil, class: "right inline"
+              .small-3.columns= f.text_field :email
+              .small-3.columns &nbsp;
+            .row
+              .small-2.columns= f.label :body, nil, class: "right inline"
+              .small-8.columns= f.text_area :body, rows: 6, value: 'Your repair is completed and ready to ship.  To pay this invoice, click the "Pay Now" link below to be redirected to our shopping cart.  If you have any questions or encounter any further difficulties with your SCA equipment, please email sales@seventhcircleaudio.com for support.  Thanks again for your business.'
+              .small-2.columns &nbsp;
+            .row
+              .small-5.columns &nbsp;
+              .small-1.columns= form.submit 'Send', class: 'button user'
+              .small-1.columns= link_to 'Quit', invoices_path, class: 'button user'
+              .small-5.columns &nbsp;

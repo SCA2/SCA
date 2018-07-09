@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :order do
     association :cart
     sequence(:email) { |n| "buyer_#{n}@test.com" }

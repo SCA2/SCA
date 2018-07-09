@@ -1,0 +1,23 @@
+%td.item-cell
+  Seventh Circle Audio
+  %br
+  1714 Franklin Street, Ste B2
+  %br
+  Oakland, CA  94612
+  %br
+  510-972-8346
+%td.item-cell
+  Invoice Number:
+  = @invoice.id
+  %br
+  Customer Email:
+  = @invoice.invoice_email ? @invoice.invoice_email : 'Missing'
+  %br
+  Sent:
+  = @invoice.invoice_sent_at ? @invoice.invoice_sent_at : 'Not sent'
+  %br
+  Retrieved:
+  = @invoice.invoice_retrieved_at ? @invoice.invoice_retrieved_at : 'Not retrieved'
+  %br
+  Paid:
+  = @invoice.purchased_at ? @invoice.purchased_at : 'Not paid'

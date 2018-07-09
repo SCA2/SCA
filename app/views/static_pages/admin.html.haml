@@ -2,20 +2,22 @@
 
 .box_2
   .row
-    .small-9.columns
+    .small-12.columns
       - if signed_in_admin?
         .date-search
-          %p= link_to "BOMs", boms_path
+          %p= link_to "Orders", orders_path
+          &nbsp; | &nbsp;
+          %p= link_to "Invoices", invoices_path
+          &nbsp; | &nbsp;
+          %p= link_to "Users", users_path
           &nbsp; | &nbsp;
           %p= link_to "Components", components_path
           &nbsp; | &nbsp;
-          %p= link_to "FAQs Categories", faqs_categories_path
-          &nbsp; | &nbsp;
-          %p= link_to "Orders", orders_path
+          %p= link_to "BOMs", boms_path
           &nbsp; | &nbsp;
           %p= link_to "Product Categories", product_categories_path
           &nbsp; | &nbsp;
-          %p= link_to "Users", users_path
+          %p= link_to "FAQs Categories", faqs_categories_path
         .date-search
           = form_tag(sales_tax_orders_path(@orders), method: "get") do
             = label_tag(:from, "From:")
@@ -25,5 +27,3 @@
             = submit_tag("Calculate Sales Tax")
       - else
         %p= link_to "Please log in", signin_path
-    .small-3.columns
-      = render 'layouts/sidebar_left'

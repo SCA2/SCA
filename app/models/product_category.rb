@@ -1,4 +1,4 @@
-class ProductCategory < ActiveRecord::Base
+class ProductCategory < ApplicationRecord
 
   has_many :products, inverse_of: :product_category, dependent: :restrict_with_error
 

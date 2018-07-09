@@ -12,7 +12,7 @@ SCA::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Configure static asset server for tests with Cache-Control for performance.
+  # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
 
@@ -25,6 +25,7 @@ SCA::Application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  config.action_mailer.perform_caching = false
 
   # Precompile css for html mailer tests
   config.assets.precompile += %w( mailers.css )
@@ -40,4 +41,7 @@ SCA::Application.configure do
   
   # Speed up tests by lowering bcrypt's cost function.
   ActiveModel::SecurePassword.min_cost = true
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
 end

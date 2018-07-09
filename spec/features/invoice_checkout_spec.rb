@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'standard stripe checkout', :vcr do
+feature 'invoice', :vcr do
   before(:each) do
     @credit_card = {
       card_number: '4242424242424242',
@@ -22,7 +22,7 @@ feature 'standard stripe checkout', :vcr do
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }
 
-  scenario 'as a guest', js: true do
+  scenario 'checkout as a guest', js: true do
     visit show_invoice_cart_path(Cart.last.invoice_token)
     expect(page).to have_content('1 Items')
     click_link('Checkout')
@@ -41,11 +41,11 @@ feature 'standard stripe checkout', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1A5hm4FC0i7e7XIP8gK9gl6o')
+    expect(page).to have_content('Authorization: 1ChmuvFC0i7e7XIPc5JOgnWd')
     expect(page).to have_content('0 Items')
   end
 
-  scenario 'as a signed-in user', js: true do
+  scenario 'checkout as a signed-in user', js: true do
     user = create(:user)
     create(:billing_constant_taxable, addressable: user)
     create(:shipping_constant_taxable, addressable: user)
@@ -74,7 +74,7 @@ feature 'standard stripe checkout', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1A5hqpFC0i7e7XIPmZYcErJd')
+    expect(page).to have_content('Authorization: 1ChmyuFC0i7e7XIPtF2Inioj')
     expect(page).to have_content('0 Items')
     test_sign_out(use_capybara: true)
   end

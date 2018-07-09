@@ -1,0 +1,14 @@
+=provide(:title, "Invoice " + @invoice.id.to_s)
+
+.box_2
+  .row
+    .small-12.columns
+      = render 'shared/errors', object: @invoice
+      = form_for @invoice, url: invoices_path, method: :post  do |form|
+        = form.hidden_field :invoice_id, value: @invoice.id
+        = render 'invoice', form: form
+        .actions
+          .checkout-box
+            = link_to 'Delete invoice', invoice_path, method: :delete, class: "button user", data: { confirm: 'Are you sure?' }
+            = link_to 'Edit Invoice', edit_invoice_path(cart: { invoice_id: @invoice, customer_validator: { name: @invoice.invoice_name, email: @invoice.invoice_email }}), class: "button user"
+            = link_to 'Quit', invoices_path, class: "button user"

@@ -1,10 +1,10 @@
-class Address < ActiveRecord::Base
+class Address < ApplicationRecord
   
   belongs_to :addressable, polymorphic: true
   
   validates :first_name, :last_name, :address_1, :city, :state_code, :country, presence: true, uniqueness: { scope: [:addressable_type, :addressable_id, :address_type] }
 
-  validates :telephone, presence: true, unless: "country == 'US'"
+  validates :telephone, presence: true, unless: Proc.new { |a| a.country == 'US' }
 
   def self.billing_address
     find_by(address_type: 'billing')

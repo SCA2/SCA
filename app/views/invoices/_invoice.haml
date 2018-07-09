@@ -1,0 +1,21 @@
+.main-cart
+  %table.main-cart
+    %tr
+      = render 'header', form: form
+    %tr
+      %td.divider-cell{colspan: 5}
+    %tr
+      %th#item Item
+      %th#description Description
+      %th#quantity Quantity
+      %th#price Price
+      %th#ext Ext
+    = render partial: 'line_item', collection: @invoice.line_items
+    %tr
+      %td.divider-cell{colspan: 5}
+    %tr#discount-line
+      %td.total-cell{colspan: 4} Discount
+      %td.total-price-cell= cents_to_dollars(cart.discount, precision: 0)
+    %tr#total-line
+      %td.total-cell{colspan: 4} Subtotal
+      %td.total-price-cell= cents_to_dollars(cart.subtotal, precision: 0)

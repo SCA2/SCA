@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :feature do
     association :product
     caption { "Caption: " + Faker::Lorem.sentence.to_s }

@@ -12,8 +12,11 @@
 /db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
+/log/*
+!/log/.keep
+
+/tmp/*
+!/tmp/.keep
 
 # Ignore environment variables
 /config/initializers/secret_token.rb

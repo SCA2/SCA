@@ -1,4 +1,4 @@
-class Bom < ActiveRecord::Base
+class Bom < ApplicationRecord
   belongs_to :option, inverse_of: :bom
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 

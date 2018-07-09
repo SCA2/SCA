@@ -1,4 +1,4 @@
-class BomItem < ActiveRecord::Base
+class BomItem < ApplicationRecord
   belongs_to :bom, inverse_of: :bom_items
   belongs_to :component, inverse_of: :bom_items
   
@@ -7,7 +7,7 @@ class BomItem < ActiveRecord::Base
   validates :quantity, numericality: { only_integer: true, greater_than: -1 }
   validates :reference, format: {
     with: /\A[a-z]+\d+(\s+\(optional\))?((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+(\s+\(Optional\))?)*\z/i
-  }, if: 'reference.present?'
+  }, if: Proc.new { |a| a.reference.present? }
 
   # scope :by_reference, -> { order(reference: :asc) }
   default_scope { order(reference: :asc) }

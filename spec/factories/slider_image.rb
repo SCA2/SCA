@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :slider_image do
     sequence(:name)         { |n| "Product #{n}" }
     sequence(:caption)      { |n| "Caption #{n}" }

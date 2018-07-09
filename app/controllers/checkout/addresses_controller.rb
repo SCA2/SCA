@@ -34,13 +34,8 @@ module Checkout
 
     def assign_address(type)
       unless order.addresses.exists?(address_type: type)
-        if signed_in?
-          address = current_user.addresses.find_by(address_type: type)
-          if address
-            order.addresses << address.dup
-          else
-            order.addresses.build(address_type: type)
-          end
+        if signed_in? && current_user.addresses.exists?(address_type: type)
+          order.addresses << current_user.addresses.find_by(address_type: type).dup
         else
           order.addresses.build(address_type: type)
         end

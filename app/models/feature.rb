@@ -1,4 +1,4 @@
-class Feature < ActiveRecord::Base
+class Feature < ApplicationRecord
   
   belongs_to :product, inverse_of: :features
 

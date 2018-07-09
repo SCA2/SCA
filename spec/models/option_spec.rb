@@ -227,4 +227,88 @@ describe Option do
       expect(op_2.option_stock).to eq(2)
     end
   end
+
+  describe 'stock messages' do
+    let(:op) { build(:option) }
+    it 'reports correct message for disabled?' do
+      allow(op).to receive(:disabled?)  { true }
+      expect(op.stock_message).to eq('Not available at this time')
+    end
+    it 'reports correct message for kit_stock > cutoff' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_kit?)  { true }
+      allow(op).to receive(:kit_stock)  { Option::STOCK_CUTOFF + 1 }
+      expect(op.stock_message).to eq('Can ship today')
+    end
+    it 'reports correct message for kit_stock > 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_kit?)  { true }
+      allow(op).to receive(:kit_stock)  { 1 }
+      expect(op.stock_message).to eq('1 can ship today')
+    end
+    it 'reports correct message for kit_stock <= 0 and limiting_stock > STOCK_CUTOFF' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_kit?)  { true }
+      allow(op).to receive(:kit_stock)  { 0 }
+      allow(op).to receive(:limiting_stock)  { Option::STOCK_CUTOFF + 1 }
+      expect(op.stock_message).to eq('Can ship in 3 to 5 days')
+    end
+    it 'reports correct message for kit_stock <= 0 and limiting_stock > 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_kit?)  { true }
+      allow(op).to receive(:kit_stock)  { 0 }
+      allow(op).to receive(:limiting_stock)  { 1 }
+      expect(op.stock_message).to eq('1 can ship in 3 to 5 days')
+    end
+    it 'reports correct message for kit_stock <= 0 and limiting_stock <= 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_kit?)  { true }
+      allow(op).to receive(:kit_stock)  { 0 }
+      allow(op).to receive(:limiting_stock)  { 0 }
+      expect(op.stock_message).to include('lead time')
+    end
+
+    it 'reports correct message for assembled_stock > cutoff' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { Option::STOCK_CUTOFF + 1 }
+      expect(op.stock_message).to eq('Can ship today')
+    end
+    it 'reports correct message for assembled_stock > 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { 1 }
+      expect(op.stock_message).to eq('1 can ship today')
+    end
+    it 'reports correct message for assembled_stock <= 0 and partial_stock > STOCK_CUTOFF' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { 0 }
+      allow(op).to receive(:partial_stock)  { Option::STOCK_CUTOFF + 1 }
+      expect(op.stock_message).to eq('Can ship in 3 to 5 days')
+    end
+    it 'reports correct message for assembled_stock <= 0 and partial_stock > 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { 0 }
+      allow(op).to receive(:partial_stock)  { 1 }
+      expect(op.stock_message).to eq('1 can ship in 3 to 5 days')
+    end
+    it 'reports correct message for assembled_stock <= 0 and partial_stock <= 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { 0 }
+      allow(op).to receive(:partial_stock)  { 0 }
+      allow(op).to receive(:limiting_stock)  { 1 }
+      expect(op.stock_message).to eq('1 can ship in 1 to 2 weeks')
+    end
+    it 'reports correct message for assembled_stock <= 0 and partial_stock <= 0' do
+      allow(op).to receive(:disabled?)  { false }
+      allow(op).to receive(:is_assembled?)  { true }
+      allow(op).to receive(:assembled_stock)  { 0 }
+      allow(op).to receive(:partial_stock)  { 0 }
+      allow(op).to receive(:limiting_stock)  { 0 }
+      expect(op.stock_message).to include('lead time')
+    end
+  end
 end

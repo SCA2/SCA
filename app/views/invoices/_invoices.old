@@ -1,0 +1,26 @@
+<table class="confirm-cart" style="width: 100%">
+	<tr id="header">
+		<th id="line">Cart ID</th>
+    <th id="item">Email</th>
+		<th id="item">Subtotal</th>
+    <th id="item">Sent</th>
+		<th id="item">Retrieved</th>
+		<th id="item">Paid</th>
+		<th id="item">Action</th>		
+	</tr>
+	<% @invoices.each do |invoice| %>
+		<tr>
+			<td class="item-cell"><%= link_to invoice.id, invoice_path(invoice) %></td>
+      <td class="item-cell"><%= invoice.invoice_email ? invoice.invoice_email : '' %></td>
+      <td class="item-cell"><%= cents_to_dollars(invoice.subtotal, {precision: 2}) %></td>
+      <td class="item-cell"><%= invoice.invoice_sent_at.to_date.to_formatted_s(:db) %></td>
+      <td class="item-cell"><%= invoice.invoice_retrieved_at ? invoice.invoice_retrieved_at.to_date.to_formatted_s(:db) : '' %></td>
+			<td class="item-cell"><%= invoice.purchased_at %></td>
+			<td class="item-cell">
+				<%= link_to "view", invoice_path(invoice) %>
+				&nbsp; | &nbsp;
+				<%= link_to "delete", invoice_path(invoice), method: :delete, data: { confirm: "Are you sure?" } %>
+			</td>
+		</tr>
+	<% end %>
+</table>

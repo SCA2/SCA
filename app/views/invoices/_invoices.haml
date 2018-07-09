@@ -1,0 +1,23 @@
+%table.confirm-cart{ style: "width: 100%" }
+  %tr.header
+    %th.line Cart ID
+    %th.line Order ID
+    %th.item Email
+    %th.item Subtotal
+    %th.item Sent
+    %th.item Retrieved
+    %th.item Paid
+    %th.item Action		
+  - @invoices.each do |invoice|
+    %tr
+      %td.item-cell= link_to invoice.id, invoice_path(invoice)
+      %td.item-cell= link_to invoice.order.id, order_path(invoice.order) unless invoice.order.nil?
+      %td.item-cell= invoice.invoice_email ? invoice.invoice_email : ''
+      %td.item-cell= cents_to_dollars(invoice.subtotal, {precision: 2})
+      %td.item-cell= invoice.invoice_sent_at
+      %td.item-cell= invoice.invoice_retrieved_at
+      %td.item-cell= invoice.purchased_at
+      %td.item-cell
+        =link_to "view", invoice_path(invoice)
+        &nbsp; | &nbsp;
+        = link_to "delete", invoice_path(invoice), method: :delete, data: { confirm: "Are you sure?" }

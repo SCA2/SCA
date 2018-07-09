@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :component do
     value '220pF'
     marking '221J'

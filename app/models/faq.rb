@@ -1,4 +1,4 @@
-class Faq < ActiveRecord::Base
+class Faq < ApplicationRecord
 
   belongs_to :faqs_category, inverse_of: :faqs
 

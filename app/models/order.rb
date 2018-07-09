@@ -1,4 +1,4 @@
-class Order < ActiveRecord::Base
+class Order < ApplicationRecord
 
   belongs_to :cart, inverse_of: :order
   has_many :addresses, as: :addressable, dependent: :destroy

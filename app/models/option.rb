@@ -1,4 +1,4 @@
-class Option < ActiveRecord::Base
+class Option < ApplicationRecord
   
   belongs_to :product, inverse_of: :options
   has_many :line_items, inverse_of: :option # enforced by pg foreign key constraint
@@ -54,7 +54,7 @@ class Option < ActiveRecord::Base
       if kit_stock > STOCK_CUTOFF
         "Can ship today"
       elsif kit_stock > 0
-        "Only #{kit_stock} left in stock"
+        "#{kit_stock} can ship today"
       elsif limiting_stock > STOCK_CUTOFF
         "Can ship in 3 to 5 days"
       elsif limiting_stock > 0
@@ -66,23 +66,23 @@ class Option < ActiveRecord::Base
       if assembled_stock > STOCK_CUTOFF
         "Can ship today"
       elsif assembled_stock > 0
-        "Only #{assembled_stock} left in stock"
+        "#{assembled_stock} can ship today"
       elsif partial_stock > STOCK_CUTOFF
         "Can ship in 3 to 5 days"
       elsif partial_stock > 0
         "#{partial_stock} can ship in 3 to 5 days"
       elsif limiting_stock > 0
-        "Can ship in 1 to 2 weeks"
+        "#{limiting_stock} can ship in 1 to 2 weeks"
       else
         "Please <a href='mailto:sales@seventhcircleaudio.com'>email</a> for lead time".html_safe
       end
     else
       if limiting_stock > STOCK_CUTOFF
-        "Can ship today"
+        "Can ship in 3 to 5 days"
       elsif limiting_stock > 0
-        "Only #{limiting_stock} left in stock"
+        "#{limiting_stock} can ship in 3 to 5 days"
       else
-        "Please email for lead time"
+        "Please <a href='mailto:sales@seventhcircleaudio.com'>email</a> for lead time".html_safe
       end
     end
   end

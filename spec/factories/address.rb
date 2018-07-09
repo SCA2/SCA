@@ -2,7 +2,7 @@
 
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :address do
     association :addressable, factory: :user
     first_name Faker::Name.first_name

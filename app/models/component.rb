@@ -1,4 +1,4 @@
-class Component < ActiveRecord::Base
+class Component < ApplicationRecord
   has_many :bom_items, inverse_of: :component, dependent: :restrict_with_exception
 
   validates :mfr_part_number, :stock, :lead_time, presence: true

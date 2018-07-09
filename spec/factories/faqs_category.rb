@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :faqs_category do
     sequence(:category_name) {|n| "Category-#{n}" }
     sequence(:category_weight) {|n| "#{(n % 100) + 1}" }

@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :faq do
     faqs_category
     question { Faker::Lorem.sentence.to_s }

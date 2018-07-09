@@ -1,6 +1,6 @@
 class TokenGenerator
 
-  def initialize(model_name: model_name, token_name: token_name)
+  def initialize(model_name:, token_name:)
     @model_name = model_name
     @token_name = token_name
   end

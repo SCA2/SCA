@@ -1,11 +1,6 @@
-class UserMailer < ActionMailer::Base
+class UserMailer < ApplicationMailer
 
   helper :orders  # for cents_to_dollars
-
-  default from: "sales@seventhcircleaudio.com"
-  default return_path: "sales@seventhcircleaudio.com"
-  default date: Time.now.asctime
-  default content_type: "text/html"
 
   def signup_confirmation(user)
     @user = user
@@ -41,11 +36,11 @@ class UserMailer < ActionMailer::Base
           subject: "Your Seventh Circle Audio order has shipped!"
   end
 
-  def invoice(cart: nil, customer: nil)
+  def invoice(invoice: nil, customer: nil)
     @customer = customer
-    @cart = cart
+    @invoice = invoice
     mail  to: @customer.email, 
           bcc: "orders@seventhcircleaudio.com",
-          subject: "Your Seventh Circle Audio repair is complete!"
+          subject: "Seventh Circle Audio Invoice"
   end
 end

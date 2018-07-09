@@ -1,6 +1,6 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :option_editor, class: 'OptionEditor' do
     transient do
       product nil

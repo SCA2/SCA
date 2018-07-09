@@ -29,10 +29,10 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def invoice
-    cart = FactoryGirl.create(:cart)
-    product = FactoryGirl.create(:product, product_category_id: 1, model: 'M80', model_sort_order: '100')
-    option = FactoryGirl.create(:option, product: product)
-    line_item = FactoryGirl.create(:line_item, cart: cart, product: product, option: option, quantity: 1)
+    cart = FactoryBot.create(:cart)
+    product = FactoryBot.create(:product, product_category_id: 1, model: 'M80', model_sort_order: '100')
+    option = FactoryBot.create(:option, product: product)
+    line_item = FactoryBot.create(:line_item, cart: cart, product: product, option: option, quantity: 1)
     customer = Customer.new('Joe Tester', 'joe.tester@example.com')
     mail = UserMailer.invoice(cart: cart, customer: customer)
     cart.destroy

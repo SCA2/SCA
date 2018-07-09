@@ -15,4 +15,4 @@
             = link_to 'Checkout', new_checkout_address_path(cart), class: "button checkout"
           - if signed_in_admin?
             .admin-box
-              = link_to 'Send Invoice', new_invoice_cart_path(cart), class: "button admin"
+              = link_to 'Create Invoice', new_invoice_path(cart), class: "button admin"

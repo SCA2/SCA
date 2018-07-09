@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :cart do
     purchased_at { nil }
     invoice_token 'random_token'

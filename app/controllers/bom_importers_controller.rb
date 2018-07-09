@@ -26,8 +26,8 @@ class BomImportersController < BaseController
   end
 
   def update_option
-    filter = OptionFilter.new(params[:product_id])
-    render json: filter.options.to_json
+    @options = Product.find(params[:product_id]).options
+    render json: @options.to_json
   end
 
 private

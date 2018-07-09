@@ -1,4 +1,4 @@
-class SliderImage < ActiveRecord::Base
+class SliderImage < ApplicationRecord
   
   validates :name, :caption, :image_url, presence: true
 

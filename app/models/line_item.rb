@@ -1,4 +1,4 @@
-class LineItem < ActiveRecord::Base
+class LineItem < ApplicationRecord
   belongs_to :cart, inverse_of: :line_items
   belongs_to :product, inverse_of: :line_items
   belongs_to :option, inverse_of: :line_items

@@ -1,5 +1,7 @@
 SCA::Application.routes.draw do
   
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   resources :slider_images, :users
 
   resources :faqs_categories, except: [:show]
@@ -15,13 +17,17 @@ SCA::Application.routes.draw do
     end
   end
   
-  resources :carts, only: [:show, :update, :destroy] do
-    member do
-      get 'new_invoice'
-      post 'create_invoice'
-      get 'show_invoice'
+  resources :carts, only: [:show, :update, :destroy]
+
+  resources :invoices do
+    collection do
+      get 'pending'
+      get 'paid'
+      get 'search'
     end
   end
+
+  resources :invoice_payments, only: [:show]
   
   resources :products do
     resources :features, except: [:index, :show]
