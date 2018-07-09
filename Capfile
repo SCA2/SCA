@@ -11,10 +11,11 @@ set :rbenv_ruby, '2.5.1'
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
-require 'capistrano/bundler'
 require 'capistrano/rails'
+require 'capistrano/bundler'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
+require 'capistrano/puma'
 
 # Load custom tasks
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }

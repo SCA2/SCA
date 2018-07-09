@@ -24,16 +24,17 @@ gem 'carmen-rails', :git => 'https://github.com/SCA2/carmen-rails'
 gem 'roo', '~> 2.7.1'
 gem 'stripe', '~> 2.1.0'
 gem 'figaro', '~> 1.1.1'
-gem 'capistrano'
-gem 'capistrano-bundler'
-gem 'capistrano-rails'
-gem 'capistrano-rbenv', require: false
 
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'spring'
   gem 'listen', '>= 3.0.5'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano'
+  gem 'capistrano-rbenv',   require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
 end
 
 group :development, :test do
