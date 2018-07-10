@@ -24,7 +24,6 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
-
 # Don't set --binstubs option on bundle install
 set :bundle_binstubs, nil
 
