@@ -44,7 +44,8 @@ class InvoicesController < BaseController
       logger.debug "Mailer: " + @customer.inspect
       @invoice.send_invoice(customer: @customer)
       session[:cart_id] = nil
-      redirect_to invoices_path, success: 'Invoice sent'
+      @cart = nil
+      redirect_to invoices_path, notice: 'Invoice sent'
     else
       render 'new'
     end
@@ -57,7 +58,7 @@ class InvoicesController < BaseController
   def destroy
     return if params[:id] == session[:cart_id]
     invoice = Cart.find(params[:id])
-    destroy invoice.order if invoice.order
+    invoice.order.destroy unless invoice.order.nil?
     invoice.destroy
     redirect_to invoices_path, notice: 'Invoice deleted'
   end

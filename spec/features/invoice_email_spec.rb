@@ -15,7 +15,7 @@ describe "Send invoice notification" do
     test_sign_in(user, use_capybara: true)
     visit cart_path(@cart)
     expect(page).to have_content("1 Item")
-    expect(page).not_to have_content("Send Invoice")
+    expect(page).not_to have_content("Create Invoice")
   end
 
   it "is only available to admin" do
@@ -23,7 +23,7 @@ describe "Send invoice notification" do
     test_sign_in(admin, use_capybara: true)
     visit cart_path(@cart)
     expect(page).to have_content("1 Item")
-    expect(page).to have_content("Send Invoice")
+    expect(page).to have_content("Create Invoice")
   end
 
   it "collects customer name and email address" do
@@ -31,11 +31,11 @@ describe "Send invoice notification" do
     user = create(:user)
     test_sign_in(admin, use_capybara: true)
     visit cart_path(@cart)
-    click_link "Send Invoice"
+    click_link "Create Invoice"
     fill_in "Name", with: user.name
     fill_in "Email", with: user.email
     click_button "Send"
-    expect(current_path).to eq(products_path)
+    expect(current_path).to eq(invoices_path)
     expect(page).to have_content("Invoice sent")
     expect(last_email.to).to include(user.email)
     expect(last_email.body.encoded).to include(user.name)

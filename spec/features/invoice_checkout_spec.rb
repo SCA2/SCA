@@ -23,7 +23,7 @@ feature 'invoice', :vcr do
   after(:each) { DatabaseCleaner.clean_with(:truncation) }
 
   scenario 'checkout as a guest', js: true do
-    visit show_invoice_cart_path(Cart.last.invoice_token)
+    visit invoice_payment_path(Cart.last.invoice_token)
     expect(page).to have_content('1 Items')
     click_link('Checkout')
     expect(Order.count).to eq(1)
