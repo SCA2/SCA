@@ -33,8 +33,6 @@ class InvoicesController < BaseController
   def edit
     @invoice = Cart.find(invoice_params[:invoice_id])
     @customer = CustomerValidator.new(customer_params)
-    # @customer.name = @invoice.invoice_name
-    # @customer.email = @invoice.invoice_email
     render 'new'
   end
 
@@ -45,6 +43,7 @@ class InvoicesController < BaseController
     if @customer.valid?
       logger.debug "Mailer: " + @customer.inspect
       @invoice.send_invoice(customer: @customer)
+      session[:cart_id] = nil
       redirect_to invoices_path, success: 'Invoice sent'
     else
       render 'new'
