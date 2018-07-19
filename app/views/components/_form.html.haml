@@ -2,7 +2,13 @@
   .small-2.columns &nbsp
   .small-8.columns
     %fieldset
-      %legend= legend
+    %fieldset
+      .row
+        %legend
+          .small-3.columns= legend
+          .small-9.columns= f.object.mfr_part_number
+      .row
+        .small-12.columns &nbsp;
       .field
         .row
           .small-3.columns

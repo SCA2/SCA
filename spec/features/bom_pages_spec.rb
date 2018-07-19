@@ -29,7 +29,7 @@ feature "BOMs" do
       option = create(:option, product: product)
       bom = create(:bom, option: option)
       visit '/admin'
-      click_link 'BOMs'
+      click_link('BOMs', match: :first)
       expect(page).to have_content(bom.option.model)
     end
 

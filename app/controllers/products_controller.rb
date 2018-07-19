@@ -68,7 +68,7 @@ private
 
   def product_params
     params.require(:product).permit(:product_category_id, 
-      :model, :model_sort_order, :options,
+      :model, :model_sort_order, :options, :active,
       :short_description, :long_description, :notes,
       :image_1, :image_2, :specifications,
       :bom, :schematic, :assembly)
@@ -76,27 +76,15 @@ private
 
   def set_product
     @product = find_product
-    redirect_to products_path and return if @product.nil?
-    if @product.options.any?
+    if @product.nil?
+      flash[:alert] = "Can't find that product!"
+      redirect_to products_path
+    elsif @product.options.any?
       @option = view_context.get_current_option(@product)
     else
       flash[:alert] = 'Product must have at least one option!'
       redirect_to new_product_option_path(@product)
     end
-  end
-
-  def find_product
-    if products && params[:id]
-      product_models = products.select(:model).to_ary
-      product_models = product_models.sort_by { |record| record.model.length }
-      product_models = product_models.reverse.map { |record| record.model.downcase }
-      product_models.each do |model|
-        if params[:id].downcase.include? model
-          return get_product(model)
-        end
-      end
-    end
-    return nil
   end
 
   def delete_orphans

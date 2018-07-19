@@ -11,7 +11,6 @@ class Product < ApplicationRecord
   # line_item has database foreign key constraint
   has_many :line_items, inverse_of: :product
 
-  # validates :product_category, presence: true
   validates :model, :model_sort_order, presence: true
   validates :short_description, :long_description, :image_1, presence: true 
 
@@ -31,8 +30,7 @@ class Product < ApplicationRecord
   end
 
   def self.delete_products_without_options
-    products = Product.includes(:options).where(options: {product_id: nil})
-    Product.destroy(products) if products.length > 0
+    Product.includes(:options).where(options: { product_id: nil }).destroy_all
   end
 
   def first_in_category?

@@ -27,8 +27,8 @@ describe ProductsController do
         expect(response).to be_successful
       end
 
-      it "finds longest product name first in id string" do
-        product = create(:product, model: 'CH02-SP')
+      it "finds product by alphabetical order in id string" do
+        product = create(:product, model: 'A12B')
         create(:option, product: product)
         get :show, params: { id: 'asdf/1234/n72a12bch02-sp' }
         expect(response).to be_successful
@@ -100,7 +100,7 @@ describe ProductsController do
       
       describe "with valid params" do
         it "updates the requested product" do
-          product.update(model: 'foo')
+          product.update(model: 'FOO')
           patch :update, params: { id: product, product: { model: 'bar' }}
           product.reload
           expect(product.model).to eq('bar')

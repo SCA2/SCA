@@ -10,6 +10,7 @@ describe Product do
 
   it { should be_valid }
 
+  it { should respond_to(:active) }
   it { should respond_to(:model) }
   it { should respond_to(:short_description) }
   it { should respond_to(:long_description) }

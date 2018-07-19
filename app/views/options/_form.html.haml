@@ -2,53 +2,53 @@
   %legend= legend
   .field_row
     .field
-      = f.label :model, 'Option:'
+      = f.label :model, 'Option'
       = f.text_field :model
     .description_field
-      = f.label :description, 'Description:'
+      = f.label :description, 'Description'
       = f.text_field :description
     .field
-      = f.label :upc, 'UPC:'
+      = f.label :upc, 'UPC'
       = f.text_field :upc
 
   .field_row
     .field
-      = f.label :price, 'Price:'
+      = f.label :price, 'Price'
       = f.number_field :price
     .field
-      = f.label :discount, 'Discount:'
+      = f.label :discount, 'Discount'
       = f.number_field :discount
     .field
-      = f.label :sort_order, 'Sort Order:'
+      = f.label :sort_order, 'Sort Order'
       = f.number_field :sort_order, in: 1..100
     .checkbox_field
-      = f.label :active, 'Active:'
+      = f.label :active, 'Active'
       = f.check_box :active
 
   .field_row
     .field
-      = f.label :shipping_length, 'Shipping Length:'
+      = f.label :shipping_length, 'Shipping Length'
       = f.number_field :shipping_length
     .field
-      = f.label :shipping_width, 'Shipping Width:'
+      = f.label :shipping_width, 'Shipping Width'
       = f.number_field :shipping_width
     .field
-      = f.label :shipping_height, 'Shipping Height:'
+      = f.label :shipping_height, 'Shipping Height'
       = f.number_field :shipping_height
     .field
-      = f.label :shipping_weight, 'Shipping Weight:'
+      = f.label :shipping_weight, 'Shipping Weight'
       = f.number_field :shipping_weight
 
   - if @option_editor.is_kit?
     .field_row
       .field
-        = f.label :common_stock, 'Common Stock Available:'
+        = f.label :common_stock, 'Common Stock Available'
         = f.number_field :common_stock, readonly: true
       .field
-        = f.label :kit_stock, 'Kits to make:'
+        = f.label :kit_stock, 'Kits to make'
         = f.number_field :kits_to_make, value: 0
       .field
-        = f.label :kit_stock, 'Kit Stock:'
+        = f.label :kit_stock, 'Kit Stock'
         = f.number_field :kit_stock
 
         = f.hidden_field :partials_to_make, value: 0
@@ -57,23 +57,23 @@
   - else
     .field_row
       .field
-        = f.label :partial_stock, 'Partial Stock Available:'
+        = f.label :partial_stock, 'Partial Stock Available'
         = f.number_field :partial_stock, readonly: true
       .field
-        = f.label :assembled_to_make, 'Assembled Stock to Make:'
+        = f.label :assembled_to_make, 'Assembled Stock to Make'
         = f.number_field :assembled_to_make, value: 0
       .field
-        = f.label :assembled_stock, 'Assembled Stock:'
+        = f.label :assembled_stock, 'Assembled Stock'
         = f.number_field :assembled_stock
     .field_row
       .field
-        = f.label :common_stock, 'Component Stock Available:'
+        = f.label :common_stock, 'Component Stock Available'
         = f.number_field :common_stock, readonly: true
       .field
-        = f.label :partials_to_make, 'Partial Stock to Make:'
+        = f.label :partials_to_make, 'Partial Stock to Make'
         = f.number_field :partials_to_make, value: 0
       .field
-        = f.label :partial_stock, 'Partial Stock:'
+        = f.label :partial_stock, 'Partial Stock'
         = f.number_field :partial_stock
 
         = f.hidden_field :kits_to_make, value: 0

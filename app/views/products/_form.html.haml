@@ -2,45 +2,48 @@
   %legend= legend
   .field_row
     .field
-      = f.label :model, 'Model:'
+      = f.label :model, 'Model'
       = f.text_field :model
     .field
-      = f.label :model_sort_order, 'Model Sort Order:'
+      = f.label :model_sort_order, 'Model Sort Order'
       = f.number_field :model_sort_order, in: 1..100
     .field
-      = f.label :product_category_id, 'Category:'
+      = f.label :product_category_id, 'Category'
       = f.select :product_category_id, options_from_collection_for_select(ProductCategory.all.order(:sort_order), 'id', 'name', f.object.product_category_id)
+    .checkbox_field
+      = f.label :active, 'Active'
+      = f.check_box :active
 
   .field
-    = f.label :short_description, 'Short Description:'
+    = f.label :short_description, 'Short Description'
     = f.text_area :short_description, style: "height: 5em"
   .field
-    = f.label :long_description, 'Long Description:'
+    = f.label :long_description, 'Long Description'
     = f.text_area :long_description, style: "height: 15em"
   .field
-    = f.label :notes, 'Notes:'
+    = f.label :notes, 'Notes'
     = f.text_area :notes, style: "height: 2em"
 
   .field_row
     .field
-      = f.label :image_1, 'Image_1 URL:'
+      = f.label :image_1, 'Image_1 URL'
       = f.text_field :image_1
     .field
-      = f.label :image_2, 'Image_2 URL:'
+      = f.label :image_2, 'Image_2 URL'
       = f.text_field :image_2
 
   .field_row
     .field
-      = f.label :specifications, 'Specifications URL:'
+      = f.label :specifications, 'Specifications URL'
       = f.text_field :specifications
     .field
-      = f.label :schematic, 'Schematic URL:'
+      = f.label :schematic, 'Schematic URL'
       = f.text_field :schematic
 
   .field_row
     .field
-      = f.label :bom, 'BOM URL:'
+      = f.label :bom, 'BOM URL'
       = f.text_field :bom
     .field
-      = f.label :assembly, 'Assembly Instructions URL:'
+      = f.label :assembly, 'Assembly Instructions URL'
       = f.text_field :assembly

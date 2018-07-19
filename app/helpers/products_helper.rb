@@ -27,5 +27,9 @@ module ProductsHelper
     end
     div_class.html_safe
   end
+
+  def visible?(obj)
+    obj.active? || signed_in_admin?
+  end
   
 end

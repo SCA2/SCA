@@ -27,7 +27,7 @@ feature "Components" do
     scenario 'view components index' do
       component = create(:component)
       visit '/admin'
-      click_link 'Components'
+      click_link('Components', match: :first)
       expect(page).to have_content(component.mfr_part_number)
     end
 
@@ -59,7 +59,8 @@ feature "Components" do
       component = create(:component)
       visit components_path
       first(:link_or_button, component.mfr_part_number).click
-      expect(page).to have_content("Component #{component.mfr_part_number}")
+      click_link 'Edit'
+      expect(page).to have_content("Edit Component\n#{component.mfr_part_number}")
       component.marking = 'unique marking'
       fill_in_component(component)
       find(:link_or_button, 'Update').click

@@ -49,7 +49,7 @@ feature 'admin dashboard' do
       expect(page).to have_content(orders[0].email)
       expect(page).to have_content(orders[1].email)
       expect(page).to have_content(orders[2].email)
-      click_link 'All'
+      click_link('All', match: :first)
       expect(page).to have_content(orders[0].email)
       expect(page).to have_content(orders[1].email)
       expect(page).to have_content(orders[2].email)
@@ -70,7 +70,7 @@ feature 'admin dashboard' do
         tracking_number: '1ZYZV2830000000'
       )
       visit '/orders'
-      click_link 'Pending'
+      click_link('Pending', match: :first)
       expect(page).to have_content(orders[0].email)
       expect(page).to have_content(orders[1].email)
       expect(page).not_to have_content(orders[2].email)
@@ -91,7 +91,7 @@ feature 'admin dashboard' do
         tracking_number: '1ZYZV2830000000'
       )
       visit '/orders'
-      click_link 'Shipped'
+      click_link('Shipped', match: :first)
       expect(page).not_to have_content(orders[0].email)
       expect(page).not_to have_content(orders[1].email)
       expect(page).to have_content(orders[2].email)

@@ -38,14 +38,31 @@ private
   end
 
   def get_product(model)
-    Product.where("lower(model) = ?", model.downcase).first
+    Product.where("upper(model) = ?", model.upcase).first
+  end
+
+  def find_product
+    models = Product.select(:model).order(:model).pluck(:model)
+    models.each do |model|
+      if params[:id].upcase.include? model.upcase
+        return get_product(model)
+      end
+    end
+    return nil
   end
 
   def get_product_categories
-    categories = ProductCategory.all.order(:sort_order)
-    categories.map do |category|
-      count = ProductCategory.includes(:products).where(id: category).count
-      [category.id, category.name.pluralize(count)]
+    categories = ProductCategory.order(:sort_order)
+    product_counts = Product.where(active: true)
+      .group(:product_category_id)
+      .count
+    categories.reduce([]) do |cats, category|
+      count = product_counts[category.id]
+      if count || signed_in_admin?
+        cats.push [category.id, category.name.pluralize(count || 1)]
+      else
+        cats
+      end
     end
   end
 

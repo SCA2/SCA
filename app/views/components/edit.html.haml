@@ -4,7 +4,7 @@
 		.small-12.columns
 			= form_for component do |f|
 				= render 'shared/errors', object: f.object
-				= render 'form', f: f, legend: "Component #{component.mfr_part_number}"
+				= render 'form', f: f, legend: "Edit Component"
 				.admin-box
 					= f.submit "Update", class: "button admin"
 					= link_to "Quit", components_path, class: "button admin"

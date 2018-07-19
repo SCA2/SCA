@@ -55,7 +55,7 @@ SCA::Application.routes.draw do
     end
   end
 
-  resources :components, except: :show
+  resources :components
   resources :component_imports, only: [:index, :new, :create]
 
   get 'products/*id', to: 'products#show', format: false

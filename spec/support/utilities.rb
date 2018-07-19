@@ -24,18 +24,18 @@ def test_sign_out(use_capybara: true)
 end
 
 def fill_in_product(product)
-  fill_in "Model:", with: product.model
-  fill_in "Model Sort Order:", with: product.model_sort_order
-  select product.category, from: "Category:"
-  fill_in "Short Description:", with: product.short_description
-  fill_in "Long Description:", with: product.long_description
-  fill_in "Notes:", with: product.notes
-  fill_in "Image_1 URL:", with: product.image_1
-  fill_in "Image_2 URL:", with: product.image_2
-  fill_in "Specifications URL:", with: product.specifications
-  fill_in "Schematic URL:", with: product.schematic
-  fill_in "BOM URL:", with: product.bom
-  fill_in "Assembly Instructions URL:", with: product.assembly
+  fill_in "Model", with: product.model
+  fill_in "Model Sort Order", with: product.model_sort_order
+  select product.category, from: "Category"
+  fill_in "Short Description", with: product.short_description
+  fill_in "Long Description", with: product.long_description
+  fill_in "Notes", with: product.notes
+  fill_in "Image_1 URL", with: product.image_1
+  fill_in "Image_2 URL", with: product.image_2
+  fill_in "Specifications URL", with: product.specifications
+  fill_in "Schematic URL", with: product.schematic
+  fill_in "BOM URL", with: product.bom
+  fill_in "Assembly Instructions URL", with: product.assembly
 end
 
 def fill_in_product_category(category)

@@ -1,0 +1,10 @@
+= provide(:title, "Component #{component.mfr_part_number}")
+.box_2
+  .row
+    .small-12.columns
+      = render 'big_component', f: component
+      .admin-box
+        = link_to "Edit", edit_component_path(component), class: "button admin"
+        = button_to 'Add to Cart', line_items_path(product_id: @product, option_id: @option), class: 'button add', remote: :true, authenticity_token: true
+        = link_to "Quit", components_path, class: "button admin"
+        = link_to "Delete", component_path(component), method: :delete, class: "button admin", data: { confirm: 'Are you sure?' }
