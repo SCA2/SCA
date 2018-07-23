@@ -7,11 +7,7 @@ describe OrderCalculator do
     let(:rate)      { 0.0925 }
     let(:product)   { create(:product) }
     let(:option)    { create(:option, price: price, product: product) }
-    let(:line_item) { create(:line_item,
-      product: product,
-      option: option,
-      quantity: quantity)
-    }
+    let(:line_item) { create(:line_item, option: option, quantity: quantity) }
     let(:cart)      { create(:cart, line_items: [line_item]) }
     let(:order)     { create(:order, cart: cart) }
     let(:calculator) { OrderCalculator.new(order) }
@@ -32,11 +28,7 @@ describe OrderCalculator do
     let(:quantity)  { 3 }
     let(:product)   { create(:product) }
     let(:option)    { create(:option, price: price, product: product) }
-    let(:line_item) { create(:line_item,
-        product: product,
-        option: option,
-        quantity: quantity)
-    }
+    let(:line_item) { create(:line_item, option: option, quantity: quantity) }
     let(:cart)        { create(:cart, line_items: [line_item]) }
     let(:order)       { create(:order, cart: cart, shipping_cost: 1500) }
     let(:calculator)  { OrderCalculator.new(order) }

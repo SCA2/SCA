@@ -12,18 +12,13 @@ class Cart < ApplicationRecord
   scope :invoices_pending, -> { invoices.where(purchased_at: nil) }
   scope :invoices_paid, -> { invoices.where.not(purchased_at: nil) }
   
-  def add_product(product, option)
-    current_item = line_items.find_by(product_id: product.id)
+  def add_product(option)
+    current_item = line_items.find_by(option_id: option.id)
     if current_item
-      current_item = line_items.find_by(option_id: option.id)
-      if current_item
-        current_item.quantity += 1
-        return current_item
-      end
+      current_item.quantity += 1
+      return current_item
     end
-    current_item = line_items.build(product_id: product.id)
-    current_item.option = option
-    current_item
+    line_items.build(option_id: option.id)
   end
   
   def discount
@@ -61,7 +56,7 @@ class Cart < ApplicationRecord
   end
 
   def find_in_cart(product, option)
-    line_items.joins(:product, :option).where(products: { model: product }, options: { model: option })
+    line_items.joins(:option).where(option_id: Option.where(product_id: Product.where(model: product)), options: { model: option })
   end
 
   def discount_amount(line_items, combos)

@@ -1,9 +1,8 @@
 class LineItemsController < BaseController
   
   def create
-    product = get_product(params.require(:product_id))
     option = Option.find(params.require(:option_id))
-    line_item = cart.add_product(product, option)
+    line_item = cart.add_product(option)
     respond_to do |format|
       if line_item.save
         format.html { redirect_to products_path }

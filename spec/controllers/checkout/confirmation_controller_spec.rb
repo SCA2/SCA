@@ -7,7 +7,7 @@ describe Checkout::ConfirmationController do
         product = create(:n72)
         option = create(:ka, product: product)
         cart = create(:cart)
-        create(:line_item, cart: cart, product: product, option: option)
+        create(:line_item, cart: cart, option: option)
         order = create(:order, cart: cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -27,7 +27,7 @@ describe Checkout::ConfirmationController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order,
           cart: @cart,
           express_token: nil,
@@ -53,7 +53,7 @@ describe Checkout::ConfirmationController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -76,7 +76,7 @@ describe Checkout::ConfirmationController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: 'token')
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -99,7 +99,7 @@ describe Checkout::ConfirmationController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
@@ -121,7 +121,7 @@ describe Checkout::ConfirmationController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

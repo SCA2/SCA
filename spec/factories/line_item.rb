@@ -3,7 +3,6 @@
 FactoryBot.define do
   factory :line_item do
     association :cart
-    association :product
     association :option
     quantity  1
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180708235611) do
+ActiveRecord::Schema.define(version: 20180722200821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 20180708235611) do
   end
 
   create_table "line_items", id: :serial, force: :cascade do |t|
-    t.integer "product_id"
     t.integer "cart_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -108,7 +107,6 @@ ActiveRecord::Schema.define(version: 20180708235611) do
     t.integer "option_id"
     t.boolean "remove", default: false
     t.index ["cart_id"], name: "index_line_items_on_cart_id"
-    t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
   create_table "options", id: :serial, force: :cascade do |t|
@@ -161,8 +159,6 @@ ActiveRecord::Schema.define(version: 20180708235611) do
     t.string "image_2", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "category", limit: 255
-    t.integer "category_sort_order"
     t.integer "model_sort_order"
     t.text "notes"
     t.string "bom", limit: 255
@@ -221,7 +217,6 @@ ActiveRecord::Schema.define(version: 20180708235611) do
 
   add_foreign_key "line_items", "carts", name: "line_items_carts_fk", on_delete: :cascade
   add_foreign_key "line_items", "options", name: "line_items_options_fk", on_delete: :restrict
-  add_foreign_key "line_items", "products", name: "line_items_product_fk", on_delete: :restrict
   add_foreign_key "options", "products", name: "options_product_fk", on_delete: :cascade
   add_foreign_key "orders", "carts", name: "orders_carts_fk", on_delete: :restrict
   add_foreign_key "transactions", "orders", name: "transactions_orders_fk", on_delete: :cascade

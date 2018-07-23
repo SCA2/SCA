@@ -55,8 +55,8 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, product: product, option: option)
-      create(:line_item, cart: cart, product: product, option: option)
+      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, option: option)
       expect(option.line_items.count).to eq 2
     end
     
@@ -64,7 +64,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, product: product, option: option)
+      line = create(:line_item, cart: cart, option: option)
       expect {line.destroy}.not_to change {Option.count}
     end
     
@@ -72,7 +72,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, product: product, option: option)
+      line = create(:line_item, cart: cart, option: option)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
 
@@ -80,7 +80,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, product: product, option: option)
+      create(:line_item, cart: cart, option: option)
       expect {option.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
       expect(Option.count).to eq 1
     end
@@ -89,7 +89,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, product: product, option: option)
+      line = create(:line_item, cart: cart, option: option)
       line.destroy
       expect {option.destroy}.to change {Option.count}.by(-1)
     end

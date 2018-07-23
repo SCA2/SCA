@@ -60,10 +60,7 @@ describe Checkout::AddressesController do
       before do
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: {
-          product_id: product.model,
-          option_id: option.id
-        }
+        post line_items_path, params: { option_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'responds successfully' do
@@ -82,10 +79,7 @@ describe Checkout::AddressesController do
         test_sign_in(user, use_capybara: false)
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: {
-          product_id: product.model,
-          option_id: option.id
-        }
+        post line_items_path, params: { option_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'populates form with user addresses' do
@@ -100,10 +94,7 @@ describe Checkout::AddressesController do
         test_sign_in(user, use_capybara: false)
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: {
-          product_id: product.model,
-          option_id: option.id
-        }
+        post line_items_path, params: { option_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'creates new order.address record' do
@@ -117,10 +108,7 @@ describe Checkout::AddressesController do
     before do
       product = create(:product)
       option = create(:option, product: product)
-      post line_items_path, params: {
-        product_id: product.model,
-        option_id: option.id
-      }
+      post line_items_path, params: { option_id: option.id }
       @cart = Cart.last
       get new_checkout_address_path(@cart)
     end

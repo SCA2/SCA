@@ -8,9 +8,6 @@ class Product < ApplicationRecord
   has_many :options, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :options
 
-  # line_item has database foreign key constraint
-  has_many :line_items, inverse_of: :product
-
   validates :model, :model_sort_order, presence: true
   validates :short_description, :long_description, :image_1, presence: true 
 

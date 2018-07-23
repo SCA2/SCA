@@ -49,12 +49,15 @@ class ProductsController < BaseController
     flash[:notice] = "Success! Product #{@product.model} deleted."
     redirect_to products_path
   rescue(ActiveRecord::InvalidForeignKey)
-    carts = @product.line_items.map {|line| line.cart }
-    orders = carts.map {|cart| cart.order }
-    if carts.count > 0 && !orders.first
+    carts = Cart.joins(:line_items).where(id: LineItem.joins(:option).
+      where(option_id: Option.where(product_id: @product.id)))
+    orders = Order.joins(:cart).where(cart_id: carts)
+    if orders.count > 0
+      alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."
+    elsif carts.count > 0
       alert = "Product #{@product.model} is referenced by cart #{carts.first.id} and #{carts.count - 1} others. Delete those first."
     else
-      alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."
+      alert = "Can't delete this product because of invalid foreign key."
     end
     redirect_to products_path, alert: alert
   end

@@ -33,25 +33,21 @@ FactoryBot.define do
     end
 
     trait :a12 do
-      category 'Microphone Preamp'
       model 'A12'
       model_sort_order 10
     end
 
     trait :c84 do
-      category 'Microphone Preamp'
       model 'C84'
       model_sort_order 20
     end
 
     trait :j99 do
-      category 'Microphone Preamp'
       model 'J99'
       model_sort_order 30
     end
 
     trait :n72 do
-      category 'Microphone Preamp'
       model 'N72'
       model_sort_order 40
     end

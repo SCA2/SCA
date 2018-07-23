@@ -4,5 +4,5 @@
   %td.item-cell= link_to line_form.object.model, line_form.object.product
   %td.description-cell= link_to item, line_form.object.product
   %td.quantity-cell= line_form.number_field :quantity, value: line_form.object.quantity
-  %td.price-cell= cents_to_dollars(line_form.object.price, precision: 0)
+  %td.price-cell= cents_to_dollars(line_form.object.price_in_cents, precision: 0)
   %td.price-cell= cents_to_dollars(line_form.object.extended_price, precision: 0)

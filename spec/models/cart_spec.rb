@@ -49,8 +49,8 @@ describe Cart do
       cart = create(:cart, purchased_at: Time.zone.now)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, product: product, option: option)
-      create(:line_item, cart: cart, product: product, option: option)
+      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, option: option)
       expect(cart.line_items.count).to eq 2
     end
 
@@ -58,8 +58,8 @@ describe Cart do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, product: product, option: option)
-      create(:line_item, cart: cart, product: product, option: option)
+      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, option: option)
       expect {cart.destroy}.to change {LineItem.count}.by(-2)
     end
 
@@ -67,7 +67,7 @@ describe Cart do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, product: product, option: option)
+      line = create(:line_item, cart: cart, option: option)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
   end
@@ -77,10 +77,7 @@ describe Cart do
     let(:quantity)  { 3 }
     let(:product)   { build_stubbed(:product) }
     let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item,
-        product: product,
-        option: option,
-        quantity: quantity)
+    let(:line_item) { build_stubbed(:line_item, option: option, quantity: quantity)
     }
     let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
 

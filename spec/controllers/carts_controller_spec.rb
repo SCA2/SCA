@@ -63,7 +63,7 @@ describe CartsController do
         session[:cart_id] = cart.id
         product = create(:product)
         option = create(:option, product: product)
-        create(:line_item, cart: cart, product: product, option: option)
+        create(:line_item, cart: cart, option: option)
         expect { delete :destroy, params: { id: cart } }.to change{ LineItem.count }.by(-1)
       end
 

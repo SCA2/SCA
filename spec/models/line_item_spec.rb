@@ -9,7 +9,7 @@ describe LineItem do
   
   it { should be_valid }
 
-  it { should respond_to(:product) }
+  # it { should respond_to(:product) }
   it { should respond_to(:option) }
   it { should respond_to(:cart) }
   it { should respond_to(:quantity) }
@@ -17,17 +17,12 @@ describe LineItem do
   it { should respond_to(:model) }
   it { should respond_to(:category) }
   it { should respond_to(:description) }
-  it { should respond_to(:price) }
-  it { should respond_to(:discount) }
+  it { should respond_to(:price_in_cents) }
+  it { should respond_to(:discount_in_cents) }
   it { should respond_to(:shipping_volume) }
   it { should respond_to(:shipping_weight) }
   it { should respond_to(:extended_price) }
   it { should respond_to(:extended_weight) }
-  
-  describe 'when product_id is not present' do
-    before { line_item.product_id = nil }
-    it { should_not be_valid }
-  end
   
   describe 'when option_id is not present' do
     before { line_item.option_id = nil }
@@ -44,7 +39,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = build_stubbed(:line_item, cart: cart, product: product, option: option)
+      line_item = build_stubbed(:line_item, cart: cart, option: option)
       expect(line_item.cart).to eq cart
     end
 
@@ -52,7 +47,7 @@ describe LineItem do
       cart = create(:cart, purchased_at: Time.now)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {line_item.destroy}.not_to change {Cart.count}
     end
 
@@ -60,7 +55,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = build_stubbed(:line_item, cart: cart, product: product, option: option)
+      line_item = build_stubbed(:line_item, cart: cart, option: option)
       expect {cart.destroy}.to change {Cart.count}.by(-1)
     end
 
@@ -68,25 +63,25 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {cart.destroy}.to change {LineItem.count}.by(-1)
     end
   end
 
   describe 'product associations' do
-    it 'has one product' do
+    it 'has a product through option' do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
-      expect(line_item.product).to eq product
+      line_item = create(:line_item, cart: cart, option: option)
+      expect(line_item.option.product).to eq product
     end
 
     it 'does not destroy associated product' do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {line_item.destroy}.not_to change {Product.count}
     end
 
@@ -94,7 +89,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {product.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
     end
 
@@ -102,7 +97,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       line_item.destroy
       expect {product.destroy}.to change {Product.count}.by(-1)
     end
@@ -113,7 +108,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect(line_item.option).to eq option
     end
 
@@ -121,7 +116,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {line_item.destroy}.not_to change {Option.count}
     end
 
@@ -129,7 +124,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       expect {option.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
     end
 
@@ -137,7 +132,7 @@ describe LineItem do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line_item = create(:line_item, cart: cart, product: product, option: option)
+      line_item = create(:line_item, cart: cart, option: option)
       line_item.destroy
       expect {option.destroy}.to change {Option.count}.by(-1)
     end
@@ -154,13 +149,12 @@ describe LineItem do
       product: product)
     }
     let(:line_item) { build_stubbed(:line_item,
-      product: product,
       option: option,
       quantity: quantity)
     }
 
     it 'returns the option price' do
-      expect(line_item.price).to eql option.price_in_cents
+      expect(line_item.price_in_cents).to eql option.price_in_cents
     end
 
     it 'calculates extended_price' do

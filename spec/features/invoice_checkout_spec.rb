@@ -17,7 +17,7 @@ feature 'invoice', :vcr do
     option = create(:ka, product: @product)
     create(:bom, option: option)
     cart = create(:cart, invoice_token: 'secret_token', invoice_sent_at: Time.now)
-    create(:line_item, cart: cart, product: @product, option: option)
+    create(:line_item, cart: cart, option: option)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }

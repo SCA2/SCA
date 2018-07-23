@@ -7,7 +7,7 @@ describe Checkout::PaymentController do
         cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: cart, product: product, option: option)
+        create(:line_item, cart: cart, option: option)
         order = create(:order,
           cart: cart,
           express_token: nil,
@@ -30,7 +30,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order,
           cart: @cart,
           shipping_cost: nil
@@ -55,7 +55,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -81,7 +81,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         create(:order, cart: @cart, express_token: nil, shipping_cost: nil)
         session[:cart_id] = @cart.id
         post :update, params: {
@@ -105,7 +105,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -131,7 +131,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         product = create(:n72)
         option = create(:ka, product: product)
-        create(:line_item, cart: @cart, product: product, option: option)
+        create(:line_item, cart: @cart, option: option)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

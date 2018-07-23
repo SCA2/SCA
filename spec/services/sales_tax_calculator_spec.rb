@@ -15,7 +15,7 @@ describe SalesTaxCalculator do
     3.times do
       product = create(:product)
       option = create(:option, price: 100, product: product)
-      line_item = create(:line_item, quantity: 1, product: product, option: option)
+      line_item = create(:line_item, quantity: 1, option: option)
       line_item.cart.update(purchased_at: Date.today.noon)
       order = create(:order, shipping_cost: 1500, cart: line_item.cart)
       order.addresses << build(:address, addressable: order, address_type: 'shipping')
@@ -27,7 +27,7 @@ describe SalesTaxCalculator do
     2.times do
       product = create(:product)
       option = create(:option, price: 200, product: product)
-      line_item = create(:line_item, quantity: 1, product: product, option: option)
+      line_item = create(:line_item, quantity: 1, option: option)
       line_item.cart.update(purchased_at: Date.today.noon)
       order = create(:order, shipping_cost: 1500, cart: line_item.cart)
       order.addresses << build(:address, addressable: order, address_type: 'shipping')

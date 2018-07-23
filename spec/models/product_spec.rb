@@ -28,7 +28,6 @@ describe Product do
   it { should respond_to(:kit_stock) }
 
   it { should respond_to(:features) }
-  it { should respond_to(:line_items) }
   it { should respond_to(:options) }
 
   it "is invalid without a model" do
@@ -110,20 +109,11 @@ describe Product do
   end
 
   describe 'line_item associations' do
-    it 'can have multiple line_items' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line_1 = create(:line_item, product: product, option: option, cart: cart)
-      line_2 = create(:line_item, product: product, option: option, cart: cart)
-      expect(product.line_items.count).to eq 2
-    end
-
     it 'is not destroyed with associated line_item' do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, product: product, option: option, cart: cart)
+      line = create(:line_item, option: option, cart: cart)
       expect {line.destroy}.not_to change {Product.count}
     end
 
@@ -131,7 +121,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, product: product, option: option, cart: cart)
+      line = create(:line_item, option: option, cart: cart)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
     
@@ -139,7 +129,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, product: product, option: option, cart: cart)
+      line = create(:line_item, option: option, cart: cart)
       expect {product.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
       expect(Product.count).to eq 1
     end
@@ -148,7 +138,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, product: product, option: option, cart: cart)
+      line = create(:line_item, option: option, cart: cart)
       line.destroy
       expect {product.destroy}.to change {Product.count}.by(-1)
     end

@@ -15,6 +15,14 @@ class Option < ApplicationRecord
 
   STOCK_CUTOFF = 12
 
+  def sku
+    product.model + model
+  end
+
+  def category
+    product.category
+  end
+
   def price_in_cents
     self.price * 100
   end
