@@ -8,16 +8,16 @@ class Product < ApplicationRecord
   has_many :options, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :options
 
-  validates :model, :model_sort_order, presence: true
+  validates :model, :sort_order, presence: true
   validates :short_description, :long_description, :image_1, presence: true 
 
-  validates :model_sort_order, numericality: {
+  validates :sort_order, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0,
     less_than_or_equal_to: 100
   }
 
-  validates :model_sort_order, uniqueness: { scope: :model }
+  validates :sort_order, uniqueness: { scope: :model }
 
   def self.update_product_category
     Product.all.each do |p|
@@ -33,7 +33,7 @@ class Product < ApplicationRecord
   def first_in_category?
     Product.joins(:product_category).
     where("product_categories.id=?", product_category.id).
-    order(:model_sort_order).first == self
+    order(:sort_order).first == self
   end
 
   def active_options

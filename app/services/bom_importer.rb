@@ -13,7 +13,7 @@ class BomImporter
     @imported_components = nil
     @imported_bom_items = nil
     @spreadsheet = nil
-    @products = Product.joins(options: :bom).distinct.order(:model_sort_order)
+    @products = Product.joins(options: :bom).distinct.order(:sort_order)
     return unless @products.present?
     if attributes.empty?
       @bom = Bom.new

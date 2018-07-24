@@ -25,7 +25,7 @@ end
 
 def fill_in_product(product)
   fill_in "Model", with: product.model
-  fill_in "Model Sort Order", with: product.model_sort_order
+  fill_in "Sort Order", with: product.sort_order
   select product.category, from: "Category"
   fill_in "Short Description", with: product.short_description
   fill_in "Long Description", with: product.long_description

@@ -75,6 +75,13 @@ describe OptionsController do
         delete :destroy, params: { id: option, product_id: product }
         expect(response).to redirect_to(product)
       end
+
+      it "alerts if referenced by a cart" do
+        cart = create(:cart)
+        create(:line_item, cart: cart, option: option)
+        delete :destroy, params: { product_id: product, id: option }
+        expect(flash[:alert]).to include("Option #{option.model} is referenced by cart #{cart.id}")
+      end
     end
   end
 

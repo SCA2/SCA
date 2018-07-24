@@ -18,7 +18,7 @@ describe Product do
   it { should respond_to(:image_2) }
   it { should respond_to(:created_at) }
   it { should respond_to(:updated_at) }
-  it { should respond_to(:model_sort_order) }
+  it { should respond_to(:sort_order) }
   it { should respond_to(:notes) }
   it { should respond_to(:bom) }
   it { should respond_to(:schematic) }
@@ -34,8 +34,8 @@ describe Product do
     expect(Product.new(model: nil)).to have(1).errors_on(:model)
   end
 
-  it "is invalid without a model_sort_order" do
-    expect(Product.new(model_sort_order: nil)).to have(2).errors_on(:model_sort_order)
+  it "is invalid without a sort_order" do
+    expect(Product.new(sort_order: nil)).to have(2).errors_on(:sort_order)
   end
 
   it "is invalid without a short_description" do

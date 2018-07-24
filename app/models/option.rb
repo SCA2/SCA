@@ -4,8 +4,6 @@ class Option < ApplicationRecord
   has_many :line_items, inverse_of: :option # enforced by pg foreign key constraint
   has_one :bom, inverse_of: :option, dependent: :destroy
 
-  default_scope -> { order('sort_order ASC') }
-  
   delegate :common_stock_items, :common_stock, to: :product
   delegate :partial_stock, :kit_stock, to: :product
   delegate :partial_stock=, :kit_stock=, to: :product

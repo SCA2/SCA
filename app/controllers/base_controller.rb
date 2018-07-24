@@ -34,7 +34,7 @@ private
   end
 
   def get_products
-    Product.order(:model_sort_order)
+    Product.order(:sort_order)
   end
 
   def get_product(model)

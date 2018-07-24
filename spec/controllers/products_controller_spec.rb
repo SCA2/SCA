@@ -156,7 +156,7 @@ describe ProductsController do
         cart = create(:cart)
         create(:line_item, cart: cart, option: option)
         delete :destroy, params: { id: product }
-        expect(flash[:alert]).to be_present
+        expect(flash[:alert]).to include("Product #{product.model} is referenced by cart #{cart.id}")
       end
     end
   end

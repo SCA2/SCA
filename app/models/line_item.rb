@@ -5,8 +5,6 @@ class LineItem < ApplicationRecord
   validates :cart, :option, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   
-  default_scope { order(created_at: :asc) }
-
   delegate :product, :category, :description, to: :option
   delegate :price_in_cents, :discount_in_cents, to: :option
   delegate :shipping_volume, :shipping_weight, to: :option

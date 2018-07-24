@@ -4,7 +4,7 @@ class ProductsController < BaseController
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
   def index
-    @products = Product.joins(:product_category).order(:product_category_id, :model_sort_order)
+    @products = Product.joins(:product_category).order(:product_category_id, :sort_order)
   end
 
   def show
@@ -49,8 +49,7 @@ class ProductsController < BaseController
     flash[:notice] = "Success! Product #{@product.model} deleted."
     redirect_to products_path
   rescue(ActiveRecord::InvalidForeignKey)
-    carts = Cart.joins(:line_items).where(id: LineItem.joins(:option).
-      where(option_id: Option.where(product_id: @product.id)))
+    carts = Cart.where(id: LineItem.where(option_id: Option.where(product_id: @product.id)).pluck(:cart_id))
     orders = Order.joins(:cart).where(cart_id: carts)
     if orders.count > 0
       alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."
@@ -71,7 +70,7 @@ private
 
   def product_params
     params.require(:product).permit(:product_category_id, 
-      :model, :model_sort_order, :options, :active,
+      :model, :sort_order, :options, :active,
       :short_description, :long_description, :notes,
       :image_1, :image_2, :specifications,
       :bom, :schematic, :assembly)

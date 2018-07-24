@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180722200821) do
+ActiveRecord::Schema.define(version: 20180723015013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 20180722200821) do
     t.string "image_2", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "model_sort_order"
+    t.integer "sort_order"
     t.text "notes"
     t.string "bom", limit: 255
     t.string "schematic", limit: 255

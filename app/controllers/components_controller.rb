@@ -13,14 +13,6 @@ class ComponentsController < BaseController
   end
 
   def show
-    # model_sort_order = Product.order(:model_sort_order).last + 10
-    # @product = Product.new(
-    #   model: component.mfr_part_number,
-    #   model_sort_order: model_sort_order,
-    #   short_description: component.description,
-    #   long_description: component.description,
-    #   image_1: 'image.url'
-    # )
   end
   
   def edit
