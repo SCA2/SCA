@@ -98,16 +98,8 @@ describe LineItem do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:weight)    { 2 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option) { build_stubbed(:option,
-      price: price,
-      shipping_weight: weight,
-      product: product)
-    }
-    let(:line_item) { build_stubbed(:line_item,
-      option: option,
-      quantity: quantity)
-    }
+    let(:option)    { build_stubbed(:option, price: price, shipping_weight: weight) }
+    let(:line_item) { build_stubbed(:line_item, option: option, quantity: quantity) }
 
     it 'returns the option price' do
       expect(line_item.price_in_cents).to eql option.price_in_cents

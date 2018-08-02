@@ -27,7 +27,7 @@ class Product < ApplicationRecord
   end
 
   def self.delete_products_without_options
-    Product.includes(:options).where(options: { product_id: nil }).destroy_all
+    Product.includes(:options).where(options: { sellable_id: nil }).destroy_all
   end
 
   def first_in_category?

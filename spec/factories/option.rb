@@ -1,8 +1,8 @@
 require 'faker'
 
 FactoryBot.define do
-  factory :option, class: 'Option' do
-    association :product
+  factory :option do
+    # association :product, factory: :product
     sequence(:model)  { |n| "M#{n}" }
     description { Faker::Lorem.sentence.to_s }
     price {[79, 99, 149, 199, 249, 329, 269, 289, 349, 479, 499].at(rand(0..10))}

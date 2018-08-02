@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180723015013) do
+ActiveRecord::Schema.define(version: 20180731194735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,13 +118,13 @@ ActiveRecord::Schema.define(version: 20180723015013) do
     t.integer "sort_order"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "product_id"
     t.integer "discount"
     t.integer "shipping_length"
     t.integer "shipping_width"
     t.integer "shipping_height"
     t.integer "assembled_stock", default: 0
     t.boolean "active", default: true, null: false
+    t.bigint "product_id"
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
@@ -217,7 +217,6 @@ ActiveRecord::Schema.define(version: 20180723015013) do
 
   add_foreign_key "line_items", "carts", name: "line_items_carts_fk", on_delete: :cascade
   add_foreign_key "line_items", "options", name: "line_items_options_fk", on_delete: :restrict
-  add_foreign_key "options", "products", name: "options_product_fk", on_delete: :cascade
   add_foreign_key "orders", "carts", name: "orders_carts_fk", on_delete: :restrict
   add_foreign_key "transactions", "orders", name: "transactions_orders_fk", on_delete: :cascade
 end
