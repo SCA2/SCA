@@ -1,5 +1,5 @@
 class ProductsController < BaseController
-  # before_action :delete_orphans, only: [:index]
+  before_action :delete_orphans, only: [:index]
   before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 

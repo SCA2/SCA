@@ -9,11 +9,11 @@ describe ErrorPagesController do
   end
 
   context 'url contains a product name' do
-    it 'redirects to product page' do
+    it 'redirects to product index' do
       product = create(:n72)
       create(:ka, product: product)
       get :unknown, params: { id: 'asdfn72asdf' }
-      expect(response).to redirect_to product
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

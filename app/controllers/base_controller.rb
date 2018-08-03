@@ -42,13 +42,10 @@ private
   end
 
   def find_product
-    models = Product.select(:model).order(:model).pluck(:model)
-    models.each do |model|
-      if params[:id].upcase.include? model.upcase
-        return get_product(model)
-      end
-    end
-    return nil
+    models = Product.select(:model).pluck(:model)
+    model = params[:id].upcase
+    return get_product(model) if models.include? model
+    nil
   end
 
   def get_product_categories

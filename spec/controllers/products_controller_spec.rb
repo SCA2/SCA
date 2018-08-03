@@ -27,13 +27,6 @@ describe ProductsController do
         expect(response).to be_successful
       end
 
-      it "finds product by alphabetical order in id string" do
-        product = create(:product, model: 'A12B')
-        create(:option, product: product)
-        get :show, params: { id: 'asdf/1234/n72a12bch02-sp' }
-        expect(response).to be_successful
-      end
-
       it "redirects to products path with bogus id" do
         product = create(:product, model: 'A12B')
         create(:option, product: product)
