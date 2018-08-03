@@ -41,24 +41,17 @@ private
     Product.where("upper(model) = ?", model.upcase).first
   end
 
-  def find_product
-    models = Product.select(:model).pluck(:model)
-    model = params[:id].upcase
-    return get_product(model) if models.include? model
-    nil
-  end
-
   def get_product_categories
     categories = ProductCategory.order(:sort_order)
     product_counts = Product.where(active: true)
       .group(:product_category_id)
       .count
-    categories.reduce([]) do |cats, category|
+    categories.reduce([]) do |categories, category|
       count = product_counts[category.id]
       if count || signed_in_admin?
-        cats.push [category.id, category.name.pluralize(count || 1)]
+        categories.push [category.id, category.name.pluralize(count || 1)]
       else
-        cats
+        categories
       end
     end
   end

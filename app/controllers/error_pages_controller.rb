@@ -1,7 +1,7 @@
 class ErrorPagesController < BaseController
   
-  def unknown  
-    product = find_product
+  def unknown
+    product = get_product(params[:id])
     if product
       redirect_to product
     else

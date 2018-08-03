@@ -77,7 +77,7 @@ private
   end
 
   def set_product
-    @product = find_product
+    @product = get_product(params[:id])
     if @product.nil?
       flash[:alert] = "Can't find that product!"
       redirect_to products_path
