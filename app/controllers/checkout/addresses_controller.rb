@@ -17,7 +17,11 @@ module Checkout
       copy_billing_to_shipping if use_billing_for_shipping?
       if order.update(order_params)
         flash[:success] = 'Addresses saved!'
-        redirect_to new_checkout_shipping_path(cart)
+        if order.intangible?
+          redirect_to new_checkout_payment_path(cart)
+        else
+          redirect_to new_checkout_shipping_path(cart)
+        end
       else
         render 'new'
       end

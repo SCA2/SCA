@@ -11,6 +11,42 @@ class Option < ApplicationRecord
   validates :model, uniqueness: { scope: :product }
   validates :sort_order, uniqueness: { scope: :product }
 
+  validates :shipping_length, :shipping_width, presence: true
+  validates :shipping_height, :shipping_weight, presence: true
+  validates :model, :description, :upc, presence: true
+  validates :price, :discount, :sort_order, presence: true
+
+  validates_inclusion_of :active, in: [true, false]
+
+  validates :shipping_length, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0,
+    less_than: 25
+  }
+
+  validates :shipping_width, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0,
+    less_than: 13
+  }
+  
+  validates :shipping_height, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0,
+    less_than: 7
+  }
+
+  validates :shipping_weight, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0,
+    less_than: 30
+  }
+
+  validates :assembled_stock, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0
+  }, if: :is_assembled?
+
   STOCK_CUTOFF = 12
 
   def sku

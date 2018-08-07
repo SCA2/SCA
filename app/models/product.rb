@@ -8,6 +8,7 @@ class Product < ApplicationRecord
   has_many :options, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :options
 
+  validates :model, uniqueness: true
   validates :model, :sort_order, presence: true
   validates :short_description, :long_description, :image_1, presence: true 
 
@@ -18,6 +19,20 @@ class Product < ApplicationRecord
   }
 
   validates :sort_order, uniqueness: { scope: :model }
+
+  validates :kit_stock, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0
+  }
+
+  validates :partial_stock, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0
+  }
+
+  def model=(val)
+    self[:model] = val ? val.upcase : nil
+  end
 
   def self.update_product_category
     Product.all.each do |p|

@@ -9,52 +9,14 @@ class OptionEditor
   delegate :assembled_stock, :limiting_stock, to: :option
   delegate :is_kit?, :is_assembled?, to: :option
 
-  delegate :common_stock, to: :product
-  delegate :kit_stock, :partial_stock, to: :product
+  delegate :common_stock, :kit_stock, :partial_stock, to: :product
 
   attr_accessor :kits_to_make, :partials_to_make, :assembled_to_make
   attr_reader :product, :option, :bom
 
+  validate :validate_children
+
   validates :product, :option, :bom, presence: true
-  validates :model, :description, :upc, presence: true
-  validates :price, :discount, :sort_order, presence: true
-  validates :shipping_length, :shipping_width, presence: true
-  validates :shipping_height, :shipping_weight, presence: true
-
-  validates_inclusion_of :active, in: [true, false]
-
-  validates :shipping_length, numericality: {
-    only_integer: true,
-    greater_than: 0,
-    less_than: 25
-  }
-  
-  validates :shipping_width, numericality: {
-    only_integer: true,
-    greater_than: 0,
-    less_than: 13
-  }
-  
-  validates :shipping_height, numericality: {
-    only_integer: true,
-    greater_than: 0,
-    less_than: 7
-  }
-
-  validates :kit_stock, numericality: {
-    only_integer: true,
-    greater_than_or_equal_to: 0,
-  }, if: :is_kit?
-
-  validates :partial_stock, numericality: {
-    only_integer: true,
-    greater_than_or_equal_to: 0,
-  }, if: :is_assembled?
-
-  validates :assembled_stock, numericality: {
-    only_integer: true,
-    greater_than_or_equal_to: 0,
-  }, if: :is_assembled?
 
   validates :kits_to_make, numericality: {
     only_integer: true,
@@ -128,9 +90,11 @@ class OptionEditor
 private
 
   def persist!
-    @product.save!
-    @option.save!
-    @bom.save!
+    ActiveRecord::Base.transaction do
+      @product.save!
+      @option.save!
+      @bom.save!
+    end
   end
 
   def option_params(params)
@@ -149,5 +113,16 @@ private
 
   def param_to_i(param)
     param.to_i if param
+  end
+
+  def validate_children
+    promote_errors(option.errors) if option.invalid?
+    promote_errors(product.errors) if product.invalid?
+  end
+
+  def promote_errors(child_errors)
+    child_errors.each do |attribute, message|
+      errors.add(attribute, message)
+    end
   end
 end

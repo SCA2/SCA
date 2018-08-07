@@ -96,7 +96,7 @@ describe ProductsController do
           product.update(model: 'FOO')
           patch :update, params: { id: product, product: { model: 'bar' }}
           product.reload
-          expect(product.model).to eq('bar')
+          expect(product.model).to eq('BAR')
         end
   
         it "redirects to the product" do

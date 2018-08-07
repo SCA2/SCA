@@ -6,10 +6,10 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :addresses
 
-  delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, to: :cart
+  delegate :purchased?, :purchased_at, :subtotal, :min_dimension, :max_dimension, :total_volume, :weight, :intangible?, to: :cart
 
   scope :checked_out, -> do
-    where.not(email: nil, shipping_method: nil, shipping_cost: nil).
+    where.not(email: nil).
     joins(:cart).preload(:cart).
     joins(:addresses).preload(:addresses).
     where(id: Address.select(:addressable_id).where(address_type: 'billing')).
@@ -71,7 +71,7 @@ class Order < ApplicationRecord
   end
 
   def payable?
-    shippable? && shipping_method && shipping_cost
+    shippable? && shipping_method && shipping_cost || intangible?
   end
 
   def confirmable?

@@ -111,6 +111,10 @@ class Cart < ApplicationRecord
   def weight
     line_items.to_a.sum { |item| item.extended_weight * 16 }
   end
+
+  def intangible?
+    max_dimension == 0 && weight == 0
+  end
   
   def inventory
     line_items.each do |item|

@@ -8,7 +8,11 @@
 				<%= render 'shared/errors', object: f.object %>
 				<%= render 'payment_form', f: f, legend: 'Payment Information' %>
 				<div class="button-box">
-          <%= link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button user' %>
+          <% if @cart.intangible? %>
+            <%= link_to 'Back to Addresses', new_checkout_address_path(@cart), class: 'button user' %>
+          <% else %>
+            <%= link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button user' %>
+          <% end %>
           <%= f.submit 'Continue Checkout', class: 'button user' %>
 				</div>
 			<% end %>
