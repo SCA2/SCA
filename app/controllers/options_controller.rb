@@ -38,8 +38,8 @@ class OptionsController < BaseController
     @option.destroy
     flash[:notice] = "Success! Option #{@option.id} deleted."
     redirect_to @product
-  rescue(ActiveRecord::InvalidForeignKey)
-    carts = Cart.where(id: LineItem.where(option_id: @option.id).pluck(:cart_id))
+  rescue(ActiveRecord::DeleteRestrictionError)
+    carts = Cart.where(id: LineItem.where(itemizable_id: @option.id).pluck(:cart_id))
     orders = Order.joins(:cart).where(cart_id: carts)
     if orders.count > 0
       alert = "Option #{@option.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."

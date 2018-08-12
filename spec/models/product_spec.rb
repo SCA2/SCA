@@ -113,7 +113,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, option: option, cart: cart)
+      line = create(:line_item, itemizable: option, cart: cart)
       expect {line.destroy}.not_to change {Product.count}
     end
 
@@ -121,7 +121,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, option: option, cart: cart)
+      line = create(:line_item, itemizable: option, cart: cart)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
     
@@ -129,8 +129,8 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, option: option, cart: cart)
-      expect {product.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
+      line = create(:line_item, itemizable: option, cart: cart)
+      expect {product.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
       expect(Product.count).to eq 1
     end
 
@@ -138,7 +138,7 @@ describe Product do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, option: option, cart: cart)
+      line = create(:line_item, itemizable: option, cart: cart)
       line.destroy
       expect {product.destroy}.to change {Product.count}.by(-1)
     end

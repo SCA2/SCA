@@ -1,6 +1,7 @@
 class UserMailer < ApplicationMailer
 
   helper :orders  # for cents_to_dollars
+  helper_method :option_url
 
   def signup_confirmation(user)
     @user = user
@@ -43,4 +44,11 @@ class UserMailer < ApplicationMailer
           bcc: "orders@seventhcircleaudio.com",
           subject: "Seventh Circle Audio Invoice"
   end
+
+private
+
+  def option_url(option)
+    product_url(option.product)
+  end
+
 end

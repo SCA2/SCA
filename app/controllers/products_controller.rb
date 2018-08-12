@@ -48,8 +48,8 @@ class ProductsController < BaseController
     @product.destroy
     flash[:notice] = "Success! Product #{@product.model} deleted."
     redirect_to products_path
-  rescue(ActiveRecord::InvalidForeignKey)
-    carts = Cart.where(id: LineItem.where(option_id: Option.where(product_id: @product.id)).pluck(:cart_id))
+  rescue(ActiveRecord::DeleteRestrictionError)
+    carts = Cart.where(id: LineItem.where(itemizable_id: Option.where(product_id: @product.id)).pluck(:cart_id))
     orders = Order.joins(:cart).where(cart_id: carts)
     if orders.count > 0
       alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."

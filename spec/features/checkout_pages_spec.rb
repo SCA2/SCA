@@ -41,7 +41,7 @@ feature 'standard stripe checkout', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1Chn5xFC0i7e7XIPP6s73MMW')
+    expect(page).to have_content('Authorization: 1Cy6AVFC0i7e7XIPkak3xdF7')
     expect(page).to have_content('0 Items')
   end
 
@@ -74,7 +74,7 @@ feature 'standard stripe checkout', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1Chn5fFC0i7e7XIPKETQeJ27')
+    expect(page).to have_content('Authorization: 1Cy6AEFC0i7e7XIPEt26rJPU')
     expect(page).to have_content('0 Items')
     test_sign_out(use_capybara: true)
   end

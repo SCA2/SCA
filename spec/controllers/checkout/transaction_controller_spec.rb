@@ -8,7 +8,7 @@ describe Checkout::TransactionsController do
       option = create(:ka, product: product)
       bom = create(:bom, option: option)
       create(:bom_item, bom: bom)
-      create(:line_item, cart: @cart, option: option)
+      create(:line_item, cart: @cart, itemizable: option)
       session[:cart_id] = @cart.id
       session[:progress] = 'current_path'
     end

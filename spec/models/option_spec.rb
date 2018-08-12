@@ -55,8 +55,8 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, option: option)
-      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, itemizable: option)
+      create(:line_item, cart: cart, itemizable: option)
       expect(option.line_items.count).to eq 2
     end
     
@@ -64,7 +64,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, option: option)
+      line = create(:line_item, cart: cart, itemizable: option)
       expect {line.destroy}.not_to change {Option.count}
     end
     
@@ -72,7 +72,7 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, option: option)
+      line = create(:line_item, cart: cart, itemizable: option)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
 
@@ -80,16 +80,17 @@ describe Option do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      create(:line_item, cart: cart, option: option)
-      expect {option.destroy}.to raise_error(ActiveRecord::InvalidForeignKey)
-      expect(Option.count).to eq 1
+      create(:line_item, cart: cart, itemizable: option)
+      count = Option.count
+      expect {option.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
+      expect(Option.count).to eq(count)
     end
   
     it 'can be deleted after associated line_item' do
       cart = create(:cart)
       product = create(:product)
       option = create(:option, product: product)
-      line = create(:line_item, cart: cart, option: option)
+      line = create(:line_item, cart: cart, itemizable: option)
       line.destroy
       expect {option.destroy}.to change {Option.count}.by(-1)
     end
@@ -133,13 +134,6 @@ describe Option do
     it 'calculates discount_in_cents' do
       option.discount = 1
       expect(option.discount_in_cents).to eq(100)
-    end
-
-    it 'calculates shipping volume' do
-      option.shipping_length = 2
-      option.shipping_width = 2
-      option.shipping_height = 2
-      expect(option.shipping_volume).to eq(8)
     end
   end
 

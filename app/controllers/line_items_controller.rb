@@ -1,8 +1,7 @@
 class LineItemsController < BaseController
   
   def create
-    option = Option.find(params.require(:option_id))
-    line_item = cart.add_product(option)
+    line_item = cart.add_item(line_item_params)
     respond_to do |format|
       if line_item.save
         format.html { redirect_to products_path }
@@ -15,5 +14,14 @@ class LineItemsController < BaseController
     flash[:alert] = 'Sorry, there was a problem with the cart.'
     redirect_to products_path
   end
-  
+
+private
+
+  def line_item_params
+    {
+      itemizable_id: params.require(:itemizable_id),
+      itemizable_type: params.require(:itemizable_type)
+    }
+  end
+
 end

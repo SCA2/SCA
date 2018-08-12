@@ -12,13 +12,13 @@ class Cart < ApplicationRecord
   scope :invoices_pending, -> { invoices.where(purchased_at: nil) }
   scope :invoices_paid, -> { invoices.where.not(purchased_at: nil) }
   
-  def add_product(option)
-    current_item = line_items.find_by(option_id: option.id)
+  def add_item(line_item_params)
+    current_item = line_items.find_by(line_item_params)
     if current_item
       current_item.quantity += 1
       return current_item
     end
-    line_items.build(option_id: option.id)
+    line_items.build(line_item_params)
   end
   
   def discount
@@ -55,20 +55,28 @@ class Cart < ApplicationRecord
 
   end
 
-  def find_in_cart(product, option)
-    line_items.joins(:option).where(option_id: Option.where(product_id: Product.where(model: product)), options: { model: option })
+  def find_options_in_cart
+    line_items.includes(:option)
+  end
+
+  def find_in_cart(option_lines, product, option)
+    option_lines.where(itemizable_id: Option.where(product_id: Product.where(model: product)), options: { model: option }).references(:options)
   end
 
   def discount_amount(line_items, combos)
-    combos * line_items.first.discount
+    combos * line_items.first.discount_in_cents
   end
 
   def combo_discount(a_product, a_option, b_product, b_option)
-    combo_discount = 0              
-    a_lines = find_in_cart(a_product, a_option)
+    combo_discount = 0
+    option_lines = find_options_in_cart
+
+    return 0 if option_lines.empty?
+
+    a_lines = find_in_cart(option_lines, a_product, a_option)
     if a_lines.any?
       a_quantity = a_lines.to_a.sum { |a| a.quantity }
-      b_lines = find_in_cart(b_product, b_option)
+      b_lines = find_in_cart(option_lines, b_product, b_option)
       if b_lines.any?
         b_quantity = b_lines.to_a.sum { |b| b.quantity }
         if block_given?
@@ -83,25 +91,23 @@ class Cart < ApplicationRecord
   end
 
   def subtotal
-    line_items.to_a.sum { |item| item.extended_price } - discount
+    line_items.sum(&:extended_price) - discount
   end
 
   def total_volume
-    line_items.to_a.sum { |item| item.quantity * item.shipping_volume }
+    line_items.sum(&:shipping_volume)
   end
   
   def min_dimension
-    a = line_items.to_a.sort { |item| item.shipping_height }
-    a.first.option.shipping_height
+    line_items.flat_map { |i| [i.shipping_length, i.shipping_width, i.shipping_height] }.min
   end
   
   def max_dimension
-    a = line_items.to_a.sort { |item| item.shipping_length }
-    a.last.option.shipping_length
+    line_items.flat_map { |i| [i.shipping_length, i.shipping_width, i.shipping_height] }.max
   end
   
   def total_items
-    line_items.to_a.sum { |item| item.quantity }
+    line_items.sum(&:quantity)
   end
 
   def line_items_empty?
@@ -109,7 +115,7 @@ class Cart < ApplicationRecord
   end
   
   def weight
-    line_items.to_a.sum { |item| item.extended_weight * 16 }
+    line_items.sum(&:extended_weight) * 16
   end
 
   def intangible?
@@ -118,9 +124,11 @@ class Cart < ApplicationRecord
   
   def inventory
     line_items.each do |item|
-      calculator = InventoryCalculator.new(option: item.option)
-      calculator.subtract_stock(quantity: item.quantity)
-      calculator.save_inventory
+      if item.itemizable_type == 'Option'
+        calculator = InventoryCalculator.new(option: item.option)
+        calculator.subtract_stock(quantity: item.quantity)
+        calculator.save_inventory
+      end
     end
   end
 

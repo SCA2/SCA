@@ -1,6 +1,6 @@
 class BaseController < ApplicationController
     
-  helper_method :cart, :order, :products, :product_categories
+  helper_method :cart, :order, :products, :product_categories, :option_path
 
   def cart
     @cart ||= get_cart
@@ -19,6 +19,10 @@ class BaseController < ApplicationController
   end 
 
 private
+
+  def option_path(option)
+    product_path(option.product)
+  end
 
   def get_cart
     cart = Cart.find(session[:cart_id])

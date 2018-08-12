@@ -147,7 +147,7 @@ describe ProductsController do
 
       it "alerts if product is referenced by a cart" do
         cart = create(:cart)
-        create(:line_item, cart: cart, option: option)
+        create(:line_item, cart: cart, itemizable: option)
         delete :destroy, params: { id: product }
         expect(flash[:alert]).to include("Product #{product.model} is referenced by cart #{cart.id}")
       end

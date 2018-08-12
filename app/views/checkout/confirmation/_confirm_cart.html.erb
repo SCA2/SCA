@@ -11,11 +11,9 @@
 		</tr>
 		<% @cart.line_items.each_with_index do |line_item, index| %>
 			<tr>
-				<% model = line_item.model %>
-				<% item = line_item.category + ', ' + line_item.description %>
 				<td class="line-cell"><%= index + 1 %></td>
-				<td class="item-cell"><%= link_to model, line_item.product %></td>
-				<td class="description-cell"><%= link_to item, line_item.product %></td>
+				<td class="item-cell"><%= link_to line_item.item_model, line_item.item %></td>
+				<td class="description-cell"><%= link_to line_item.item_description, line_item.item %></td>
 				<td class="quantity-cell" style="text-align: center">
 					<%= line_item.quantity %>
 				</td>

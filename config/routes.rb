@@ -35,9 +35,6 @@ SCA::Application.routes.draw do
     member do
       put 'update_option'  
     end
-    collection do
-      get 'update_category_sort_order'
-    end
   end
 
   resources :boms do

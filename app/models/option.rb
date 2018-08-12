@@ -1,7 +1,10 @@
 class Option < ApplicationRecord
   
   belongs_to :product, inverse_of: :options
-  has_many :line_items, inverse_of: :option # enforced by pg foreign key constraint
+
+  # enforced by pg foreign key constraint
+  has_many :line_items, as: :itemizable, inverse_of: :option, dependent: :restrict_with_exception
+  
   has_one :bom, inverse_of: :option, dependent: :destroy
 
   delegate :common_stock_items, :common_stock, to: :product
@@ -49,12 +52,12 @@ class Option < ApplicationRecord
 
   STOCK_CUTOFF = 12
 
-  def sku
+  def item_model
     product.model + model
   end
 
-  def category
-    product.category
+  def item_description
+    "#{product.category}, #{description}"
   end
 
   def price_in_cents
@@ -65,10 +68,6 @@ class Option < ApplicationRecord
     self.discount * 100
   end
   
-  def shipping_volume
-    self.shipping_length * self.shipping_width * self.shipping_height
-  end
-
   def active?
     self.active
   end

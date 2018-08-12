@@ -26,14 +26,15 @@ class CartsController < BaseController
     redirect_to products_url, notice: 'Your cart is empty!'
   end
   
-  private
+private
+
+  def cart_params
+    params.require(:cart).permit(:id, line_items_attributes: [:id, :quantity, :_destroy])
+  end
   
-    def cart_params
-      params.require(:cart).permit(:id, line_items_attributes: [:id, :quantity, :_destroy])
-    end
-    
-    def invalid_cart
-      logger.error "Attempt to access invalid cart #{params[:id]}"
-      redirect_to products_url, notice: 'Invalid cart!'
-    end
+  def invalid_cart
+    logger.error "Attempt to access invalid cart #{params[:id]}"
+    redirect_to products_url, notice: 'Invalid cart!'
+  end
+
 end

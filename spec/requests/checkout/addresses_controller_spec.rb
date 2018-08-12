@@ -60,7 +60,8 @@ describe Checkout::AddressesController do
       before do
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: { option_id: option.id }
+        post line_items_path,
+          params: { itemizable_type: option.class.name, itemizable_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'responds successfully' do
@@ -79,7 +80,8 @@ describe Checkout::AddressesController do
         test_sign_in(user, use_capybara: false)
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: { option_id: option.id }
+        post line_items_path,
+          params: { itemizable_type: option.class.name, itemizable_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'populates form with user addresses' do
@@ -94,7 +96,8 @@ describe Checkout::AddressesController do
         test_sign_in(user, use_capybara: false)
         product = create(:product)
         option = create(:option, product: product)
-        post line_items_path, params: { option_id: option.id }
+        post line_items_path,
+          params: { itemizable_type: option.class.name, itemizable_id: option.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'creates new order.address record' do
@@ -108,7 +111,8 @@ describe Checkout::AddressesController do
     before do
       product = create(:product)
       option = create(:option, product: product)
-      post line_items_path, params: { option_id: option.id }
+      post line_items_path,
+        params: { itemizable_type: option.class.name, itemizable_id: option.id }
       @cart = Cart.last
       get new_checkout_address_path(@cart)
     end
@@ -116,11 +120,12 @@ describe Checkout::AddressesController do
     context 'as a guest with valid addresses' do
       before do
         valid_address = attributes_for(:address)
-        post checkout_addresses_path(@cart), params: {
-          order: { addresses_attributes:
-            { "0" => valid_address, "1" => valid_address }
+        post checkout_addresses_path(@cart),
+          params: {
+            order: {
+              addresses_attributes: { "0" => valid_address, "1" => valid_address }
+            }
           }
-        }
       end
       it 'redirects to products path' do
         expect(response).to redirect_to new_checkout_shipping_path(@cart)
@@ -133,12 +138,13 @@ describe Checkout::AddressesController do
     context 'copy billing address to shipping address' do
       before do
         valid_address = attributes_for(:address)
-        post checkout_addresses_path(@cart), params: {
-          order: {
-            use_billing: 'yes',
-            addresses_attributes: { "0" => valid_address }
+        post checkout_addresses_path(@cart),
+          params: {
+            order: {
+              use_billing: 'yes',
+              addresses_attributes: { "0" => valid_address }
+            }
           }
-        }
       end
       it 'copies the address' do
         expect(@cart.order.addresses.billing_address.address_1).to eq(@cart.order.addresses.shipping_address.address_1)

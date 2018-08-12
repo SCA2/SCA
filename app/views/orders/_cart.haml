@@ -1,0 +1,43 @@
+%fieldset
+  %legend Cart Contents
+  %table.main-cart
+    %tr#header
+      %th#line Line
+      %th#item Item
+      %th#description Description
+      %th#quantity Quantity
+      %th#price Price
+      %th#ext Ext
+    - @cart.line_items.each_with_index do |line_item, index|
+      %tr
+        %td.line-cell= index + 1
+        %td.item-cell= link_to line_item.item_model, line_item.item
+        %td.description-cell= link_to line_item.item_description, line_item.item
+        %td.quantity-cell{style: "text-align: center"}
+          = line_item.quantity
+        %td.price-cell
+          = cents_to_dollars(line_item.price_in_cents, precision: 0)
+        %td.price-cell
+          = cents_to_dollars(line_item.extended_price, precision: 2)
+    %tr
+      %td.divider-cell{colspan: "6"}
+    %tr#discount-line
+      %td.total-cell{colspan: "5"} Package Discount
+      %td.total-cell
+        = cents_to_dollars(@cart.discount, precision: 2)
+    %tr#subtotal-line
+      %td.total-cell{colspan: "5"} Subtotal
+      %td.total-cell
+        = cents_to_dollars(@order.subtotal, precision: 2)
+    %tr#salestax-line
+      %td.total-cell{colspan: "5"} Sales Tax
+      %td.total-cell
+        = cents_to_dollars(@order.sales_tax, precision: 2)
+    %tr#shipping-line
+      %td.total-cell{colspan: "5"} Shipping
+      %td.total-cell
+        = cents_to_dollars(@order.shipping_cost, precision: 2)
+    %tr#total-line
+      %td.total-cell{colspan: "5"} Total
+      %td.total-cell
+        = cents_to_dollars(@order.total, precision: 2)

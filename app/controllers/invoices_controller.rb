@@ -3,7 +3,7 @@ class InvoicesController < BaseController
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
 
   before_action :signed_in_admin
-  
+
   def index
     @invoices = Cart.invoices
   end
