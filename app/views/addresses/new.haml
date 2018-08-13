@@ -1,0 +1,16 @@
+- provide(:title, 'New Address')
+.box_2
+  .row
+    .small-9.columns
+      .addresses
+        = render 'shared/progress_bar'
+        .billing-address
+          = form_for [@addressable,  @address] do |f|
+            = render 'shared/errors', object: f.object
+            = render 'address_form', f: f, type: @type
+            = f.submit 'Save', class: 'button'
+      .actions
+        = link_to 'Back to Cart', :back, class: 'button', id: 'back'
+        = button_to 'Continue Checkout', new_order_path, class: 'button', id: 'continue'
+    .small-3.columns.sidebar
+      = render 'layouts/sidebar_left'

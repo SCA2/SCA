@@ -1,0 +1,35 @@
+%fieldset.address
+  %legend= f.object.address_type.capitalize + " Address"
+  %table.address-table
+    = f.hidden_field :address_type, value: f.object.address_type
+    %tr.field
+      %td.label= f.label :first_name
+      %td.input= f.text_field :first_name
+    %tr.field
+      %td.label= f.label :last_name
+      %td.input= f.text_field :last_name
+    %tr.field
+      %td.label= f.label :address_1
+      %td.input= f.text_field :address_1
+    %tr.field
+      %td.label= f.label :address_2
+      %td.input= f.text_field :address_2
+    %tr.field
+      %td.label= f.label :city, 'City'
+      %td.input= f.text_field :city
+    %tr.field
+      %td.label= f.label :state_code, 'State'
+      %td.input
+        = render partial: 'addresses/subregion_select', |
+          locals: { select_name: f.object_name,         |
+          subregion: f.object.state_code,               |
+          parent_region: f.object.country }             |
+    %tr.field
+      %td.label= f.label :country, 'Country'
+      %td.input= f.country_select :country, priority: %w{ US }, selected: f.object.country
+    %tr.field
+      %td.label= f.label :post_code, 'Post Code'
+      %td.input= f.text_field :post_code
+    %tr.field
+      %td.label= f.label :telephone
+      %td.input= f.text_field :telephone
