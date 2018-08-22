@@ -17,8 +17,8 @@ describe InventoryCalculator do
     # add kit to kit inventory
 
     it 'makes kits' do
-      allow(kf_2s).to receive(:is_kit?) {true}
-      allow(kf_2h).to receive(:is_kit?) {true}
+      allow(kf_2s).to receive(:is_kit?) { true }
+      allow(kf_2h).to receive(:is_kit?) { true }
 
       kf_2s.kit_stock = 0
       kf_2h.kit_stock = 0
@@ -31,8 +31,11 @@ describe InventoryCalculator do
       create(:bom_item, bom: kf_2h.bom, component: c_1, quantity: 1)
       create(:bom_item, bom: kf_2h.bom, component: c_3, quantity: 1)
 
-      InventoryCalculator.new(option: kf_2s).make_kits(quantity: 1)
-      InventoryCalculator.new(option: kf_2h).make_kits(quantity: 1)
+      item_2s = build(:line_item, itemizable: kf_2s, quantity: 1)
+      item_2h = build(:line_item, itemizable: kf_2h, quantity: 1)
+
+      InventoryCalculator.new(item: item_2h).make_kits
+      InventoryCalculator.new(item: item_2s).make_kits
 
       # reserve common parts for each kit
       expect(kf_2s.common_stock).to eq(8)
@@ -47,13 +50,19 @@ describe InventoryCalculator do
       expect(kf_2h.kit_stock).to eq(2)
     end
 
+    it 'sells a component' do
+      item = build(:line_item, itemizable: c_1, quantity: 2)
+      ic = InventoryCalculator.new(item: item)
+      expect { ic.sell_components }.to change { c_1.stock }.by(-item.quantity)
+    end
+
     # sell a kit:
     # subtract components unique to product kf_2s from component inventory
     # subtract kit from kit inventory
 
     it 'sells an in-stock kit' do
-      allow(kf_2s).to receive(:is_kit?) {true}
-      allow(kf_2h).to receive(:is_kit?) {true}
+      allow(kf_2s).to receive(:is_kit?) { true }
+      allow(kf_2h).to receive(:is_kit?) { true }
 
       kf_2s.assembled_stock = 8
       kf_2s.partial_stock = 8
@@ -67,7 +76,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: kf_2h.bom, component: c_1, quantity: 1)
       create(:bom_item, bom: kf_2h.bom, component: c_3, quantity: 1)
 
-      InventoryCalculator.new(option: kf_2s).sell_kits(quantity: 1)
+      item_2s = build(:line_item, itemizable: kf_2s, quantity: 1)
+
+      InventoryCalculator.new(item: item_2s).sell_kits
 
       expect(kf_2s.assembled_stock).to eq(8)
       expect(kf_2s.partial_stock).to eq(8)
@@ -85,8 +96,10 @@ describe InventoryCalculator do
       cmp_2 = create(:component, stock: 50)
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
+
+      item = build(:line_item, itemizable: option, quantity: 2)
       
-      InventoryCalculator.new(option: option).sell_kits(quantity: 2)
+      InventoryCalculator.new(item: item).sell_kits
 
       expect(option.assembled_stock).to eq(1)
       expect(option.partial_stock).to eq(1)
@@ -107,7 +120,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).make_partials(quantity: 1)
+      item = build(:line_item, itemizable: option, quantity: 1)
+
+      InventoryCalculator.new(item: item).make_partials
 
       expect(option.common_stock).to eq(99)
       expect(option.partial_stock).to eq(1)
@@ -129,7 +144,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).make_assemblies(quantity: 1)
+      item = build(:line_item, itemizable: option, quantity: 1)
+
+      InventoryCalculator.new(item: item).make_assemblies
 
       expect(option.partial_stock).to eq(0)
       expect(option.assembled_stock).to eq(1)
@@ -146,7 +163,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).subtract_stock(quantity: 1)
+      item = build(:line_item, itemizable: option, quantity: 1)
+
+      InventoryCalculator.new(item: item).subtract_stock
 
       expect(option.common_stock).to eq(99)
     end
@@ -165,7 +184,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).subtract_stock(quantity: 1)
+      item = build(:line_item, itemizable: option, quantity: 1)
+
+      InventoryCalculator.new(item: item).subtract_stock
 
       expect(option.assembled_stock).to eq(7)
       expect(option.partial_stock).to eq(8)
@@ -184,7 +205,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).subtract_stock(quantity: 4)
+      item = build(:line_item, itemizable: option, quantity: 4)
+
+      InventoryCalculator.new(item: item).subtract_stock
 
       expect(option.assembled_stock).to eq(0)
       expect(option.partial_stock).to eq(0)
@@ -207,7 +230,9 @@ describe InventoryCalculator do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 2)
 
-      InventoryCalculator.new(option: option).make_kits(quantity: 2)
+      item = build(:line_item, itemizable: option, quantity: 2)
+
+      InventoryCalculator.new(item: item).make_kits
 
       expect(product.common_stock).to eq(8)
       expect(product.kit_stock).to eq(3)

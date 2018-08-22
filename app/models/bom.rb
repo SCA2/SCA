@@ -1,5 +1,7 @@
 class Bom < ApplicationRecord
   belongs_to :option, inverse_of: :bom
+  belongs_to :component, inverse_of: :bom
+
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 
   validates :option, presence: true
@@ -30,14 +32,22 @@ class Bom < ApplicationRecord
     stock.reject { |i| i.nil? }.min
   end
 
-  def subtract_stock(items, n)
+  def lead_time
+    bom_items.map { |i| i.component.lead_time }.max
+  end
+
+  def subtract_stock(items, quantity)
     self.transaction do
       items.each do |i|
         next unless i.bom == self
-        new_stock = i.component.stock - n * i.quantity
-        i.component.update!(stock: new_stock)
+        i.component.pick!(quantity: quantity * i.quantity)
       end
     end
+  end
+
+  def pick(quantity: 0)
+    # byebug
+    subtract_stock(items, quantity)
   end
 
   def add_stock(n)
@@ -53,6 +63,7 @@ class Bom < ApplicationRecord
 private
 
   def items
-    @items ||= Bom.includes(bom_items: [:component]).find(self.id).bom_items
+    # @items ||= Bom.includes(bom_items: [:component]).find(self.id).bom_items
+    @items ||= bom_items.includes(:component)
   end
 end

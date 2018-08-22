@@ -27,7 +27,35 @@ describe Bom do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      # byebug
+      expect(bom.stock).to eq 3
+    end
+
+    it 'can report compound stock' do
+      cmp_1 = create(:component, stock: 2)
+      cmp_2 = create(:component, stock: 3)
+      bom_1 = create(:bom)
+      create(:bom_item, bom: bom_1, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom_1, component: cmp_2, quantity: 1)
+
+      expect(bom_1.stock).to eq 2
+
+      cmp_3 = create(:component, stock: 0, bom: bom_1)
+      cmp_4 = create(:component, stock: 10)
+      bom_2 = create(:bom)
+      create(:bom_item, bom: bom_2, component: cmp_3, quantity: 1)
+      create(:bom_item, bom: bom_2, component: cmp_4, quantity: 2)
+      
+      expect(bom_2.stock).to eq 2
+    end
+
+    it 'ignores lines with quantity of 0' do
+      bom = create(:bom)
+      cmp_1 = create(:component, stock: 5)
+      cmp_2 = create(:component, stock: 6)
+      cmp_3 = create(:component, stock: 7)
+      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
+      create(:bom_item, bom: bom, component: cmp_2, quantity: 0)
+      create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
       expect(bom.stock).to eq 3
     end
 

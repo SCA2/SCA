@@ -53,10 +53,23 @@ class OptionsController < BaseController
 
 private
   def handle_inventory
-    inv_calc = InventoryCalculator.new(option: @option_editor.option)
-    inv_calc.make_kits(quantity: @option_editor.kits_to_make)
-    inv_calc.make_partials(quantity: @option_editor.partials_to_make)
-    inv_calc.make_assemblies(quantity: @option_editor.assembled_to_make)
+    item = LineItem.new(
+      itemizable: @option_editor.option,
+      quantity: @option_editor.kits_to_make
+    )
+    InventoryCalculator.new(item: item).make_kits
+
+    item = LineItem.new(
+      itemizable: @option_editor.option,
+      quantity: @option_editor.partials_to_make
+    )
+    InventoryCalculator.new(item: item).make_partials
+
+    item = LineItem.new(
+      itemizable: @option_editor.option,
+      quantity: @option_editor.assembled_to_make
+    )
+    InventoryCalculator.new(item: item).make_assemblies
   end
 
   def set_option

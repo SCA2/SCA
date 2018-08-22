@@ -124,11 +124,9 @@ class Cart < ApplicationRecord
   
   def inventory
     line_items.each do |item|
-      if item.itemizable_type == 'Option'
-        calculator = InventoryCalculator.new(option: item.option)
-        calculator.subtract_stock(quantity: item.quantity)
-        calculator.save_inventory
-      end
+      calculator = InventoryCalculator.new(item: item)
+      calculator.subtract_stock
+      calculator.save_inventory
     end
   end
 
