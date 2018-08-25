@@ -12,7 +12,7 @@ class OrdersController < BaseController
     @billing = @order.billing_address
     @shipping = @order.shipping_address
 
-    if !@order.valid? || @billing == nil || @shipping == nil || @cart == nil
+    if @order.invalid? || @billing.nil? || @shipping.nil? || @cart.nil?
       redirect_to orders_path, alert: "Invalid record" and return
     end
   end
