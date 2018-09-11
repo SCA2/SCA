@@ -110,7 +110,9 @@ describe Checkout::AddressesController do
   describe "POST #create" do
     before do
       product = create(:product)
-      option = create(:option, product: product)
+      tag = create(:size_weight_price_tag)
+      component = create(:component, size_weight_price_tag: tag)
+      option = create(:option, product: product, component: component)
       post line_items_path,
         params: { itemizable_type: option.class.name, itemizable_id: option.id }
       @cart = Cart.last

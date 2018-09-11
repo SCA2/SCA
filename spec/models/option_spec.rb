@@ -2,30 +2,30 @@ require 'rails_helper'
 
 describe Option do
 
-  let(:product) { create(:product) }
-  let(:option) { build(:option, product: product) }
+  let(:product)   { create(:product) }
+  let(:component) { create(:component) }
+  let(:option)    { build(:option, product: product, component: component) }
   
   subject { option }
   
   it { should be_valid }
   
-  it { should respond_to(:product_id) }
+  it { should respond_to(:product) }
+  it { should respond_to(:component) }
+  it { should respond_to(:sort_order) }
+  it { should respond_to(:active?) }
+
+  it { should respond_to(:upc) }
   it { should respond_to(:model) }
   it { should respond_to(:description) }
-  it { should respond_to(:price) }
-  it { should respond_to(:price_in_cents) }
-  it { should respond_to(:upc) }
-  it { should respond_to(:shipping_weight) }
-  it { should respond_to(:sort_order) }
-  it { should respond_to(:discount) }
-  it { should respond_to(:discount_in_cents) }
+  it { should respond_to(:full_price) }
+  it { should respond_to(:full_price_in_cents) }
+  it { should respond_to(:discount_price) }
+  it { should respond_to(:discount_price_in_cents) }
   it { should respond_to(:shipping_length) }
   it { should respond_to(:shipping_width) }
   it { should respond_to(:shipping_height) }
-  it { should respond_to(:assembled_stock) }
-  it { should respond_to(:active) }
-  it { should respond_to(:active?) }
-  it { should respond_to(:bom) }
+  it { should respond_to(:shipping_weight) }
 
   it { expect(option.product).to eql product }
 
@@ -40,49 +40,55 @@ describe Option do
     it 'is destroyed with associated product' do
       product = create(:product)
       create(:option, product: product)
-      expect {product.destroy}.to change {Option.count}.by(-1)
+      expect { product.destroy }.to change { Option.count }.by(-1)
     end
     
     it 'does not destroy associated product when destroyed' do
       product = create(:product)
       option = create(:option, product: product)
-      expect {option.destroy}.not_to change {Product.count}
+      expect { option.destroy }.not_to change { Product.count }
+    end
+  end
+
+  describe 'component associations' do
+    it 'restricts associated component destroy' do
+      component = create(:component)
+      create(:option, component: component)
+      expect { component.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
+    end
+    
+    it 'does not destroy associated component when destroyed' do
+      component = create(:component)
+      option = create(:option, component: component)
+      expect { option.destroy }.not_to change { Component.count }
     end
   end
 
   describe 'line item associations' do
     it 'can have multiple line_items' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      create(:line_item, cart: cart, itemizable: option)
-      create(:line_item, cart: cart, itemizable: option)
+      option = create(:option)
+      create(:line_item, itemizable: option)
+      create(:line_item, itemizable: option)
       expect(option.line_items.count).to eq 2
     end
     
     it 'is not deleted with associated line_item' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, cart: cart, itemizable: option)
-      expect {line.destroy}.not_to change {Option.count}
+      option = create(:option)
+      line = create(:line_item, itemizable: option)
+      expect { line.destroy }.not_to change { Option.count }
     end
     
     it 'line_item association does not constrain line_item destroy' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, cart: cart, itemizable: option)
-      expect {line.destroy}.to change {LineItem.count}.by(-1)
+      option = create(:option)
+      line = create(:line_item, itemizable: option)
+      expect { line.destroy }.to change { LineItem.count }.by(-1)
     end
 
     it 'line_item association constrains option destroy' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      create(:line_item, cart: cart, itemizable: option)
+      option = create(:option)
+      create(:line_item, itemizable: option)
       count = Option.count
-      expect {option.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
+      expect { option.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
       expect(Option.count).to eq(count)
     end
   
@@ -96,213 +102,46 @@ describe Option do
     end
   end
 
-  describe 'bom associations' do
-    it 'can create a bom' do
-      product = create(:product)
-      option = create(:option, product: product)
-      expect{create(:bom, option: option)}.to change {Bom.count}.by(1)
-    end
-
-    it 'has one unique bom' do
-      product = create(:product)
-      option = create(:option, product: product)
-      create(:bom, option: option)
-      expect{create(:bom, option: option)}.to raise_error ActiveRecord::RecordInvalid
-    end
-
-    it 'should destroy associated bom' do
-      product = create(:product)
-      option = create(:option, product: product)
-      create(:bom, option: option)
-      expect {option.destroy}.to change {Bom.count}.by(-1)
-    end
-
-    it 'is not destroyed with associated bom' do
-      product = create(:product)
-      option = create(:option, product: product)
-      bom = create(:bom, option: option)
-      expect {bom.destroy}.not_to change {Option.count}
-    end
-  end
-
-  describe 'calculations' do  
-    it 'calculates price_in_cents' do
-      option.price = 1
-      expect(option.price_in_cents).to eq(100)
-    end
-
-    it 'calculates discount_in_cents' do
-      option.discount = 1
-      expect(option.discount_in_cents).to eq(100)
-    end
-  end
-
-  describe 'option type' do
-
-    it 'self-identifies as kit' do
-      option.model = 'KF-2S'
-      expect(option.is_kit?).to be true
-      expect(option.is_assembled?).to be false
-    end
-
-    it 'self-identifies as assembled' do
-      option.model = 'KA-2H'
-      expect(option.is_kit?).to be false
-      expect(option.is_assembled?).to be true
-    end
-  end  
-
-  describe 'inventory' do
-
-    let(:prod_1) { create(:product) }
-    let(:prod_2) { create(:product) }
-
-    let(:op_1) { build(:option, product: prod_1) }
-    let(:op_2) { build(:option, product: prod_1) }
-    let(:op_3) { build(:option, product: prod_2) }
-    let(:op_4) { build(:option, product: prod_2) }
-
-    let(:c_1) { build(:component, stock: 6) }
-    let(:c_2) { build(:component, stock: 6) }
-    let(:c_3) { build(:component, stock: 6) }
-
-    # common_stock = components common to all product options / quantity
-    # option_stock = components unique to this option / quantity
-    # limiting_stock = minimum of common_stock and option_stock
-
-    it 'reports correct common stock' do
-      allow(op_1).to receive(:is_kit?) {true}
-      allow(op_3).to receive(:is_assembled?) {true}
-
-      op_1.kit_stock = 0
-
-      create(:bom, option: op_1)
-      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 2)
-      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 1)
-
-      create(:bom, option: op_3)
-      create(:bom_item, bom: op_3.bom, component: c_1, quantity: 3)
-      create(:bom_item, bom: op_3.bom, component: c_3, quantity: 1)
-
-      expect(op_1.common_stock).to eq(3)
-      expect(op_3.common_stock).to eq(2)
-    end
-
-    it 'reports correct option stock for single option' do
-      allow(op_1).to receive(:is_kit?) {true}
-
-      op_1.kit_stock = 0
-
-      create(:bom, option: op_1)
-      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 2)
-      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 1)
-
-      expect(op_1.option_stock).to eq(3)
-    end
-
-    it 'reports correct common and option stock for multiple options' do
-      allow(op_1).to receive(:is_kit?) {true}
-      allow(op_2).to receive(:is_kit?) {true}
-
-      op_1.kit_stock = 0
-      op_2.kit_stock = 0
-
-      create(:bom, option: op_1)
-      create(:bom_item, bom: op_1.bom, component: c_1, quantity: 1)
-      create(:bom_item, bom: op_1.bom, component: c_2, quantity: 2)
-
-      create(:bom, option: op_2)
-      create(:bom_item, bom: op_2.bom, component: c_1, quantity: 1)
-      create(:bom_item, bom: op_2.bom, component: c_3, quantity: 3)
-
-      expect(op_1.common_stock).to eq(6)
-      expect(op_2.common_stock).to eq(6)
-      expect(op_1.option_stock).to eq(3)
-      expect(op_2.option_stock).to eq(2)
-    end
-  end
-
   describe 'stock messages' do
     let(:op) { build(:option) }
     it 'reports correct message for disabled?' do
       allow(op).to receive(:disabled?)  { true }
       expect(op.stock_message).to eq('Not available at this time')
     end
-    it 'reports correct message for kit_stock > cutoff' do
+
+    it 'reports correct message for stock > cutoff' do
       allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_kit?)  { true }
-      allow(op).to receive(:kit_stock)  { Option::STOCK_CUTOFF + 1 }
+      allow(op.component).to receive(:stock)  { Option::STOCK_CUTOFF + 1 }
+      allow(op.component).to receive(:lead_time)  { 0 }
       expect(op.stock_message).to eq('Can ship today')
-    end
-    it 'reports correct message for kit_stock > 0' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_kit?)  { true }
-      allow(op).to receive(:kit_stock)  { 1 }
-      expect(op.stock_message).to eq('1 can ship today')
-    end
-    it 'reports correct message for kit_stock <= 0 and limiting_stock > STOCK_CUTOFF' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_kit?)  { true }
-      allow(op).to receive(:kit_stock)  { 0 }
-      allow(op).to receive(:limiting_stock)  { Option::STOCK_CUTOFF + 1 }
-      expect(op.stock_message).to eq('Can ship in 3 to 5 days')
-    end
-    it 'reports correct message for kit_stock <= 0 and limiting_stock > 0' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_kit?)  { true }
-      allow(op).to receive(:kit_stock)  { 0 }
-      allow(op).to receive(:limiting_stock)  { 1 }
-      expect(op.stock_message).to eq('1 can ship in 3 to 5 days')
-    end
-    it 'reports correct message for kit_stock <= 0 and limiting_stock <= 0' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_kit?)  { true }
-      allow(op).to receive(:kit_stock)  { 0 }
-      allow(op).to receive(:limiting_stock)  { 0 }
-      expect(op.stock_message).to include('lead time')
     end
 
-    it 'reports correct message for assembled_stock > cutoff' do
+    it 'reports correct message for stock > 0' do
       allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { Option::STOCK_CUTOFF + 1 }
-      expect(op.stock_message).to eq('Can ship today')
-    end
-    it 'reports correct message for assembled_stock > 0' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { 1 }
+      allow(op.component).to receive(:stock)  { 1 }
+      allow(op.component).to receive(:lead_time)  { 0 }
       expect(op.stock_message).to eq('1 can ship today')
     end
-    it 'reports correct message for assembled_stock <= 0 and partial_stock > STOCK_CUTOFF' do
+
+    it 'reports correct message for stock <= 0 and lead_time <= cutoff' do
       allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { 0 }
-      allow(op).to receive(:partial_stock)  { Option::STOCK_CUTOFF + 1 }
-      expect(op.stock_message).to eq('Can ship in 3 to 5 days')
+      allow(op.component).to receive(:stock)  { 0 }
+      allow(op.component).to receive(:lead_time)  { 3 }
+      expect(op.stock_message).to eq("Can ship in 3 days")
     end
-    it 'reports correct message for assembled_stock <= 0 and partial_stock > 0' do
+
+    it 'reports correct message for stock <= 0 and lead_time <= cutoff' do
       allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { 0 }
-      allow(op).to receive(:partial_stock)  { 1 }
-      expect(op.stock_message).to eq('1 can ship in 3 to 5 days')
+      allow(op.component).to receive(:stock)  { 0 }
+      allow(op.component).to receive(:lead_time)  { 1 }
+      expect(op.stock_message).to eq("Can ship in 1 day")
     end
-    it 'reports correct message for assembled_stock <= 0 and partial_stock <= 0' do
+
+    it 'reports correct message for stock <= 0 and lead_time > cutoff' do
       allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { 0 }
-      allow(op).to receive(:partial_stock)  { 0 }
-      allow(op).to receive(:limiting_stock)  { 1 }
-      expect(op.stock_message).to eq('1 can ship in 1 to 2 weeks')
-    end
-    it 'reports correct message for assembled_stock <= 0 and partial_stock <= 0' do
-      allow(op).to receive(:disabled?)  { false }
-      allow(op).to receive(:is_assembled?)  { true }
-      allow(op).to receive(:assembled_stock)  { 0 }
-      allow(op).to receive(:partial_stock)  { 0 }
-      allow(op).to receive(:limiting_stock)  { 0 }
-      expect(op.stock_message).to include('lead time')
+      allow(op.component).to receive(:stock)  { 0 }
+      allow(op.component).to receive(:lead_time)  { Option::LEAD_TIME_CUTOFF + 1 }
+      expect(op.stock_message).to include('for lead time')
     end
   end
 end

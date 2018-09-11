@@ -1,11 +1,11 @@
-= provide(:title, "Edit #{@option_editor.product_model} option #{@option_editor.option_model}")
+= provide(:title, "Edit #{@product.model} option #{@option.model}")
 
 .box_2
 	.row
 		.small-12.columns
-			= form_for @option_editor, url: product_option_path(@product, @option), method: :put do |f|
+			= form_for @option, url: product_option_path(@product, @option), method: :put do |f|
 				= render 'shared/errors', object: f.object
-				= render partial: 'form', locals: { f: f, legend: "Edit #{@option_editor.product_model} option #{@option_editor.option_model}"}
+				= render partial: 'form', locals: { f: f, legend: "Edit Product: #{@option.product.model} - Option: #{@option.component.item_model}"}
 				.admin-box
 					= f.submit "Update", class: "button admin"
 					= link_to "Quit", product_path(@product), class: "button admin"

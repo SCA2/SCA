@@ -1,0 +1,12 @@
+= provide(:title, "Edit #{@component.mfr_part_number} tag #{@tag.id}")
+
+.box_2
+	.row
+		.small-12.columns
+			= form_for @tag, url: component_tag_path(@component, @tag), method: :put do |f|
+				= render 'shared/errors', object: f.object
+				= render partial: 'form', locals: { f: f, legend: "Edit Tag"}
+				.admin-box
+					= f.submit "Update", class: "button admin"
+					= link_to "Quit", component_path(@component), class: "button admin"
+					= link_to "Delete", component_tag_path(@component, @tag), method: :delete, class: "button admin", data: { confirm: 'Are you sure?' }

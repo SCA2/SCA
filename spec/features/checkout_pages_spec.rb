@@ -13,9 +13,9 @@ feature 'standard stripe checkout', :vcr do
     @state = 'California'
     @address = build(:billing_constant_taxable)
     @product = create(:n72)
-    create(:feature, product: @product)
-    option = create(:ka, product: @product)
-    create(:bom, option: option)
+    tag = create(:n72_tag)
+    component = create(:component, size_weight_price_tag: tag)
+    option = create(:option, product: @product, component: component)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }

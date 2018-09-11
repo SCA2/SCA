@@ -98,9 +98,6 @@ def fill_in_feature(feature)
   fill_in "Description:", with: feature.description
 end
 
-def fill_in_bom(bom)
-end
-
 def fill_in_bom_item(item)
   fill_in "Qty", with: item.quantity
   fill_in "Ref", with: item.reference

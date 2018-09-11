@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :bom do
-    association :option
+    association :component
   end
 end

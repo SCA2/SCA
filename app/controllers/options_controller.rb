@@ -1,33 +1,30 @@
 class OptionsController < BaseController
 
   before_action :signed_in_admin
+  before_action :set_product_and_options
   before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
-    @option_editor = OptionEditor.new(all_params)
-  end
-
-
-  def edit
-    @option_editor = OptionEditor.new(all_params)
+    @components = Component.priced.joins(:option).where.not(options: { id: @options })
+    next_sort_order = @options.last ? @options.last.sort_order + 10 : 10
+    @option = Option.new(sort_order: next_sort_order)
+    @component = @components.first
   end
 
   def create
-    @option_editor = OptionEditor.new(all_params)
-    handle_inventory if @option_editor.valid?
-    if @option_editor.save
-      flash[:notice] = "Success! Option #{ @option_editor.option_model } created."
-      redirect_to edit_bom_path(@option_editor.bom)
+    @option = @product.options.build(option_params)
+    if @option.save
+      flash[:notice] = "Success! Option #{ @option.component.item_model } created."
+      redirect_to @product
     else
       render action: 'new'
     end
   end
 
   def update
-    @option_editor = OptionEditor.new(all_params)
-    handle_inventory if @option_editor.valid?
-    if @option_editor.save
-      flash[:notice] = "Success! Option #{ @option_editor.option_model } updated."
+    @option.update(option_params)
+    if @option.save
+      flash[:notice] = "Success! Option #{ @option.component.item_model } updated."
       redirect_to @product
     else
       render action: 'edit'
@@ -52,39 +49,22 @@ class OptionsController < BaseController
   end
 
 private
-  def handle_inventory
-    item = LineItem.new(
-      itemizable: @option_editor.option,
-      quantity: @option_editor.kits_to_make
-    )
-    InventoryCalculator.new(item: item).make_kits
 
-    item = LineItem.new(
-      itemizable: @option_editor.option,
-      quantity: @option_editor.partials_to_make
-    )
-    InventoryCalculator.new(item: item).make_partials
-
-    item = LineItem.new(
-      itemizable: @option_editor.option,
-      quantity: @option_editor.assembled_to_make
-    )
-    InventoryCalculator.new(item: item).make_assemblies
-  end
-
-  def set_option
+  def set_product_and_options
     @product = get_product(params[:product_id])
-    if @product.options.any?
-      @option = view_context.get_current_option(@product)
-    else
+    @options = @product.options.sorted
+  end
+  
+  def set_option
+    @option = Option.find(params.require(:id))
+    unless @option
       flash[:alert] = 'Product must have at least one option!'
       redirect_to new_product_option_path(@product)
     end
   end
 
-  def all_params
-    params.permit(:id, :product_id, option_editor: [:model, :description, :price, :discount, :upc, :active, :sort_order, :shipping_weight, :shipping_length, :shipping_width, :shipping_height, :assembled_stock, :kit_stock, :partial_stock, :kits_to_make, :partials_to_make, :assembled_to_make])
+  def option_params
+    params.require(:option).permit(:active, :sort_order, :component_id)
   end
-
 
 end

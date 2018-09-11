@@ -2,5 +2,5 @@
   %td.item-cell= link_to line_item.item_model, line_item.item
   %td.description-cell= link_to line_item.item_description, line_item.item
   %td.quantity-cell= line_item.quantity
-  %td.price-cell= cents_to_dollars(line_item.price_in_cents, precision: 0)
+  %td.price-cell= cents_to_dollars(line_item.full_price_in_cents, precision: 0)
   %td.price-cell= cents_to_dollars(line_item.extended_price, precision: 0)

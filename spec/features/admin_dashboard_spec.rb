@@ -101,11 +101,12 @@ feature 'admin dashboard' do
       3.times do
         cart = create(:cart, purchased_at: Date.yesterday.noon)
         order = create(:order, cart: cart)
-        product = create(:product)
-        option = create(:option, price: 100, product: product)
-        line_item = create(:line_item, quantity: 3, cart: cart, option: option)
         create(:billing, addressable: order)
         create(:shipping, addressable: order)
+        tag = create(:size_weight_price_tag, full_price: 100)
+        component = create(:component, size_weight_price_tag: tag)
+        option = create(:option, component: component)
+        line_item = create(:line_item, quantity: 3, cart: cart, option: option)
         create(:transaction, order: order)
       end
       visit '/orders'
@@ -114,8 +115,9 @@ feature 'admin dashboard' do
     end
 
     scenario 'send ship notification email' do
-      product = create(:product)
-      option = create(:option, product: product)
+      tag = create(:size_weight_price_tag)
+      component = create(:component, size_weight_price_tag: tag)
+      option = create(:option, component: component)
       cart = create(:cart, purchased_at: Date.yesterday.noon)
       create(:line_item, cart: cart, option: option)
       order = create(:order, cart: cart)
@@ -134,8 +136,9 @@ feature 'admin dashboard' do
     end
 
     scenario 'print packing slip' do
-      product = create(:product)
-      option = create(:option, product: product)
+      tag = create(:size_weight_price_tag)
+      component = create(:component, size_weight_price_tag: tag)
+      option = create(:option, component: component)
       cart = create(:cart, purchased_at: Date.yesterday.noon)
       create(:line_item, cart: cart, option: option)
       order = create(:order, cart: cart)
@@ -196,8 +199,9 @@ feature 'admin dashboard' do
 
     scenario 'view sales tax', :vcr do
       3.times do
-        product = create(:product)
-        option = create(:option, price: 100, product: product)
+        tag = create(:size_weight_price_tag, full_price: 100)
+        component = create(:component, size_weight_price_tag: tag)
+        option = create(:option, component: component)
         line_item = create(:line_item, quantity: 1, option: option)
         cart = create(:cart, line_items: [line_item])
         cart.update(purchased_at: "01/01/2016".to_date.noon)

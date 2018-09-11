@@ -4,11 +4,11 @@ describe Checkout::TransactionsController do
   describe "GET #new" do
     before do
       @cart = create(:cart)
-      product = create(:n72)
-      option = create(:ka, product: product)
-      bom = create(:bom, option: option)
+      tag = create(:size_weight_price_tag)
+      component = create(:component, size_weight_price_tag: tag)
+      bom = create(:bom, component: component)
       create(:bom_item, bom: bom)
-      create(:line_item, cart: @cart, itemizable: option)
+      create(:line_item, cart: @cart, itemizable: component)
       session[:cart_id] = @cart.id
       session[:progress] = 'current_path'
     end

@@ -4,10 +4,10 @@ describe Checkout::ConfirmationController do
   describe "GET #new" do
     context 'as a guest with confirmable order' do
       before do
-        product = create(:n72)
-        option = create(:ka, product: product)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
         cart = create(:cart)
-        create(:line_item, cart: cart, option: option)
+        create(:line_item, cart: cart, itemizable: component)
         order = create(:order, cart: cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -25,9 +25,9 @@ describe Checkout::ConfirmationController do
     context 'as a guest with an unconfirmable order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order,
           cart: @cart,
           express_token: nil,
@@ -51,9 +51,9 @@ describe Checkout::ConfirmationController do
     context 'as a guest with confirmable order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -74,9 +74,9 @@ describe Checkout::ConfirmationController do
     context 'as a guest with confirmable paypal express order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: 'token')
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -97,9 +97,9 @@ describe Checkout::ConfirmationController do
     context 'as a guest with unconfirmable order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
@@ -119,9 +119,9 @@ describe Checkout::ConfirmationController do
     context 'as a guest without confirmation' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

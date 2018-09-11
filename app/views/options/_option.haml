@@ -1,0 +1,20 @@
+.options-box(id="options-box-#{@product.id.to_s}")
+  - if @product.options.any? { |option| option.enabled? || signed_in_admin? }
+    = form_for :product, url: update_option_product_path(@product), method: :put, remote: true do |f|
+      = f.select :options, (options_for_select get_extended_models(@product), @option.id), {}, class: 'select-option', id: "select-#{@product.id.to_s}"
+    .actions-box
+      .add(id="add-#{@product.id.to_s}")
+        - if signed_in_admin?
+          = button_to 'Add to Cart', line_items_path(itemizable_type: 'Component', itemizable_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
+        - else
+          = button_to 'Add to Cart', line_items_path(itemizable_type: 'Component', itemizable_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
+      .price(id="price-#{@product.id.to_s}")
+        = get_price(@option)
+      .stock(id="stock-#{@product.id.to_s}")
+        = @option.stock_message
+      %br
+  - else
+    .actions-box
+      .notes(id="stock-#{@product.id.to_s}")
+        This product is no longer available
+      %br

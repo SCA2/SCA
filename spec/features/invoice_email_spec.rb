@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe "Send invoice notification" do
   before do
-    product = create(:product)
-    option = create(:option, product: product)
-    create(:bom, option: option)
+    tag = create(:size_weight_price_tag)
+    component = create(:component, size_weight_price_tag: tag)
+    option = create(:option, component: component)
     visit products_path
     first(:button, 'Add to Cart').click
     @cart = Cart.last

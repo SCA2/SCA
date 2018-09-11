@@ -5,9 +5,9 @@ describe Checkout::PaymentController do
     context 'as a guest with payable order' do
       before do
         cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: cart, itemizable: component)
         order = create(:order,
           cart: cart,
           express_token: nil,
@@ -28,9 +28,9 @@ describe Checkout::PaymentController do
     context 'as a guest with unpayable order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order,
           cart: @cart,
           shipping_cost: nil
@@ -53,9 +53,9 @@ describe Checkout::PaymentController do
     context 'as a guest with confirmed order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -79,9 +79,9 @@ describe Checkout::PaymentController do
     context 'as a guest with unpayable order' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         create(:order, cart: @cart, express_token: nil, shipping_cost: nil)
         session[:cart_id] = @cart.id
         post :update, params: {
@@ -103,9 +103,9 @@ describe Checkout::PaymentController do
     context 'as a guest with invalid payment details' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -129,9 +129,9 @@ describe Checkout::PaymentController do
     context 'as a guest with failed purchase' do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        tag = create(:constant_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

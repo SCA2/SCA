@@ -4,8 +4,8 @@ class BomImporter
 
   include ActiveModel::Model
 
-  attr_accessor :product, :option, :file, :url
-  attr_reader :products, :options, :bom
+  attr_accessor :component, :file, :url
+  attr_reader :components, :bom
 
   FIRST_COMPONENT_ROW = 2
 
@@ -13,21 +13,18 @@ class BomImporter
     @imported_components = nil
     @imported_bom_items = nil
     @spreadsheet = nil
-    @products = Product.joins(options: :bom).distinct.order(:sort_order)
-    return unless @products.present?
+    @components = Component.all
+    return unless @components.present?
     if attributes.empty?
       @bom = Bom.new
-      @product = @products.first
-      @option = product.options.first
+      @component = @components.first
     else
       attributes.each { |name, value| send("#{name}=", value) }
-      @product = Product.find(attributes[:product])
-      @option = Option.find(attributes[:option])
+      @component = Component.find(attributes[:component])
       @bom = @option.bom
       @spreadsheet = open_spreadsheet
       @spreadsheet.default_sheet = select_sheet(@spreadsheet)
     end
-    @options = @product.options.joins(:bom).order(:sort_order)
   end
 
   def persisted?
@@ -126,7 +123,7 @@ class BomImporter
   end
 
   def select_sheet(spreadsheet)
-    sheets = spreadsheet.sheets.select { |s| /#{@product.model}\d*_BOM/.match(s) }
+    sheets = spreadsheet.sheets.select { |s| /#{@component.mfr_part_number}\d*_BOM/.match(s) }
     sheets.empty? ? spreadsheet.sheets.first : sheets.first
   end
 

@@ -14,5 +14,5 @@
         %td.align-left= line_item.item_model
         %td.align-left= line_item.item_description
         %td.align-center= line_item.quantity
-        %td.align-right= cents_to_dollars(line_item.price_in_cents, precision: 0)
+        %td.align-right= cents_to_dollars(line_item.full_price_in_cents, precision: 0)
         %td.align-right= cents_to_dollars(line_item.extended_price, precision: 2)

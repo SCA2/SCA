@@ -2,6 +2,11 @@ class Component < ApplicationRecord
   has_many :line_items, as: :itemizable, inverse_of: :component
   has_many :bom_items, inverse_of: :component, dependent: :restrict_with_exception
   has_one :bom, inverse_of: :component
+  has_one :option, inverse_of: :component, dependent: :restrict_with_exception
+  has_one :size_weight_price_tag, inverse_of: :component, dependent: :destroy
+
+  delegate :shipping_length, :shipping_width, :shipping_height, :shipping_weight, to: :size_weight_price_tag
+  delegate :full_price_in_cents, :discount_price_in_cents, to: :size_weight_price_tag
 
   validates :mfr_part_number, :stock, :lead_time, presence: true
   validates :mfr_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
@@ -10,6 +15,8 @@ class Component < ApplicationRecord
   validates :lead_time, numericality: { only_integer: true, greater_than: 0 }
 
   default_scope -> { order :mfr_part_number }
+  scope :tagged, -> { joins(:size_weight_price_tag) }
+  scope :priced, -> { tagged.where.not(size_weight_price_tags: { full_price: 0 }) }
 
   def item_model
     mfr_part_number
@@ -17,30 +24,6 @@ class Component < ApplicationRecord
   
   def item_description
     description
-  end
-
-  def price_in_cents
-    0
-  end
-
-  def discount_in_cents
-    0
-  end
-
-  def shipping_length
-    0
-  end
-
-  def shipping_width
-    0
-  end
-
-  def shipping_height
-    0
-  end
-
-  def shipping_weight
-    0
   end
 
   def lead_time
@@ -52,7 +35,7 @@ class Component < ApplicationRecord
   end
 
   def stock
-    if bom && self[:stock] <= 0
+    if self[:stock] <= 0 && bom && bom.stock
       bom.stock
     else
       self[:stock]

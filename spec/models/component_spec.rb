@@ -12,6 +12,35 @@ describe Component do
   it { should respond_to(:stock) }
   it { should respond_to(:lead_time) }
 
+  # describe 'bom associations' do
+  #   it 'can create a bom' do
+  #     product = create(:product)
+  #     option = create(:option, product: product)
+  #     expect{create(:bom, option: option)}.to change {Bom.count}.by(1)
+  #   end
+
+  #   it 'has one unique bom' do
+  #     product = create(:product)
+  #     option = create(:option, product: product)
+  #     create(:bom, option: option)
+  #     expect{create(:bom, option: option)}.to raise_error ActiveRecord::RecordInvalid
+  #   end
+
+  #   it 'should destroy associated bom' do
+  #     product = create(:product)
+  #     option = create(:option, product: product)
+  #     create(:bom, option: option)
+  #     expect {option.destroy}.to change {Bom.count}.by(-1)
+  #   end
+
+  #   it 'is not destroyed with associated bom' do
+  #     product = create(:product)
+  #     option = create(:option, product: product)
+  #     bom = create(:bom, option: option)
+  #     expect {bom.destroy}.not_to change {Option.count}
+  #   end
+  # end
+
   describe 'bom_item associations' do
     it 'has many bom_items' do
       component = create(:component)

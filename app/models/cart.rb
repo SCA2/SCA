@@ -64,7 +64,7 @@ class Cart < ApplicationRecord
   end
 
   def discount_amount(line_items, combos)
-    combos * line_items.first.discount_in_cents
+    combos * line_items.first.discount_price_in_cents
   end
 
   def combo_discount(a_product, a_option, b_product, b_option)
@@ -118,18 +118,14 @@ class Cart < ApplicationRecord
     line_items.sum(&:extended_weight) * 16
   end
 
+  def inventory
+    line_items.each { |item| item.pick(quantity: item.quantity) }
+  end
+
   def intangible?
     max_dimension == 0 && weight == 0
   end
   
-  def inventory
-    line_items.each do |item|
-      calculator = InventoryCalculator.new(item: item)
-      calculator.subtract_stock
-      calculator.save_inventory
-    end
-  end
-
   def purchased?
     purchased_at && purchased_at < Time.zone.now
   end

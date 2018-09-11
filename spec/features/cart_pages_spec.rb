@@ -5,9 +5,9 @@ feature "Shopping Cart" do
 
     before(:all) do
       product = create(:product)
-      create(:feature, product: product)
-      option = create(:option, product: product)
-      create(:bom, option: option)
+      tag = create(:size_weight_price_tag)
+      component = create(:component, size_weight_price_tag: tag)
+      option = create(:option, product: product, component: component)
     end
 
     after(:all) { DatabaseCleaner.clean_with(:truncation) }

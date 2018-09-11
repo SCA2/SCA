@@ -1,0 +1,27 @@
+require 'rails_helper'
+
+describe OptionEditor do
+
+  let!(:product) { create(:product) }
+  let!(:option) { create(:option, product: product) }
+  let!(:bom) { create(:bom, option: option) }
+  let!(:bom_item) { create(:bom_item, bom: bom)}
+
+  describe 'associations' do
+    it 'has correct product' do
+      editor = create(:option_editor, product: product, option: option)
+      expect(editor.product).to eq product
+    end
+    
+    it 'has correct option' do
+      editor = create(:option_editor, product: product, option: option)
+      expect(editor.option).to eq option
+    end
+    
+    it 'has correct bom' do
+      editor = create(:option_editor, product: product, option: option)
+      expect(editor.bom).to eq bom
+    end
+  end
+  
+end

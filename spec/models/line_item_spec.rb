@@ -15,8 +15,8 @@ describe LineItem do
     
   it { should respond_to(:item_model) }
   it { should respond_to(:item_description) }
-  it { should respond_to(:price_in_cents) }
-  it { should respond_to(:discount_in_cents) }
+  it { should respond_to(:full_price_in_cents) }
+  it { should respond_to(:discount_price_in_cents) }
   it { should respond_to(:shipping_volume) }
   it { should respond_to(:shipping_weight) }
   it { should respond_to(:extended_price) }
@@ -102,25 +102,30 @@ describe LineItem do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:weight)    { 2 }
-    let(:option)    { build_stubbed(:option, price: price, shipping_weight: weight) }
+    let(:tag)       { build_stubbed(:size_weight_price_tag,
+      full_price: price,
+      shipping_weight: weight,
+      shipping_length: 2,
+      shipping_width: 2,
+      shipping_height: 2
+    )}
+    let(:component) { build_stubbed(:component, size_weight_price_tag: tag)}
+    let(:option)    { build_stubbed(:option, component: component) }
     let(:line_item) { build_stubbed(:line_item, itemizable: option, quantity: quantity) }
 
-    it 'returns the option price' do
-      expect(line_item.price_in_cents).to eql option.price_in_cents
+    it 'returns the tag price' do
+      expect(line_item.full_price_in_cents).to eql tag.full_price_in_cents
     end
 
     it 'calculates extended_price' do
-      expect(line_item.extended_price).to eql option.price_in_cents * quantity
+      expect(line_item.extended_price).to eql tag.full_price_in_cents * quantity
     end
     
     it 'calculates extended_weight' do
-      expect(line_item.extended_weight).to eql option.shipping_weight * quantity
+      expect(line_item.extended_weight).to eql tag.shipping_weight * quantity
     end
 
     it 'calculates shipping volume' do
-      option.shipping_length = 2
-      option.shipping_width = 2
-      option.shipping_height = 2
       expect(line_item.shipping_volume).to eq(24)
     end
   end

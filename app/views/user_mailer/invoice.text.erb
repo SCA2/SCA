@@ -8,7 +8,7 @@ Your repair is complete and ready to ship.  To pay this invoice, click the "Pay 
 --------------------------------------------------------------------------------
 <% @invoice.line_items.each_with_index do |line_item, index| %>
   <% line = (index + 1).to_s %>
-  <% price = cents_to_dollars(line_item.price_in_cents, precision: 0) %>
+  <% price = cents_to_dollars(line_item.full_price_in_cents, precision: 0) %>
   <% ext = cents_to_dollars(line_item.extended_price, precision: 0) %>
 <%= sprintf("%-5s%-12s%-43.43s%4s%8s%8s", line, line_item.item_model, line_item.item_description, line_item.quantity, price, ext) %>
 <% end %>

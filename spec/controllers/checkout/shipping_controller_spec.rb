@@ -5,9 +5,9 @@ describe Checkout::ShippingController do
     context 'as a guest with shippable order', :vcr do
       before do
         cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: cart, option: option)
+        component = create(:component)
+        tag = create(:constant_tag, component: component)
+        create(:line_item, cart: cart, itemizable: component)
         order = create(:order, cart: cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -40,9 +40,9 @@ describe Checkout::ShippingController do
     context 'as a guest with invalid address', :vcr do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        component = create(:component)
+        tag = create(:constant_tag, component: component)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:invalid_billing_zip, addressable: order)
         create(:invalid_shipping_zip, addressable: order)
@@ -62,9 +62,9 @@ describe Checkout::ShippingController do
     context 'as a guest with shippable order', :vcr do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        component = create(:component)
+        tag = create(:constant_tag, component: component)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -85,9 +85,9 @@ describe Checkout::ShippingController do
     context 'as a guest with unshippable order', :vcr do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        component = create(:component)
+        tag = create(:constant_tag, component: component)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         session[:cart_id] = @cart.id
@@ -107,9 +107,9 @@ describe Checkout::ShippingController do
     context 'as a guest with missing shipping method', :vcr do
       before do
         @cart = create(:cart)
-        product = create(:n72)
-        option = create(:ka, product: product)
-        create(:line_item, cart: @cart, option: option)
+        component = create(:component)
+        tag = create(:constant_tag, component: component)
+        create(:line_item, cart: @cart, itemizable: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

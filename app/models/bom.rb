@@ -1,15 +1,13 @@
 class Bom < ApplicationRecord
-  belongs_to :option, inverse_of: :bom
   belongs_to :component, inverse_of: :bom
-
   has_many :bom_items, inverse_of: :bom, dependent: :destroy
 
-  validates :option, presence: true
-  validates :option, uniqueness: true
+  validates :component, presence: true
+  validates :component, uniqueness: true
 
   accepts_nested_attributes_for :bom_items, allow_destroy: true
 
-  scope :sorted, -> { joins(option: :product).order('products.model', 'options.model') }
+  scope :sorted, -> { joins(:component).order('components.mfr_part_number') }
 
   def self.permitted_attributes
     self.column_names - ['id', 'created_at', 'updated_at']
@@ -20,7 +18,11 @@ class Bom < ApplicationRecord
   end
 
   def product_name
-    product.model + option.model
+    product.model + option.model if product && option
+  end
+
+  def component_name
+    component.mfr_part_number
   end
 
   def lines
@@ -46,7 +48,6 @@ class Bom < ApplicationRecord
   end
 
   def pick(quantity: 0)
-    # byebug
     subtract_stock(items, quantity)
   end
 

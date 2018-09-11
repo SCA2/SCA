@@ -14,10 +14,11 @@ feature 'invoice', :vcr do
     @address = build(:billing_constant_taxable)
     @product = create(:n72)
     create(:feature, product: @product)
-    option = create(:ka, product: @product)
-    create(:bom, option: option)
+    tag = create(:constant_tag)
+    component = create(:constant_component, size_weight_price_tag: tag)
+    option = create(:option, product: @product, component: component)
     cart = create(:cart, invoice_token: 'secret_token', invoice_sent_at: Time.now)
-    create(:line_item, cart: cart, option: option)
+    create(:line_item, cart: cart, itemizable: component)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }
@@ -41,7 +42,7 @@ feature 'invoice', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1ChmuvFC0i7e7XIPc5JOgnWd')
+    expect(page).to have_content('Authorization: 1D8KQ9FC0i7e7XIP2ZpcYAkV')
     expect(page).to have_content('0 Items')
   end
 
@@ -74,7 +75,7 @@ feature 'invoice', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1ChmyuFC0i7e7XIPtF2Inioj')
+    expect(page).to have_content('Authorization: 1D8KVZFC0i7e7XIPBmhKUycA')
     expect(page).to have_content('0 Items')
     test_sign_out(use_capybara: true)
   end

@@ -2,9 +2,9 @@ module ProductsHelper
 
   def get_extended_models(product)
     extended_models = {}
-    product.options.each do |option|
+    product.options.sorted.each do |option|
       if option.enabled? || signed_in_admin?
-        extended_models[product.model + option.model + ', ' + option.description + ', ' + get_price(option)] = option.id
+        extended_models[option.model + ', ' + option.description + ', ' + get_price(option)] = option.id
       end
     end
     extended_models
@@ -15,7 +15,7 @@ module ProductsHelper
   end
 
   def get_price(option)
-    cents_to_dollars(option.price_in_cents, precision: 0)
+    cents_to_dollars(option.full_price_in_cents, precision: 0)
   end
   
   def get_product_div_class(counter)

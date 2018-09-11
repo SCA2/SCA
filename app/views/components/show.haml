@@ -4,7 +4,12 @@
     .small-12.columns
       = render 'big_component', f: component
       .admin-box
-        = link_to "Edit", edit_component_path(component), class: "button admin"
-        = button_to 'Add to Cart', line_items_path(itemizable_id: component.id, itemizable_type: component.class.name), class: 'button add', remote: :true, authenticity_token: true
-        = link_to "Quit", components_path, class: "button admin"
-        = link_to "Delete", component_path(component), method: :delete, class: "button admin", data: { confirm: 'Are you sure?' }
+        - tag = component.size_weight_price_tag
+        = link_to 'Edit Component', edit_component_path(component), class: "button"
+        - if tag
+          = link_to 'Edit Tag', edit_component_tag_path(component, tag), class: 'button'
+          = button_to 'Add to Cart', line_items_path(itemizable_id: component.id, itemizable_type: component.class.name), class: 'button', remote: :true, authenticity_token: true
+        - else
+          = link_to 'Add Tag', new_component_tag_path(component), class: 'button'
+        = link_to "Quit", components_path, class: "button"
+        = link_to "Delete", component_tag_path(component), method: :delete, class: "button", data: { confirm: 'Are you sure?' }

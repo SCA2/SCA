@@ -52,8 +52,12 @@ SCA::Application.routes.draw do
     end
   end
 
-  resources :components
+  resources :components do
+    resources :size_weight_price_tags, as: :tags
+  end
+  
   resources :component_imports, only: [:index, :new, :create]
+
 
   get 'products/*id', to: 'products#show', format: false
 

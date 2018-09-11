@@ -3,29 +3,23 @@ class BomCreator
   include ActiveModel::Model
 
   delegate :bom_items, :bom_items_attributes=, to: :bom
-  delegate :product, :option, to: :bom
-  delegate :quantity, :reference, :component, to: :bom_item
+  delegate :quantity, :reference, to: :bom_item
 
-  attr_reader :products, :options, :components, :bom, :items
+  attr_reader :components, :bom, :items
 
   def model_name
     ActiveModel::Name.new(self, nil, 'BomCreator')
   end
 
   def initialize(id = nil)
-    @products = Product.all
     @components = Component.all
     if id
       @bom = Bom.find(id)
-      @product = @bom.product
-      @selected_product = @product
-      @selected_option = @selected_product.options.first
+      @root_component = @bom.component
     else
       @bom = Bom.new
-      @selected_product = @products.first
-      @selected_option = @selected_product.options.first
+      @root_component = @components.first
     end
-    @options = @selected_product.options
   end
 
   def parse_bom_items(params = nil)
@@ -46,24 +40,16 @@ class BomCreator
     end
   end
 
-  def parse_product(params = nil)
-    if params[:product] && params[:product].class == String
-      @selected_product = Product.find(params[:product])
-    end
-  end
-
-  def parse_option(params = nil)
-    if params[:option] && params[:option].class == String
-      @bom.option = Option.find(params[:option])
-      params[:option] = @bom.option
-      @selected_option = @bom.option
+  def parse_component(params = nil)
+    if params[:root_component] && params[:root_component].class == String
+      @bom.component = Component.find(params[:root_component])
+      @root_component = @bom.component
     end
   end
 
   def set_attributes(params)
     return nil unless params
-    parse_product(params)
-    parse_option(params)
+    parse_component(params)
     parse_bom_items(params)
   end
 
@@ -96,12 +82,8 @@ class BomCreator
     end
   end
 
-  def selected_product
-    @selected_product ? @selected_product.id : 0
-  end
-
-  def selected_option
-    @selected_option ? @selected_option.id : 0
+  def root_component
+    @root_component ? @root_component.id : 0
   end
 
   def selected_component(index)
@@ -139,12 +121,8 @@ class BomCreator
     @bom.id
   end
 
-  def product_model
-    @bom.product.model
-  end
-  
-  def option_model
-    @bom.option.model
+  def bom_name
+    @root_component.mfr_part_number
   end
   
 end

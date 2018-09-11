@@ -1,0 +1,53 @@
+.row
+  .small-2.columns &nbsp
+  .small-8.columns
+    %fieldset
+      .row
+        %legend
+          .small-3.columns= legend
+          .small-9.columns= @component.mfr_part_number
+      .row
+        .small-12.columns &nbsp;
+      .field
+        .row
+          .small-3.columns
+            = f.label :upc, 'UPC'
+          .small-9.columns
+            = f.text_field :upc
+      .field
+        .row
+          .small-3.columns
+            = f.label :price, 'Full Price'
+          .small-9.columns
+            = f.number_field :full_price
+      .field
+        .row
+          .small-3.columns
+            = f.label :discount, 'Discount Price'
+          .small-9.columns
+            = f.number_field :discount_price
+      .field
+        .row
+          .small-3.columns
+            = f.label :shipping_length, 'Shipping Length'
+          .small-9.columns
+            = f.number_field :shipping_length
+      .field
+        .row
+          .small-3.columns
+            = f.label :shipping_width, 'Shipping Width'
+          .small-9.columns
+            = f.number_field :shipping_width
+      .field
+        .row
+          .small-3.columns
+            = f.label :shipping_height, 'Shipping Height'
+          .small-9.columns
+            = f.number_field :shipping_height
+      .field
+        .row
+          .small-3.columns
+            = f.label :shipping_weight, 'Shipping Weight'
+          .small-9.columns
+            = f.number_field :shipping_weight
+  .small-2.columns &nbsp

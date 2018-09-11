@@ -1,0 +1,29 @@
+.row
+  .small-2.columns &nbsp
+  .small-8.columns
+    %fieldset
+      .row
+        %legend
+          .small-3.columns
+          .small-9.columns= legend
+      .row
+        .small-12.columns &nbsp;
+      .row
+        .small-3.columns
+          = f.label :active, 'Active'
+        .small-1.columns
+          .checkbox_field
+            = f.check_box :active
+        .small-8.columns
+      -if @option.new_record?
+        .row
+          .small-3.columns
+            = f.label :component, 'Component'
+          .small-9.columns
+            .select= f.select :component_id, options_from_collection_for_select(@components, :id, :selection_name, @component.id)
+      .row
+        .small-3.columns
+          = f.label :sort_order, 'Sort Order'
+        .small-9.columns
+          = f.number_field :sort_order, in: 1..100
+  .small-2.columns &nbsp

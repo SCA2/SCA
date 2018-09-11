@@ -18,7 +18,7 @@
 					<%= line_item.quantity %>
 				</td>
 				<td class="price-cell">
-					<%= cents_to_dollars(line_item.price_in_cents, precision: 0) %>
+					<%= cents_to_dollars(line_item.full_price_in_cents, precision: 0) %>
 				</td>
 				<td class="price-cell">
 					<%= cents_to_dollars(line_item.extended_price, precision: 2) %>

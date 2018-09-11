@@ -3,7 +3,7 @@
   .row
     .small-12.columns
       %fieldset
-        %legend= "BOM #{@bc.product_model + @bc.option_model}"
+        %legend= "BOM #{@bc.bom_name}"
         = render 'shared/errors', object: @bc.bom
         = render layout: 'bom_items/bom_item_headers' do
           = render @bc.bom_items

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180815020002) do
+ActiveRecord::Schema.define(version: 20180828051859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20180815020002) do
     t.integer "assembled_stock", default: 0
     t.boolean "active", default: true, null: false
     t.bigint "product_id"
+    t.bigint "component_id"
   end
 
   create_table "orders", id: :serial, force: :cascade do |t|
@@ -174,6 +175,19 @@ ActiveRecord::Schema.define(version: 20180815020002) do
     t.integer "product_category_id"
     t.index ["model"], name: "index_products_on_model"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
+  end
+
+  create_table "size_weight_price_tags", force: :cascade do |t|
+    t.bigint "component_id"
+    t.string "upc"
+    t.integer "full_price", default: 0
+    t.integer "discount_price", default: 0
+    t.integer "shipping_length", default: 0
+    t.integer "shipping_width", default: 0
+    t.integer "shipping_height", default: 0
+    t.integer "shipping_weight", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "slider_images", id: :serial, force: :cascade do |t|

@@ -9,10 +9,9 @@ feature "Products" do
         category = create(:product_category)
         product = create(:product, product_category: category)
         create(:feature, product: product)
-        option = create(:option, product: product)
-        bom = create(:bom, option: option)
-        component = create(:component)
-        create(:bom_item, bom: bom, component: component)
+        tag = create(:size_weight_price_tag)
+        component = create(:component, size_weight_price_tag: tag)
+        option = create(:option, product: product, component: component)
       end
     end
     after(:all) { DatabaseCleaner.clean_with(:truncation) }
@@ -44,11 +43,11 @@ feature "Products" do
 
     context "with no products" do    
 
-      let!(:category)  { create(:product_category) }
-      let!(:product)   { build(:product, product_category: category) }
-      let!(:option)    { create(:option) }
-      let!(:bom)       { create(:bom, option: option) }
-      let!(:bom_item)  { create(:bom_item, bom: bom) }
+      let!(:category)   { create(:product_category) }
+      let(:product)    { attributes_for(:product, product_category: category) }
+      let!(:tag)        { create(:size_weight_price_tag) }
+      let!(:component)  { create(:component, size_weight_price_tag: tag) }
+      # let!(:option)     { create(:option, product: product, component: component) }
       
       scenario 'add a product' do
         visit products_path
@@ -72,8 +71,9 @@ feature "Products" do
           category = create(:product_category)
           product = create(:product, product_category: category)
           create(:feature, product: product)
-          option = create(:option, product: product)
-          create(:bom, option: option)
+          tag = create(:size_weight_price_tag)
+          component = create(:component, size_weight_price_tag: tag)
+          option = create(:option, product: product, component: component)
         end
       end
       

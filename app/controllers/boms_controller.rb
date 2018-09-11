@@ -17,7 +17,7 @@ class BomsController < BaseController
   def create
     @bc = BomCreator.new
     if @bc.save(bom_params)
-      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} created"
+      flash[:success] = "BOM #{@bc.bom_name} created"
       redirect_to boms_path
     else
       render 'new'
@@ -31,7 +31,7 @@ class BomsController < BaseController
   def update
     @bc = BomCreator.new(bom_id)
     if @bc.update(bom_params)
-      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} updated"
+      flash[:success] = "BOM #{@bc.bom_name} updated"
       redirect_to edit_bom_path(@bc.id)
     else
       render 'edit'
@@ -46,7 +46,7 @@ class BomsController < BaseController
   def create_item
     @bc = BomCreator.new(bom_id)
     if @bc.update(bom_params)
-      flash[:success] = "BOM #{@bc.product_model + @bc.option_model} updated"
+      flash[:success] = "BOM #{@bc.bom_name} updated"
       redirect_to edit_bom_path(@bc.id)
     else
       render 'new_item'
@@ -72,6 +72,6 @@ private
   end
 
   def bom_params
-    params.require(:bom_creator).permit(:option, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
+    params.require(:bom_creator).permit(:root_component, :pdf, bom_items_attributes: [:id, :quantity, :reference, :component, :_destroy])
   end
 end

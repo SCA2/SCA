@@ -2,13 +2,12 @@ require 'rails_helper'
 
 describe OptionsController do
 
-  let(:product) { create(:product) }
-  let!(:option) { create(:option, product: product) }
-  let!(:bom) { create(:bom, option: option) }
-  let!(:bom_item) { create(:bom_item, bom: bom) }
+  let(:product)   { create(:product) }
+  let(:component) { create(:component) }
+  let(:option)    { create(:option, product: product, component: component) }
 
-  let(:valid_attributes) { attributes_for(:option_editor, product: product, option: option) }
-  let(:invalid_attributes) { attributes_for(:bad_editor, product: product, option: option) }
+  let(:valid_option)    { attributes_for(:option, sort_order: 10, active: true) }
+  let(:invalid_option)  { attributes_for(:option, sort_order: 10, active: nil) }
 
   shared_examples('admin access to options') do
     describe "GET #new" do
@@ -29,19 +28,28 @@ describe OptionsController do
       describe "with valid params" do
         it "creates a new Option" do
           expect {
-            post :create, params: { option_editor: valid_attributes[:option_editor], product_id: product }
+            post :create, params: {
+              product_id: product,
+              option: valid_option.merge(component_id: component.id)
+            }
           }.to change(Option, :count).by(1)
         end
   
         it "redirects to new bom path" do
-          post :create, params: { option_editor: valid_attributes[:option_editor], product_id: product }
-          expect(response).to redirect_to(edit_bom_path(Bom.last.id))
+          post :create, params: {
+            product_id: product,
+            option: valid_option.merge(component_id: component.id)
+          }
+          expect(response).to redirect_to product
         end
       end
   
       describe "with invalid params" do
         it "re-renders the 'new' template" do
-          post :create, params: invalid_attributes
+          post :create, params: {
+            product_id: product,
+            option: invalid_option.merge(component_id: component.id)
+          }
           expect(response).to be_successful
         end
       end
@@ -50,14 +58,14 @@ describe OptionsController do
     describe "PATCH #update" do
       describe "with valid params" do
         it "redirects to the option" do
-          patch :update, params: valid_attributes
+          patch :update, params: { id: option, product_id: product, option: valid_option }
           expect(response).to redirect_to(product)
         end
       end
   
       describe "with invalid params" do
         it "re-renders the 'edit' template" do
-          patch :update, params: invalid_attributes
+          patch :update, params: { id: option, product_id: product, option: invalid_option }
           expect(response).to be_successful
         end
       end

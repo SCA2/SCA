@@ -48,7 +48,8 @@ describe Cart do
     it 'has multiple line_items' do
       cart = create(:cart, purchased_at: Time.zone.now)
       product = create(:product)
-      option = create(:option, product: product)
+      component = create(:component)
+      option = create(:option, product: product, component: component)
       create(:line_item, cart: cart, itemizable: option)
       create(:line_item, cart: cart, itemizable: option)
       expect(cart.line_items.count).to eq 2
@@ -57,7 +58,8 @@ describe Cart do
     it 'destroys associated line_items' do
       cart = create(:cart)
       product = create(:product)
-      option = create(:option, product: product)
+      component = create(:component)
+      option = create(:option, product: product, component: component)
       create(:line_item, cart: cart, itemizable: option)
       create(:line_item, cart: cart, itemizable: option)
       expect {cart.destroy}.to change {LineItem.count}.by(-2)
@@ -66,7 +68,8 @@ describe Cart do
     it 'does not constrain line_item destroy' do
       cart = create(:cart)
       product = create(:product)
-      option = create(:option, product: product)
+      component = create(:component)
+      option = create(:option, product: product, component: component)
       line = create(:line_item, cart: cart, itemizable: option)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
@@ -75,10 +78,9 @@ describe Cart do
   describe 'subtotal' do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
-    let(:product)   { build_stubbed(:product) }
-    let(:option)    { build_stubbed(:option, price: price, product: product) }
-    let(:line_item) { build_stubbed(:line_item, itemizable: option, quantity: quantity)
-    }
+    let(:tag)       { build_stubbed(:size_weight_price_tag, full_price: price) }
+    let(:component) { build_stubbed(:component, size_weight_price_tag: tag) }
+    let(:line_item) { build_stubbed(:line_item, itemizable: component, quantity: quantity) }
     let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
 
     it 'calculates the correct value' do
