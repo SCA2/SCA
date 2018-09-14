@@ -35,12 +35,10 @@ class Component < ApplicationRecord
   end
 
   def stock
-    if self[:stock] && self[:stock] > 0
-      self[:stock]
-    elsif self[:stock] && !bom
-      self[:stock]
-    elsif bom && bom.stock
+    if self[:stock] <= 0 && bom && bom.stock
       bom.stock
+    else
+      self[:stock]
     end
   end
 

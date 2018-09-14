@@ -5,4 +5,5 @@
   %td= component.description
   %td= component.mfr
   %td= component.stock
+  %td= link_to_unless(component.size_weight_price_tag.nil?, "tag", [:component, :tag, component_id: component, id: component.size_weight_price_tag]){}
   %td= link_to "delete", component, method: :delete, data: { confirm: "Are you sure?" }

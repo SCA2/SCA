@@ -2,8 +2,9 @@ require 'rails_helper'
 
 describe OptionsController do
 
+  let(:tag)       { create(:size_weight_price_tag) }
+  let(:component) { create(:component, size_weight_price_tag: tag) }
   let(:product)   { create(:product) }
-  let(:component) { create(:component) }
   let(:option)    { create(:option, product: product, component: component) }
 
   let(:valid_option)    { attributes_for(:option, sort_order: 10, active: true) }
@@ -12,6 +13,7 @@ describe OptionsController do
   shared_examples('admin access to options') do
     describe "GET #new" do
       it "renders the 'new' template" do
+        create(:component, size_weight_price_tag: tag)
         get :new, params: { product_id: product }
         expect(response).to be_successful
       end

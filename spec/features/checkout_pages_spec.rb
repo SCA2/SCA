@@ -41,7 +41,7 @@ feature 'standard stripe checkout', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1Cy6AVFC0i7e7XIPkak3xdF7')
+    expect(page).to have_content('Authorization: 1DA2z8FC0i7e7XIP6GSqR16F')
     expect(page).to have_content('0 Items')
   end
 

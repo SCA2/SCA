@@ -61,17 +61,19 @@ def fill_in_component(component)
 end
 
 def fill_in_new_option(option)
-  fill_in "Option:", with: option.model
-  fill_in "Description:", with: option.description
-  fill_in "Price:", with: option.price
-  fill_in "UPC:", with: option.upc
-  fill_in "Shipping Weight:", with: option.shipping_weight
-  fill_in "Sort Order:", with: option.sort_order
-  fill_in "Discount:", with: option.discount
-  fill_in "Shipping Length:", with: option.shipping_length
-  fill_in "Shipping Width:", with: option.shipping_width
-  fill_in "Shipping Height:", with: option.shipping_height
-  check "Active:"
+  check "Active"
+  find('#option_component_id').find(:xpath, 'option[1]').select_option
+  fill_in "Sort Order", with: option.sort_order
+end
+
+def fill_in_new_tag(tag)
+  fill_in "UPC", with: tag.upc
+  fill_in "Full Price", with: tag.full_price
+  fill_in "Discount Price", with: tag.discount_price
+  fill_in "Shipping Length", with: tag.shipping_length
+  fill_in "Shipping Width", with: tag.shipping_width
+  fill_in "Shipping Height", with: tag.shipping_height
+  fill_in "Shipping Weight", with: tag.shipping_weight
 end
 
 def fill_in_existing_option(option)

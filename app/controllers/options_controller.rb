@@ -5,7 +5,13 @@ class OptionsController < BaseController
   before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
-    @components = Component.priced.joins(:option).where.not(options: { id: @options })
+    @components = Component.priced
+      .left_outer_joins(:option)
+      .where.not(options: { id: @options })
+    if @components.empty?
+      flash[:alert] = 'Create some components!'
+      redirect_to products_path
+    end
     next_sort_order = @options.last ? @options.last.sort_order + 10 : 10
     @option = Option.new(sort_order: next_sort_order)
     @component = @components.first

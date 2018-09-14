@@ -75,7 +75,7 @@ feature 'invoice', :vcr do
     expect(page).to have_content(@product.options.last.model)
     check('order_terms_validator_accept_terms')
     click_button('Place Order')
-    expect(page).to have_content('Authorization: 1D8KVZFC0i7e7XIPBmhKUycA')
+    expect(page).to have_content('Authorization: 1DA2zyFC0i7e7XIP503v6L4C')
     expect(page).to have_content('0 Items')
     test_sign_out(use_capybara: true)
   end

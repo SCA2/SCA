@@ -43,23 +43,25 @@ feature "Products" do
 
     context "with no products" do    
 
-      let!(:category)   { create(:product_category) }
-      let(:product)    { attributes_for(:product, product_category: category) }
-      let!(:tag)        { create(:size_weight_price_tag) }
-      let!(:component)  { create(:component, size_weight_price_tag: tag) }
-      # let!(:option)     { create(:option, product: product, component: component) }
+      before do
+        category = create(:product_category)
+        tag = create(:size_weight_price_tag)
+        @component = create(:component, size_weight_price_tag: tag)
+        @product = build(:product, product_category: category)
+        @option = build(:option, product: @product, component: @component)
+      end
       
       scenario 'add a product' do
         visit products_path
         expect(page).to have_selector(:link_or_button, 'New Product')
         first(:link_or_button, 'New Product').click
         expect(page).to have_content('New Product')
-        fill_in_product(product)
+        fill_in_product(@product)
         find(:link_or_button, 'Create').click
         expect(page).to have_content('Product must have at least one option!')
-        fill_in_new_option(option)
+        fill_in_new_option(@option)
         find(:link_or_button, 'Create').click
-        expect(page).to have_title("BOM #{product.model + option.model}")
+        expect(page).to have_title("#{@product.model}")
         expect(page).to have_content('Success!')
       end
     end

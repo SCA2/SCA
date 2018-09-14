@@ -11,7 +11,8 @@ describe ErrorPagesController do
   context 'url contains a product name' do
     it 'redirects to product index' do
       product = create(:n72)
-      create(:ka, product: product)
+      component = create(:component)
+      create(:option, product: product, component: component)
       get :unknown, params: { id: 'asdfn72asdf' }
       expect(response).to have_http_status(:not_found)
     end

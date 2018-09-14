@@ -12,6 +12,7 @@ class Option < ApplicationRecord
   delegate :stock, :lead_time, to: :component
 
   validates :sort_order, uniqueness: { scope: :product }
+  validates :component, uniqueness: { scope: :product }
   validates :product, :component, presence: true
   validates_inclusion_of :active, in: [true, false]
 
@@ -59,6 +60,8 @@ class Option < ApplicationRecord
   def stock_message
     if disabled?
       "Not available at this time"
+    elsif component.stock.nil?
+      "Unstocked"
     elsif component.stock > STOCK_CUTOFF
       "Can ship today"
     elsif component.stock > 0

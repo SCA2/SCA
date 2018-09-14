@@ -12,6 +12,12 @@ class SizeWeightPriceTagsController < BaseController
     @tag = @component.size_weight_price_tag
   end
 
+  def show
+    @component = Component.find(params.require(:component_id))
+    @tag = @component.size_weight_price_tag
+    render action: 'edit'
+  end
+
   def create
     @component = Component.find(params.require(:component_id))
     @tag = @component.build_size_weight_price_tag(tag_params)

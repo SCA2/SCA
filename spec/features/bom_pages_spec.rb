@@ -39,7 +39,6 @@ feature "BOMs" do
       expect(page).to have_selector(:link_or_button, 'New BOM')
       first(:link_or_button, 'New BOM').click
       expect(page).to have_content('Root Component')
-      # byebug
       find('#bom_creator_root_component').find(:xpath, 'option[1]').select_option
       find(:link_or_button, 'Create').click
       expect(page).to have_content("BOM #{component.mfr_part_number} created")
@@ -61,26 +60,24 @@ feature "BOMs" do
       find(:link_or_button, bom.id).click
       expect(page).to have_content("BOM #{bom.component.mfr_part_number}")
       find(:link_or_button, 'Edit').click
-      fill_in_bom(bom)
       find(:link_or_button, 'Update').click
       expect(page).to have_content("BOM #{bom.component.mfr_part_number} updated")
     end
 
     scenario 'add a component to a BOM' do
-      product = create(:product, model: 'A12')
-      option = create(:option, product: product)
-      bom = create(:bom, option: option)
+      root = create(:component)
+      bom = create(:bom, component: root)
       component = create(:component)
       item = build_stubbed(:bom_item, quantity: 2, reference: 'R1', component: component)
       visit new_item_bom_path(bom)
       fill_in_bom_item(item)
       find(:link_or_button, 'Update').click
+      expect(page).to have_content("2")
     end
 
     scenario 'delete a BOM' do
-      product = create(:product)
-      option = create(:option, product: product)
-      bom = create(:bom, option: option)
+      component = create(:component)
+      bom = create(:bom, component: component)
       bom_id = bom.id
       visit boms_path
       expect { click_link 'delete' }.to change(Bom, :count).by(-1)

@@ -55,7 +55,7 @@ class BomsController < BaseController
 
   def destroy
     bom = Bom.find(bom_id)
-    name = "#{bom.product.model + bom.option.model}"
+    name = "#{bom.component.mfr_part_number}"
     bom.destroy
     redirect_to boms_path, notice: "BOM #{name} deleted"
   end
