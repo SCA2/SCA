@@ -23,71 +23,51 @@ class Cart < ApplicationRecord
   
   def discount
     subpanels = %w[A12 C84 J99 N72 T15 B16 D11]
-    preamps_KF = %w[A12 C84 J99 N72 T15]
-    preamps_KFKA = preamps_KF + %w[A12B J99B]
+    preamps = %w[A12 C84 J99 N72 T15 A12B J99B]
     ch02_options = %w[KF KA-1 KA-2 KA-3 KA-4 KA-5 KA-6 KA-7 KA-8]
-    module_KF_options = %w[KF KF-2S KF-2L KF-2H]
-    module_KA_options = %w[KA KA-2S KA-2L KA-2H]
-    module_options = module_KA_options + module_KF_options
-    a12_opamps = %w[SC10 SC25]
+    opamps = %w[SC10KA SC25KA]
 
     total_discount = 0    
 
-    total_discount += combo_discount('A12', module_options, a12_opamps, 'KA')
+    total_discount += combo_discount("A12K%", opamps)
 
     ch02_options.each do |option|
       if option == 'KF'
-        min_quantity = 1
-        total_discount += combo_discount(preamps_KFKA, module_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
+        preamps_KF = preamps.map {|p| "#{p}KF%"}
+        total_discount += combo_discount(preamps_KF, "CH02#{option}")
       else
+        preamps_KA = preamps.map {|p| "#{p}KA%"}
         min_quantity = option.split('').last.to_i
-        total_discount += combo_discount(preamps_KFKA, module_KA_options, 'CH02', option) { |a, b| [a, b * min_quantity].min / min_quantity }
+        total_discount += combo_discount(preamps_KA, "CH02#{option}") { |a, b| [a, b * min_quantity].min / min_quantity }
       end
     end
 
-    subpanels.each do |a_model|
-      b_options = '-' + a_model
-      a_model = [a_model, a_model + 'B'] 
-      total_discount += combo_discount(a_model, module_options, 'CH02-SP', b_options)      
+    subpanels.each do |subpanel|
+      a_products = ["#{subpanel}%", "#{subpanel}B%"] 
+      total_discount += combo_discount(a_products, "CH02-SP-#{subpanel}")      
     end
 
     total_discount
 
   end
 
-  def find_options_in_cart
-    line_items.includes(:option)
-  end
-
-  def find_in_cart(option_lines, product, option)
-    option_lines.where(itemizable_id: Option.where(product_id: Product.where(model: product)), options: { model: option }).references(:options)
-  end
-
   def discount_amount(line_items, combos)
-    combos * line_items.first.discount_price_in_cents
+    line_items.limit(combos).sum { |item| item.full_price_in_cents - item.discount_price_in_cents }
   end
 
-  def combo_discount(a_product, a_option, b_product, b_option)
-    combo_discount = 0
-    option_lines = find_options_in_cart
-
-    return 0 if option_lines.empty?
-
-    a_lines = find_in_cart(option_lines, a_product, a_option)
-    if a_lines.any?
-      a_quantity = a_lines.to_a.sum { |a| a.quantity }
-      b_lines = find_in_cart(option_lines, b_product, b_option)
-      if b_lines.any?
-        b_quantity = b_lines.to_a.sum { |b| b.quantity }
-        if block_given?
-          combos = yield(a_quantity, b_quantity)
-        else
-          combos = [a_quantity, b_quantity].min
-        end
-        combo_discount = discount_amount(b_lines, combos)        
-      end
+  def combo_discount(a_products, b_products)
+    a_lines = line_items.joins(:component).where("mfr_part_number LIKE ANY (array[?])", a_products)
+    return 0 unless a_lines.any?
+    a_quantity = a_lines.sum(&:quantity)
+    b_lines = line_items.joins(:component).where("mfr_part_number LIKE ANY (array[?])", b_products)
+    return 0 unless b_lines.any?
+    b_quantity = b_lines.sum(&:quantity)
+    if block_given?
+      combos = yield(a_quantity, b_quantity)
+    else
+      combos = [a_quantity, b_quantity].min
     end
-    combo_discount
+    discount_amount(a_lines, combos) + discount_amount(b_lines, combos)        
   end
 
   def subtotal

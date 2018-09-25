@@ -8,11 +8,18 @@ class Component < ApplicationRecord
   delegate :shipping_length, :shipping_width, :shipping_height, :shipping_weight, to: :size_weight_price_tag
   delegate :full_price_in_cents, :discount_price_in_cents, to: :size_weight_price_tag
 
-  validates :mfr_part_number, :stock, :lead_time, presence: true
+  attribute :restock_quantity, :integer, default: 0
+
+  validates :mfr_part_number, presence: true
   validates :mfr_part_number, uniqueness: { message: "%{value} is taken" }, on: :create
+
   validates :vendor_part_number, uniqueness: { message: "%{attribute} is taken" }, on: :create, if: Proc.new { vendor_part_number.present? }
-  validates :stock, numericality: { only_integer: true }
-  validates :lead_time, numericality: { only_integer: true, greater_than: 0 }
+
+  validates :stock, numericality: { only_integer: true}, allow_blank: true
+  validates :lead_time, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
+  # validates :lead_time, numericality: { greater_than: 0, allow_blank: true }, allow_blank: true
+
+  validates :restock_quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   default_scope -> { order :mfr_part_number }
   scope :tagged, -> { joins(:size_weight_price_tag) }
@@ -26,26 +33,31 @@ class Component < ApplicationRecord
     description
   end
 
-  def lead_time
-    if bom
+  def bom_lead_time
+    if self[:stock] && self[:stock] > 0
+      self[:lead_time]
+    elsif bom && bom.stock
       bom.lead_time
     else
-      self[:lead_time]
+      nil
     end
   end
 
-  def stock
+  def bom_stock
     if self[:stock] && self[:stock] > 0
       self[:stock]
     elsif self[:stock] && !bom
       self[:stock]
     elsif bom && bom.stock
       bom.stock
+    else
+      nil
     end
   end
 
   def pick(quantity: 0)
     self.reload if self.persisted?
+    return unless self[:stock]
     if bom && self[:stock] < quantity
       bom.pick(quantity: quantity - self[:stock])
       self[:stock] = 0
@@ -60,6 +72,7 @@ class Component < ApplicationRecord
   end
 
   def restock(quantity: 0)
+    return unless self[:stock]
     bom.pick(quantity: quantity) if bom && bom.stock >= quantity
     self[:stock] += quantity
   end
@@ -70,7 +83,7 @@ class Component < ApplicationRecord
   end
 
   def self.permitted_attributes
-    self.column_names - ['id', 'created_at', 'updated_at']
+    self.attribute_names - ['id', 'created_at', 'updated_at']
   end
 
   def selection_name

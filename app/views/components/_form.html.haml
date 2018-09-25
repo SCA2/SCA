@@ -54,13 +54,26 @@
       .field
         .row
           .small-3.columns
-            = f.label :stock, 'Stock'
+            = f.label :lead_time, 'Lead Time'
           .small-9.columns
-            = f.number_field :stock, in: 0..100000
+            = f.number_field :lead_time, in: 0..365
       .field
         .row
           .small-3.columns
-            = f.label :lead_time, 'Lead Time'
+            = f.label :stock, 'Stock'
           .small-9.columns
-            = f.number_field :lead_time, in: 1..365
+            = f.number_field :stock, in: 0..100000
+      - if f.object.bom
+        .field
+          .row
+            .small-3.columns
+              = f.label :bom_stock, 'BOM Stock'
+            .small-9.columns
+              = f.number_field :bom_stock, in: 0..100000, disabled: true
+        .field
+          .row
+            .small-3.columns
+              = f.label :restock_quantity, 'Quantity to Restock'
+            .small-9.columns
+              = f.number_field :restock_quantity, in: 0..100000
   .small-2.columns &nbsp

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180828051859) do
+ActiveRecord::Schema.define(version: 20180916051322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,19 +112,9 @@ ActiveRecord::Schema.define(version: 20180828051859) do
   end
 
   create_table "options", id: :serial, force: :cascade do |t|
-    t.string "model", limit: 255
-    t.string "description", limit: 255
-    t.integer "price"
-    t.string "upc", limit: 255
-    t.integer "shipping_weight"
     t.integer "sort_order"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "discount"
-    t.integer "shipping_length"
-    t.integer "shipping_width"
-    t.integer "shipping_height"
-    t.integer "assembled_stock", default: 0
     t.boolean "active", default: true, null: false
     t.bigint "product_id"
     t.bigint "component_id"

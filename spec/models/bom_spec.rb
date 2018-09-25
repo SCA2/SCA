@@ -48,7 +48,7 @@ describe Bom do
       expect(bom_2.stock).to eq 2
     end
 
-    it 'ignores lines with quantity of 0' do
+    it 'returns nil if any quantity is 0' do
       bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
@@ -56,7 +56,7 @@ describe Bom do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 0)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      expect(bom.stock).to eq 3
+      expect(bom.stock).to eq nil
     end
 
     it 'can subtract stock' do

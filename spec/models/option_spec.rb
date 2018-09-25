@@ -15,7 +15,6 @@ describe Option do
   it { should respond_to(:sort_order) }
   it { should respond_to(:active?) }
 
-  it { should respond_to(:upc) }
   it { should respond_to(:model) }
   it { should respond_to(:description) }
   it { should respond_to(:full_price) }

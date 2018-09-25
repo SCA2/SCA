@@ -30,12 +30,12 @@ class Bom < ApplicationRecord
   end
 
   def stock
-    stock = items.map { |i| i.quantity.zero? ? nil : i.component.stock / i.quantity }
-    stock.reject { |i| i.nil? }.min
+    return nil if items.any? { |i| i.quantity == 0 }
+    items.map { |i| i.component.bom_stock / i.quantity }.min
   end
 
   def lead_time
-    bom_items.map { |i| i.component.lead_time }.max
+    bom_items.map { |i| i.component.bom_lead_time }.max
   end
 
   def subtract_stock(items, quantity)
@@ -64,7 +64,6 @@ class Bom < ApplicationRecord
 private
 
   def items
-    # @items ||= Bom.includes(bom_items: [:component]).find(self.id).bom_items
     @items ||= bom_items.includes(:component)
   end
 end

@@ -73,50 +73,59 @@ describe Component do
     end
   end
 
-  describe 'lead_time' do
+  describe 'bom_lead_time' do
+    it 'without lead time returns nil' do
+      component = build(:component, lead_time: nil)
+      expect(component.bom_lead_time).to eq(nil)
+    end
+
     it 'without bom returns self.lead_time' do
       component = build(:component, lead_time: 15)
-      expect(component.lead_time).to eq(15)
+      expect(component.bom_lead_time).to eq(15)
     end
 
     it 'with bom returns bom.lead_time' do
-      c_1 = create(:component, lead_time: 1)
-      bom = create(:bom)
-      create(:bom_item, bom: bom, component: c_1)
-
-      c_2 = create(:component, bom: bom, lead_time: 2)
-      expect(c_2.lead_time).to eq(1)
+      component = create(:component, stock: 1, lead_time: 1)
+      assembly = create(:component, stock: 0, lead_time: 2)
+      bom = create(:bom, component: assembly)
+      create(:bom_item, bom: bom, component: component, quantity: 1)
+      expect(assembly.bom_lead_time).to eq(1)
     end
   end
 
-  describe 'stock' do
+  describe 'bom_stock' do
+    it 'with nil stock and no bom returns nil' do
+      component = build(:component, stock: nil)
+      expect(component.bom_stock).to eq(nil)
+    end
+
     it 'without bom returns self.stock' do
       component = build(:component, stock: 1)
-      expect(component.stock).to eq(1)
+      expect(component.bom_stock).to eq(1)
     end
 
     it 'with bom and self.stock > 0 returns self.stock' do
-      c_1 = create(:component, stock: 1)
-      bom = create(:bom)
-      bom_item = create(:bom_item, bom: bom, component: c_1)
-      c_2 = create(:component, bom: bom, stock: 2)
-      expect(c_2.stock).to eq(2)
+      component = create(:component, stock: 1)
+      assembly = create(:component, stock: 2)
+      bom = create(:bom, component: assembly)
+      bom_item = create(:bom_item, bom: bom, component: component)
+      expect(assembly.bom_stock).to eq(2)
     end
 
     it 'with bom and self.stock == 0 returns bom stock' do
-      c_1 = create(:component, stock: 1)
-      bom = create(:bom)
-      bom_item = create(:bom_item, bom: bom, component: c_1)
-      c_2 = create(:component, bom: bom, stock: 0)
-      expect(c_2.stock).to eq(1)
+      component = create(:component, stock: 1)
+      assembly = create(:component, stock: 0)
+      bom = create(:bom, component: assembly)
+      bom_item = create(:bom_item, bom: bom, component: component)
+      expect(assembly.bom_stock).to eq(1)
     end
 
     it 'with bom and self.stock < 0 returns bom stock' do
-      c_1 = create(:component, stock: 1)
-      bom = create(:bom)
-      bom_item = create(:bom_item, bom: bom, component: c_1)
-      c_2 = create(:component, bom: bom, stock: -1)
-      expect(c_2.stock).to eq(1)
+      component = create(:component, stock: 1)
+      assembly = create(:component, stock: -1)
+      bom = create(:bom, component: assembly)
+      bom_item = create(:bom_item, bom: bom, component: component)
+      expect(assembly.bom_stock).to eq(1)
     end
   end
 
@@ -149,36 +158,36 @@ describe Component do
 
       c_2.pick!(quantity: 1)
 
-      expect(c_2.reload.stock).to eq(-1)
-      expect(c_1.reload.stock).to eq(-1)
+      expect(c_2.reload.bom_stock).to eq(-1)
+      expect(c_1.reload.bom_stock).to eq(-1)
     end
 
     it 'cascades through boms' do
       c_1 = create(:component, stock: 2)
+      asm_1 = create(:component, stock: 0)
+      asm_2 = create(:component, stock: 0)
+      asm_3 = create(:component, stock: 0)
 
-      bom_1 = create(:bom)
+      bom_1 = create(:bom, component: asm_1)
       create(:bom_item, bom: bom_1, component: c_1, quantity: 1)
-      asm_1 = create(:component, bom: bom_1, stock: 0)
 
-      bom_2 = create(:bom)
+      bom_2 = create(:bom, component: asm_2)
       create(:bom_item, bom: bom_2, component: asm_1, quantity: 1)
-      asm_2 = create(:component, bom: bom_2, stock: 0)
 
-      bom_3 = create(:bom)
+      bom_3 = create(:bom, component: asm_3)
       create(:bom_item, bom: bom_3, component: asm_2, quantity: 1)
       create(:bom_item, bom: bom_3, component: c_1, quantity: 1)
-      asm_3 = create(:component, bom: bom_3, stock: 0)
 
-      expect(asm_3.stock).to eq(2)
-      expect(asm_2.stock).to eq(2)
-      expect(asm_1.stock).to eq(2)
+      expect(asm_3.bom_stock).to eq(2)
+      expect(asm_2.bom_stock).to eq(2)
+      expect(asm_1.bom_stock).to eq(2)
       expect(c_1.stock).to eq(2)
 
       asm_3.pick!(quantity: 1)
 
-      expect(asm_3.reload.stock).to eq(0)
-      expect(asm_2.reload.stock).to eq(0)
-      expect(asm_1.reload.stock).to eq(0)
+      expect(asm_3.reload.bom_stock).to eq(0)
+      expect(asm_2.reload.bom_stock).to eq(0)
+      expect(asm_1.reload.bom_stock).to eq(0)
       expect(c_1.reload.stock).to eq(0)
     end
   end

@@ -79,22 +79,22 @@ describe Product do
   describe 'option associations' do
     it 'can have multiple options' do
       product = create(:product)
-      create(:option, product: product, model: 'a', sort_order: 10)
-      create(:option, product: product, model: 'b', sort_order: 20)
+      create(:option, product: product)
+      create(:option, product: product)
       expect(product.options.count).to eq 2
     end
 
     it 'should have the options sorted by sort_order' do
       product = create(:product)
-      option_1 = create(:option, product: product, model: 'a', sort_order: 10)
-      option_2 = create(:option, product: product, model: 'b', sort_order: 20)
+      option_1 = create(:option, product: product, sort_order: 10)
+      option_2 = create(:option, product: product, sort_order: 20)
       expect(product.options.to_a).to eq [option_1, option_2]
     end
     
     it 'should destroy associated options' do
       product = create(:product)
-      create(:option, product: product, model: 'a', sort_order: 10)
-      create(:option, product: product, model: 'b', sort_order: 20)
+      create(:option, product: product)
+      create(:option, product: product)
       expect {product.destroy}.to change {Option.count}.by(-2)
     end
 
