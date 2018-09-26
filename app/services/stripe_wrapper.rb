@@ -22,7 +22,7 @@ module StripeWrapper
         )
         new(response: response)
       rescue Stripe::CardError => e
-        Rails.logger.error { "#{e.message} #{e.backtrace.join("\n")}" }
+        Rails.logger.error { "#{e.message}\n#{e.backtrace.join("\n")}" }
         new(error_message: e.message)
       end      
     end

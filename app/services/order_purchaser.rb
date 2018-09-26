@@ -8,10 +8,15 @@ class OrderPurchaser
 
   def purchase
     response = process_purchase
-    record_transaction(response)
-    response.successful?
+    if response.successful?
+      record_transaction(response)
+      true
+    else
+      @order.transactions.create(exception_params(response.error_message))
+      false
+    end
   rescue StandardError => e
-    @order.transactions.create(exception_params(e))
+    @order.transactions.create(exception_params(e.message))
     false
   end
   
@@ -33,13 +38,13 @@ private
     StripeWrapper::Charge.create(stripe_purchase_options)
   end
 
-  def exception_params(e)
+  def exception_params(message)
     {
       action: 'exception',
       amount: @total,
       success: false,
       authorization: 'failed',
-      message: e.message,
+      message: message,
       params: {}
     }
   end
@@ -50,9 +55,7 @@ private
       currency:     'usd',
       description:  "Email: #{@order.email}, Order: #{@order.id}, Cart: #{@cart.id}",
       source:       @order.stripe_token,
-      metadata: {
-        ip: @order.ip_address,
-      }
+      metadata:     { ip: @order.ip_address }
     }
   end
     
