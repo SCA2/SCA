@@ -12,7 +12,7 @@ class LineItem < ApplicationRecord
   delegate :full_price_in_cents, :discount_price_in_cents, to: :itemizable
   delegate :shipping_length, :shipping_width, to: :itemizable
   delegate :shipping_height, :shipping_weight, to: :itemizable
-  delegate :pick, to: :itemizable
+  delegate :pick, :pick!, to: :itemizable
 
   def item
     itemizable

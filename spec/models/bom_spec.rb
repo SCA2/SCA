@@ -19,6 +19,25 @@ describe Bom do
       expect(bom.lines).to eq 2
     end
 
+    it 'collects all descendant bom items' do
+      asm_1 = create(:component)
+      asm_2 = create(:component)
+
+      bom_1 = create(:bom, component: asm_1)
+      create(:bom_item, bom: bom_1)
+      create(:bom_item, bom: bom_1)
+
+      bom_2 = create(:bom, component: asm_2)
+      create(:bom_item, bom: bom_2)
+      create(:bom_item, bom: bom_2)
+
+      bom_3 = create(:bom)
+      create(:bom_item, bom: bom_3, component: asm_1)
+      create(:bom_item, bom: bom_3, component: asm_2)
+
+      expect(bom_3.child_items.pluck(:id).max).to eq(bom_3.child_items.pluck(:id).min + 5)
+    end
+
     it 'can report stock' do
       bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
@@ -46,17 +65,6 @@ describe Bom do
       create(:bom_item, bom: bom_2, component: cmp_4, quantity: 2)
       
       expect(bom_2.stock).to eq 2
-    end
-
-    it 'returns nil if any quantity is 0' do
-      bom = create(:bom)
-      cmp_1 = create(:component, stock: 5)
-      cmp_2 = create(:component, stock: 6)
-      cmp_3 = create(:component, stock: 7)
-      create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
-      create(:bom_item, bom: bom, component: cmp_2, quantity: 0)
-      create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      expect(bom.stock).to eq nil
     end
 
     it 'can subtract stock' do

@@ -5,9 +5,7 @@ class OptionsController < BaseController
   before_action :set_option, only: [:edit, :update, :destroy]
 
   def new
-    @components = Component.priced
-      .left_outer_joins(:option)
-      .where.not(options: { id: @options })
+    @components = Component.priced.where.not(id: @options.pluck(:component_id))
     if @components.empty?
       flash[:alert] = 'Create some components!'
       redirect_to products_path

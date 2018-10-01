@@ -33,32 +33,55 @@ class Component < ApplicationRecord
     description
   end
 
+  def child_items
+    if bom
+      bom.bom_items.includes(:component).flat_map { |item| [item] + item.component.child_items }
+    else
+      []
+    end
+  end
+
   def bom_lead_time
-    if self[:stock] && self[:stock] > 0
+    if bom
+      stock_out = child_items.group_by { |item| item.component.stock }[0]
+      stock_out.max_by { |item| item.component.lead_time }.component.lead_time if stock_out
+    elsif self[:lead_time]
       self[:lead_time]
-    elsif bom && bom.stock
-      bom.lead_time
+    else
+      nil
+    end
+  end
+
+  def recursive_stock
+    if bom && local_stock <= 0
+      bom.stock
+    elsif stocked?
+      self[:stock]
     else
       nil
     end
   end
 
   def bom_stock
-    if self[:stock] && self[:stock] > 0
-      self[:stock]
-    elsif self[:stock] && !bom
-      self[:stock]
-    elsif bom && bom.stock
-      bom.stock
-    else
-      nil
-    end
+    bom.stock if bom
+  end
+
+  def local_stock
+    self[:stock] if stocked?
+  end
+
+  def stocked?
+    !unstocked?
+  end
+
+  def unstocked?
+    self[:stock].nil?
   end
 
   def pick(quantity: 0)
+    return unless stocked?
     self.reload if self.persisted?
-    return unless self[:stock]
-    if bom && self[:stock] < quantity
+    if bom && local_stock < quantity
       bom.pick(quantity: quantity - self[:stock])
       self[:stock] = 0
     else

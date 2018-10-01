@@ -61,11 +61,11 @@ feature "Components" do
       first(:link_or_button, component.mfr_part_number).click
       click_link 'Edit'
       expect(page).to have_content("Edit Component\n#{component.mfr_part_number}")
-      component.marking = 'unique marking'
+      component.description = 'unique description'
       fill_in_component(component)
       find(:link_or_button, 'Update').click
       expect(page).to have_content("Component #{component.mfr_part_number} updated")
-      expect(page).to have_content('unique marking')
+      expect(page).to have_content('unique description')
     end
 
     scenario 'pick from inventory' do

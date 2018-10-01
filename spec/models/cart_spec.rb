@@ -107,7 +107,6 @@ describe Cart do
     it 'calculates the correct value' do
       expect(cart.discount).to eql (2900 + 2800 + 2900 + 2700)
     end
-
   end
 
   describe 'subpanel discount' do
@@ -142,6 +141,16 @@ describe Cart do
 
     it 'calculates the correct value' do
       expect(cart.discount).to eql (29900 + 3000 + 19900 + 2000)
+    end
+  end
+
+  describe 'inventory' do
+    it 'subtracts quantity from stock' do
+      cart = create(:cart)
+      component = create(:component, stock: 0)
+      item = create(:line_item, itemizable: component, cart: cart)
+      cart.inventory
+      expect(component.reload.stock).to eq(-item.quantity)
     end
   end
 end

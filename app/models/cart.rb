@@ -99,7 +99,7 @@ class Cart < ApplicationRecord
   end
 
   def inventory
-    line_items.each { |item| item.pick(quantity: item.quantity) }
+    line_items.each { |item| item.pick!(quantity: item.quantity) }
   end
 
   def intangible?

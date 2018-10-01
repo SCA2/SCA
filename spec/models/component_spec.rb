@@ -80,12 +80,12 @@ describe Component do
     end
 
     it 'without bom returns self.lead_time' do
-      component = build(:component, lead_time: 15)
+      component = build(:component, stock: 0, lead_time: 15)
       expect(component.bom_lead_time).to eq(15)
     end
 
     it 'with bom returns bom.lead_time' do
-      component = create(:component, stock: 1, lead_time: 1)
+      component = create(:component, stock: 0, lead_time: 1)
       assembly = create(:component, stock: 0, lead_time: 2)
       bom = create(:bom, component: assembly)
       create(:bom_item, bom: bom, component: component, quantity: 1)
@@ -93,15 +93,15 @@ describe Component do
     end
   end
 
-  describe 'bom_stock' do
+  describe 'recursive_stock' do
     it 'with nil stock and no bom returns nil' do
       component = build(:component, stock: nil)
-      expect(component.bom_stock).to eq(nil)
+      expect(component.recursive_stock).to eq(nil)
     end
 
-    it 'without bom returns self.stock' do
+    it 'without bom returns self[:stock]' do
       component = build(:component, stock: 1)
-      expect(component.bom_stock).to eq(1)
+      expect(component.recursive_stock).to eq(1)
     end
 
     it 'with bom and self.stock > 0 returns self.stock' do
@@ -109,7 +109,7 @@ describe Component do
       assembly = create(:component, stock: 2)
       bom = create(:bom, component: assembly)
       bom_item = create(:bom_item, bom: bom, component: component)
-      expect(assembly.bom_stock).to eq(2)
+      expect(assembly.recursive_stock).to eq(2)
     end
 
     it 'with bom and self.stock == 0 returns bom stock' do
@@ -117,7 +117,7 @@ describe Component do
       assembly = create(:component, stock: 0)
       bom = create(:bom, component: assembly)
       bom_item = create(:bom_item, bom: bom, component: component)
-      expect(assembly.bom_stock).to eq(1)
+      expect(assembly.recursive_stock).to eq(1)
     end
 
     it 'with bom and self.stock < 0 returns bom stock' do
@@ -125,7 +125,7 @@ describe Component do
       assembly = create(:component, stock: -1)
       bom = create(:bom, component: assembly)
       bom_item = create(:bom_item, bom: bom, component: component)
-      expect(assembly.bom_stock).to eq(1)
+      expect(assembly.recursive_stock).to eq(1)
     end
   end
 
@@ -153,13 +153,13 @@ describe Component do
       c_1 = create(:component, stock: 1)
 
       bom = create(:bom)
-      bom_item = create(:bom_item, bom: bom, component: c_1)
+      bom_item = create(:bom_item, bom: bom, quantity: 1, component: c_1)
       c_2 = create(:component, bom: bom, stock: -1)
 
       c_2.pick!(quantity: 1)
 
-      expect(c_2.reload.bom_stock).to eq(-1)
-      expect(c_1.reload.bom_stock).to eq(-1)
+      expect(c_2.reload.local_stock).to eq(0)
+      expect(c_1.reload.local_stock).to eq(-1)
     end
 
     it 'cascades through boms' do
@@ -227,6 +227,28 @@ describe Component do
     it 'handles missing value and description' do
       component = create(:component, mfr_part_number: 'mfr', value: nil, description: '')
       expect(component.selection_name).to eq 'mfr'
+    end
+  end
+
+  describe 'child_items' do
+    it 'collects all descendant bom items' do
+      asm_1 = create(:component)
+      asm_2 = create(:component)
+      asm_3 = create(:component)
+
+      bom_1 = create(:bom, component: asm_1)
+      create(:bom_item, bom: bom_1)
+      create(:bom_item, bom: bom_1)
+
+      bom_2 = create(:bom, component: asm_2)
+      create(:bom_item, bom: bom_2)
+      create(:bom_item, bom: bom_2)
+
+      bom_3 = create(:bom, component: asm_3)
+      create(:bom_item, bom: bom_3, component: asm_1)
+      create(:bom_item, bom: bom_3, component: asm_2)
+
+      expect(asm_3.child_items.count).to eq(6)
     end
   end
 end
