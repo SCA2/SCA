@@ -9,7 +9,7 @@ describe LineItem do
   
   it { should be_valid }
 
-  it { should respond_to(:option) }
+  it { should respond_to(:component) }
   it { should respond_to(:cart) }
   it { should respond_to(:quantity) }
     
@@ -22,13 +22,8 @@ describe LineItem do
   it { should respond_to(:extended_price) }
   it { should respond_to(:extended_weight) }
   
-  describe 'when itemizable_id is not present' do
-    before { line_item.itemizable_id = nil }
-    it { should_not be_valid }
-  end
-
-  describe 'when itemizable_type is not present' do
-    before { line_item.itemizable_type = nil }
+  describe 'when component_id is not present' do
+    before { line_item.component_id = nil }
     it { should_not be_valid }
   end
 
@@ -40,65 +35,65 @@ describe LineItem do
   describe 'cart associations' do
     it 'has one cart' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = build_stubbed(:line_item, cart: cart, itemizable: option)
+      component = create(:component)
+      line_item = build_stubbed(:line_item, cart: cart, component: component)
       expect(line_item.cart).to eq cart
     end
 
     it 'does not destroy associated cart' do
       cart = create(:cart, purchased_at: Time.now)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
       expect {line_item.destroy}.not_to change {Cart.count}
     end
 
     it 'does not constrain destruction of associated cart' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = build_stubbed(:line_item, cart: cart, itemizable: option)
+      component = create(:component)
+      line_item = build_stubbed(:line_item, cart: cart, component: component)
       expect {cart.destroy}.to change {Cart.count}.by(-1)
     end
 
     it 'is destroyed with destruction of associated cart' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
       expect {cart.destroy}.to change {LineItem.count}.by(-1)
     end
   end
 
-  describe 'option associations' do
-    it 'has one option' do
+  describe 'component associations' do
+    it 'has one component' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
-      expect(line_item.option).to eq option
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
+      expect(line_item.component).to eq component
     end
 
-    it 'does not destroy associated option' do
+    it 'does not destroy associated component' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
-      expect {line_item.destroy}.not_to change {Option.count}
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
+      expect {line_item.destroy}.not_to change {Component.count}
     end
 
-    it 'constrains destruction of associated option' do
+    it 'existence constrains destruction of associated component' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
-      expect {option.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
+      expect {component.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
 
-    it 'associated option can be destroyed after destruction of line_item' do
+    it 'associated component can be destroyed after destruction of line_item' do
       cart = create(:cart)
-      option = create(:option)
-      line_item = create(:line_item, cart: cart, itemizable: option)
+      component = create(:component)
+      line_item = create(:line_item, cart: cart, component: component)
       line_item.destroy
-      expect {option.destroy}.to change {Option.count}.by(-1)
+      expect {component.destroy}.to change {Component.count}.by(-1)
     end
   end
 
-  describe 'product and option calculations' do
+  describe 'product and component calculations' do
     let(:price)     { 100 } # price in dollars
     let(:quantity)  { 3 }
     let(:weight)    { 2 }
@@ -110,8 +105,7 @@ describe LineItem do
       shipping_height: 2
     )}
     let(:component) { build_stubbed(:component, size_weight_price_tag: tag)}
-    let(:option)    { build_stubbed(:option, component: component) }
-    let(:line_item) { build_stubbed(:line_item, itemizable: option, quantity: quantity) }
+    let(:line_item) { build_stubbed(:line_item, component: component, quantity: quantity) }
 
     it 'returns the tag price' do
       expect(line_item.full_price_in_cents).to eql tag.full_price_in_cents

@@ -1,11 +1,8 @@
 class Option < ApplicationRecord
   
   belongs_to :product, inverse_of: :options
-  belongs_to :component, inverse_of: :option
+  belongs_to :component, inverse_of: :options
 
-  # enforced by pg foreign key constraint
-  has_many :line_items, as: :itemizable, inverse_of: :option, dependent: :restrict_with_exception
-  
   delegate :full_price, :discount_price, to: :component
   delegate :full_price_in_cents, :discount_price_in_cents, to: :component
   delegate :shipping_length, :shipping_width, :shipping_height, :shipping_weight, to: :component

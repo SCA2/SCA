@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180916051322) do
+ActiveRecord::Schema.define(version: 20181002170732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20180916051322) do
     t.datetime "updated_at"
     t.integer "quantity", default: 1
     t.integer "option_id"
-    t.integer "itemizable_id"
+    t.integer "component_id"
     t.string "itemizable_type"
     t.index ["cart_id"], name: "index_line_items_on_cart_id"
   end

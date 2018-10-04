@@ -7,7 +7,7 @@ describe Checkout::PaymentController do
         cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: cart, itemizable: component)
+        create(:line_item, cart: cart, component: component)
         order = create(:order,
           cart: cart,
           express_token: nil,
@@ -30,7 +30,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: @cart, itemizable: component)
+        create(:line_item, cart: @cart, component: component)
         order = create(:order,
           cart: @cart,
           shipping_cost: nil
@@ -55,7 +55,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: @cart, itemizable: component)
+        create(:line_item, cart: @cart, component: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -81,7 +81,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: @cart, itemizable: component)
+        create(:line_item, cart: @cart, component: component)
         create(:order, cart: @cart, express_token: nil, shipping_cost: nil)
         session[:cart_id] = @cart.id
         post :update, params: {
@@ -105,7 +105,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: @cart, itemizable: component)
+        create(:line_item, cart: @cart, component: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)
@@ -131,7 +131,7 @@ describe Checkout::PaymentController do
         @cart = create(:cart)
         tag = create(:constant_tag)
         component = create(:component, size_weight_price_tag: tag)
-        create(:line_item, cart: @cart, itemizable: component)
+        create(:line_item, cart: @cart, component: component)
         order = create(:order, cart: @cart, express_token: nil)
         create(:billing_constant_taxable, addressable: order)
         create(:shipping_constant_taxable, addressable: order)

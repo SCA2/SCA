@@ -12,12 +12,6 @@ class ComponentsController < BaseController
     @components = Component.all
   end
 
-  def show
-  end
-  
-  def edit
-  end
-
   def create
     @component = Component.new(component_params)
     if @component.save
@@ -41,8 +35,8 @@ class ComponentsController < BaseController
     component_id = component.id
     component.destroy
     redirect_to components_path, notice: "Component #{component_id} deleted"
-  rescue
-    @boms = Bom.joins(:bom_items).where(bom_items: { component: component })
+  rescue ActiveRecord::DeleteRestrictionError => e
+    redirect_to components_path, alert: e.message
   end
 
   def component

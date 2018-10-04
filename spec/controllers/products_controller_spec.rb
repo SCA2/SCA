@@ -126,32 +126,6 @@ describe ProductsController do
         end
       end
     end
-  
-    describe "DELETE destroy" do
-      
-      before do
-        product.options << option
-        product.save!
-      end
-      
-      it "destroys the requested product" do
-        expect {
-          delete :destroy, params: { id: product }
-        }.to change(Product, :count).by(-1)
-      end
-  
-      it "redirects to the products list" do
-        delete :destroy, params: { id: product }
-        expect(response).to redirect_to(products_path)
-      end
-
-      it "alerts if product is referenced by a cart" do
-        cart = create(:cart)
-        create(:line_item, cart: cart, itemizable: option)
-        delete :destroy, params: { id: product }
-        expect(flash[:alert]).to include("Product #{product.model} is referenced by cart #{cart.id}")
-      end
-    end
   end
 
   describe 'admin access to products' do

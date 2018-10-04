@@ -104,40 +104,4 @@ describe Product do
       expect {option.destroy}.not_to change {Product.count}
     end
   end
-
-  describe 'line_item associations' do
-    it 'is not destroyed with associated line_item' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, itemizable: option, cart: cart)
-      expect {line.destroy}.not_to change {Product.count}
-    end
-
-    it 'line_item association does not constrain line_item destroy' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, itemizable: option, cart: cart)
-      expect {line.destroy}.to change {LineItem.count}.by(-1)
-    end
-    
-    it 'line_item association constrains product destroy' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, itemizable: option, cart: cart)
-      expect {product.destroy}.to raise_error(ActiveRecord::DeleteRestrictionError)
-      expect(Product.count).to eq 1
-    end
-
-    it 'can be destroyed after associated line_item' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, itemizable: option, cart: cart)
-      line.destroy
-      expect {product.destroy}.to change {Product.count}.by(-1)
-    end
-  end
 end

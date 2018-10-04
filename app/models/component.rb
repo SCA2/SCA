@@ -1,11 +1,13 @@
 class Component < ApplicationRecord
-  has_many :line_items, as: :itemizable, inverse_of: :component
+  has_many :line_items, inverse_of: :component, dependent: :restrict_with_exception
   has_many :bom_items, inverse_of: :component, dependent: :restrict_with_exception
   has_one :bom, inverse_of: :component
-  has_one :option, inverse_of: :component, dependent: :restrict_with_exception
+  has_many :options, inverse_of: :component, dependent: :restrict_with_exception
+  has_many :products, through: :options, dependent: :restrict_with_exception
   has_one :size_weight_price_tag, inverse_of: :component, dependent: :destroy
 
-  delegate :shipping_length, :shipping_width, :shipping_height, :shipping_weight, to: :size_weight_price_tag
+  delegate :shipping_length, :shipping_width, to: :size_weight_price_tag
+  delegate :shipping_height, :shipping_weight, to: :size_weight_price_tag
   delegate :full_price_in_cents, :discount_price_in_cents, to: :size_weight_price_tag
 
   attribute :restock_quantity, :integer, default: 0
@@ -17,7 +19,6 @@ class Component < ApplicationRecord
 
   validates :stock, numericality: { only_integer: true}, allow_blank: true
   validates :lead_time, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
-  # validates :lead_time, numericality: { greater_than: 0, allow_blank: true }, allow_blank: true
 
   validates :restock_quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 

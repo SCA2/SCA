@@ -46,19 +46,9 @@ class ProductsController < BaseController
 
   def destroy
     @product.destroy
-    flash[:notice] = "Success! Product #{@product.model} deleted."
-    redirect_to products_path
-  rescue(ActiveRecord::DeleteRestrictionError)
-    carts = Cart.where(id: LineItem.where(itemizable_id: Option.where(product_id: @product.id)).pluck(:cart_id))
-    orders = Order.joins(:cart).where(cart_id: carts)
-    if orders.count > 0
-      alert = "Product #{@product.model} is referenced by order #{orders.first.id} and #{orders.count - 1} others. Delete those first."
-    elsif carts.count > 0
-      alert = "Product #{@product.model} is referenced by cart #{carts.first.id} and #{carts.count - 1} others. Delete those first."
-    else
-      alert = "Can't delete this product because of invalid foreign key."
-    end
-    redirect_to products_path, alert: alert
+    redirect_to products_path, notice: "Success! Product deleted."
+  rescue => e
+    redirect_to products_path, alert: e.message
   end
 
   def update_category_sort_order

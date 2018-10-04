@@ -1,21 +1,20 @@
 class LineItem < ApplicationRecord
   belongs_to :cart, inverse_of: :line_items
-  belongs_to :itemizable, polymorphic: true
+  belongs_to :component, inverse_of: :line_items
 
-  belongs_to :option, foreign_type: 'Option', foreign_key: 'itemizable_id'
-  belongs_to :component, foreign_type: 'Component', foreign_key: 'itemizable_id', inverse_of: :line_items
+  belongs_to :option, foreign_type: 'Option', foreign_key: 'option_id'
 
-  validates :cart, :itemizable, presence: true
+  validates :cart, :component, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
   
-  delegate :item_model, :item_description, to: :itemizable
-  delegate :full_price_in_cents, :discount_price_in_cents, to: :itemizable
-  delegate :shipping_length, :shipping_width, to: :itemizable
-  delegate :shipping_height, :shipping_weight, to: :itemizable
-  delegate :pick, :pick!, to: :itemizable
+  delegate :item_model, :item_description, to: :component
+  delegate :full_price_in_cents, :discount_price_in_cents, to: :component
+  delegate :shipping_length, :shipping_width, to: :component
+  delegate :shipping_height, :shipping_weight, to: :component
+  delegate :pick, :pick!, to: :component
 
   def item
-    itemizable
+    component
   end
 
   def extended_price

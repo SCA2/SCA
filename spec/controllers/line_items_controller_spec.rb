@@ -3,10 +3,9 @@ require 'rails_helper'
 describe LineItemsController do
 
   let!(:cart)           { create(:cart) }
-  let!(:product)        { create(:product) }
-  let!(:option)         { create(:option, product: product) }
-  let(:valid_params)    { attributes_for(:line_item, cart: cart, itemizable: option) }
-  let(:invalid_params)  { attributes_for(:line_item, cart: nil, itemizable: option) }
+  let!(:component)      { create(:component) }
+  let(:valid_params)    { attributes_for(:line_item, cart: cart) }
+  let(:invalid_params)  { attributes_for(:line_item, cart: nil) }
 
   before { test_sign_out(use_capybara: false) }
 
@@ -18,8 +17,7 @@ describe LineItemsController do
           post :create, params: {
             line_item: valid_params,
             format: 'js',
-            itemizable_id: option.to_param,
-            itemizable_type: option.class.name
+            component_id: component.to_param
           }
         }.to change(LineItem, :count).by(1)
       end
@@ -30,8 +28,7 @@ describe LineItemsController do
           post :create, params: {
             line_item: valid_params,
             format: 'js',
-            itemizable_id: option.to_param,
-            itemizable_type: option.class.name
+            component_id: component.to_param
           }
         }.to change(Cart, :count).by(1)
       end
@@ -41,8 +38,7 @@ describe LineItemsController do
         post :create, params: {
           line_item: valid_params,
           format: 'js',
-          itemizable_id: option.to_param,
-          itemizable_type: option.class.name
+          component_id: component.to_param
         }
 
         expect(cart.line_items.last).to eq(LineItem.last)
@@ -51,8 +47,7 @@ describe LineItemsController do
       it "redirects to product index without 'js' format" do
         post :create, params: {
           line_item: valid_params,
-          itemizable_id: option.to_param,
-          itemizable_type: option.class.name
+          component_id: component.to_param
         }
 
         expect(response).to redirect_to(products_path)
@@ -60,12 +55,10 @@ describe LineItemsController do
     end
 
     describe "with invalid params" do
-      it "redirects to products index with bad option.id" do
+      it "redirects to products index with bad component_id" do
         post :create, params: {
-          line_item: valid_params,
           format: 'js',
-          itemizable_type: 'Product',
-          itemizable_id: nil
+          component_id: nil
         }
 
         expect(response).to redirect_to(products_path)

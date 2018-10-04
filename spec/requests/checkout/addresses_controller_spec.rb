@@ -58,10 +58,9 @@ describe Checkout::AddressesController do
 
     context 'as a guest with addressable order' do
       before do
-        product = create(:product)
-        option = create(:option, product: product)
+        component = create(:component)
         post line_items_path,
-          params: { itemizable_type: option.class.name, itemizable_id: option.id }
+          params: { component_id: component.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'responds successfully' do
@@ -78,10 +77,9 @@ describe Checkout::AddressesController do
       let(:user) { create(:user, addresses: [billing, shipping]) }
       before do
         test_sign_in(user, use_capybara: false)
-        product = create(:product)
-        option = create(:option, product: product)
+        component = create(:component)
         post line_items_path,
-          params: { itemizable_type: option.class.name, itemizable_id: option.id }
+          params: { component_id: component.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'populates form with user addresses' do
@@ -94,10 +92,9 @@ describe Checkout::AddressesController do
       let(:user) { create(:user) }
       before do
         test_sign_in(user, use_capybara: false)
-        product = create(:product)
-        option = create(:option, product: product)
+        component = create(:component)
         post line_items_path,
-          params: { itemizable_type: option.class.name, itemizable_id: option.id }
+          params: { component_id: component.id }
         get new_checkout_address_path(Cart.last)
       end
       it 'creates new order.address record' do
@@ -109,12 +106,10 @@ describe Checkout::AddressesController do
 
   describe "POST #create" do
     before do
-      product = create(:product)
       tag = create(:size_weight_price_tag)
       component = create(:component, size_weight_price_tag: tag)
-      option = create(:option, product: product, component: component)
       post line_items_path,
-        params: { itemizable_type: option.class.name, itemizable_id: option.id }
+        params: { component_id: component.id }
       @cart = Cart.last
       get new_checkout_address_path(@cart)
     end

@@ -20,6 +20,25 @@ describe 'access to products' do
         expect(response.body).to include("/products/#{p2.model}")
       end
     end
+    
+    describe "delete" do
+      
+      let(:product) { create(:product) }
+      let(:option) { create(:option, product: product) }
+      
+      it "destroys the requested product" do
+        product.save!
+        option.save!
+        expect {
+          delete product_path(product)
+        }.to change(Product, :count).by(-1)
+      end
+    
+      it "redirects to the products list" do
+        delete product_path(product)
+        expect(response).to redirect_to(new_product_option_path(product))
+      end
+    end
   end
 
   describe 'as a guest' do

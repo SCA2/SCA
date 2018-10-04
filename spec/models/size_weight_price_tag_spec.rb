@@ -99,29 +99,29 @@ describe SizeWeightPriceTag do
     it 'can belong to multiple line_items through component' do
       component = create(:component)
       tag = create(:size_weight_price_tag, component: component)
-      create(:line_item, itemizable: component)
-      create(:line_item, itemizable: component)
+      create(:line_item, component: component)
+      create(:line_item, component: component)
       expect(tag.line_items.count).to eq 2
     end
     
     it 'is not deleted with associated line_item' do
       component = create(:component)
       tag = create(:size_weight_price_tag, component: component)
-      line_item = create(:line_item, itemizable: component)
+      line_item = create(:line_item, component: component)
       expect { line_item.destroy }.not_to change { SizeWeightPriceTag.count }
     end
     
     it 'tag association does not constrain line_item destroy' do
       component = create(:component)
       tag = create(:size_weight_price_tag, component: component)
-      line_item = create(:line_item, itemizable: component)
+      line_item = create(:line_item, component: component)
       expect { line_item.destroy }.to change { LineItem.count }.by(-1)
     end
 
     it 'line_item association constrains tag destroy' do
       component = create(:component)
       tag = create(:size_weight_price_tag, component: component)
-      create(:line_item, itemizable: component)
+      create(:line_item, component: component)
       count = SizeWeightPriceTag.count
       expect { tag.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
       expect(SizeWeightPriceTag.count).to eq(count)

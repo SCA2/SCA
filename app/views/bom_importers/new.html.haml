@@ -7,7 +7,7 @@
 
   %ul
     %li
-      %strong option
+      %strong component
       &ndash;
       String type
 
@@ -22,7 +22,7 @@
           = column.type.to_s.titleize
           type
 
-  %p If an existing <strong>product</strong> and <strong>option</strong> are supplied the matching BOM will be updated.
+  %p If an existing <strong>component</strong> is supplied the matching BOM will be updated.
 
   = form_for @bom_importer do |f|
     = render 'bom_importers/form', f: f

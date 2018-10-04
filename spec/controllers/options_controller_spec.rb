@@ -72,27 +72,6 @@ describe OptionsController do
         end
       end
     end
-  
-    describe "DELETE #destroy" do
-      it "destroys the requested option" do
-        option.save!
-        expect {
-          delete :destroy, params: { id: option, product_id: product }
-        }.to change(Option, :count).by(-1)
-      end
-  
-      it "redirects to the options list" do
-        delete :destroy, params: { id: option, product_id: product }
-        expect(response).to redirect_to(product)
-      end
-
-      it "alerts if referenced by a cart" do
-        cart = create(:cart)
-        create(:line_item, cart: cart, option: option)
-        delete :destroy, params: { product_id: product, id: option }
-        expect(flash[:alert]).to include("Option #{option.model} is referenced by cart #{cart.id}")
-      end
-    end
   end
 
   describe 'admin access to options' do

@@ -63,44 +63,6 @@ describe Option do
     end
   end
 
-  describe 'line item associations' do
-    it 'can have multiple line_items' do
-      option = create(:option)
-      create(:line_item, itemizable: option)
-      create(:line_item, itemizable: option)
-      expect(option.line_items.count).to eq 2
-    end
-    
-    it 'is not deleted with associated line_item' do
-      option = create(:option)
-      line = create(:line_item, itemizable: option)
-      expect { line.destroy }.not_to change { Option.count }
-    end
-    
-    it 'line_item association does not constrain line_item destroy' do
-      option = create(:option)
-      line = create(:line_item, itemizable: option)
-      expect { line.destroy }.to change { LineItem.count }.by(-1)
-    end
-
-    it 'line_item association constrains option destroy' do
-      option = create(:option)
-      create(:line_item, itemizable: option)
-      count = Option.count
-      expect { option.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
-      expect(Option.count).to eq(count)
-    end
-  
-    it 'can be deleted after associated line_item' do
-      cart = create(:cart)
-      product = create(:product)
-      option = create(:option, product: product)
-      line = create(:line_item, cart: cart, itemizable: option)
-      line.destroy
-      expect {option.destroy}.to change {Option.count}.by(-1)
-    end
-  end
-
   describe 'stock messages' do
     let(:op) { build(:option) }
     it 'reports correct message for disabled?' do

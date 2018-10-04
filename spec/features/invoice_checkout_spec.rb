@@ -18,7 +18,7 @@ feature 'invoice', :vcr do
     component = create(:constant_component, size_weight_price_tag: tag)
     option = create(:option, product: @product, component: component)
     cart = create(:cart, invoice_token: 'secret_token', invoice_sent_at: Time.now)
-    create(:line_item, cart: cart, itemizable: component)
+    create(:line_item, cart: cart, component: component)
   end
 
   after(:each) { DatabaseCleaner.clean_with(:truncation) }

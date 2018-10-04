@@ -36,6 +36,23 @@ describe 'admin product options' do
       expect(response.body).to include(option_2.model)
       expect(session[product.id][:current_option]).to eq(option_1.id)
     end
+    
+    describe "delete" do
+      let(:product) { create(:product) }
+      let(:option)  { create(:option, product: product) }
+
+      it "destroys the requested option" do
+        option.save!
+        expect {
+          delete product_option_path(product, option)
+        }.to change(Option, :count).by(-1)
+      end
+    
+      it "redirects to the product page" do
+        delete product_option_path(product, option)
+        expect(response).to redirect_to(product)
+      end
+    end
   end
 
   describe 'as a guest' do

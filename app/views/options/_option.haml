@@ -5,9 +5,9 @@
     .actions-box
       .add(id="add-#{@product.id.to_s}")
         - if signed_in_admin?
-          = button_to 'Add to Cart', line_items_path(itemizable_type: 'Component', itemizable_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
+          = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
         - else
-          = button_to 'Add to Cart', line_items_path(itemizable_type: 'Component', itemizable_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
+          = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
       .price(id="price-#{@product.id.to_s}")
         = get_price(@option)
       .stock(id="stock-#{@product.id.to_s}")

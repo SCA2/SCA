@@ -15,7 +15,7 @@ describe SalesTaxCalculator do
     3.times do
       tag = create(:size_weight_price_tag, full_price: 100)
       component = create(:component, size_weight_price_tag: tag)
-      line_item = create(:line_item, quantity: 1, itemizable: component)
+      line_item = create(:line_item, quantity: 1, component: component)
       line_item.cart.update(purchased_at: Date.today.noon)
       order = create(:order, shipping_cost: 1500, cart: line_item.cart)
       order.addresses << build(:address, addressable: order, address_type: 'shipping')
@@ -27,7 +27,7 @@ describe SalesTaxCalculator do
     2.times do
       tag = create(:size_weight_price_tag, full_price: 200)
       component = create(:component, size_weight_price_tag: tag)
-      line_item = create(:line_item, quantity: 1, itemizable: component)
+      line_item = create(:line_item, quantity: 1, component: component)
       line_item.cart.update(purchased_at: Date.today.noon)
       order = create(:order, shipping_cost: 1500, cart: line_item.cart)
       order.addresses << build(:address, addressable: order, address_type: 'shipping')

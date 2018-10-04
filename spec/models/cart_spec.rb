@@ -47,30 +47,21 @@ describe Cart do
 
     it 'has multiple line_items' do
       cart = create(:cart, purchased_at: Time.zone.now)
-      product = create(:product)
-      component = create(:component)
-      option = create(:option, product: product, component: component)
-      create(:line_item, cart: cart, itemizable: option)
-      create(:line_item, cart: cart, itemizable: option)
+      create(:line_item, cart: cart)
+      create(:line_item, cart: cart)
       expect(cart.line_items.count).to eq 2
     end
 
     it 'destroys associated line_items' do
       cart = create(:cart)
-      product = create(:product)
-      component = create(:component)
-      option = create(:option, product: product, component: component)
-      create(:line_item, cart: cart, itemizable: option)
-      create(:line_item, cart: cart, itemizable: option)
+      create(:line_item, cart: cart)
+      create(:line_item, cart: cart)
       expect {cart.destroy}.to change {LineItem.count}.by(-2)
     end
 
     it 'does not constrain line_item destroy' do
       cart = create(:cart)
-      product = create(:product)
-      component = create(:component)
-      option = create(:option, product: product, component: component)
-      line = create(:line_item, cart: cart, itemizable: option)
+      line = create(:line_item, cart: cart)
       expect {line.destroy}.to change {LineItem.count}.by(-1)
     end
   end
@@ -80,7 +71,7 @@ describe Cart do
     let(:quantity)  { 3 }
     let(:tag)       { build_stubbed(:size_weight_price_tag, full_price: price) }
     let(:component) { build_stubbed(:component, size_weight_price_tag: tag) }
-    let(:line_item) { build_stubbed(:line_item, itemizable: component, quantity: quantity) }
+    let(:line_item) { build_stubbed(:line_item, component: component, quantity: quantity) }
     let(:cart)      { build_stubbed(:cart, line_items: [line_item]) }
 
     it 'calculates the correct value' do
@@ -92,16 +83,16 @@ describe Cart do
   describe 'opamp discount' do
     let(:t1) { create(:size_weight_price_tag, full_price: 229, discount_price: 200) }
     let(:c1) { create(:component, mfr_part_number: 'A12KF-2S', size_weight_price_tag: t1) }
-    let(:line_1)  { create(:line_item, itemizable: c1, quantity: 1) }
+    let(:line_1)  { create(:line_item, component: c1, quantity: 1) }
     let(:t2) { create(:size_weight_price_tag, full_price: 249, discount_price: 221) }
     let(:c2) { create(:component, mfr_part_number: 'A12KA-2L', size_weight_price_tag: t2) }
-    let(:line_2)  { create(:line_item, itemizable: c2, quantity: 1) }
+    let(:line_2)  { create(:line_item, component: c2, quantity: 1) }
     let(:t3) { create(:size_weight_price_tag, full_price: 79, discount_price: 50) }
     let(:c3) { create(:component, mfr_part_number: 'SC25KA', size_weight_price_tag: t3) }
-    let(:line_3)  { create(:line_item, itemizable: c3, quantity: 1) }
+    let(:line_3)  { create(:line_item, component: c3, quantity: 1) }
     let(:t4) { create(:size_weight_price_tag, full_price: 79, discount_price: 52) }
     let(:c4) { create(:component, mfr_part_number: 'SC10KA', size_weight_price_tag: t4) }
-    let(:line_4)  { create(:line_item, itemizable: c4, quantity: 1) }
+    let(:line_4)  { create(:line_item, component: c4, quantity: 1) }
     let(:cart)    { create(:cart, line_items: [line_1, line_2, line_3, line_4]) }
 
     it 'calculates the correct value' do
@@ -112,10 +103,10 @@ describe Cart do
   describe 'subpanel discount' do
     let(:t1) { create(:size_weight_price_tag, full_price: 100, discount_price: 92) }
     let(:c1) { create(:component, mfr_part_number: 'A12KF-2S', size_weight_price_tag: t1) }
-    let(:line_1)  { create(:line_item, itemizable: c1, quantity: 1) }
+    let(:line_1)  { create(:line_item, component: c1, quantity: 1) }
     let(:t2) { create(:size_weight_price_tag, full_price: 15, discount_price: 10) }
     let(:c2) { create(:component, mfr_part_number: 'CH02-SP-A12', size_weight_price_tag: t2) }
-    let(:line_2)  { create(:line_item, itemizable: c2, quantity: 1) }
+    let(:line_2)  { create(:line_item, component: c2, quantity: 1) }
     let(:cart)    { create(:cart, line_items: [line_1, line_2]) }
 
     it 'calculates the correct value' do
@@ -127,16 +118,16 @@ describe Cart do
   describe 'chassis discount' do
     let(:t1) { create(:size_weight_price_tag, full_price: 599, discount_price: 300) }
     let(:c1) { create(:component, mfr_part_number: 'CH02KF', size_weight_price_tag: t1) }
-    let(:line_1)  { create(:line_item, itemizable: c1, quantity: 1) }
+    let(:line_1)  { create(:line_item, component: c1, quantity: 1) }
     let(:t2) { create(:size_weight_price_tag, full_price: 329, discount_price: 299) }
     let(:c2) { create(:component, mfr_part_number: 'N72KF', size_weight_price_tag: t2) }
-    let(:line_2)  { create(:line_item, itemizable: c2, quantity: 1) }
+    let(:line_2)  { create(:line_item, component: c2, quantity: 1) }
     let(:t3) { create(:size_weight_price_tag, full_price: 599, discount_price: 400) }
     let(:c3) { create(:component, mfr_part_number: 'CH02KA-2', size_weight_price_tag: t3) }
-    let(:line_3)  { create(:line_item, itemizable: c3, quantity: 1) }
+    let(:line_3)  { create(:line_item, component: c3, quantity: 1) }
     let(:t4) { create(:size_weight_price_tag, full_price: 279, discount_price: 259) }
     let(:c4) { create(:component, mfr_part_number: 'A12BKA-2H', size_weight_price_tag: t4) }
-    let(:line_4)  { create(:line_item, itemizable: c4, quantity: 2) }
+    let(:line_4)  { create(:line_item, component: c4, quantity: 2) }
     let(:cart)    { create(:cart, line_items: [line_1, line_2, line_3, line_4]) }
 
     it 'calculates the correct value' do
@@ -148,7 +139,7 @@ describe Cart do
     it 'subtracts quantity from stock' do
       cart = create(:cart)
       component = create(:component, stock: 0)
-      item = create(:line_item, itemizable: component, cart: cart)
+      item = create(:line_item, component: component, cart: cart)
       cart.inventory
       expect(component.reload.stock).to eq(-item.quantity)
     end

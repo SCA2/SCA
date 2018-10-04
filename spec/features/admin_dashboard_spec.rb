@@ -105,8 +105,7 @@ feature 'admin dashboard' do
         create(:shipping, addressable: order)
         tag = create(:size_weight_price_tag, full_price: 100)
         component = create(:component, size_weight_price_tag: tag)
-        option = create(:option, component: component)
-        line_item = create(:line_item, quantity: 3, cart: cart, option: option)
+        line_item = create(:line_item, quantity: 3, cart: cart, component: component)
         create(:transaction, order: order)
       end
       visit '/orders'
@@ -117,9 +116,8 @@ feature 'admin dashboard' do
     scenario 'send ship notification email' do
       tag = create(:size_weight_price_tag)
       component = create(:component, size_weight_price_tag: tag)
-      option = create(:option, component: component)
       cart = create(:cart, purchased_at: Date.yesterday.noon)
-      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, component: component)
       order = create(:order, cart: cart)
       create(:billing, addressable: order)
       create(:shipping, addressable: order)
@@ -138,9 +136,8 @@ feature 'admin dashboard' do
     scenario 'print packing slip' do
       tag = create(:size_weight_price_tag)
       component = create(:component, size_weight_price_tag: tag)
-      option = create(:option, component: component)
       cart = create(:cart, purchased_at: Date.yesterday.noon)
-      create(:line_item, cart: cart, option: option)
+      create(:line_item, cart: cart, component: component)
       order = create(:order, cart: cart)
       create(:billing, addressable: order)
       create(:shipping, addressable: order)
@@ -202,7 +199,7 @@ feature 'admin dashboard' do
         tag = create(:size_weight_price_tag, full_price: 100)
         component = create(:component, size_weight_price_tag: tag)
         option = create(:option, component: component)
-        line_item = create(:line_item, quantity: 1, option: option)
+        line_item = create(:line_item, quantity: 1, component: component)
         cart = create(:cart, line_items: [line_item])
         cart.update(purchased_at: "01/01/2016".to_date.noon)
         order = create(:order, shipping_cost: 1500, cart: cart)

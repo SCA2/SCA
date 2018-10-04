@@ -1,13 +1,8 @@
 .row
+  .small-3.columns &nbsp;
   .small-6.columns
     .field
       = f.hidden_field :url, value: update_option_bom_importers_path
-      = f.label :product, 'Product'
-      = f.select :product, options_from_collection_for_select(@bom_importer.products, :id, :model, @bom_importer.product)
-  .small-6.columns
-    .field
-      = f.label :option, 'Option'
-      - if @bom_importer.options
-        = f.select :option, options_from_collection_for_select(@bom_importer.options, :id, :model, @bom_importer.option)
-      -else
-        = f.select :option, 'none', {}, {disabled: true}
+      = f.label :component, 'Root Component'
+      = f.select :component, options_from_collection_for_select(@bom_importer.components, :id, :mfr_part_number, @bom_importer.component)
+  .small-3.columns &nbsp;

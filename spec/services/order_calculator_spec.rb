@@ -7,7 +7,7 @@ describe OrderCalculator do
     let(:rate)        { 0.0925 }
     let(:tag)         { build(:size_weight_price_tag, full_price: price) }
     let(:component)   { build(:component, size_weight_price_tag: tag) }
-    let(:line_item)   { build(:line_item, itemizable: component, quantity: quantity) }
+    let(:line_item)   { build(:line_item, component: component, quantity: quantity) }
     let(:order)       { build(:order) }
     let(:calculator)  { OrderCalculator.new(order) }
 
@@ -28,7 +28,7 @@ describe OrderCalculator do
     let(:quantity)    { 3 }
     let(:tag)         { build(:size_weight_price_tag, full_price: price) }
     let(:component)   { build(:component, size_weight_price_tag: tag) }
-    let(:line_item)   { build(:line_item, itemizable: component, quantity: quantity) }
+    let(:line_item)   { build(:line_item, component: component, quantity: quantity) }
     let(:order)       { build(:order, shipping_cost: 1500) }
     let(:calculator)  { OrderCalculator.new(order) }
 
