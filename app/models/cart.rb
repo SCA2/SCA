@@ -52,7 +52,11 @@ class Cart < ApplicationRecord
   end
 
   def discount_amount(line_items, combos)
-    line_items.limit(combos).sum { |item| item.full_price_in_cents - item.discount_price_in_cents }
+    line_items.reduce(0) do |sum, item|
+      sum += (item.full_price_in_cents - item.discount_price_in_cents) * [item.quantity, combos].min
+      combos = [combos - item.quantity, 0].max
+      sum
+    end
   end
 
   def combo_discount(a_products, b_products)

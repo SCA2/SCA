@@ -83,7 +83,7 @@ describe Cart do
   describe 'opamp discount' do
     let(:t1) { create(:size_weight_price_tag, full_price: 229, discount_price: 200) }
     let(:c1) { create(:component, mfr_part_number: 'A12KF-2S', size_weight_price_tag: t1) }
-    let(:line_1)  { create(:line_item, component: c1, quantity: 1) }
+    let(:line_1)  { create(:line_item, component: c1, quantity: 2) }
     let(:t2) { create(:size_weight_price_tag, full_price: 249, discount_price: 221) }
     let(:c2) { create(:component, mfr_part_number: 'A12KA-2L', size_weight_price_tag: t2) }
     let(:line_2)  { create(:line_item, component: c2, quantity: 1) }
@@ -103,14 +103,14 @@ describe Cart do
   describe 'subpanel discount' do
     let(:t1) { create(:size_weight_price_tag, full_price: 100, discount_price: 92) }
     let(:c1) { create(:component, mfr_part_number: 'A12KF-2S', size_weight_price_tag: t1) }
-    let(:line_1)  { create(:line_item, component: c1, quantity: 1) }
+    let(:line_1)  { create(:line_item, component: c1, quantity: 2) }
     let(:t2) { create(:size_weight_price_tag, full_price: 15, discount_price: 10) }
     let(:c2) { create(:component, mfr_part_number: 'CH02-SP-A12', size_weight_price_tag: t2) }
-    let(:line_2)  { create(:line_item, component: c2, quantity: 1) }
+    let(:line_2)  { create(:line_item, component: c2, quantity: 2) }
     let(:cart)    { create(:cart, line_items: [line_1, line_2]) }
 
     it 'calculates the correct value' do
-      expect(cart.discount).to eql (800 + 500)
+      expect(cart.discount).to eql (800 * 2 + 500 * 2)
     end
 
   end
