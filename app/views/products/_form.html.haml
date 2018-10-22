@@ -7,12 +7,17 @@
     .field
       = f.label :sort_order, 'Sort Order'
       = f.number_field :sort_order, in: 1..100
-    .field
-      = f.label :product_category_id, 'Category'
-      = f.select :product_category_id, options_from_collection_for_select(ProductCategory.all.order(:sort_order), 'id', 'name', f.object.product_category_id)
     .checkbox_field
       = f.label :active, 'Active'
       = f.check_box :active
+
+  .field_row
+    .field
+      = f.label :product_category_id, 'Product Category'
+      = f.select :product_category_id, options_from_collection_for_select(ProductCategory.all.order(:sort_order), 'id', 'name', f.object.product_category_id)
+    .field
+      = f.label :display_category_id, 'Display Category'
+      = f.select :display_category_id, options_from_collection_for_select(ProductCategory.all.order(:sort_order), 'id', 'name', f.object.display_category)
 
   .field
     = f.label :short_description, 'Short Description'

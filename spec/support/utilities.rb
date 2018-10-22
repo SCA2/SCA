@@ -26,7 +26,8 @@ end
 def fill_in_product(product)
   fill_in "Model", with: product.model
   fill_in "Sort Order", with: product.sort_order
-  select product.category, from: "Category"
+  select product.product_category.name, from: "Product Category"
+  select product.display_category.name, from: "Display Category"
   fill_in "Short Description", with: product.short_description
   fill_in "Long Description", with: product.long_description
   fill_in "Notes", with: product.notes

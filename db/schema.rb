@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181004164635) do
+ActiveRecord::Schema.define(version: 20181022005630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 20181004164635) do
     t.integer "partial_stock", default: 0
     t.integer "kit_stock", default: 0
     t.integer "product_category_id"
+    t.integer "display_category_id"
     t.index ["model"], name: "index_products_on_model"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end

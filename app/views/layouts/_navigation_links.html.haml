@@ -2,12 +2,13 @@
 %li.has-dropdown
   = link_to "Products", products_path
   %ul.dropdown
-    - product_categories.each do |id, name|
+    - product_categories.each do |pc|
       %li.has-dropdown
-        = link_to name, '#'
-        %ul.dropdown
-          - products.includes(:product_category).where(product_category_id: id).each do |p|
-            %li= link_to p.model + ' ' + p.category, product_path(p)
+        - if pc.active_count > 0 || signed_in_admin?
+          = link_to pc.name.pluralize(pc.active_count), '#'
+          %ul.dropdown
+            - pc.displays.sorted.each do |p|
+              %li= link_to "#{p.model} #{p.product_category_name}", product_path(p)
 %li= link_to "FAQ", faqs_path
 %li= link_to "Forums", forums_path
 %li.has-dropdown

@@ -1,6 +1,10 @@
 class Product < ApplicationRecord
 
   belongs_to :product_category, inverse_of: :products
+  belongs_to :display_category,
+    class_name: "ProductCategory",
+    foreign_key: "display_category_id",
+    inverse_of: :displays
 
   has_many :features, inverse_of: :product, dependent: :destroy
   accepts_nested_attributes_for :features
@@ -20,7 +24,8 @@ class Product < ApplicationRecord
 
   validates :sort_order, uniqueness: { scope: :model }
 
-  scope :sorted, -> { order :sort_order }
+  scope :sorted, -> { joins(:display_category).merge(ProductCategory.sorted).order(:sort_order) }
+  scope :active, -> { sorted.where(active: true) }
 
   def model=(val)
     self[:model] = val ? val.upcase : nil
@@ -38,8 +43,8 @@ class Product < ApplicationRecord
   end
 
   def first_in_category?
-    Product.joins(:product_category).
-    where("product_categories.id=?", product_category.id).
+    Product.joins(:display_category).
+    where("product_categories.id=?", display_category.id).
     sorted.first == self
   end
 
@@ -49,7 +54,7 @@ class Product < ApplicationRecord
     sorted
   end
 
-  def category
+  def product_category_name
     return "Uncategorized" unless product_category
     product_category.name
   end
@@ -58,45 +63,4 @@ class Product < ApplicationRecord
     model.upcase
   end
 
-  # def common_stock
-  #   return 0 unless bom
-  #   @common_stock ||= get_common_stock
-  #   @common_stock ? @common_stock : 0
-  # end
-
-  # def common_stock_items
-  #   return [] unless bom
-  #   @common_stock_items ||= get_common_stock_items
-  # end
-
-private
-
-  # def get_common_stock_items
-  #   BomItem.find_by_sql("
-  #     SELECT * FROM bom_items
-  #     WHERE bom_items.component_id IN (
-  #       SELECT components.id FROM bom_items
-  #       JOIN components ON bom_items.component_id = components.id
-  #       JOIN boms ON bom_items.bom_id = boms.id
-  #       JOIN options ON boms.option_id = options.id
-  #       JOIN products ON options.product_id = products.id
-  #       WHERE options.product_id = #{self.id}
-  #       GROUP BY components.id
-  #       HAVING COUNT(bom_items.id) = #{options.count}
-  #     ) AND bom_items.bom_id IN (
-  #       SELECT boms.id FROM bom_items
-  #       JOIN components ON bom_items.component_id = components.id
-  #       JOIN boms ON bom_items.bom_id = boms.id
-  #       JOIN options ON boms.option_id = options.id
-  #       JOIN products ON options.product_id = products.id
-  #       WHERE options.product_id = #{self.id}
-  #     )
-  #   ")
-  # end
-
-  # def get_common_stock
-  #   items = common_stock_items
-  #   items = items.reject {|i| i.quantity.zero? }
-  #   items.map {|i| i.component.stock / i.quantity }.min
-  # end
 end

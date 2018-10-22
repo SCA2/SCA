@@ -1,5 +1,7 @@
 class BaseController < ApplicationController
-    
+
+  before_action :products
+      
   helper_method :cart, :order, :products, :product_categories, :option_path
 
   def cart
@@ -15,7 +17,7 @@ class BaseController < ApplicationController
   end 
 
   def product_categories
-    @product_categories ||= get_product_categories
+    @product_categories ||= ProductCategory.sorted
   end 
 
 private
@@ -38,26 +40,14 @@ private
   end
 
   def get_products
-    Product.order(:sort_order)
+    if signed_in_admin?
+      Product.sorted
+    else
+      Product.active
+    end
   end
 
   def get_product(model)
     Product.where("upper(model) = ?", model.upcase).first
   end
-
-  def get_product_categories
-    categories = ProductCategory.order(:sort_order)
-    product_counts = Product.where(active: true)
-      .group(:product_category_id)
-      .count
-    categories.reduce([]) do |categories, category|
-      count = product_counts[category.id]
-      if count || signed_in_admin?
-        categories.push [category.id, category.name.pluralize(count || 1)]
-      else
-        categories
-      end
-    end
-  end
-
 end
