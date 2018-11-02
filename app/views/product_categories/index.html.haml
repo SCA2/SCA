@@ -2,7 +2,7 @@
 
 .box_2
   .row
-    .small-9.columns
+    .medium-9.small-12.columns
       %h5 Product Categories
       %ul.users
         = render layout: 'category_headers' do
@@ -10,5 +10,5 @@
       .admin-box
         = link_to "New Product Category",	new_product_category_path, class: 'button admin'
         = link_to "Quit",	admin_path, class: 'button admin'
-    .small-3.columns
-      = render 'layouts/sidebar_left'
+    .medium-3.small-12.columns
+      = render 'layouts/sidebar'

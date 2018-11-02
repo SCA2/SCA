@@ -1,6 +1,6 @@
-.box_3
+%aside.side_box
   -if @product
-    %ul.custom-side-nav
+    %ul.dropdown.menu.vertical.sca-aside{ :data => {:dropdown_menu => ''} }
       %h6
         %b= "#{@product.model} Documents"
       %li= link_to 'Specifications', asset_path(@product.specifications)
@@ -9,7 +9,7 @@
       %li= link_to 'Assembly Instructions', asset_path(@product.assembly)
 
   -if @products
-    %ul.custom-side-nav
+    %ul.dropdown.menu.vertical.sca-aside{ data: {disable_hover: 'true', click_open: 'true', closing_time: 50, dropdown_menu: ''} }
       %h6
         %b Products
       - product_categories.each do |pc|
@@ -18,11 +18,11 @@
           - category_id = category_name.gsub(/\s+/, '')
           - if pc.active_count > 0 || signed_in_admin?
             = link_to(category_name, '#', data: { dropdown: category_id })
-            %ul.f-dropdown{ id: category_id, data: { 'dropdown-content' => ''} }
+            %ul.vertical.menu.sca-aside{ id: category_id, data: { dropdown_menu: '' }}
               - pc.displays.sorted.each do |p|
                 %li= link_to "#{p.model} #{p.product_category.name}", product_path(p)
 	
-  %ul.custom-side-nav
+  %ul.dropdown.menu.vertical.sca-aside{ :data => {:dropdown_menu => ''} }
     %h6
       %b Support Links
     %li= link_to 'Forums', forums_path

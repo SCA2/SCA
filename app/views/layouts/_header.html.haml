@@ -1,8 +1,25 @@
-%header
-  .banner
-    = image_tag "title3.gif", class: 'title_1'
-    = image_tag "logo4.gif", class: 'logo_1'
-  .user-login
-    = render 'layouts/login'
-  .contain-to-grid
+%header.grid-x
+  .cell
+    .banner.grid-x
+      .cell.medium-9.small-12
+        .logo
+          %span Seventh Circle Audio
+          %i.c1.fas.fa-circle
+          %i.c2.fas.fa-circle
+          %i.c3.fas.fa-circle
+          %i.c4.fas.fa-circle
+          %i.c5.fas.fa-circle
+          %i.c6.fas.fa-circle
+          %i.c7.fas.fa-circle
+      .cell.medium-shrink.small-12
+        .user-login
+          - if signed_in?
+            = link_to "Log Out", signout_path, method: "delete"
+            &nbsp;|&nbsp 
+            = link_to "My Account", current_user
+          - else
+            = link_to "Log In", signin_path
+            &nbsp;|&nbsp;
+            = link_to "Create Account", signup_path
+  .cell
     = render 'layouts/navigation'

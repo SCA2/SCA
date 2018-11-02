@@ -76,6 +76,18 @@ fieldset {
   }
 }
 
+tbody tr:nth-of-type(even) {
+  background-color: $brown-85;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: darken($brown-85, 5%);
+}
+
+tbody {
+  border: none;
+}
+
 table.user-table {
   border: none;
   background-color: $brown-85;
@@ -121,29 +133,11 @@ table.confirm-table {
   background-color: $brown-85;
   font-size: 1em;
   line-height: 1.75em;
-  
-  tr {
-    color: $brown-00;
-    &:nth-child(odd) {
-      background-color: darken($brown-85, 5%);
-    }
-    td {
-      line-height: inherit;
-      margin: 0;
-      padding: 0 1em 0 1em;
-      text-align: left;
-      width: 80%;
-      &.checkbox-cell {
-        width: 50%;
-        text-align: left;
-      }
-      & input {
-        &[type="checkbox"] {
-          padding: 0;
-          margin: 0.5em 0 0.5em 0;
-        }
-        &[type="radio"] {
-          padding: 0;
+
+  tbody {
+    tr {
+      td {
+        input[type='radio'] {
           margin: 0;
         }
       }
@@ -198,6 +192,9 @@ table.address-table {
         padding-left: 0.2em;  
         width: 49.25%;
       }
+    }
+    #card_tokenizer_email {
+      border: none;
     }
   }
 }

@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="small-12 columns main">
 			<div class="addresses">				
-				<%= render 'shared/progress_bar' %>
+				<%= render 'shared/breadcrumbs' %>
 				<%= form_for @order, url: checkout_addresses_path(id: @order.id), method: 'post' do |order| %>
 					<%= render 'shared/errors', object: order.object %>
 					<div id='billing' class="address">

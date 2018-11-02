@@ -1,0 +1,12 @@
+- provide(:title, 'New FAQ')
+.box_2
+  .row
+    .medium-9.small-12.columns
+      = form_for(faq) do |fq|
+        = render 'shared/errors', object: fq.object
+        = render 'form', f: fq, legend: 'New FAQ'
+        .admin-box
+          = fq.submit 'Create', class: 'button admin'
+          = link_to 'Quit', faqs_path, class: 'button admin'
+    .medium-3.small-12.columns
+      = render 'layouts/sidebar'

@@ -21,11 +21,6 @@ module SCA
     # config.i18n.default_locale = :de
     I18n.enforce_available_locales = true
     
-    # For bootstrap
-    # config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-
-    #config.assets.paths << Rails.root.join("app/assets/products")
-    
     config.exceptions_app = self.routes
   end
 end

@@ -1,15 +1,12 @@
-.product.large
+.product-box.single
   .image-box.top
     = link_to image_tag @product.image_1, class: "product-image"
-  %h5.section-header
-    = @product.model + ' ' + @product.product_category.name
+  %h5.section-header= "#{@product.model} #{@product.product_category.name}"
   .text-box
     .description
       = @product.long_description.html_safe
-
-    .notes
+    .notes-box
       = @product.notes.html_safe
-
     = render 'options/option'
     = render 'options/admin'
   %h5.section-header Features

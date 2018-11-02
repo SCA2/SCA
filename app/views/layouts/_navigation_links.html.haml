@@ -1,40 +1,40 @@
-%li= link_to "Home", home_path
-%li.has-dropdown
+%li.menu-text= link_to "Home", home_path
+%li.menu-text
   = link_to "Products", products_path
-  %ul.dropdown
+  %ul.menu.vertical
     - product_categories.each do |pc|
       %li.has-dropdown
         - if pc.active_count > 0 || signed_in_admin?
           = link_to pc.name.pluralize(pc.active_count), '#'
-          %ul.dropdown
+          %ul.menu.vertical
             - pc.displays.sorted.each do |p|
               %li= link_to "#{p.model} #{p.product_category_name}", product_path(p)
-%li= link_to "FAQ", faqs_path
-%li= link_to "Forums", forums_path
-%li.has-dropdown
+%li.menu-text= link_to "FAQ", faqs_path
+%li.menu-text= link_to "Forums", forums_path
+%li.menu-text
   = link_to "Support", support_path
-  %ul.dropdown
+  %ul.menu.vertical
     %li= link_to "Assembly Tips", tips_path
     %li= link_to "Troubleshooting",	troubleshooting_path
     %li= link_to "Repairs", repairs_path
     %li= link_to "Resources",	resources_path
     %li= link_to "Contact", contact_path
 - if signed_in_admin?
-  %li.has-dropdown
+  %li.menu-text
     = link_to "Admin", admin_path
-    %ul.dropdown
-      %li.has-dropdown
+    %ul.menu.vertical
+      %li
         = link_to "Orders", orders_path
-        %ul.dropdown
+        %ul.menu.vertical
           %li= link_to "All", orders_path
           %li= link_to "Successful", successful_orders_path
           %li= link_to "Failed", failed_orders_path
           %li= link_to "Pending", pending_orders_path
           %li= link_to "Shipped", shipped_orders_path
           %li= link_to "Abandoned", abandoned_orders_path
-      %li.has-dropdown
+      %li
         = link_to "Invoices", invoices_path
-        %ul.dropdown
+        %ul.menu.vertical
           %li= link_to "All", invoices_path
           %li= link_to "Pending", pending_invoices_path
           %li= link_to "Paid", paid_invoices_path

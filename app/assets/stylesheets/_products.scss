@@ -1,0 +1,156 @@
+
+@import 'foundation';
+@import 'colors';
+
+// Product index
+
+.category-box {
+  font-weight: bold;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  margin: 0 0 0 0;
+  background-color: $brown-60;
+}
+
+.admin-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.button-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.checkout-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+}
+
+.text-box {
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
+  @include breakpoint(medium) {
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+.features-box {
+  padding: 0rem 0.5rem 0.5rem 0.5rem;
+  @include breakpoint(medium) {
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+.feature-box {
+  padding: 0.5rem 0rem 0rem 0rem;
+  @include breakpoint(medium) {
+    padding: 0 1rem 0 1rem;
+  }
+}
+
+.caption-box {
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.description-box {
+  padding-left: 0.3rem;
+  @include breakpoint(medium) {
+    padding-left: 1rem;
+  }
+}
+
+.notes-box {
+  padding-top: 0.5rem;
+  font-weight: bold;
+}
+
+.options-box {
+  margin-top: 0.5rem;
+  .select-option {
+    margin: 0;
+    width: 100%;
+    font-size: 1.1em;
+    background-color: $brown-85;
+    &:focus {
+      outline: $brown-30 auto 5px;
+      outline-color: $brown-30;
+    }
+    option {
+      &[selected='selected'],
+      &:hover,
+      &:focus,
+      &:focus-within,
+      &:active,
+      &:checked {
+        background: darken($brown-85, 3%);
+      }
+    }
+  }
+}
+
+.actions-box {
+  margin-top: 0.5rem;
+  .add {
+    padding-top: 0.6rem;
+    .button_to {
+      .button {
+        width: 100%;
+        line-height: 1.5;
+        font-size: 2em;
+      }
+    }
+  }
+  .message-box {
+    display: flex;
+    align-items: center;
+    margin-top: 0.6rem;
+    font-weight: bold;
+    .price {
+      text-align: right;
+      font-size: 1.7em;
+      color: $red-50;
+    }        
+    .stock {
+      text-align: left;
+      font-size: 1.5em;
+      // color: $brown-10;
+      color: $red-50;
+    }
+  }
+}  
+
+.product-box {
+  font-size: 0.9em;
+  line-height: 1.4em;
+  // .description {
+  //   margin-top: 0.35em;
+  // }
+  // &.small {    
+  //   padding: 0.5em 0 0.5em 0;
+  //   &.even {
+  //     background-color: darken($brown-85, 3%);
+  //   }
+  // }
+  // &.large {
+  //   .feature-box {
+  //     // display: inline-block;
+  //     // width: 100%;
+  //     margin: 1.5rem 0 0 0;
+  //     .admin-box {
+  //       text-align: center;
+  //       width: 100%
+  //     }
+  //   }
+  //   .actions {
+  //     margin: 1em 0 0 0;
+  //   }
+  // }
+}

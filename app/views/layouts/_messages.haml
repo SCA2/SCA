@@ -1,5 +1,5 @@
 -flash.each do |name, msg|
   -if msg.is_a?(String)
-    %div{ class: "#{ alert_div_class(name) }", data: { alert: ''} }
+    %div{ class: "callout #{ alert_div_class(name) }", data: { closable: ''} }
       =content_tag :div, msg
-      %a.close{ href: "#"} &times;
+      %button.close-button{ href: "#", data: { close: ''}} &times;

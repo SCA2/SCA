@@ -1,7 +1,7 @@
 = provide(:title, @product.model)
 .box_2
-  .row
-    .small-9.columns
+  .grid-x
+    .medium-9.small-12.cells
       = render 'shared/errors', :object => @product
       = render 'large_product'
       - if signed_in_admin?
@@ -9,5 +9,5 @@
           = link_to 'New Product', new_product_path, class: "button admin"
           = link_to 'Edit Product', edit_product_path(@product), class: "button admin"
           = link_to 'Delete Product', @product, method: :delete, class: "button admin", data: { :confirm => 'Are you sure?' }
-    .small-3.columns
-      = render 'layouts/sidebar_left'
+    .medium-3.small-12.cells
+      = render 'layouts/sidebar'

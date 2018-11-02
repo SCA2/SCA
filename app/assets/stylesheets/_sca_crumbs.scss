@@ -1,0 +1,27 @@
+
+// SCA Breadcrumbs
+
+@import "colors";
+
+ul.sca-crumbs {
+  padding: 0.5rem;
+  background-color: darken($brown-85, 5%);
+}
+
+.sca-crumbs {
+  li {
+    &.current a { color: $red-50; }
+    &.available a { color: $red-20; }
+    &.disabled { color: $brown-50; }
+
+    & > a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &:not(:last-child)::after {
+      color: $red-50
+    }
+  }
+}

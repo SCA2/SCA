@@ -1,0 +1,53 @@
+- provide(:title, 'Home')
+
+.slider-box
+  .grid-x
+    .cell
+      .orbit{ role: 'region', 'data-orbit' => '' }
+        %ul.orbit-container
+          - @slider_images.each do |image|
+            %li.orbit-slide
+              = link_to image_tag(image.image_url, class: 'orbit-image'), product_path(image.product_url)
+        %nav.orbit-bullets
+          - @slider_images.each_with_index do |_, i|
+            %button{ 'data-slide' => "#{i}" }
+      - if signed_in_admin?
+        .admin-box
+          = link_to 'New Slider Image', new_slider_image_path, class: "button admin"
+          = link_to 'Edit Slider Images', slider_images_path, class: "button admin"
+.box_2
+  .grid-x.grid-padding-x
+    .medium-9.cell
+      .small-centered.cell
+        %p
+        %h4
+          %span.red-60> Q: 
+          WHO MAKES THE BEST PREAMPS FOR THE MONEY?
+        %h4
+          %span.red-60> A: 
+          YOU DO.
+      .small-centered.cell
+        %p
+          Seventh Circle Audio provides professional quality electronic kits and support to handy audio recording engineers. Our flexible, modular #{link_to "preamp kits", products_path} provide a full range of "colors" suitable for any application and are in daily use by recordists world-wide.
+        %ul
+          %li
+            %span.aH6B Assemble
+            your own world-class microphone preamp by combining a #{link_to "CH02", products_path} or #{link_to "OneShot", products_path} chassis and up to eight of our superb #{link_to "amplifier modules", products_path}.
+          %li
+            %span.aH6B Customize
+            your system to suit your current needs and expand as your studio grows. We currently have five preamp modules available, each with its own distinct personality, as well as a 2-channel active instrument DI and our extremely flexible B16 compressor. More modules are on the way!
+          %li
+            %span.aH6B Improve
+            your skills as an engineer by learning about electronics, or order fully-assembled units to save time and still save money.
+          %li
+            %span.aH6B Impress
+            your clients with what you can build, not just what you can buy.
+          %li
+            %span.aH6B Save money!
+            Stretch your studio budget by investing your down time in DIY.
+        %p
+          Each kit is thoroughly documented with assembly instructions, bills of material and schematics. All the documentation is freely downloadable so you can be ready to go before your kits arrive. If you get stuck or have questions, support is available via
+          %a{href: "mailto:sales@seventhcircleaudio.com"} e-mail
+          and the #{link_to "message board", forums_path}. We #{link_to "guarantee", repairs_path} you won't be stuck with a non-working kit!
+    .medium-3.cell
+      = render 'layouts/sidebar'

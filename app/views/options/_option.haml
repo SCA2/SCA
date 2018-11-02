@@ -3,16 +3,16 @@
     = form_for :product, url: update_option_product_path(@product), method: :put, remote: true do |f|
       = f.select :options, (options_for_select get_extended_models(@product), @option.id), {}, class: 'select-option', id: "select-#{@product.id.to_s}"
     .actions-box
-      .add(id="add-#{@product.id.to_s}")
+      .message-box.grid-x
+        .stock.small-9.cells(id="stock-#{@product.id.to_s}")
+          = @option.stock_message
+        .price.small-3.cells(id="price-#{@product.id.to_s}")
+          = get_price(@option)
+      .add.small-12.cells(id="add-#{@product.id.to_s}")
         - if signed_in_admin?
           = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
         - else
           = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
-      .price(id="price-#{@product.id.to_s}")
-        = get_price(@option)
-      .stock(id="stock-#{@product.id.to_s}")
-        = @option.stock_message
-      %br
   - else
     .actions-box
       .notes(id="stock-#{@product.id.to_s}")

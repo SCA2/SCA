@@ -1,0 +1,14 @@
+%fieldset
+  %legend= legend
+  .field
+    = f.label :faqs_category, 'FAQ Category'
+    = f.collection_select :faqs_category_id, categories.all, :id, :category_name
+  .field
+    = f.label :question_weight, 'Question Weight'
+    = f.number_field :question_weight, in: 1..500
+  .field
+    = f.label :question, 'Question'
+    = f.text_area :question, cols: 40, rows: 3
+  .field
+    = f.label :answer, 'Answer'
+    = f.text_area :answer, cols: 40, rows: 15

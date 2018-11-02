@@ -1,0 +1,13 @@
+%ul.breadcrumbs.sca-crumbs.checkout
+  %li{class: "#{crumb_class(cart_path(@cart))}"}
+    = crumb_link 'Cart', cart_path(@cart)
+  %li{class: "#{crumb_class(new_checkout_address_path(@cart))}"}
+    = crumb_link 'Billing  Shipping Addresses', new_checkout_address_path(@cart)
+  %li{class: "#{crumb_class(new_checkout_shipping_path(@cart))}"}
+    = crumb_link 'Shipping Method', new_checkout_shipping_path(@cart)
+  %li{class: "#{crumb_class(new_checkout_payment_path(@cart))}"}
+    = crumb_link 'Payment', new_checkout_payment_path(@cart)
+  %li{class: "#{crumb_class(new_checkout_confirmation_path(@cart))}"}
+    = crumb_link 'Confirm', new_checkout_confirmation_path(@cart)
+  %li.disabled
+    = crumb_link 'Order Complete', ''

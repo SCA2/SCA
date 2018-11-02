@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="small-12 columns main">
 			<%= render 'shared/errors', object: @terms %>
-			<%= render 'shared/progress_bar' %>
+			<%= render 'shared/breadcrumbs' %>
 			<%= form_for @order, url: checkout_confirmation_path(@cart) do |form| %>
 				<div class='review-box'>
 					<%= render 'confirm_address', f: @billing, legend: 'Billing Address' %>

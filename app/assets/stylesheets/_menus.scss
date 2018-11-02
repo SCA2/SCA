@@ -1,0 +1,80 @@
+// sca menus
+
+@import 'settings';
+@import 'colors';
+
+.title-bar {
+  justify-content: space-between;
+  .menu-icon {
+    &:active,
+    &:focus,
+    &:hover,
+    &:visited {
+      color: $white;
+      background-color: inherit;
+    }
+  }
+}
+
+.menu .menu-text {
+  padding: 0 1rem 0 0;
+}
+
+li.menu-text[role='treeitem'] {
+  padding: 0;
+}
+
+.side_box {
+  background: $brown-70;
+  padding: 1em;
+  a img {
+    display: block;
+    margin: auto;
+  }
+}
+
+.menu, .dropdown.menu .is-active {
+  a {
+    color: $red-10;
+  }
+}
+
+.top-bar-left .menu-text, .is-submenu-item {
+  white-space: nowrap;
+  &:hover {
+    background: $brown-60;
+  }
+}
+
+li.is-submenu-item {
+  font-weight: normal;
+}
+
+.dropdown.menu.vertical.sca-aside, .menu.vertical.sca-aside{
+  font-size: 0.9rem;
+  background: $brown-50;
+  margin-bottom: 1rem;
+
+  h6 {
+    margin: 0.5em 0 0 0.5em;
+  }
+
+  li {
+    &:hover {
+      background: $brown-60;
+    }
+    a {
+      padding: 0.35rem 1rem;
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+
+// Cart Peek
+
+#cart-peek {
+  float: right;
+  margin: 0 0.75em 0 0;
+}

@@ -4,7 +4,7 @@
   .row
     .small-12.columns
       = render 'shared/errors', object: @cart
-      = render 'shared/progress_bar'
+      = render 'shared/breadcrumbs'
       = form_for cart do |form|
         = render 'cart', cart_form: form
         .actions

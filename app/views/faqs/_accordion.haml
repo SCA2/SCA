@@ -1,0 +1,11 @@
+%dl.accordion{ data: { accordion: '', allow_all_closed: 'true' }}
+  %dt= title
+  - faqs.each do |faq|
+    %dd.accordion-item{ data: { accordion_item: '' }}
+      = link_to faq.question, "#FAQ#{ faq.id }"
+      .accordion-content{id: "FAQ#{ faq.id }", data: { tab_content: '' }}
+        = faq.answer.html_safe
+        %div
+          - if signed_in_admin?
+            = link_to 'Edit', edit_faq_path(faq)
+            = link_to 'Delete', faq, method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,0 +1,11 @@
+- provide(:title, 'FAQ')
+.box_2
+  .grid-x
+    .medium-9.small-12.cell
+      - categories.each do |cat|
+        = render partial: "accordion", locals: {title: cat.category_name, faqs: cat.faqs.order(:question_weight)}
+      - if signed_in_admin?
+        .admin-box
+          = link_to 'New Faq', new_faq_path, label: 'New Faq', class: 'button admin'
+    .medium-3.small-12.cell
+      = render 'layouts/sidebar'

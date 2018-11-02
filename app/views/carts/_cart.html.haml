@@ -7,13 +7,13 @@
       %th#quantity Quantity
       %th#price Price
       %th#ext Ext
-      = cart_form.fields_for :line_items do |line_form|
-        = render 'line_item', line_form: line_form
-      %tr
-        %td.divider-cell{colspan: 6}
-      %tr#discount-line
-        %td.total-cell{colspan: 5} Discount
-        %td.total-price-cell= cents_to_dollars(cart.discount, precision: 0)
-      %tr#total-line
-        %td.total-cell{colspan: 5} Subtotal
-        %td.total-price-cell= cents_to_dollars(cart.subtotal, precision: 0)
+    = cart_form.fields_for :line_items do |line_form|
+      = render 'line_item', line_form: line_form
+    %tr
+      %td.divider-cell{colspan: 6}
+    %tr#discount-line
+      %td.total-cell{colspan: 5} Discount
+      %td.total-price-cell= cents_to_dollars(cart.discount, precision: 0)
+    %tr#total-line
+      %td.total-cell{colspan: 5} Subtotal
+      %td.total-price-cell= cents_to_dollars(cart.subtotal, precision: 0)

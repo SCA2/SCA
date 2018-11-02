@@ -2,12 +2,12 @@
 
 .box_2
 	.row
-		.small-9.columns
+		.medium-9.small-12.columns
 			= form_for @category do |category|
 				= render 'shared/errors', object: category.object
 				= render 'form', f: category, legend: 'Edit Product Category'
 				.admin-box
 					= category.submit 'Update', class: 'button admin'
 					= link_to 'Quit', product_categories_path, class: 'button admin'
-		.small-3.columns
-			= render 'layouts/sidebar_left'
+		.medium-3.small-12.columns
+			= render 'layouts/sidebar'

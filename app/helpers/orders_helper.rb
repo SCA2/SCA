@@ -1,26 +1,19 @@
 module OrdersHelper
 
-  def get_crumb_class(path)
+  def crumb_class(path)
     if current_page?(path)
       "current"
     elsif session[:progress].include?(path)
       "available"
     else
-      "unavailable"
+      "disabled"
     end
   end
 
-  def crumb_class(path)
-    html_text = "class='"
-    html_text << get_crumb_class(path)
-    html_text << "'"
-    return html_text.html_safe
-  end
-
   def crumb_link(label, path)
-    state = get_crumb_class(path)
-    if state == "unavailable"
-      return link_to(label, '#')
+    state = crumb_class(path)
+    if state == "disabled"
+      return label
     else
       return link_to(label, path)
     end

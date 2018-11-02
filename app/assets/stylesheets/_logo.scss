@@ -1,0 +1,61 @@
+@import "colors";
+@import "foundation";
+
+.logo {
+  display: flex;
+  align-items: center;
+
+  span {
+    font-family: 'SF Old Republic SC';
+    @include breakpoint(medium) {
+      font-size: 2.5em;
+      padding-top: 0.10em;
+      padding-right: 0.35em;
+    }
+    @include breakpoint(small) {
+      font-size: 1.05rem;
+      padding-top: 0.1rem;
+      padding-right: 0.3em;
+    }
+  }
+}
+
+.logo_circle {
+  @include breakpoint(medium) { font-size: 1.65em; }
+  @include breakpoint(small) { font-size: 0.725rem; }
+}
+
+.c1 {
+  @extend .logo_circle;
+  color: $red-00;
+}
+
+.c2 {
+  @extend .logo_circle;
+  color: $red-10;
+}
+
+.c3 {
+  @extend .logo_circle;
+  color: $red-10;
+}
+
+.c4 {
+  @extend .logo_circle;
+  color: $red-20;
+}
+
+.c5 {
+  @extend .logo_circle;
+  color: $red-30;
+}
+
+.c6 {
+  @extend .logo_circle;
+  color: $red-40;
+}
+
+.c7 {
+  @extend .logo_circle;
+  color: $red-50;
+}

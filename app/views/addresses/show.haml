@@ -3,7 +3,7 @@
   .row
     .small-9.columns
       .addresses
-        = render 'shared/progress_bar'
+        = render 'shared/breadcrumbs'
         .billing-address
           = form_for [@addressable,  @address] do |f|
             = render 'shared/errors', object: f.object
@@ -13,4 +13,4 @@
         = link_to 'Back to Cart', :back, class: 'button', id: 'back'
         = button_to 'Continue Checkout', new_order_path, class: 'button', id: 'continue'
     .small-3.columns.sidebar
-      = render 'layouts/sidebar_left'
+      = render 'layouts/sidebar'

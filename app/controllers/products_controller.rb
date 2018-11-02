@@ -3,17 +3,8 @@ class ProductsController < BaseController
   before_action :signed_in_admin, except: [:index, :show, :update_option]
   before_action :set_product, only: [:show, :edit, :update, :update_option, :destroy]
 
-  def index
-  end
-
-  def show
-  end
-
   def new
     @product = Product.new
-  end
-
-  def edit
   end
 
   def create

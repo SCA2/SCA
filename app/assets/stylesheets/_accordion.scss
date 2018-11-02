@@ -1,0 +1,38 @@
+@import "foundation";
+@import "colors";
+
+// @include foundation-accordion;
+
+
+// accordion
+
+.accordion {
+  margin-bottom: 1rem;
+
+  dt {
+    color: $red-30;
+    background: $brown-60;
+    margin: 0;
+    padding: 0.30rem;    
+  }
+
+  dd.accordion-item {
+    background: $brown-60;
+    border-top: solid 1px $brown-85;
+
+    &:hover {
+      background: darken($brown-60, 6%);
+    }
+
+    & > a {
+      color: $brown-00;
+      padding: 0.30rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  .accordion-content {
+    border-left: solid 1px darken($brown-60, 6%);
+    border-right: solid 1px darken($brown-60, 6%);
+  }
+}
