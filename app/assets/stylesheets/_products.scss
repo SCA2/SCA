@@ -2,31 +2,58 @@
 @import 'foundation';
 @import 'colors';
 
-// Product index
+// Product page
 
-.category-box {
-  font-weight: bold;
-  padding: 0.2em 0.5em 0.2em 0.5em;
-  margin: 0 0 0 0;
-  background-color: $brown-60;
+.product-box {
+  &:nth-of-type(even) {
+    background-color: darken($brown-85, 3%);
+  }
+  padding-bottom: 1rem;
+  @include breakpoint(medium) {
+    padding: 1rem 1rem 1rem 1rem;
+  }
 }
 
-.admin-box {
-  display: flex;
-  justify-content: center;
-  margin: 0.5em 0 0.5em 0;
-}
-
-.button-box {
-  display: flex;
-  justify-content: center;
-  margin: 0.5em 0 0.5em 0;
-}
-
-.checkout-box {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5em 0 0.5em 0;
+.text-box {
+  background-color: inherit;
+  padding: 0.5rem 0.5rem 0rem 0.5rem;
+  @include breakpoint(medium) {
+    padding: 1rem 0rem 0rem 0rem;
+  }
+  &.model {
+    padding: 0;
+    vertical-align: middle;
+    font-family: 'SF Old Republic SC';
+    font-size: 1.35em;
+    color: $red-50;
+    @include breakpoint(medium) {
+      font-size: 1.75em;
+      line-height: 1.25em;
+    }
+  }
+  &.description {
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 1em;
+    display: inline;
+    margin: 0;
+    @include breakpoint(medium) {
+      padding: 0;
+      font-size: 1em;
+      line-height: 1.4em;
+      display: block;
+    }
+  }
+  &.notes {
+    font-weight: bold;
+  }
+  &.index {
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    @include breakpoint(medium) {
+      padding: 0;
+      @include flex-order(0);
+    }
+  }
 }
 
 .product-image {
@@ -34,24 +61,30 @@
   height: auto;
 }
 
-.text-box {
-  padding: 0.5rem 0.5rem 0rem 0.5rem;
-  @include breakpoint(medium) {
-    padding: 0 1rem 0 1rem;
+.image-box {
+  &.bottom {
+    margin-top: 1rem;
+  }
+  &.index {
+    padding: 0;
+    @include breakpoint(medium) {
+      @include flex-order(1);
+      padding-left: 1rem;
+    }
   }
 }
 
 .features-box {
   padding: 0rem 0.5rem 0.5rem 0.5rem;
   @include breakpoint(medium) {
-    padding: 0 1rem 0 1rem;
+    padding: 0rem 0rem 0rem 0rem;
   }
 }
 
 .feature-box {
   padding: 0.5rem 0rem 0rem 0rem;
   @include breakpoint(medium) {
-    padding: 0 1rem 0 1rem;
+    padding: 1rem 0rem 0rem 0rem;
   }
 }
 
@@ -63,7 +96,7 @@
 .description-box {
   padding-left: 0.3rem;
   @include breakpoint(medium) {
-    padding-left: 1rem;
+    padding-left: 0rem;
   }
 }
 
@@ -75,23 +108,14 @@
 .options-box {
   margin-top: 0.5rem;
   .select-option {
+    border: 1px solid $brown-60;
     margin: 0;
     width: 100%;
-    font-size: 1.1em;
-    background-color: $brown-85;
+    font-size: 1em;
+    background-color: inherit;
     &:focus {
       outline: $brown-30 auto 5px;
       outline-color: $brown-30;
-    }
-    option {
-      &[selected='selected'],
-      &:hover,
-      &:focus,
-      &:focus-within,
-      &:active,
-      &:checked {
-        background: darken($brown-85, 3%);
-      }
     }
   }
 }
@@ -100,57 +124,57 @@
   margin-top: 0.5rem;
   .add {
     padding-top: 0.6rem;
-    .button_to {
-      .button {
-        width: 100%;
-        line-height: 1.5;
-        font-size: 2em;
+    .button {
+      width: 100%;
+      line-height: 1.5;
+      font-size: 2em;
+      @include breakpoint(medium) {
+        line-height: 1em;
+        font-size: 1.75em;
       }
     }
   }
   .message-box {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-top: 0.6rem;
     font-weight: bold;
+    color: $red-50;
     .price {
-      text-align: right;
+      text-align: left;
       font-size: 1.7em;
-      color: $red-50;
+      @include breakpoint(medium) {
+        font-size: 2em;
+        padding-right: 1rem;
+      }
+      &.index {
+        text-align: left;
+        font-size: 1.5em;
+        @include breakpoint(medium) {
+          // padding-right: 1rem;
+        }
+      }
     }        
     .stock {
-      text-align: left;
+      text-align: right;
       font-size: 1.5em;
-      // color: $brown-10;
-      color: $red-50;
+      @include breakpoint(medium) {
+        font-size: 2em;
+        // text-align: center;
+        margin: auto;
+        padding-right: 1rem;
+      }
+      &.index {
+        text-align: right;
+        font-size: 1.5em;
+        @include breakpoint(medium) {
+          text-align: right;
+          font-size: 1.3em;
+          margin: 0;
+          padding: 0;
+        }
+      }
     }
   }
 }  
-
-.product-box {
-  font-size: 0.9em;
-  line-height: 1.4em;
-  // .description {
-  //   margin-top: 0.35em;
-  // }
-  // &.small {    
-  //   padding: 0.5em 0 0.5em 0;
-  //   &.even {
-  //     background-color: darken($brown-85, 3%);
-  //   }
-  // }
-  // &.large {
-  //   .feature-box {
-  //     // display: inline-block;
-  //     // width: 100%;
-  //     margin: 1.5rem 0 0 0;
-  //     .admin-box {
-  //       text-align: center;
-  //       width: 100%
-  //     }
-  //   }
-  //   .actions {
-  //     margin: 1em 0 0 0;
-  //   }
-  // }
-}

@@ -1,8 +1,0 @@
-= provide(:title, 'Products')
-.box_2
-	.row
-		.small-12.columns
-			= render partial: 'product', collection: @products
-			- if signed_in_admin?
-				.admin-box
-					= link_to 'New Product', new_product_path, label: 'New Product', class: "button admin"

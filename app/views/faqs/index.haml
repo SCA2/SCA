@@ -1,7 +1,7 @@
 - provide(:title, 'FAQ')
 .box_2
   .grid-x
-    .medium-9.small-12.cell
+    .accordion-container.medium-9.small-12.cell
       - categories.each do |cat|
         = render partial: "accordion", locals: {title: cat.category_name, faqs: cat.faqs.order(:question_weight)}
       - if signed_in_admin?

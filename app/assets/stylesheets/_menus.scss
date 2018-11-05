@@ -26,7 +26,10 @@ li.menu-text[role='treeitem'] {
 
 .side_box {
   background: $brown-70;
-  padding: 1em;
+  padding: 1rem;
+  @include breakpoint(medium) {
+    margin: 1rem 1rem 1rem 0rem;
+  }
   a img {
     display: block;
     margin: auto;

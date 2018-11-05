@@ -23,14 +23,35 @@ span.red-60 {
   color: $red-60;
 }
 
+.admin-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.button-box {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0 0.5em 0;
+}
+
+.checkout-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0 0.5em 0;
+}
+
 .section-header {
   padding: 0.5rem 0 0.125rem 0.5rem;
   margin: 0;
-  @include breakpoint(medium) {
-    padding: 0 0 0.125rem 0.25rem;
-  }
   border-bottom: solid $red-60;
   border-width: 1px;
+  @include breakpoint(medium) {
+    padding: 1rem 0rem 0.05rem 0rem;
+    &.index {
+      padding: 1rem 0rem 0.05rem 1rem;
+    }
+  }
 }
 
 /* Header */
@@ -95,18 +116,7 @@ div.slider-box {
 div.orbit-bullets-container ol.orbit-bullets {
   margin-bottom: 0.2em;
 }
-// ul.example-orbit[data-options] {
-//   animation: slide;
-//   pause_on_hover: true;
-//   resume_on_mouseout: true;
-//   timer: true;
-//   timer_speed: 5000;
-//   animation_speed: 500;
-//   navigation_arrows: false;
-//   slide_number: false;
-//   slide_number_text: '';
-//   bullets: true;
-// }
+
 main[role=main] {
   display: block;
   margin: 0;
@@ -155,136 +165,6 @@ fieldset {
   }
 }
 
-// Product index
-
-div.category-box {
-  font-weight: bold;
-  padding: 0.2em 0.5em 0.2em 0.5em;
-  margin: 0 0 0 0;
-  background-color: $brown-60;
-}
-
-div.admin-box {
-  display: flex;
-  justify-content: center;
-  margin: 0.5em 0 0.5em 0;
-}
-
-div.button-box {
-  display: flex;
-  justify-content: center;
-  margin: 0.5em 0 0.5em 0;
-}
-
-div.checkout-box {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5em 0 0.5em 0;
-}
-
-.text-box {
-  padding: 0 0.25rem 0 0.25rem;
-}
-
-.features-box {
-  padding: 0 0.25rem 0 0.25rem;
-}
-
-div.product {
-  font-size: 0.85em;
-  line-height: 1.3em;
-  .options-box {
-    margin: 1em 0 1em 0;
-    .select-option {
-      width: 100%;
-      height: 1.6em;
-      margin: 0;
-      padding: 0;
-      font-size: 95%;
-      background-color: inherit;
-      &:focus {
-        outline: $brown-30 auto 5px;
-        outline-color: $brown-30;
-      }
-    }
-    .actions-box {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 1em;
-      .add {
-        & > .button_to {
-          display: inherit;
-          & > div {
-            display: inherit;
-          }
-        }
-      }
-      .price {
-        text-align: left;
-        font-size: 1.75em;
-        font-weight: bold;
-        color: $red-50;
-        margin: auto auto auto 0.5em;
-      }        
-      .stock {
-        color: $brown-10;
-        font-size: 1.35em;
-        font-weight: bold;      
-        margin: auto 0 auto auto;
-      }
-    }  
-  }
-  .description {
-    margin-top: 0.35em;
-  }
-  .notes {
-    margin-top: 1em;
-    font-weight: bold;
-  }
-  &.small {    
-    padding: 0.5em 0 0.5em 0;
-    &.even {
-      background-color: darken($brown-85, 3%);
-    }
-    .image-box {
-      display: table-cell;
-      vertical-align: middle;
-      & img {
-        border: 1px solid $brown-60;
-      }
-    }
-  }
-  &.large {
-    .product-image {
-      margin: 0 0 1em 0;
-      width: 100%;
-      height: auto;
-      // border: 1px solid $brown-60;
-    }
-    .feature-box {
-      // display: inline-block;
-      // width: 100%;
-      margin: 1.5rem 0 0 0;
-      .caption-box {
-        font-weight: bold;
-        float: left;
-        width: 30%;
-      }
-      .description-box {
-        float: left;
-        width: 70%;
-      }
-      .admin-box {
-        text-align: center;
-        width: 100%
-      }
-    }
-    .actions {
-      margin: 1em 0 0 0;
-    }
-  }
-}
-
 // forms
 
 #error_explanation {
@@ -318,15 +198,26 @@ div.product {
 
 // Panel
 
-.panel.callout {
-  // @include panel();
-  border-style: none;
-  border-width: 1px;
-  border-color: $brown-20;
-  margin-bottom: 1.25rem;
-  padding: 1.25rem;
-  background: $brown-70;
-  color: $brown-10;
+.forum {
+  &.container {
+    padding: 0;
+    @include breakpoint(medium) {
+      padding: 1rem 1rem 1rem 1rem;
+    }
+  }
+  &.callout {
+    border-style: none;
+    border-width: 1px;
+    border-color: $brown-20;
+    margin-bottom: 1.25rem;
+    padding: 0.5rem;
+    background: $brown-70;
+    color: $brown-10;
+    @include breakpoint(medium) {
+      margin-bottom: 1.25rem;
+      padding: 1.25rem;
+    }
+  }
 }
 
 // Alert/Message box

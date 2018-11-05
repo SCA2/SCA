@@ -6,6 +6,13 @@
 
 // accordion
 
+.accordion-container {
+  padding: 0;
+  @include breakpoint(medium) {
+    padding: 1rem 1rem 0rem 1rem;
+  }
+}
+
 .accordion {
   margin-bottom: 1rem;
 
@@ -13,7 +20,7 @@
     color: $red-30;
     background: $brown-60;
     margin: 0;
-    padding: 0.30rem;    
+    padding: 0.50rem;    
   }
 
   dd.accordion-item {
@@ -25,9 +32,10 @@
     }
 
     & > a {
+      display: block;
       color: $brown-00;
-      padding: 0.30rem;
-      line-height: 2.5rem;
+      padding: 0.50rem;
+      line-height: 2em;
     }
   }
 

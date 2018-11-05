@@ -1,0 +1,23 @@
+- provide(:title, 'Forum')
+.box_2
+  .grid-x
+    .forum.container.medium-9.small-12.cells
+      .forum.callout
+        %h5
+          %b Rules:
+        %ol
+          %li You must register to post a message. We realize it's annoying, but it's the only way we know you're not a robot.
+          %br/
+          %li You don't have to register to browse, search, or lurk through the board.
+          %br/
+          %li Please post topics in the appropriate forum. Off-topic posts will be moved or deleted.
+          %br/
+          %li Please post responsibly.  Users found to be abusing the board will be banned. We don't have time to be dealing with screwups.
+      %div{align: "center"}
+        /
+          <p>Sorry for the inconvenience, but our forum server is down. Please try again later.</p>
+        %p
+          %a{href: "http://www.forums.seventhcircleaudio.com", target: "_top"}
+            %b Enter Forums
+    .medium-3.small-12.cells
+      = render 'layouts/sidebar'

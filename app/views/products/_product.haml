@@ -3,6 +3,6 @@
 
 - if visible?(product) && product.first_in_category?
   - count = @products.where(display_category: product.display_category).count
-  %h5.section-header= product.display_category.name.pluralize(count)
+  %h5.section-header.index= product.display_category.name.pluralize(count)
 
 = render 'small_product', index: product_counter if visible?(product)

@@ -1,5 +1,5 @@
-.product-box.single
-  .image-box.top
+.product-box
+  .image-box-top
     = link_to image_tag @product.image_1, class: "product-image"
   %h5.section-header= "#{@product.model} #{@product.product_category.name}"
   .text-box
@@ -7,7 +7,7 @@
       = @product.long_description.html_safe
     .notes-box
       = @product.notes.html_safe
-    = render 'options/option'
+    = render 'options/option', index: false
     = render 'options/admin'
   %h5.section-header Features
   .features-box
@@ -19,5 +19,5 @@
     .admin-box
       = link_to 'New Feature', new_product_feature_path(@product), class: "button admin"
 
-  .image-box.bottom
+  .image-box-bottom
     = link_to image_tag @product.image_2, class: "product-image"
