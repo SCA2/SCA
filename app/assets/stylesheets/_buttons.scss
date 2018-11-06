@@ -54,7 +54,10 @@ input[type="submit"], button, .button {
   }
   
   &.user {
-    padding: 0.5em 1em 0.5em 1em;
+    font-size: 1em;
+    line-height: 1em;
+    vertical-align: middle;
+    text-align: center;
     margin: 0 0.5em 0 0.5em;
   }
   

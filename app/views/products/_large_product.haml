@@ -1,5 +1,5 @@
 .product-box
-  .image-box-top
+  .image-box.top
     = link_to image_tag @product.image_1, class: "product-image"
   %h5.section-header= "#{@product.model} #{@product.product_category.name}"
   .text-box
@@ -19,5 +19,5 @@
     .admin-box
       = link_to 'New Feature', new_product_feature_path(@product), class: "button admin"
 
-  .image-box-bottom
+  .image-box.bottom
     = link_to image_tag @product.image_2, class: "product-image"
