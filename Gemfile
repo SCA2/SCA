@@ -26,6 +26,7 @@ gem 'carmen-rails', :git => 'https://github.com/SCA2/carmen-rails'
 gem 'roo', '~> 2.7.1'
 gem 'stripe', '~> 2.1.0'
 gem 'figaro', '~> 1.1.1'
+gem 'mini_racer'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
