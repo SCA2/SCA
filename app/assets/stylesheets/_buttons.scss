@@ -1,0 +1,72 @@
+
+// @import "foundation";
+@import "colors";
+
+input[type="submit"], button, .button {
+  margin: 0;
+  border: none;
+  background-color: $brown-20;
+
+  &:hover {
+    background-color: $red-30;
+  }
+
+  &:visited {
+    background-color: $brown-20;
+  }
+
+  &:active {
+    background-color: $brown-20;
+  }
+
+  &:visited:hover {
+    background-color: $red-30;
+  }
+
+  &:focus {
+    background-color: $brown-30;
+    outline: $brown-30 auto 5px;
+    outline-color: $brown-30;
+  }
+
+  &:disabled {
+    background-color: $red-30;
+  }
+
+  &:disabled:hover {
+    background-color: $red-30;
+  }
+
+  &.add {
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    font-weight: bold;
+    background-color: $brown-10;
+    &:hover {
+      background-color: $red-50;
+    }
+  }
+  
+  &.admin {
+    line-height: 0;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 0.5em 0 0.5em;
+  }
+  
+  &.user {
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0 0.5em 0 0.5em;
+  }
+  
+  &.checkout {
+    width: 22%;
+    font-size: 1.1em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0 0.5em 0 0.5em;
+  }
+}
+
+.paypal-button {
+  width: 145px;
+  margin: 1em auto 1em auto;
+}

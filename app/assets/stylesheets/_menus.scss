@@ -3,6 +3,20 @@
 @import 'settings';
 @import 'colors';
 
+.no-js {
+  @include breakpoint(small only) {
+    .top-bar {
+      display: none;
+    }
+  }
+
+  @include breakpoint(medium) {
+    .title-bar {
+      display: none;
+    }
+  }
+}
+
 .title-bar {
   justify-content: space-between;
   .menu-icon {
@@ -54,7 +68,7 @@ li.is-submenu-item {
 }
 
 .dropdown.menu.vertical.sca-aside, .menu.vertical.sca-aside{
-  font-size: 0.9rem;
+  font-size: 1em;
   background: $brown-50;
   margin-bottom: 1rem;
 

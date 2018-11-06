@@ -3,7 +3,7 @@ module OrdersHelper
   def crumb_class(path)
     if current_page?(path)
       "current"
-    elsif session[:progress].include?(path)
+    elsif session[:progress] && session[:progress].include?(path)
       "available"
     else
       "disabled"

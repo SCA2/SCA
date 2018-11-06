@@ -1,8 +1,7 @@
 class LineItem < ApplicationRecord
   belongs_to :cart, inverse_of: :line_items
   belongs_to :component, inverse_of: :line_items
-
-  belongs_to :option, foreign_type: 'Option', foreign_key: 'option_id'
+  has_one :option, through: :component, source: :options
 
   validates :cart, :component, presence: true
   validates :quantity, numericality: { only_integer: true, greater_than: 0 }
@@ -15,6 +14,10 @@ class LineItem < ApplicationRecord
 
   def item
     component
+  end
+
+  def displayable?
+    !option.nil?
   end
 
   def extended_price

@@ -3,7 +3,7 @@
     %button.menu-icon{ type: 'button', data: { toggle: 'main-menu' }}
     .title-bar-title Menu
   %div
-    %ul.menu#cart-peek
+    %ul.hide-for-medium.menu.cart-peek
       %li.menu-text= link_to "<i class='fas fa-shopping-cart'></i>".html_safe, cart
       %li.menu-text= link_to "#{cart.total_items.to_s} Items", cart
 
@@ -12,6 +12,6 @@
     %ul.vertical.medium-horizontal.menu{ data: { responsive_menu: 'drilldown medium-dropdown', auto_height: true }}
       =render 'layouts/navigation_links'
   %section.top-bar-right.show-for-medium
-    %ul.menu#cart-peek
+    %ul.show-for-medium.menu.cart-peek
       %li.menu-text= link_to "<i class='fas fa-shopping-cart'></i>".html_safe, cart
       %li.menu-text= link_to "#{cart.total_items.to_s} Items", cart

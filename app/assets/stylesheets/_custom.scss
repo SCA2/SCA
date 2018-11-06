@@ -225,9 +225,10 @@ fieldset {
 .callout {
   border: none;
   button.close-button {
+    background-color: inherit;
     color: $brown-20;
     &:hover {
-      background-color: transparent;
+      color: $red-20;
     }
   }
 }

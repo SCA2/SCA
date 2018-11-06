@@ -1,47 +1,47 @@
-.row
-  .small-2.columns &nbsp
-  .small-8.columns
+.grid-x
+  .small-4.cells &nbsp
+  .small-6.cells
     %fieldset
-      .row
-        %legend
-          .small-3.columns= 'Component'
-          .small-9.columns= f.mfr_part_number
-      .row
-        .small-12.columns &nbsp;
+      .field(style='font-weight: bold')
+        .grid-x
+          .small-4.cells= 'Component'
+          .small-shrink.cells= f.mfr_part_number
+      .grid-x
+        .small-12.cells &nbsp;
       .field
-        .row
-          .small-3.columns= 'Mfr'
-          .small-9.columns= f.mfr
+        .grid-x
+          .small-4.cells= 'Mfr'
+          .small-shrink.cells= f.mfr
       .field
-        .row
-          .small-3.columns= 'Mfr Part Number'
-          .small-9.columns= f.mfr_part_number
+        .grid-x
+          .small-4.cells= 'Mfr Part Number'
+          .small-shrink.cells= f.mfr_part_number
       .field
-        .row
-          .small-3.columns= 'Vendor'
-          .small-9.columns= f.vendor
+        .grid-x
+          .small-4.cells= 'Vendor'
+          .small-shrink.cells= f.vendor
       .field
-        .row
-          .small-3.columns= 'Vendor Part Number'
-          .small-9.columns= f.vendor_part_number
+        .grid-x
+          .small-4.cells= 'Vendor Part Number'
+          .small-shrink.cells= f.vendor_part_number
       .field
-        .row
-          .small-3.columns= 'Value'
-          .small-9.columns= f.value
+        .grid-x
+          .small-4.cells= 'Value'
+          .small-shrink.cells= f.value
       .field
-        .row
-          .small-3.columns= 'Marking'
-          .small-9.columns= f.marking
+        .grid-x
+          .small-4.cells= 'Marking'
+          .small-shrink.cells= f.marking
       .field
-        .row
-          .small-3.columns= 'Description'
-          .small-9.columns= f.description
+        .grid-x
+          .small-4.cells= 'Description'
+          .small-shrink.cells= f.description
       .field
-        .row
-          .small-3.columns= 'Stock'
-          .small-9.columns= f.stock
+        .grid-x
+          .small-4.cells= 'Stock'
+          .small-shrink.cells= f.stock
       .field
-        .row
-          .small-3.columns= 'Lead Time'
-          .small-9.columns= f.lead_time
-  .small-2.columns &nbsp
+        .grid-x
+          .small-4.cells= 'Lead Time'
+          .small-shrink.cells= f.lead_time
+  .small-shrink.cells &nbsp

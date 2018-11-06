@@ -1,6 +1,6 @@
 %aside.side_box
   -if @product
-    %ul.dropdown.menu.vertical.sca-aside{ :data => {:dropdown_menu => ''} }
+    %ul.vertical.menu.sca-aside{ data: { dropdown_menu: '' }}
       %h6
         %b= "#{@product.model} Documents"
       %li= link_to 'Specifications', asset_path(@product.specifications)
@@ -9,7 +9,7 @@
       %li= link_to 'Assembly Instructions', asset_path(@product.assembly)
 
   -if @products
-    %ul.dropdown.menu.vertical.sca-aside{ data: {disable_hover: 'true', click_open: 'true', closing_time: 50, dropdown_menu: ''} }
+    %ul.vertical.menu.drilldown.sca-aside{ data: { drilldown: '' }}
       %h6
         %b Products
       - product_categories.each do |pc|
@@ -17,8 +17,8 @@
           - category_name = pc.name.pluralize(pc.active_count)
           - category_id = category_name.gsub(/\s+/, '')
           - if pc.active_count > 0 || signed_in_admin?
-            = link_to(category_name, '#', data: { dropdown: category_id })
-            %ul.vertical.menu.sca-aside{ id: category_id, data: { dropdown_menu: '' }}
+            = link_to(category_name, '#')
+            %ul.vertical.menu.nested.sca-aside
               - pc.displays.sorted.each do |p|
                 %li= link_to "#{p.model} #{p.product_category.name}", product_path(p)
 	

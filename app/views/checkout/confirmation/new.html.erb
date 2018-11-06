@@ -16,8 +16,8 @@
   				<%= render 'confirm_terms', f: terms, legend: 'Terms' %>
         <% end %>
 				<div class="button-box">
-          <%= link_to 'Back to Payment', new_checkout_payment_path(@cart), class: 'button user' %>
-          <%= form.submit 'Place Order', class: 'button user' %>
+          <%= link_to 'Back to Payment', new_checkout_payment_path(@cart), class: 'button checkout' %>
+          <%= form.submit 'Place Order', class: 'button checkout' %>
         </div>
       <% end %>
     </div>
