@@ -121,59 +121,38 @@
 }
 
 .actions-box {
-  margin-top: 0.5rem;
-  .add {
-    padding-top: 0.6rem;
-    .button {
-      width: 100%;
-      line-height: 1.5;
-      font-size: 2em;
-      @include breakpoint(medium) {
-        line-height: 1em;
-        font-size: 1.75em;
-      }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: $red-50;
+  .price {
+    text-align: left;
+    font-size: 1.2em;
+    @include breakpoint(medium) {
+      font-size: 1.4em;
+      padding-right: 1rem;
+    }
+  }        
+  .stock {
+    text-align: right;
+    font-size: 1.2em;
+    white-space: nowrap;
+    min-width: 8em;
+    @include breakpoint(medium) {
+      font-size: 1.4em;
+      text-align: center;
     }
   }
-  .message-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.6rem;
-    font-weight: bold;
-    color: $red-50;
-    .price {
-      text-align: left;
-      font-size: 1.7em;
+  .add {
+    .button {
+      width: 100%;
+      line-height: 1.2;
+      font-size: 1.4em;
       @include breakpoint(medium) {
-        font-size: 2em;
-        padding-right: 1rem;
-      }
-      &.index {
-        text-align: left;
-        font-size: 1.5em;
-        @include breakpoint(medium) {
-          // padding-right: 1rem;
-        }
-      }
-    }        
-    .stock {
-      text-align: right;
-      font-size: 1.5em;
-      @include breakpoint(medium) {
-        font-size: 2em;
-        // text-align: center;
-        margin: auto;
-        padding-right: 1rem;
-      }
-      &.index {
-        text-align: right;
-        font-size: 1.5em;
-        @include breakpoint(medium) {
-          text-align: right;
-          font-size: 1.3em;
-          margin: 0;
-          padding: 0;
-        }
+        line-height: 1em;
+        font-size: 1.6em;
       }
     }
   }

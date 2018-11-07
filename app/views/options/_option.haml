@@ -3,7 +3,7 @@
     = form_for :product, url: update_option_product_path(@product), method: :put, remote: true do |f|
       = f.select :options, (options_for_select get_extended_models(@product), @option.id), {}, class: 'select-option', id: "select-#{@product.id.to_s}"
     .actions-box.grid-x
-      = render 'options/actions', index: index
+      = render 'options/actions'
   - else
     .actions-box
       .text-box.notes(id="stock-#{@product.id.to_s}")

@@ -7,7 +7,7 @@
       = @product.short_description.html_safe
     .text-box.notes(id="notes-#{ @product.id.to_s }")
       = @product.notes.html_safe
-    = render 'options/option', index: true
+    = render 'options/option'
     = render 'options/admin'
 - if signed_in_admin?
   .admin-box

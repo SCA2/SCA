@@ -1,24 +1,9 @@
--if index
-  .message-box.small-12.cells
-    .price.index(id="price-#{@product.id.to_s}")
-      = get_price(@option)
-    .stock.index(id="stock-#{@product.id.to_s}")
-      = @option.stock_message
-  .add.index.small-12.cells(id="add-#{@product.id.to_s}")
-    - if signed_in_admin?
-      = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
-    - else
-      = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
--else
-  .message-box.small-12.medium-8.cells
-    .price(id="price-#{@product.id.to_s}")
-      = get_price(@option)
-    .stock(id="stock-#{@product.id.to_s}")
-      = @option.stock_message
-  .add.small-12.medium-4.cells(id="add-#{@product.id.to_s}")
-    - if signed_in_admin?
-      = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
-    - else
-      = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
-
-
+.price.medium-shrink.small-shrink.cells(id="price-#{@product.id.to_s}")
+  = get_price(@option)
+.stock.medium-auto.medium-auto.small-auto.cells(id="stock-#{@product.id.to_s}")
+  = @option.stock_message
+.add.medium-auto.small-12.cells(id="add-#{@product.id.to_s}")
+  - if signed_in_admin?
+    = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', remote: :true, authenticity_token: true
+  - else
+    = button_to 'Add to Cart', line_items_path(component_id: @option.component), class: 'button add', disabled: @option.disabled?, remote: :true
