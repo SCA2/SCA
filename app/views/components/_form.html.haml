@@ -60,9 +60,9 @@
       .field
         .row
           .small-3.columns
-            = f.label :local_stock, 'Stock'
+            = f.label :stock, 'Stock'
           .small-9.columns
-            = f.number_field :local_stock, in: 0..100000
+            = f.number_field :stock, in: 0..100000
       - if f.object.bom
         .field
           .row
