@@ -1,7 +1,7 @@
 class Component < ApplicationRecord
   has_many :line_items, inverse_of: :component, dependent: :restrict_with_exception
   has_many :bom_items, inverse_of: :component, dependent: :restrict_with_exception
-  has_one :bom, inverse_of: :component
+  has_one :bom, inverse_of: :component, dependent: :destroy
   has_many :options, inverse_of: :component, dependent: :restrict_with_exception
   has_many :products, through: :options, dependent: :restrict_with_exception
   has_one :size_weight_price_tag, inverse_of: :component, dependent: :destroy
@@ -59,7 +59,7 @@ class Component < ApplicationRecord
     elsif stocked?
       self[:stock]
     else
-      nil
+      0
     end
   end
 

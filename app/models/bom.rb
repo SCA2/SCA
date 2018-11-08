@@ -30,7 +30,7 @@ class Bom < ApplicationRecord
   end
 
   def stock
-    return 0 if items.any? { |i| i.component.bom_stock.nil? || i.quantity == 0 }
+    return 0 if items.any? { |i| i.quantity == 0 }
     child_items.map { |i| i.component.recursive_stock / i.quantity }.min
   end
 

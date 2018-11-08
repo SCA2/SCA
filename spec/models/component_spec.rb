@@ -12,34 +12,28 @@ describe Component do
   it { should respond_to(:stock) }
   it { should respond_to(:lead_time) }
 
-  # describe 'bom associations' do
-  #   it 'can create a bom' do
-  #     product = create(:product)
-  #     option = create(:option, product: product)
-  #     expect{create(:bom, option: option)}.to change {Bom.count}.by(1)
-  #   end
+  describe 'bom associations' do
+    let(:component) { create(:component) }
 
-  #   it 'has one unique bom' do
-  #     product = create(:product)
-  #     option = create(:option, product: product)
-  #     create(:bom, option: option)
-  #     expect{create(:bom, option: option)}.to raise_error ActiveRecord::RecordInvalid
-  #   end
+    it 'can create a bom' do
+      expect{create(:bom, component: component)}.to change {Bom.count}.by(1)
+    end
 
-  #   it 'should destroy associated bom' do
-  #     product = create(:product)
-  #     option = create(:option, product: product)
-  #     create(:bom, option: option)
-  #     expect {option.destroy}.to change {Bom.count}.by(-1)
-  #   end
+    it 'has one unique bom' do
+      create(:bom, component: component)
+      expect{create(:bom, component: component)}.to raise_error ActiveRecord::RecordInvalid
+    end
 
-  #   it 'is not destroyed with associated bom' do
-  #     product = create(:product)
-  #     option = create(:option, product: product)
-  #     bom = create(:bom, option: option)
-  #     expect {bom.destroy}.not_to change {Option.count}
-  #   end
-  # end
+    it 'should destroy associated bom' do
+      create(:bom, component: component)
+      expect {component.destroy}.to change {Bom.count}.by(-1)
+    end
+
+    it 'is not destroyed with associated bom' do
+      bom = create(:bom, component: component)
+      expect {bom.destroy}.not_to change {Component.count}
+    end
+  end
 
   describe 'bom_item associations' do
     it 'has many bom_items' do
@@ -73,30 +67,10 @@ describe Component do
     end
   end
 
-  describe 'bom_lead_time' do
-    it 'without lead time returns nil' do
-      component = build(:component, lead_time: nil)
-      expect(component.bom_lead_time).to eq(nil)
-    end
-
-    it 'without bom returns self.lead_time' do
-      component = build(:component, stock: 0, lead_time: 15)
-      expect(component.bom_lead_time).to eq(15)
-    end
-
-    it 'with bom returns bom.lead_time' do
-      component = create(:component, stock: 0, lead_time: 1)
-      assembly = create(:component, stock: 0, lead_time: 2)
-      bom = create(:bom, component: assembly)
-      create(:bom_item, bom: bom, component: component, quantity: 1)
-      expect(assembly.bom_lead_time).to eq(1)
-    end
-  end
-
   describe 'recursive_stock' do
-    it 'with nil stock and no bom returns nil' do
+    it 'if unstocked returns 0' do
       component = build(:component, stock: nil)
-      expect(component.recursive_stock).to eq(nil)
+      expect(component.recursive_stock).to eq(0)
     end
 
     it 'without bom returns self[:stock]' do
@@ -116,7 +90,7 @@ describe Component do
       component = create(:component, stock: 1)
       assembly = create(:component, stock: 0)
       bom = create(:bom, component: assembly)
-      bom_item = create(:bom_item, bom: bom, component: component)
+      bom_item = create(:bom_item, bom: bom, quantity: 1, component: component)
       expect(assembly.recursive_stock).to eq(1)
     end
 
@@ -126,6 +100,26 @@ describe Component do
       bom = create(:bom, component: assembly)
       bom_item = create(:bom_item, bom: bom, component: component)
       expect(assembly.recursive_stock).to eq(1)
+    end
+  end
+
+  describe 'bom_lead_time' do
+    it 'without lead time returns nil' do
+      component = build(:component, lead_time: nil)
+      expect(component.bom_lead_time).to eq(nil)
+    end
+
+    it 'without bom returns self.lead_time' do
+      component = build(:component, stock: 0, lead_time: 15)
+      expect(component.bom_lead_time).to eq(15)
+    end
+
+    it 'with bom returns bom.lead_time' do
+      component = create(:component, stock: 0, lead_time: 1)
+      assembly = create(:component, stock: 0, lead_time: 2)
+      bom = create(:bom, component: assembly)
+      create(:bom_item, bom: bom, component: component, quantity: 1)
+      expect(assembly.bom_lead_time).to eq(1)
     end
   end
 

@@ -2,19 +2,25 @@
 
 @import "colors"
 
-table.bom-table
+.admin-bar
+  padding: 1rem 0 0 1rem
+
+.bom-table
   width: 100%
   border: none
   border-collapse: collapse
   background-color: $brown-85
-  font-size: 0.85rem
-  line-height: 1.00rem
+  font-size: 0.9em
+  line-height: 1.6em
   
   tr
     color: $brown-00
     &:nth-child(odd)
       background-color: darken($brown-85, 3%)
-  
+    
+    th
+      text-align: left
+
     td
       line-height: inherit
       margin: 0
