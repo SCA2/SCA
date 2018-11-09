@@ -1,21 +1,20 @@
 - provide(:title, 'Order ' + @order.id.to_s)
 
 .box_2
-  .row
-    .small-5.columns.main
-      .row
-        = render 'address', f: @billing, legend: 'Billing Address'
-        = render 'address', f: @shipping, legend: 'Shipping Address'
-    .small-7.columns.main
-      .row
-        = render 'shipping', f: @order, legend: 'Shipping Method'
-        = render 'email', f: @order, legend: 'Email'
-        = render 'token', f: @order, legend: 'Card Token'
-    .small-12.columns.main
-      .row
-        = render 'cart'
-      .button-box
-        = link_to 'Quit', orders_path, class: 'button user'
-        = link_to 'Packing Slip', packing_slip_order_path(@order), class: 'button user'
-        = link_to 'Ship', get_tracking_number_order_path(@order), class: 'button user'
-        = link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" }
+  .grid-x
+    .small-4.cells.main
+      = render 'address', f: @billing, legend: 'Billing Address'
+    .small-4.cells.main
+      = render 'address', f: @shipping, legend: 'Shipping Address'
+    .small-4.cells.main
+      = render 'shipping', f: @order, legend: 'Shipping Method'
+      = render 'email', f: @order, legend: 'Email'
+      = render 'token', f: @order, legend: 'Card Token'
+  .grid-x
+    .small-12.cells.main
+      = render 'cart'
+  .button-box
+    = link_to 'Quit', orders_path, class: 'button user'
+    = link_to 'Packing Slip', packing_slip_order_path(@order), class: 'button user'
+    = link_to 'Ship', get_tracking_number_order_path(@order), class: 'button user'
+    = link_to 'Delete', @order, method: :delete, class: 'button user', data: { confirm: "Are you sure?" }

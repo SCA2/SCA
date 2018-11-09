@@ -1,6 +1,6 @@
 = provide(:title, 'BOMs')
 .box_2
-  %p
+  %p.admin-bar
     = link_to "New BOM", new_bom_path
     &nbsp;|&nbsp;
     = link_to_if(@boms.count > 0, "Import BOMs", new_bom_importer_path)

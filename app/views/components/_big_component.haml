@@ -38,8 +38,13 @@
           .small-shrink.cells= f.description
       .field
         .grid-x
-          .small-4.cells= 'Stock'
+          .small-4.cells= 'Component Stock'
           .small-shrink.cells= f.stock
+      -unless f.bom.nil?
+        .field
+          .grid-x
+            .small-4.cells= 'BOM Stock'
+            .small-shrink.cells= f.bom_stock
       .field
         .grid-x
           .small-4.cells= 'Lead Time'

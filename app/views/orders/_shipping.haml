@@ -1,0 +1,12 @@
+%fieldset.confirm-shipper
+  %legend= legend
+  %table.confirm-table
+    %tr
+      %td= f.shipping_method
+      %td= cents_to_dollars(f.shipping_cost, precision: 2)
+    %tr
+      %td= label_tag :ship_date
+      %td= f.ship_date
+    %tr
+      %td= label_tag :tracking_number
+      %td= f.tracking_number
