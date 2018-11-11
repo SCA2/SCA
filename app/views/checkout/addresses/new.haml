@@ -1,0 +1,20 @@
+- provide(:title, 'Addresses')
+.cart-container
+  = render 'shared/breadcrumbs'
+  = render 'shared/errors', object: @order
+  = form_for @order, html: { class: 'grid-x addresses'}, url: checkout_addresses_path(id: @order.id), method: 'post' do |order|
+    .medium-6.small-12.cells
+      #billing.address
+        = order.fields_for :addresses, @order.addresses.first do |billing|
+          = render 'addresses/address_form', f: billing
+    .medium-6.small-12.cells
+      #use-billing
+        = order.check_box :use_billing, { id: 'use-billing' }, 'yes', 'no'
+        = order.label :use_billing, 'Shipping address same as billing?'
+      #shipping.address
+        = order.fields_for :addresses, @order.addresses.second do |shipping|
+          = render 'addresses/address_form', f: shipping
+    .medium-6.small-12.cells.align-center
+      = link_to 'Back to Cart', @cart, class: 'button checkout'
+    .medium-6.small-12.cells.align-center
+      = order.submit 'Continue Checkout', class: 'button checkout'

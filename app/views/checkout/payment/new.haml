@@ -1,0 +1,18 @@
+- provide(:title, 'Payment Method')
+.cart-container
+  = render 'shared/breadcrumbs'
+  .grid-x
+    .medium-9.small-12.cells
+      = form_for @card, url: checkout_payment_path(@cart), method: 'patch' do |f|
+        = render 'shared/errors', object: f.object
+        = render 'payment_form', f: f, legend: 'Payment Information'
+        .button-box.grid-x
+          .medium-6.small-12.cells.align-center
+            - if @cart.intangible?
+              = link_to 'Back to Addresses', new_checkout_address_path(@cart), class: 'button checkout'
+            - else
+              = link_to 'Back to Shipping', new_checkout_shipping_path(@cart), class: 'button checkout'
+          .medium-6.small-12.cells.align-center
+            = f.submit 'Continue Checkout', class: 'button checkout'
+    .medium-3.show-for-medium.cells.sidebar
+      = render 'layouts/sidebar'

@@ -1,19 +1,24 @@
 .main-cart
   %table.main-cart
     %tr
-      %th#remove Remove
+      %th#remove.show-for-medium Remove
+      %th#remove.hide-for-medium Rmv
       %th#item Item
-      %th#description Description
-      %th#quantity Quantity
-      %th#price Price
+      %th#description.show-for-medium Description
+      %th#quantity.show-for-medium Quantity
+      %th#quantity.hide-for-medium Qty
+      %th#price.show-for-medium Price
       %th#ext Ext
     = cart_form.fields_for :line_items do |line_form|
       = render 'line_item', line_form: line_form
     %tr
-      %td.divider-cell{colspan: 6}
+      %td.show-for-medium.divider-cell{colspan: 6}
+      %td.hide-for-medium.divider-cell{colspan: 4}
     %tr#discount-line
-      %td.total-cell{colspan: 5} Discount
+      %td.show-for-medium.total-cell{colspan: 5} Discount
+      %td.hide-for-medium.total-cell{colspan: 3} Discount
       %td.total-price-cell= cents_to_dollars(cart.discount, precision: 0)
     %tr#total-line
-      %td.total-cell{colspan: 5} Subtotal
+      %td.show-for-medium.total-cell{colspan: 5} Subtotal
+      %td.hide-for-medium.total-cell{colspan: 3} Subtotal
       %td.total-price-cell= cents_to_dollars(cart.subtotal, precision: 0)

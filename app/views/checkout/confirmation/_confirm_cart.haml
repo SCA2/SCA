@@ -1,0 +1,49 @@
+%fieldset
+  %legend Cart Contents
+  %table.main-cart
+    %tr#header
+      %th#line Line
+      %th#item Item
+      %th#description.show-for-medium Description
+      %th#quantity Quantity
+      %th#price.show-for-medium Price
+      %th#ext Ext
+    - @cart.line_items.each_with_index do |line_item, index|
+      %tr
+        %td.line-cell= index + 1
+        %td.item-cell= link_to line_item.item_model, line_item.item
+        %td.show-for-medium.description-cell= link_to line_item.item_description, line_item.item
+        %td.quantity-cell{style: "text-align: center"}
+          = line_item.quantity
+        %td.show-for-medium.price-cell
+          = cents_to_dollars(line_item.full_price_in_cents, precision: 0)
+        %td.price-cell
+          = cents_to_dollars(line_item.extended_price, precision: 2)
+    %tr
+      %td.show-for-medium.divider-cell{colspan: "6"}
+      %td.hide-for-medium.divider-cell{colspan: "4"}
+    %tr#discount-line
+      %td.show-for-medium.total-cell{colspan: "5"} Package Discount
+      %td.hide-for-medium.total-cell{colspan: "3"} Package Discount
+      %td.total-cell
+        = cents_to_dollars(@cart.discount, precision: 2)
+    %tr#subtotal-line
+      %td.show-for-medium.total-cell{colspan: "5"} Subtotal
+      %td.hide-for-medium.total-cell{colspan: "3"} Subtotal
+      %td.total-cell
+        = cents_to_dollars(@cart.subtotal, precision: 2)
+    %tr#salestax-line
+      %td.show-for-medium.total-cell{colspan: "5"} Sales Tax
+      %td.hide-for-medium.total-cell{colspan: "3"} Sales Tax
+      %td.total-cell
+        = cents_to_dollars(@calculator.sales_tax, precision: 2)
+    %tr#shipping-line
+      %td.show-for-medium.total-cell{colspan: "5"} Shipping
+      %td.hide-for-medium.total-cell{colspan: "3"} Shipping
+      %td.total-cell
+        = cents_to_dollars(@order.shipping_cost, precision: 2)
+    %tr#total-line
+      %td.show-for-medium.total-cell{colspan: "5"} Total
+      %td.hide-for-medium.total-cell{colspan: "3"} Total
+      %td.total-cell
+        = cents_to_dollars(@calculator.total, precision: 2)

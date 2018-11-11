@@ -1,0 +1,6 @@
+%fieldset.confirm-shipper
+	%legend= legend
+	%table.confirm-table
+		%tr
+			%td= f.shipping_method
+			%td= cents_to_dollars(f.shipping_cost, precision: 2)

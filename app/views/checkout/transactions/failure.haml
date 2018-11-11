@@ -1,0 +1,17 @@
+- provide(:title, 'Transaction Failed')
+.cart-container
+  = render 'shared/errors', object: @order
+  .grid-x
+    .checkout-text-box.small-12.medium-9.cells
+      %h6
+        Sorry, the transaction failed. Please contact
+        %b sales@seventhcircleaudio.com
+        for assistance with your order.
+      %p="order_id: #{@transaction.order_id}"
+      %p="action: #{@transaction.action}"
+      %p="amount: #{@transaction.amount}"
+      %p="success: #{@transaction.success}"
+      %p="authorization: #{@transaction.authorization}"
+      %p="message: #{@transaction.message}"
+    .small-12.medium-3.cells
+      = render 'layouts/sidebar'

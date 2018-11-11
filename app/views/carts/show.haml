@@ -1,18 +1,21 @@
 =provide(:title, "Cart " + @cart.id.to_s)
-
-.box_2
-  .row
-    .small-12.columns
+.cart-container
+  .grid-x
+    .small-12.cells
       = render 'shared/errors', object: @cart
       = render 'shared/breadcrumbs'
       = form_for cart do |form|
         = render 'cart', cart_form: form
-        .actions
-          .checkout-box
+        .actions.grid-x
+          -# .checkout-box
+          .small-12.medium-3.cells.align-center
             = form.submit 'Update cart', method: :patch, class: "button checkout"
+          .small-12.medium-3.cells.align-center
             = link_to 'Empty cart', cart_path, method: :delete, class: "button checkout", data: { confirm: 'Are you sure?' }
+          .small-12.medium-3.cells.align-center
             = link_to 'Keep shopping', products_path, class: "button checkout"
+          .small-12.medium-3.cells.align-center
             = link_to 'Checkout', new_checkout_address_path(cart), class: "button checkout"
-          - if signed_in_admin?
-            .admin-box
-              = link_to 'Create Invoice', new_invoice_path(cart), class: "button admin"
+        - if signed_in_admin?
+          .admin-box
+            = link_to 'Create Invoice', new_invoice_path(cart), class: "button admin"

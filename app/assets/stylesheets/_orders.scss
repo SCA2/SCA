@@ -1,6 +1,7 @@
 // Orders
 
-@import "colors";
+@import 'foundation';
+@import 'colors';
 
 div.user {
   width: 100%;
@@ -16,14 +17,9 @@ div.user {
   }
 }
 
-div.addresses {
-  width: 100%;
-  margin: 0;
-  div.address {
-    display: inline-block;
-    width: 49%;
-    margin: 0;
-  }
+form.addresses {
+  display: flex;
+  align-items: flex-end;
 }
 
 div#use-billing {
@@ -54,14 +50,14 @@ div#login {
   }
 }
 
-div.actions {
-  width: 100%;
-  margin: 1em 0 0 0;
-  div.button-box {
-    width: 65%;
-    margin: 0 auto 0 auto;
-  }
-}
+// div.actions {
+//   width: 100%;
+//   margin: 1em 0 0 0;
+//   div.button-box {
+//     width: 65%;
+//     margin: 0 auto 0 auto;
+//   }
+// }
 
 div.review-box {
   display: flex;
@@ -198,6 +194,13 @@ table.address-table {
 }
 
 // Main cart
+
+.cart-container {
+  padding: 1rem 0 0 0;
+  @include breakpoint(medium) {
+    padding: 1rem 1rem 1rem 1rem;
+  }
+}
 
 div.main-cart {
   width: 100%;

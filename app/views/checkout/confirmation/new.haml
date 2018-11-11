@@ -1,0 +1,22 @@
+- provide(:title, 'Confirm Order')
+.cart-container
+  = render 'shared/errors', object: @terms
+  = render 'shared/breadcrumbs'
+  .grid-x
+    .small-12.cells
+      = form_for @order, url: checkout_confirmation_path(@cart) do |form|
+        .review-box.grid-x
+          .medium-4.small-12.cells
+            = render 'confirm_address', f: @billing, legend: 'Billing Address'
+          .medium-4.small-12.cells
+            = render 'confirm_address', f: @shipping, legend: 'Shipping Address'
+          .medium-4.small-12.cells
+            = render 'confirm_shipping', f: @order, legend: 'Shipping Method'
+        = render 'confirm_cart'
+        = form.fields_for @terms do |terms|
+          = render 'confirm_terms', f: terms, legend: 'Terms'
+        .button-box.grid-x
+          .medium-6.small-12.cells.align-center
+            = link_to 'Back to Payment', new_checkout_payment_path(@cart), class: 'button checkout'
+          .medium-6.small-12.cells.align-center
+            = form.submit 'Place Order', class: 'button checkout'

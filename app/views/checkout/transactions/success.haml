@@ -1,0 +1,23 @@
+- provide(:title, 'Transaction Succeeded')
+.cart-container
+  = render 'shared/errors', object: @order
+  = render 'shared/success_breadcrumbs'
+  .grid-x
+    .checkout-text-box.medium-9.small-12.cells
+      %h6
+        %b Thank you for your order, we appreciate your business!
+      %p
+        %b
+          Authorization: #{@transaction.authorization}
+          %br/
+          Total Amount: #{cents_to_dollars(@transaction.amount, precision: 2)}
+      %p
+        We'll send a confirmation to
+        %b= @order.email
+        shortly. We'll send a tracking number when your order ships. If you have spam blocking enabled, be sure to allow email from
+        %b sales@seventhcircleaudio.com
+        so that we can keep you updated on your order.  If you have questions about the status of your order, please direct them to sales@seventhcircleaudio.com.  Be sure to include the email address and the transaction ID above.
+      %p
+        If you've ordered a kit, please find links to assembly instructions and other pdf documents on the product pages.  Kits do not include printed assembly instructions.
+    .medium-3.small-12.cells
+      = render 'layouts/sidebar'

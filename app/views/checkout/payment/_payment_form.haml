@@ -1,0 +1,13 @@
+%fieldset#payment
+  %legend= legend
+  %table.address-table
+    %tr.field
+      %td.label= label_tag 'card-element', "Credit or Debit Card"
+      %td#card-element.input{data: { city: "#{f.object.address.city}", country: "#{f.object.address.country}", line1: "#{f.object.address.address_1}", line2: "#{f.object.address.address_2}", name: "#{f.object.name_on_card}", state: "#{f.object.address.state_code}", zip: "#{f.object.address.post_code}" }}
+    %tr.field
+      %td
+      %td#card-errors
+    %tr.field
+      %td.label= label_tag :email
+      %td.input= f.text_field :email
+    = f.hidden_field :stripe_token

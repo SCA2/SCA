@@ -2,7 +2,7 @@
   - item_link = line_form.object.displayable? ? line_form.object.option : line_form.object.item
   %td.remove-cell= line_form.check_box :_destroy 
   %td.item-cell= link_to line_form.object.item_model, item_link
-  %td.description-cell= link_to line_form.object.item_description, item_link
+  %td.description-cell.show-for-medium= link_to line_form.object.item_description, item_link
   %td.quantity-cell= line_form.number_field :quantity, value: line_form.object.quantity
-  %td.price-cell= cents_to_dollars(line_form.object.full_price_in_cents, precision: 0)
+  %td.price-cell.show-for-medium= cents_to_dollars(line_form.object.full_price_in_cents, precision: 0)
   %td.price-cell= cents_to_dollars(line_form.object.extended_price, precision: 0)
