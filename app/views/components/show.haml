@@ -5,7 +5,12 @@
       = render 'big_component', f: component
       .admin-box
         - tag = component.size_weight_price_tag
+        - bom = component.bom
         = link_to 'Edit Component', edit_component_path(component), class: 'button admin'
+        - if bom
+          = link_to 'Edit BOM', edit_component_bom_path(component, bom), class: 'button admin'
+        - else
+          = link_to 'Add BOM', new_component_bom_path(component), class: 'button admin'
         - if tag
           = link_to 'Edit Tag', edit_component_tag_path(component, tag), class: 'button admin'
           = button_to 'Add to Cart', line_items_path(component_id: component.id), class: 'button admin', remote: :true, authenticity_token: true

@@ -46,6 +46,7 @@ SCA::Application.routes.draw do
       put 'create_item'
     end
   end
+
   resources :bom_importers, only: [:new, :create] do
     collection do
       get 'update_option'
@@ -54,6 +55,7 @@ SCA::Application.routes.draw do
 
   resources :components do
     resources :size_weight_price_tags, as: :tags
+    resources :boms
   end
   
   resources :component_imports, only: [:index, :new, :create]
