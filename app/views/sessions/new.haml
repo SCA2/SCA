@@ -1,12 +1,12 @@
 = provide(:title, 'Sign in')
 
 .box_2
+  = render 'shared/errors', object: @session
   .grid-x
     .medium-1.hide-for-small.cells
     .medium-7.small-12.cells
       .edit-profile
         = form_for(@session, url: sessions_path) do |f|
-          = render 'shared/errors', object: f.object
           .user-info
             = render 'form', f: f
           .button-box

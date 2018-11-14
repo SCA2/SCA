@@ -1,0 +1,20 @@
+- provide(:title, 'Password Reset')
+.box_2
+  = render 'shared/errors', object: @reset
+  .grid-x
+    .medium-1.hide-for-small.cells
+    .medium-7.small-12.cells
+      .password_reset
+        = form_for(:password_reset, url: password_resets_path) do |f|
+          %fieldset
+            %legend
+              Reset Password
+            %table.user-table
+              %tr.field
+                %td.label= f.label :email 
+                %td.input= f.text_field :email, size: 40
+          .button-box
+            = submit_tag 'Reset Password', class: 'button user'
+    .medium-1.hide-for-small.cells
+    .medium-3.small-12.cells
+      = render 'layouts/sidebar'

@@ -41,33 +41,4 @@ describe "Send invoice notification" do
     expect(last_email.body.encoded).to include(user.name)
     expect(last_email.body.encoded).to include('Subtotal')
   end
-
-  it "updates the user password when confirmation matches" do
-    
-    user = create(:user,
-      password_reset_token: "reset_token",
-      password_reset_sent_at: 1.hour.ago
-    )
-    
-    visit edit_password_reset_path(user.password_reset_token)
-    expect(page).to have_content("Change Password")
-    fill_in "user_password", with: "foobar"
-    fill_in "user_password_confirmation", with: "foobar"
-    click_button "Save Password"
-    expect(page).to have_content("Password reset!")
-  end
-
-  it "reports when password token has expired" do
-    user = create(:user, :password_reset_token => "something", :password_reset_sent_at => 3.hour.ago)
-    visit edit_password_reset_path(user.password_reset_token)
-    fill_in "user_password", :with => "foobar"
-    fill_in "user_password_confirmation", :with => "foobar"
-    click_button "Save Password"
-    expect(page).to have_content("Reset link has expired!")
-  end
-
-  it "redirects to home page with bad reset token" do
-    visit edit_password_reset_path(0)
-    expect(page).to have_title("Home")
-  end
 end
