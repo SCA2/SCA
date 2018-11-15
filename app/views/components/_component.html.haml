@@ -1,9 +1,12 @@
 %tr
-  %td= link_to component.mfr_part_number, component_path(component)
+  %td= link_to component.mfr_part_number, component
   %td= component.value
-  %td= component.description
+  %td= link_to component.description, component
   %td= component.mfr
-  %td= component.stock
-  %td= link_to_unless(component.bom.nil?, "BOM", [:bom, id: component.bom]){}
+  %td(style='text-align: right')= link_to component.stock, component
+  -if component.bom
+    %td(style='text-align: right')= link_to component.bom.stock, component.bom
+  -else
+    %td &nbsp;
   %td= link_to_unless(component.size_weight_price_tag.nil?, "Tag", [:component, :tag, component_id: component, id: component.size_weight_price_tag]){}
   %td= link_to "delete", component, method: :delete, data: { confirm: "Are you sure?" }
