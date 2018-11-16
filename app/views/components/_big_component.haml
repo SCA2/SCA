@@ -1,13 +1,13 @@
 .grid-x
-  .small-4.cells &nbsp
+  .small-4.cells
   .small-6.cells
     %fieldset
-      .field(style='font-weight: bold')
+      %legend(style='width: 100%; padding-top: 1rem')
         .grid-x
-          .small-4.cells= 'Component'
-          .small-shrink.cells= f.mfr_part_number
-      .grid-x
-        .small-12.cells &nbsp;
+          .small-4.cells
+            Component
+          .small-shrink.cells
+            = f.mfr_part_number
       .field
         .grid-x
           .small-4.cells= 'Mfr'
@@ -49,4 +49,4 @@
         .grid-x
           .small-4.cells= 'Lead Time'
           .small-shrink.cells= f.lead_time
-  .small-shrink.cells &nbsp
+  .small-shrink.cells

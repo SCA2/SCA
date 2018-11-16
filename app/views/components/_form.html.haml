@@ -1,79 +1,78 @@
-.row
-  .small-2.columns &nbsp
-  .small-8.columns
+.grid-x
+  .small-2.cells
+  .small-8.cells
     %fieldset
-    %fieldset
-      .row
-        %legend
-          .small-3.columns= legend
-          .small-9.columns= f.object.mfr_part_number
-      .row
-        .small-12.columns &nbsp;
+      %legend(style='width: 100%; padding-top: 1rem')
+        .grid-x
+          .small-3.cells
+            = legend
+          .small-9.cells
+            = f.object.mfr_part_number
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :mfr, 'Mfr'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :mfr
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :mfr_part_number, 'Mfr Part Number'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :mfr_part_number
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :vendor, 'Vendor'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :vendor
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :vendor_part_number, 'Vendor Part Number'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :vendor_part_number
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :value, 'Value'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :value
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :marking, 'Marking'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :marking
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :description, 'Description'
-          .small-9.columns
+          .small-9.cells
             = f.text_field :description
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :lead_time, 'Lead Time'
-          .small-9.columns
+          .small-9.cells
             = f.number_field :lead_time, in: 0..365
       .field
-        .row
-          .small-3.columns
+        .grid-x
+          .small-3.cells
             = f.label :stock, 'Stock'
-          .small-9.columns
+          .small-9.cells
             = f.number_field :stock, in: 0..100000
       - if f.object.bom
         .field
-          .row
-            .small-3.columns
+          .grid-x
+            .small-3.cells
               = f.label :bom_stock, 'BOM Stock'
-            .small-9.columns
+            .small-9.cells
               = f.number_field :bom_stock, disabled: true
         .field
-          .row
-            .small-3.columns
+          .grid-x
+            .small-3.cells
               = f.label :restock_quantity, 'Quantity to Restock'
-            .small-9.columns
+            .small-9.cells
               = f.number_field :restock_quantity, in: 0..f.object.bom_stock
-  .small-2.columns &nbsp
+  .small-2.cells
