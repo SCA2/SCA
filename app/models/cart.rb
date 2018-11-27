@@ -25,6 +25,7 @@ class Cart < ApplicationRecord
     subpanels = %w[A12 C84 J99 N72 T15 B16 D11]
     preamps = %w[A12 C84 J99 N72 T15 A12B J99B]
     ch02_options = %w[KF KA-1 KA-2 KA-3 KA-4 KA-5 KA-6 KA-7 KA-8]
+    pc01_options = %w[A12B C84 J99B N72 T15]
     opamps = %w[SC10KA SC25KA]
 
     total_discount = 0    
@@ -40,6 +41,11 @@ class Cart < ApplicationRecord
         min_quantity = option.split('').last.to_i
         total_discount += combo_discount(preamps_KA, "CH02#{option}") { |a, b| [a, b * min_quantity].min / min_quantity }
       end
+    end
+
+    pc01_options.each do |option|
+      product = "PC01-#{option}KA"
+      total_discount += combo_discount(product, product) { |a, _| a / 2 }
     end
 
     subpanels.each do |subpanel|
