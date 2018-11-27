@@ -2,6 +2,8 @@ class OrderShipper
 
   require 'active_shipping'
 
+  FREE_SHIPPING_MIN = 9900
+
   class ResponseError < ActiveShipping::ResponseError; end
 
   def initialize(order)
@@ -44,9 +46,17 @@ class OrderShipper
 
   def ups_rates
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
-    get_rates_from_shipper(ups)
+    free_ups_ground(get_rates_from_shipper(ups))
   rescue ActiveShipping::ResponseError => e
     raise ResponseError.new e.message
+  end
+
+  def free_ups_ground(rates)
+    ground_index = rates.find_index { |r| r.service_name == 'UPS Ground' }
+    if ground_index && @order.subtotal >= FREE_SHIPPING_MIN
+      rates[ground_index].send(:total_price=, 0)
+    end
+    rates
   end
 
   def usps_rates
