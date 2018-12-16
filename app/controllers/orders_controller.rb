@@ -3,7 +3,7 @@ class OrdersController < BaseController
   before_action :admin_user
 
   def index
-    @orders = Order.checked_out.order(created_at: :asc).distinct
+    @orders = Order.checked_out.order(created_at: :asc)
   end
   
   def show
@@ -37,7 +37,7 @@ class OrdersController < BaseController
     start = params[:from].to_date.beginning_of_day
     stop = params[:to].to_date.end_of_day
     time_range = start..stop
-    @orders = Order.checked_out.where(carts: { purchased_at: time_range })
+    @orders = Order.checked_out.where(carts: { purchased_at: time_range }).order(created_at: :asc)
     render 'index'
   end
 

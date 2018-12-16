@@ -14,7 +14,8 @@ class Order < ApplicationRecord
     joins(:addresses).preload(:addresses).
     where(id: Address.select(:addressable_id).where(address_type: 'billing')).
     where(id: Address.select(:addressable_id).where(address_type: 'shipping')).
-    joins(:transactions).preload(:transactions)
+    joins(:transactions).preload(:transactions).
+    distinct
   end
 
   scope :successful, -> do
