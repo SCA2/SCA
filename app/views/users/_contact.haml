@@ -1,0 +1,12 @@
+%fieldset.contact
+	%legend= legend
+	%table.user-table
+		%tr.field
+			%td.label= f.label :contact_news, 'OK to send me quarterly newsletter'
+			%td.input= f.check_box :contact_news
+		%tr.field
+			%td.label= f.label :contact_updates, 'OK to contact me with product news and updates'
+			%td.input= f.check_box :contact_updates
+		%tr.field
+			%td.label= f.label :contact_sales, 'OK to contact me with special sales offers' 
+			%td.input= f.check_box :contact_sales

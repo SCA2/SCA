@@ -4,23 +4,24 @@
   .row
     .small-12.columns
       .date-search
-        %p= link_to "All", orders_path(@orders)
+        %p= link_to "All", orders_path
         &nbsp; | &nbsp;
-        %p= link_to "Succeeded", successful_orders_path(@orders)
+        %p= link_to "Succeeded", successful_orders_path
         &nbsp; | &nbsp;
-        %p= link_to "Failed", failed_orders_path(@orders)
+        %p= link_to "Failed", failed_orders_path
         &nbsp; | &nbsp;
-        %p= link_to "Pending", pending_orders_path(@orders)
+        %p= link_to "Pending", pending_orders_path
         &nbsp; | &nbsp;
-        %p= link_to "Shipped", shipped_orders_path(@orders)
+        %p= link_to "Shipped", shipped_orders_path
         &nbsp; | &nbsp;
-        %p= link_to "Abandoned", abandoned_orders_path(@orders)
+        %p= link_to "Abandoned", abandoned_orders_path
         &nbsp; | &nbsp;
         %p= link_to "Delete Abandoned",
           delete_abandoned_orders_path(@orders),
           method: :delete, data: { confirm: "Are you sure?" }
+
       .date-search
-        = form_tag(search_orders_path(@orders), method: "get") do
+        = form_tag(search_orders_path, method: "get") do
           %fieldset
             = label_tag(:from, "From:")
             = date_field_tag :from, Date.current

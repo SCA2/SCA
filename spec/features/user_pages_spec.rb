@@ -31,7 +31,6 @@ describe "User pages" do
     after(:all)  { User.delete_all }
   
     it { is_expected.to have_title('All Users') }
-    it { is_expected.to have_content('All Users') }
     it { is_expected.to have_link('delete') }
 
   end
@@ -52,7 +51,7 @@ describe "User pages" do
 
     it "should list each user" do
       User.paginate(page: 1).each do |user|
-        expect(page).to have_selector('li', text: user.name)
+        expect(page).to have_selector('td', text: user.name)
       end
     end
   end

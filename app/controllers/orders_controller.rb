@@ -107,6 +107,14 @@ class OrdersController < BaseController
     render 'index'
   end
 
+  def customers
+    @customers = Order.successful.includes(:addresses).order(created_at: :asc).distinct
+    respond_to do |format|
+      format.html { render 'index' }
+      format.csv { send_data @customers.to_csv, filename: "users-#{Date.today}" }
+    end
+  end
+
 private
 
   def order_params

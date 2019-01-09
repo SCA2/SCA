@@ -83,6 +83,13 @@ SCA::Application.routes.draw do
     end
   end
 
+  resources :customers, only: [:index] do
+    collection do
+      get 'guests'
+      get 'registered'
+    end
+  end
+
   resources :checkout, only: [] do
     resource :express,        only: [:new, :edit],          controller: 'checkout/express'
     resources :addresses,     only: [:new, :create],        controller: 'checkout/addresses'

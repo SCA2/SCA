@@ -1,0 +1,16 @@
+= provide(:title, 'Customer Lists')
+
+.box_2
+  .row
+    .small-12.columns
+      .date-search
+        %p= link_to "All", customers_path
+        &nbsp; | &nbsp;
+        %p= link_to "Registered", registered_customers_path
+        &nbsp; | &nbsp;
+        %p= link_to "Guests", guests_customers_path
+      %table.users
+        %tr
+          %th Email
+          %th Name
+        = render partial: 'customer', collection: @customers

@@ -39,6 +39,16 @@ class User < ApplicationRecord
     Digest::SHA1.hexdigest(token.to_s)
   end
   
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      attributes = %w{email name created_at contact_sales contact_news contact_updates}
+      csv << attributes
+      all.each do |user|
+        csv << user.attributes.values_at(*attributes)
+      end
+    end
+  end
+
   def send_password_reset
     create_reset_token
     self.update_attribute(:password_reset_sent_at, Time.now)

@@ -40,6 +40,10 @@ class Order < ApplicationRecord
     where.not(id: Order.checked_out)
   end
 
+  scope :customers, -> do
+    select('DISTINCT ON (email) *').where.not(email: nil).order(:email)
+  end
+
   def billing_address
     if addresses.loaded?
       index = addresses.index {|a| a[:address_type] == 'billing'}

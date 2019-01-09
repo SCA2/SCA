@@ -1,0 +1,23 @@
+= provide(:title, 'Sign up')
+
+.box_2
+  .row
+    .small-12.columns.main
+      .edit-profile				
+        = form_for @user do |user|
+          = render 'shared/errors', object: user.object
+          .user
+            .user-info
+              = render 'form', f: user, legend: 'Sign up'
+            .contact-preferences
+              = render 'contact', f: user, legend: 'Contact Preferences'
+          .addresses
+            .address
+              = user.fields_for :addresses, @user.addresses.first do |billing|
+                = render 'addresses/address_form', f: billing
+            .address
+              = user.fields_for :addresses, @user.addresses.second do |shipping|
+                = render 'addresses/address_form', f: shipping
+          .button-box
+            = user.submit 'Create Account', class: 'button user'
+            = link_to 'Quit', products_path, class: 'button user'

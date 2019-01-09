@@ -1,0 +1,18 @@
+= provide(:title, 'All Users')
+
+.box_2
+  .row
+    .small-9.columns
+      = will_paginate
+      %table.users
+        %tr
+          %th Name
+          %th Email
+          %th Contact
+          %th News
+          %th Updates
+          %th Delete
+        = render @users
+      = will_paginate
+    .small-3.columns
+      = render 'layouts/sidebar'
