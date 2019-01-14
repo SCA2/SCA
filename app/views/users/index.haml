@@ -3,7 +3,7 @@
 .box_2
   .row
     .small-9.columns
-      = will_paginate
+      = will_paginate @users
       %table.users
         %tr
           %th Name
@@ -13,6 +13,6 @@
           %th Updates
           %th Delete
         = render @users
-      = will_paginate
+      = will_paginate @users
     .small-3.columns
       = render 'layouts/sidebar'
