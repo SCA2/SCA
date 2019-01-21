@@ -5,7 +5,7 @@
   %td= component.mfr
   %td(style='text-align: right')= link_to component.stock, component
   -if component.bom
-    %td(style='text-align: right')= link_to component.bom.stock, component.bom
+    %td(style='text-align: right')= link_to component.bom_stock, component.bom
   -else
     %td &nbsp;
   %td= link_to_unless(component.size_weight_price_tag.nil?, "Tag", [:component, :tag, component_id: component, id: component.size_weight_price_tag]){}

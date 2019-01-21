@@ -6,7 +6,7 @@ class BomItem < ApplicationRecord
   validates :component, uniqueness: { scope: :bom }
 
   validates :quantity, presence: true
-  validates :quantity, numericality: { only_integer: true }
+  validates :quantity, numericality: { only_integer: true, greater_than: 0 }
 
   validates :reference, format: {
     with: /\A[a-z]+\d+(\s+\(optional\))?((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+(\s+\(Optional\))?)*\z/i
@@ -22,11 +22,8 @@ class BomItem < ApplicationRecord
   end
 
   def stock
-    if component.stocked?
-      component.recursive_stock / quantity
-    else
-      0
-    end
+    return 0 unless component.stocked? && quantity > 0
+    component.recursive_stock / quantity
   end
 
   def pick!(quantity: 0)
