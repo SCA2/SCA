@@ -8,5 +8,8 @@
     %td(style='text-align: right')= link_to component.bom_stock, component.bom
   -else
     %td &nbsp;
-  %td= link_to_unless(component.size_weight_price_tag.nil?, "Tag", [:component, :tag, component_id: component, id: component.size_weight_price_tag]){}
+  -if component.size_weight_price_tag
+    %td= link_to("#{component.size_weight_price_tag.full_price}", [:component, :tag, component_id: component, id: component.size_weight_price_tag])
+  -else
+    %td &nbsp;
   %td= link_to "delete", component, method: :delete, data: { confirm: "Are you sure?" }

@@ -18,7 +18,7 @@ class BomsController < BaseController
     @bc = BomCreator.new
     if @bc.save(bom_params)
       flash[:success] = "BOM #{@bc.bom_name} created"
-      redirect_to boms_path
+      redirect_to @bc.bom
     else
       render 'new'
     end

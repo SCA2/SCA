@@ -11,7 +11,7 @@
           = link_to 'Edit BOM', edit_component_bom_path(component, bom), class: 'button admin'
           = link_to 'Make Assemblies', edit_component_assembly_path(component, bom), class: 'button admin'
         - else
-          = link_to 'Add BOM', new_component_bom_path(component), class: 'button admin'
+          = button_to 'Create BOM', boms_path(bom_creator: { root_component: component }), class: 'button admin', authenticity_token: true
         - if tag
           = link_to 'Edit Tag', edit_component_tag_path(component, tag), class: 'button admin'
           = button_to 'Add to Cart', line_items_path(component_id: component.id), class: 'button admin', remote: :true, authenticity_token: true

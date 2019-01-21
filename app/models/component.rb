@@ -54,7 +54,7 @@ class Component < ApplicationRecord
   end
 
   def recursive_stock
-    if bom && local_stock <= 0
+    if bom && bom.lines > 0 && local_stock <= 0
       bom.stock
     elsif stocked?
       self[:stock]
