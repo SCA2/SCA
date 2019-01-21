@@ -69,10 +69,4 @@
               = f.label :bom_stock, 'BOM Stock'
             .small-9.cells
               = f.number_field :bom_stock, disabled: true
-        .field
-          .grid-x
-            .small-3.cells
-              = f.label :restock_quantity, 'Quantity to Restock'
-            .small-9.cells
-              = f.number_field :restock_quantity, in: 0..f.object.bom_stock
   .small-2.cells

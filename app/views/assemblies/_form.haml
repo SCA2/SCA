@@ -1,0 +1,78 @@
+.grid-x
+  .small-4.cells
+  .small-4.cells
+    %fieldset
+      %legend(style='width: 100%; padding-top: 1rem')
+        .grid-x
+          .small-6.cells
+            = legend
+          .small-shrink.cells
+            = f.object.mfr_part_number
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :mfr, 'Mfr'
+          .small-shrink.cells
+            = f.object.mfr
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :mfr_part_number, 'Mfr Part Number'
+          .small-shrink.cells
+            = f.object.mfr_part_number
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :vendor, 'Vendor'
+          .small-shrink.cells
+            = f.object.vendor
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :vendor_part_number, 'Vendor Part Number'
+          .small-shrink.cells
+            = f.object.vendor_part_number
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :value, 'Value'
+          .small-shrink.cells
+            = f.object.value
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :marking, 'Marking'
+          .small-shrink.cells
+            = f.object.marking
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :description, 'Description'
+          .small-shrink.cells
+            = f.object.description
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :lead_time, 'Lead Time'
+          .small-shrink.cells
+            = f.object.lead_time
+      .field
+        .grid-x
+          .small-6.cells
+            = f.label :stock, 'Stock'
+          .small-shrink.cells
+            = f.object.stock
+      - if f.object.bom
+        .field
+          .grid-x
+            .small-6.cells
+              = f.label :bom_stock, 'BOM Stock'
+            .small-shrink.cells
+              = f.object.bom_stock
+        .field
+          .grid-x
+            .small-6.cells
+              = f.label :restock_quantity, 'Assemblies to Make'
+            .small-shrink.cells
+              = f.number_field :restock_quantity, in: 0..f.object.bom_stock
+  .small-shrink.cells

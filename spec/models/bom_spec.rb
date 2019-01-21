@@ -19,25 +19,6 @@ describe Bom do
       expect(bom.lines).to eq 2
     end
 
-    it 'collects all descendant bom items' do
-      asm_1 = create(:component)
-      asm_2 = create(:component)
-
-      bom_1 = create(:bom, component: asm_1)
-      create(:bom_item, bom: bom_1)
-      create(:bom_item, bom: bom_1)
-
-      bom_2 = create(:bom, component: asm_2)
-      create(:bom_item, bom: bom_2)
-      create(:bom_item, bom: bom_2)
-
-      bom_3 = create(:bom)
-      create(:bom_item, bom: bom_3, component: asm_1)
-      create(:bom_item, bom: bom_3, component: asm_2)
-
-      expect(bom_3.child_items.pluck(:id).max).to eq(bom_3.child_items.pluck(:id).min + 5)
-    end
-
     it 'can report stock' do
       bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
@@ -49,7 +30,7 @@ describe Bom do
       expect(bom.stock).to eq 3
     end
 
-    it 'can report compound stock' do
+    it 'can report stock recursively' do
       cmp_1 = create(:component, stock: 2)
       cmp_2 = create(:component, stock: 3)
       bom_1 = create(:bom)
@@ -67,7 +48,7 @@ describe Bom do
       expect(bom_2.stock).to eq 2
     end
 
-    it 'can subtract stock' do
+    it 'can pick stock' do
       bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
@@ -75,14 +56,14 @@ describe Bom do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      bom.subtract_stock(bom.bom_items, 2)
+      bom.pick!(quantity: 2)
       expect(bom.stock).to eq 1
       expect(cmp_1.reload.stock).to eq 3
       expect(cmp_2.reload.stock).to eq 4
       expect(cmp_3.reload.stock).to eq 3
     end
 
-    it 'can add stock' do
+    it 'can restock' do
       bom = create(:bom)
       cmp_1 = create(:component, stock: 5)
       cmp_2 = create(:component, stock: 6)
@@ -90,7 +71,7 @@ describe Bom do
       create(:bom_item, bom: bom, component: cmp_1, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_2, quantity: 1)
       create(:bom_item, bom: bom, component: cmp_3, quantity: 2)
-      bom.add_stock(2)
+      bom.restock!(quantity: 2)
       expect(bom.stock).to eq 5
       expect(cmp_1.reload.stock).to eq 7
       expect(cmp_2.reload.stock).to eq 8

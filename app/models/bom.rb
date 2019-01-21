@@ -30,44 +30,24 @@ class Bom < ApplicationRecord
   end
 
   def stock
-    return 0 if items.any? { |i| i.quantity == 0 }
-    child_items.map { |i| i.component.recursive_stock / i.quantity }.min
+    items.map { |i| i.stock }.min
   end
 
   def lead_time
     items.map { |i| i.component.bom_lead_time }.max
   end
 
-  def subtract_stock(items, quantity)
+  def pick!(quantity: 0)
+    return if quantity < 0
     self.transaction do
-      items.each do |i|
-        next unless i.bom == self
-        i.component.pick!(quantity: quantity * i.quantity)
-      end
+      items.each { |i| i.pick!(quantity: quantity) }
     end
   end
 
-  def pick(quantity: 0)
-    subtract_stock(items, quantity)
-  end
-
-  def add_stock(n)
-    return if n < 0
+  def restock!(quantity: 0)
+    return if quantity < 0
     self.transaction do
-      items.each do |i|
-        new_stock = i.component.stock + n * i.quantity
-        i.component.update!(stock: new_stock)
-      end
-    end
-  end
-
-  def child_items
-    items.flat_map do |item|
-      if item.component.bom
-        [item] + item.component.child_items
-      else
-        [item]
-      end
+      items.each { |i| i.restock!(quantity: quantity) }
     end
   end
 

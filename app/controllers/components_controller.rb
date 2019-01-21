@@ -24,7 +24,6 @@ class ComponentsController < BaseController
 
   def update
     if component.update(component_params)
-      component.restock!(quantity: component.restock_quantity)
       redirect_to components_path, notice: "Component #{@component.mfr_part_number} updated"
     else
       render 'edit'

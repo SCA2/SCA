@@ -83,7 +83,7 @@ class Component < ApplicationRecord
     return unless stocked?
     self.reload if self.persisted?
     if bom && local_stock < quantity
-      bom.pick(quantity: quantity - self[:stock])
+      bom.pick!(quantity: quantity - self[:stock])
       self[:stock] = 0
     else
       self[:stock] -= quantity
@@ -95,14 +95,15 @@ class Component < ApplicationRecord
     self.save!
   end
 
-  def restock(quantity: 0)
-    return unless self[:stock]
-    bom.pick(quantity: quantity) if bom && bom.stock >= quantity
-    self[:stock] += quantity
+  def make_assemblies(quantity: 0)
+    return unless bom && stocked?
+    makeable = [[quantity, bom.stock].min, 0].max
+    bom.pick!(quantity: makeable)
+    self[:stock] += makeable
   end
 
-  def restock!(quantity: 0)
-    restock(quantity: quantity)
+  def make_assemblies!(quantity: 0)
+    make_assemblies(quantity: quantity)
     self.save!
   end
 

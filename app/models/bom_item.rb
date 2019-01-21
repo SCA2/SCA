@@ -2,9 +2,12 @@ class BomItem < ApplicationRecord
   belongs_to :bom, inverse_of: :bom_items
   belongs_to :component, inverse_of: :bom_items
   
+  validates :component, presence: true
   validates :component, uniqueness: { scope: :bom }
-  validates :quantity, :component, presence: true
-  validates :quantity, numericality: { only_integer: true, greater_than: -1 }
+
+  validates :quantity, presence: true
+  validates :quantity, numericality: { only_integer: true }
+
   validates :reference, format: {
     with: /\A[a-z]+\d+(\s+\(optional\))?((,(| )|(\p{Pd}|( \p{Pd} )))[a-z]+\d+(\s+\(Optional\))?)*\z/i
   }, if: Proc.new { |a| a.reference.present? }
@@ -19,6 +22,19 @@ class BomItem < ApplicationRecord
   end
 
   def stock
-    component.stock / quantity
+    if component.stocked?
+      component.recursive_stock / quantity
+    else
+      0
+    end
+  end
+
+  def pick!(quantity: 0)
+    component.pick!(quantity: self.quantity * quantity) if component.stocked?
+  end
+
+  def restock!(quantity: 0)
+    new_stock = component.stock + self.quantity * quantity
+    component.update!(stock: new_stock)
   end
 end

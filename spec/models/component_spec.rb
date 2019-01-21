@@ -103,6 +103,48 @@ describe Component do
     end
   end
 
+  describe 'recursive_stock with subassemblies' do
+    it 'reports correct stock with no intermediate stock' do
+      c1 = create(:component, stock: 2)
+      c2 = create(:component, stock: 2)
+      c3 = create(:component, stock: 4)
+      c4 = create(:component, stock: 8)
+      sub1 = create(:component, stock: 0)
+      sub2 = create(:component, stock: 0)
+      bom1 = create(:bom, component: sub1)
+      create(:bom_item, bom: bom1, component: c1, quantity: 1)
+      create(:bom_item, bom: bom1, component: c2, quantity: 1)
+      bom2 = create(:bom, component: sub2)
+      create(:bom_item, bom: bom2, component: c3, quantity: 1)
+      create(:bom_item, bom: bom2, component: c4, quantity: 2)
+      assembly = create(:component, stock: 0)
+      bom3 = create(:bom, component: assembly)
+      create(:bom_item, bom: bom3, component: sub1, quantity: 1)
+      create(:bom_item, bom: bom3, component: sub2, quantity: 2)
+      expect(assembly.recursive_stock).to eq(2)
+    end
+
+    it 'reports correct stock with intermediate stock' do
+      c1 = create(:component, stock: 2)
+      c2 = create(:component, stock: 2)
+      c3 = create(:component, stock: 1)
+      c4 = create(:component, stock: 2)
+      sub1 = create(:component, stock: 0)
+      sub2 = create(:component, stock: 4)
+      bom1 = create(:bom, component: sub1)
+      create(:bom_item, bom: bom1, component: c1, quantity: 1)
+      create(:bom_item, bom: bom1, component: c2, quantity: 1)
+      bom2 = create(:bom, component: sub2)
+      create(:bom_item, bom: bom2, component: c3, quantity: 1)
+      create(:bom_item, bom: bom2, component: c4, quantity: 2)
+      assembly = create(:component, stock: 0)
+      bom3 = create(:bom, component: assembly)
+      create(:bom_item, bom: bom3, component: sub1, quantity: 1)
+      create(:bom_item, bom: bom3, component: sub2, quantity: 2)
+      expect(assembly.recursive_stock).to eq(2)
+    end
+  end
+
   describe 'bom_lead_time' do
     it 'without lead time returns nil' do
       component = build(:component, lead_time: nil)
@@ -186,24 +228,36 @@ describe Component do
     end
   end
 
-  describe 'restock' do
-    it 'without bom adds to self.stock' do
-      component = build(:component, stock: 0)
-      component.restock(quantity: 1)
-      expect(component.stock).to eq(1)
+  describe 'make_assemblies' do
+    it 'without bom stock does not change' do
+      component = create(:component)
+      expect{ component.make_assemblies!(quantity: 1) }.to_not change{ component.stock }
     end
 
-    it 'with bom.stock >= quantity adds quantity to self.stock' do
-      c_1 = create(:component, stock: 2)
-
+    it 'with quantity <= bom.stock adds quantity to self.stock' do
       bom = create(:bom)
-      bom_item = create(:bom_item, bom: bom, component: c_1, quantity: 2)
-      c_2 = create(:component, bom: bom, stock: 0)
+      c1 = create(:component, stock: 2)
+      create(:bom_item, bom: bom, component: c1, quantity: 2)
+      c2 = create(:component, bom: bom, stock: 0)
 
-      c_2.restock!(quantity: 1)
+      c2.make_assemblies!(quantity: 1)
 
-      expect(c_2.reload.stock).to eq(1)
-      expect(c_1.reload.stock).to eq(0)
+      expect(c2.reload.stock).to eq(1)
+      expect(c1.reload.stock).to eq(0)
+    end
+
+    it 'with quantity > bom.stock adds bom.stock to self.stock' do
+      bom = create(:bom)
+      c1 = create(:component, stock: 2)
+      create(:bom_item, bom: bom, component: c1, quantity: 2)
+      c2 = create(:component, bom: bom, stock: 0)
+
+      expect(c2.bom_stock).to eq(1)
+
+      c2.make_assemblies!(quantity: 3)
+
+      expect(c2.reload.stock).to eq(1)
+      expect(c1.reload.stock).to eq(0)
     end
   end
 

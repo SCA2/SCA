@@ -68,17 +68,17 @@ feature "Components" do
       expect(page).to have_content('unique description')
     end
 
-    scenario 'pick from inventory' do
+    scenario 'make assemblies' do
       component = create(:component, mfr_part_number: 'component', stock: 2)
       assembly = create(:component, mfr_part_number: 'assembly', stock: 0)
       bom = create(:bom, component: assembly)
-      bom_item = create(:bom_item, bom: bom, component: component, quantity: 2)
-      visit edit_component_path(assembly)
-      expect(page).to have_content("Quantity to Restock")
-      fill_in "Stock", with: 0
-      fill_in "Quantity to Restock", with: 1
+      create(:bom_item, bom: bom, component: component, quantity: 2)
+      visit component_path(assembly)
+      expect(page).to have_content("Make Assemblies")
+      find(:link_or_button, 'Make Assemblies').click
+      fill_in "Assemblies to Make", with: 1
       find(:link_or_button, 'Update').click
-      expect(page).to have_content("Component #{assembly.mfr_part_number} updated")
+      expect(page).to have_content("Component #{assembly.mfr_part_number} assemblies updated")
       expect(assembly.reload.stock).to eq(1)
       expect(component.reload.stock).to eq(0)
     end
