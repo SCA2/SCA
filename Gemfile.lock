@@ -37,8 +37,8 @@ GEM
       activesupport (>= 4.2, < 5.2.0)
       measured (>= 2.0)
       nokogiri (>= 1.6)
-    active_utils (3.3.11)
-      activesupport (>= 3.2, < 6.0)
+    active_utils (3.3.17)
+      activesupport (>= 4.2)
       i18n
     activejob (5.1.6)
       activesupport (= 5.1.6)
@@ -110,7 +110,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
@@ -146,7 +146,7 @@ GEM
       tilt
     hashdiff (0.3.7)
     htmlentities (4.3.4)
-    i18n (1.1.1)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.7.0)
@@ -180,7 +180,7 @@ GEM
     mini_portile2 (2.3.0)
     mini_racer (0.2.4)
       libv8 (>= 6.3)
-    minitest (5.11.3)
+    minitest (5.14.1)
     multi_json (1.13.1)
     multipart-post (2.0.0)
     net-scp (1.2.1)
@@ -300,7 +300,7 @@ GEM
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
-    tzinfo (1.2.5)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     uglifier (4.1.13)
       execjs (>= 0.3.0, < 3)
@@ -328,7 +328,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_shipping (~> 2.1.1)
-  active_utils
+  active_utils (~> 3.3.17)
   autoprefixer-rails
   bcrypt
   byebug
